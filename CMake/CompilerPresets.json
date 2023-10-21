@@ -1,0 +1,44 @@
+{
+    "version": 4,
+    "configurePresets": [
+        {
+            "name": "compiler-gcc",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++",
+                "VCPKG_TARGET_TRIPLET": "x64-mingw-static"
+            }
+        },
+        {
+            "name": "compiler-clang",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++"
+            }
+        },
+        {
+            "name": "compiler-msvc",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "cl",
+                "CMAKE_CXX_COMPILER": "cl"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "compiler-gcc",
+            "hidden": true
+        },
+        {
+            "name": "compiler-clang",
+            "hidden": true
+        },
+        {
+            "name": "compiler-msvc",
+            "hidden": true
+        }
+    ]
+}
