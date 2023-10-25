@@ -21,7 +21,7 @@ namespace Atom::Engine
     {
         if (s_windowCount == 0)
         {
-            i32 success = glfwInit();
+            int success = glfwInit();
             asserts(success, "GLFW initialization failed.");
 
             glfwSetErrorCallback([](_i32 error_code, const char* description) {
