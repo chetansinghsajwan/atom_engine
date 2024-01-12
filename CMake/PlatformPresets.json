@@ -6,11 +6,7 @@
             "hidden": true
         },
         {
-            "name": "platform-unix",
-            "hidden": true
-        },
-        {
-            "name": "platform-nix",
+            "name": "platform-linux",
             "hidden": true
         }
     ],
@@ -20,11 +16,7 @@
             "hidden": true
         },
         {
-            "name": "platform-unix",
-            "hidden": true
-        },
-        {
-            "name": "platform-nix",
+            "name": "platform-linux",
             "hidden": true
         }
     ]

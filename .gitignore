@@ -1,5 +1,5 @@
 .vs
 .vscode
-Build/
+build/
 out/
 CMakeUserPresets.json

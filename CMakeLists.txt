@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 project(AtomEngine VERSION 0.1.0 LANGUAGES CXX C)
 
 include(CMake/CPM.cmake)
-set(CPM_SOURCE_CACHE "${CMAKE_SOURCE_DIR}/Build/CPMCache")
+set(CPM_SOURCE_CACHE "${CMAKE_SOURCE_DIR}/build/cpm-cache")
 
 CPMAddPackage("gh:shifu-dev/Atom.Core#dev")
 CPMAddPackage("gh:shifu-dev/Atom.Logging#dev")
