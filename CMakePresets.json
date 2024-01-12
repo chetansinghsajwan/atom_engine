@@ -9,330 +9,226 @@
     ],
     "configurePresets": [
         {
-            "name": "win-x86-gcc-debug",
+            "name": "x86-win-gcc-debug",
             "inherits": [ "platform-win", "arch-x86", "compiler-gcc", "generator-make", "config-debug" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
+            "binaryDir": "${sourceDir}/build/${presetName}"
         },
         {
-            "name": "win-x86-gcc-release",
+            "name": "x86-win-gcc-release",
             "inherits": [ "platform-win", "arch-x86", "compiler-gcc", "generator-make", "config-release" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
+            "binaryDir": "${sourceDir}/build/${presetName}"
         },
         {
-            "name": "win-x86-clang-debug",
+            "name": "x86-win-clang-debug",
             "inherits": [ "platform-win", "arch-x86", "compiler-clang", "generator-ninja", "config-debug" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
+            "binaryDir": "${sourceDir}/build/${presetName}"
         },
         {
-            "name": "win-x86-clang-release",
+            "name": "x86-win-clang-release",
             "inherits": [ "platform-win", "arch-x86", "compiler-clang", "generator-ninja", "config-release" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
+            "binaryDir": "${sourceDir}/build/${presetName}"
         },
         {
-            "name": "win-x86-msvc-debug",
+            "name": "x86-win-msvc-debug",
             "inherits": [ "platform-win", "arch-x86", "compiler-msvc", "generator-ninja", "config-debug" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
+            "binaryDir": "${sourceDir}/build/${presetName}"
         },
         {
-            "name": "win-x86-msvc-release",
+            "name": "x86-win-msvc-release",
             "inherits": [ "platform-win", "arch-x86", "compiler-msvc", "generator-ninja", "config-release" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
+            "binaryDir": "${sourceDir}/build/${presetName}"
         },
         {
-            "name": "win-x64-gcc-debug",
+            "name": "x86-linux-gcc-debug",
+            "inherits": [ "platform-linux", "arch-x86", "compiler-gcc", "generator-make", "config-debug" ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "x86-linux-gcc-release",
+            "inherits": [ "platform-linux", "arch-x86", "compiler-gcc", "generator-make", "config-release" ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "x86-linux-clang-debug",
+            "inherits": [ "platform-linux", "arch-x86", "compiler-clang", "generator-ninja", "config-debug" ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "x86-linux-clang-release",
+            "inherits": [ "platform-linux", "arch-x86", "compiler-clang", "generator-ninja", "config-release" ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "x86-linux-msvc-debug",
+            "inherits": [ "platform-linux", "arch-x86", "compiler-msvc", "generator-ninja", "config-debug" ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "x86-linux-msvc-release",
+            "inherits": [ "platform-linux", "arch-x86", "compiler-msvc", "generator-ninja", "config-release" ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "x64-win-gcc-debug",
             "inherits": [ "platform-win", "arch-x64", "compiler-gcc", "generator-make", "config-debug" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
+            "binaryDir": "${sourceDir}/build/${presetName}"
         },
         {
-            "name": "win-x64-gcc-release",
+            "name": "x64-win-gcc-release",
             "inherits": [ "platform-win", "arch-x64", "compiler-gcc", "generator-make", "config-release" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
+            "binaryDir": "${sourceDir}/build/${presetName}"
         },
         {
-            "name": "win-x64-clang-debug",
+            "name": "x64-win-clang-debug",
             "inherits": [ "platform-win", "arch-x64", "compiler-clang", "generator-ninja", "config-debug" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
+            "binaryDir": "${sourceDir}/build/${presetName}"
         },
         {
-            "name": "win-x64-clang-release",
+            "name": "x64-win-clang-release",
             "inherits": [ "platform-win", "arch-x64", "compiler-clang", "generator-ninja", "config-release" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
+            "binaryDir": "${sourceDir}/build/${presetName}"
         },
         {
-            "name": "win-x64-msvc-debug",
+            "name": "x64-win-msvc-debug",
             "inherits": [ "platform-win", "arch-x64", "compiler-msvc", "generator-vs", "config-debug" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
+            "binaryDir": "${sourceDir}/build/${presetName}"
         },
         {
-            "name": "win-x64-msvc-release",
+            "name": "x64-win-msvc-release",
             "inherits": [ "platform-win", "arch-x64", "compiler-msvc", "generator-vs", "config-release" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
-        },
-
-        {
-            "name": "unix-x86-gcc-debug",
-            "inherits": [ "platform-unix", "arch-x86", "compiler-gcc", "generator-make", "config-debug" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
+            "binaryDir": "${sourceDir}/build/${presetName}"
         },
         {
-            "name": "unix-x86-gcc-release",
-            "inherits": [ "platform-unix", "arch-x86", "compiler-gcc", "generator-make", "config-release" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
+            "name": "x64-linux-gcc-debug",
+            "inherits": [ "platform-linux", "arch-x64", "compiler-gcc", "generator-make", "config-debug" ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
         },
         {
-            "name": "unix-x86-clang-debug",
-            "inherits": [ "platform-unix", "arch-x86", "compiler-clang", "generator-ninja", "config-debug" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
+            "name": "x64-linux-gcc-release",
+            "inherits": [ "platform-linux", "arch-x64", "compiler-gcc", "generator-make", "config-release" ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
         },
         {
-            "name": "unix-x86-clang-release",
-            "inherits": [ "platform-unix", "arch-x86", "compiler-clang", "generator-ninja", "config-release" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
+            "name": "x64-linux-clang-debug",
+            "inherits": [ "platform-linux", "arch-x64", "compiler-clang", "generator-ninja", "config-debug" ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
         },
         {
-            "name": "unix-x86-msvc-debug",
-            "inherits": [ "platform-unix", "arch-x86", "compiler-msvc", "generator-ninja", "config-debug" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
-        },
-        {
-            "name": "unix-x86-msvc-release",
-            "inherits": [ "platform-unix", "arch-x86", "compiler-msvc", "generator-ninja", "config-release" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
-        },
-        {
-            "name": "unix-x64-gcc-debug",
-            "inherits": [ "platform-unix", "arch-x64", "compiler-gcc", "generator-make", "config-debug" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
-        },
-        {
-            "name": "unix-x64-gcc-release",
-            "inherits": [ "platform-unix", "arch-x64", "compiler-gcc", "generator-make", "config-release" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
-        },
-        {
-            "name": "unix-x64-clang-debug",
-            "inherits": [ "platform-unix", "arch-x64", "compiler-clang", "generator-ninja", "config-debug" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
-        },
-        {
-            "name": "unix-x64-clang-release",
-            "inherits": [ "platform-unix", "arch-x64", "compiler-clang", "generator-ninja", "config-release" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
-        },
-
-        {
-            "name": "nix-x86-gcc-debug",
-            "inherits": [ "platform-nix", "arch-x86", "compiler-gcc", "generator-make", "config-debug" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
-        },
-        {
-            "name": "nix-x86-gcc-release",
-            "inherits": [ "platform-nix", "arch-x86", "compiler-gcc", "generator-make", "config-release" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
-        },
-        {
-            "name": "nix-x86-clang-debug",
-            "inherits": [ "platform-nix", "arch-x86", "compiler-clang", "generator-ninja", "config-debug" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
-        },
-        {
-            "name": "nix-x86-clang-release",
-            "inherits": [ "platform-nix", "arch-x86", "compiler-clang", "generator-ninja", "config-release" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
-        },
-        {
-            "name": "nix-x86-msvc-debug",
-            "inherits": [ "platform-nix", "arch-x86", "compiler-msvc", "generator-ninja", "config-debug" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
-        },
-        {
-            "name": "nix-x86-msvc-release",
-            "inherits": [ "platform-nix", "arch-x86", "compiler-msvc", "generator-ninja", "config-release" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
-        },
-        {
-            "name": "nix-x64-gcc-debug",
-            "inherits": [ "platform-nix", "arch-x64", "compiler-gcc", "generator-make", "config-debug" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
-        },
-        {
-            "name": "nix-x64-gcc-release",
-            "inherits": [ "platform-nix", "arch-x64", "compiler-gcc", "generator-make", "config-release" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
-        },
-        {
-            "name": "nix-x64-clang-debug",
-            "inherits": [ "platform-nix", "arch-x64", "compiler-clang", "generator-ninja", "config-debug" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
-        },
-        {
-            "name": "nix-x64-clang-release",
-            "inherits": [ "platform-nix", "arch-x64", "compiler-clang", "generator-ninja", "config-release" ],
-            "binaryDir": "${sourceDir}/Build/${presetName}"
+            "name": "x64-linux-clang-release",
+            "inherits": [ "platform-linux", "arch-x64", "compiler-clang", "generator-ninja", "config-release" ],
+            "binaryDir": "${sourceDir}/build/${presetName}"
         }
     ],
     "buildPresets": [
         {
-            "name": "win-x86-gcc-debug",
+            "name": "x86-win-gcc-debug",
             "inherits": [ "platform-win", "arch-x86", "compiler-gcc", "generator-make", "config-debug" ],
-            "configurePreset": "win-x86-gcc-debug"
+            "configurePreset": "x86-win-gcc-debug"
         },
         {
-            "name": "win-x86-gcc-release",
+            "name": "x86-win-gcc-release",
             "inherits": [ "platform-win", "arch-x86", "compiler-gcc", "generator-make", "config-release" ],
-            "configurePreset": "win-x86-gcc-release"
+            "configurePreset": "x86-win-gcc-release"
         },
         {
-            "name": "win-x86-clang-debug",
+            "name": "x86-win-clang-debug",
             "inherits": [ "platform-win", "arch-x86", "compiler-clang", "generator-ninja", "config-debug" ],
-            "configurePreset": "win-x86-clang-debug"
+            "configurePreset": "x86-win-clang-debug"
         },
         {
-            "name": "win-x86-clang-release",
+            "name": "x86-win-clang-release",
             "inherits": [ "platform-win", "arch-x86", "compiler-clang", "generator-ninja", "config-release" ],
-            "configurePreset": "win-x86-clang-release"
+            "configurePreset": "x86-win-clang-release"
         },
         {
-            "name": "win-x86-msvc-debug",
+            "name": "x86-win-msvc-debug",
             "inherits": [ "platform-win", "arch-x86", "compiler-msvc", "generator-ninja", "config-debug" ],
-            "configurePreset": "win-x86-msvc-debug"
+            "configurePreset": "x86-win-msvc-debug"
         },
         {
-            "name": "win-x86-msvc-release",
+            "name": "x86-win-msvc-release",
             "inherits": [ "platform-win", "arch-x86", "compiler-msvc", "generator-ninja", "config-release" ],
-            "configurePreset": "win-x86-msvc-release"
+            "configurePreset": "x86-win-msvc-release"
         },
         {
-            "name": "win-x64-gcc-debug",
+            "name": "x86-linux-gcc-debug",
+            "inherits": [ "platform-linux", "arch-x86", "compiler-gcc", "generator-make", "config-debug" ],
+            "configurePreset": "x86-linux-gcc-debug"
+        },
+        {
+            "name": "x86-linux-gcc-release",
+            "inherits": [ "platform-linux", "arch-x86", "compiler-gcc", "generator-make", "config-release" ],
+            "configurePreset": "x86-linux-gcc-release"
+        },
+        {
+            "name": "x86-linux-clang-debug",
+            "inherits": [ "platform-linux", "arch-x86", "compiler-clang", "generator-ninja", "config-debug" ],
+            "configurePreset": "x86-linux-clang-debug"
+        },
+        {
+            "name": "x86-linux-clang-release",
+            "inherits": [ "platform-linux", "arch-x86", "compiler-clang", "generator-ninja", "config-release" ],
+            "configurePreset": "x86-linux-clang-release"
+        },
+        {
+            "name": "x86-linux-msvc-debug",
+            "inherits": [ "platform-linux", "arch-x86", "compiler-msvc", "generator-ninja", "config-debug" ],
+            "configurePreset": "x86-linux-msvc-debug"
+        },
+        {
+            "name": "x86-linux-msvc-release",
+            "inherits": [ "platform-linux", "arch-x86", "compiler-msvc", "generator-ninja", "config-release" ],
+            "configurePreset": "x86-linux-msvc-release"
+        },
+        {
+            "name": "x64-win-gcc-debug",
             "inherits": [ "platform-win", "arch-x64", "compiler-gcc", "generator-make", "config-debug" ],
-            "configurePreset": "win-x64-gcc-debug"
+            "configurePreset": "x64-win-gcc-debug"
         },
         {
-            "name": "win-x64-gcc-release",
+            "name": "x64-win-gcc-release",
             "inherits": [ "platform-win", "arch-x64", "compiler-gcc", "generator-make", "config-release" ],
-            "configurePreset": "win-x64-gcc-release"
+            "configurePreset": "x64-win-gcc-release"
         },
         {
-            "name": "win-x64-clang-debug",
+            "name": "x64-win-clang-debug",
             "inherits": [ "platform-win", "arch-x64", "compiler-clang", "generator-ninja", "config-debug" ],
-            "configurePreset": "win-x64-clang-debug"
+            "configurePreset": "x64-win-clang-debug"
         },
         {
-            "name": "win-x64-clang-release",
+            "name": "x64-win-clang-release",
             "inherits": [ "platform-win", "arch-x64", "compiler-clang", "generator-ninja", "config-release" ],
-            "configurePreset": "win-x64-clang-release"
+            "configurePreset": "x64-win-clang-release"
         },
         {
-            "name": "win-x64-msvc-debug",
-            "inherits": [ "platform-win", "arch-x64", "compiler-msvc", "generator-ninja", "config-debug" ],
-            "configurePreset": "win-x64-msvc-debug"
+            "name": "x64-win-msvc-debug",
+            "inherits": [ "platform-win", "arch-x64", "compiler-msvc", "generator-vs", "config-debug" ],
+            "configurePreset": "x64-win-msvc-debug"
         },
         {
-            "name": "win-x64-msvc-release",
-            "inherits": [ "platform-win", "arch-x64", "compiler-msvc", "generator-ninja", "config-release" ],
-            "configurePreset": "win-x64-msvc-release"
-        },
-
-        {
-            "name": "unix-x86-gcc-debug",
-            "inherits": [ "platform-unix", "arch-x86", "compiler-gcc", "generator-make", "config-debug" ],
-            "configurePreset": "unix-x86-gcc-debug"
+            "name": "x64-win-msvc-release",
+            "inherits": [ "platform-win", "arch-x64", "compiler-msvc", "generator-vs", "config-release" ],
+            "configurePreset": "x64-win-msvc-release"
         },
         {
-            "name": "unix-x86-gcc-release",
-            "inherits": [ "platform-unix", "arch-x86", "compiler-gcc", "generator-make", "config-release" ],
-            "configurePreset": "unix-x86-gcc-release"
+            "name": "x64-linux-gcc-debug",
+            "inherits": [ "platform-linux", "arch-x64", "compiler-gcc", "generator-make", "config-debug" ],
+            "configurePreset": "x64-linux-gcc-debug"
         },
         {
-            "name": "unix-x86-clang-debug",
-            "inherits": [ "platform-unix", "arch-x86", "compiler-clang", "generator-ninja", "config-debug" ],
-            "configurePreset": "unix-x86-clang-debug"
+            "name": "x64-linux-gcc-release",
+            "inherits": [ "platform-linux", "arch-x64", "compiler-gcc", "generator-make", "config-release" ],
+            "configurePreset": "x64-linux-gcc-release"
         },
         {
-            "name": "unix-x86-clang-release",
-            "inherits": [ "platform-unix", "arch-x86", "compiler-clang", "generator-ninja", "config-release" ],
-            "configurePreset": "unix-x86-clang-release"
+            "name": "x64-linux-clang-debug",
+            "inherits": [ "platform-linux", "arch-x64", "compiler-clang", "generator-ninja", "config-debug" ],
+            "configurePreset": "x64-linux-clang-debug"
         },
         {
-            "name": "unix-x86-msvc-debug",
-            "inherits": [ "platform-unix", "arch-x86", "compiler-msvc", "generator-ninja", "config-debug" ],
-            "configurePreset": "unix-x86-msvc-debug"
-        },
-        {
-            "name": "unix-x86-msvc-release",
-            "inherits": [ "platform-unix", "arch-x86", "compiler-msvc", "generator-ninja", "config-release" ],
-            "configurePreset": "unix-x86-msvc-release"
-        },
-        {
-            "name": "unix-x64-gcc-debug",
-            "inherits": [ "platform-unix", "arch-x64", "compiler-gcc", "generator-make", "config-debug" ],
-            "configurePreset": "unix-x64-gcc-debug"
-        },
-        {
-            "name": "unix-x64-gcc-release",
-            "inherits": [ "platform-unix", "arch-x64", "compiler-gcc", "generator-make", "config-release" ],
-            "configurePreset": "unix-x64-gcc-release"
-        },
-        {
-            "name": "unix-x64-clang-debug",
-            "inherits": [ "platform-unix", "arch-x64", "compiler-clang", "generator-ninja", "config-debug" ],
-            "configurePreset": "unix-x64-clang-debug"
-        },
-        {
-            "name": "unix-x64-clang-release",
-            "inherits": [ "platform-unix", "arch-x64", "compiler-clang", "generator-ninja", "config-release" ],
-            "configurePreset": "unix-x64-clang-release"
-        },
-
-        {
-            "name": "nix-x86-gcc-debug",
-            "inherits": [ "platform-nix", "arch-x86", "compiler-gcc", "generator-make", "config-debug" ],
-            "configurePreset": "nix-x86-gcc-debug"
-        },
-        {
-            "name": "nix-x86-gcc-release",
-            "inherits": [ "platform-nix", "arch-x86", "compiler-gcc", "generator-make", "config-release" ],
-            "configurePreset": "nix-x86-gcc-release"
-        },
-        {
-            "name": "nix-x86-clang-debug",
-            "inherits": [ "platform-nix", "arch-x86", "compiler-clang", "generator-ninja", "config-debug" ],
-            "configurePreset": "nix-x86-clang-debug"
-        },
-        {
-            "name": "nix-x86-clang-release",
-            "inherits": [ "platform-nix", "arch-x86", "compiler-clang", "generator-ninja", "config-release" ],
-            "configurePreset": "nix-x86-clang-release"
-        },
-        {
-            "name": "nix-x86-msvc-debug",
-            "inherits": [ "platform-nix", "arch-x86", "compiler-msvc", "generator-ninja", "config-debug" ],
-            "configurePreset": "nix-x86-msvc-debug"
-        },
-        {
-            "name": "nix-x86-msvc-release",
-            "inherits": [ "platform-nix", "arch-x86", "compiler-msvc", "generator-ninja", "config-release" ],
-            "configurePreset": "nix-x86-msvc-release"
-        },
-        {
-            "name": "nix-x64-gcc-debug",
-            "inherits": [ "platform-nix", "arch-x64", "compiler-gcc", "generator-make", "config-debug" ],
-            "configurePreset": "nix-x64-gcc-debug"
-        },
-        {
-            "name": "nix-x64-gcc-release",
-            "inherits": [ "platform-nix", "arch-x64", "compiler-gcc", "generator-make", "config-release" ],
-            "configurePreset": "nix-x64-gcc-release"
-        },
-        {
-            "name": "nix-x64-clang-debug",
-            "inherits": [ "platform-nix", "arch-x64", "compiler-clang", "generator-ninja", "config-debug" ],
-            "configurePreset": "nix-x64-clang-debug"
-        },
-        {
-            "name": "nix-x64-clang-release",
-            "inherits": [ "platform-nix", "arch-x64", "compiler-clang", "generator-ninja", "config-release" ],
-            "configurePreset": "nix-x64-clang-release"
+            "name": "x64-linux-clang-release",
+            "inherits": [ "platform-linux", "arch-x64", "compiler-clang", "generator-ninja", "config-release" ],
+            "configurePreset": "x64-linux-clang-release"
         }
     ]
 }
