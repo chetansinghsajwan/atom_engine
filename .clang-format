@@ -143,8 +143,8 @@ BraceWrapping:
 BreakBeforeInlineASMColon: OnlyMultiline
 BreakBeforeTernaryOperators: true
 BreakStringLiterals: true
-BreakConstructorInitializers: AfterColon
-BreakInheritanceList: AfterColon
+BreakConstructorInitializers: BeforeComma
+BreakInheritanceList: BeforeComma
 AllowBreakBeforeNoexceptSpecifier: Never
 RequiresClausePosition: OwnLine
 
@@ -224,7 +224,7 @@ Cpp11BracedListStyle: false
 EmptyLineAfterAccessModifier: Never
 EmptyLineBeforeAccessModifier: LogicalBlock
 ExperimentalAutoDetectBinPacking: false
-PackConstructorInitializers: NextLineOnly
+PackConstructorInitializers: Never
 ReflowComments: false
 RemoveParentheses: MultipleParentheses
 RemoveSemicolon: false
