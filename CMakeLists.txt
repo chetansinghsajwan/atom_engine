@@ -1,12 +1,9 @@
 cmake_minimum_required(VERSION 3.5)
 project(AtomEngine VERSION 0.1.0 LANGUAGES CXX C)
 
-include(CMake/CPM.cmake)
-set(CPM_SOURCE_CACHE "${CMAKE_SOURCE_DIR}/build/cpm-cache")
-
-CPMAddPackage("gh:shifu-dev/Atom.Core#dev")
-CPMAddPackage("gh:shifu-dev/Atom.Logging#dev")
-CPMAddPackage("gh:glfw/glfw#3.3.8")
+include("$env{ATOM_CORE}/CMakeLists.txt")
+include("$env{ATOM_LOGGING}/CMakeLists.txt")
+find_package(glfw3 REQUIRED)
 
 # --------------------------------------------------------------------------------------------------
 # C++20 Global Config
