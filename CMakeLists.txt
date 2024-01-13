@@ -1,9 +1,30 @@
 cmake_minimum_required(VERSION 3.5)
 project(AtomEngine VERSION 0.1.0 LANGUAGES CXX C)
 
-include("$env{ATOM_CORE}/CMakeLists.txt")
-include("$env{ATOM_LOGGING}/CMakeLists.txt")
-find_package(glfw3 REQUIRED)
+include(FetchContent)
+
+FetchContent_Declare(
+    atom-core
+    GIT_REPOSITORY "https://github.com/shifu-dev/Atom.Core.git"
+    GIT_TAG        "dev"
+    GIT_SHALLOW    true
+)
+
+FetchContent_Declare(
+    atom-logging
+    GIT_REPOSITORY "https://github.com/shifu-dev/Atom.Logging.git"
+    GIT_TAG        "dev"
+    GIT_SHALLOW    true
+)
+
+FetchContent_Declare(
+    glfw
+    GIT_REPOSITORY "https://github.com/glfw/glfw.git"
+    GIT_TAG        "3.3.9"
+    GIT_SHALLOW    true
+)
+
+FetchContent_MakeAvailable(atom-core atom-logging glfw)
 
 # --------------------------------------------------------------------------------------------------
 # C++20 Global Config
