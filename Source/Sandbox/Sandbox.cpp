@@ -17,8 +17,7 @@ namespace Atom::Engine
     {
         SharedPtr<ConsoleLogTarget> target = MakeShared<ConsoleLogTarget>();
 
-        // FIX: Fix this range usage in Clang.
-        SimpleLoggerST logger("Test", Range(InitList<LogTargetPtr>{ target }));
+        SimpleLoggerST logger(MakeRange("Test"), MakeRange({ target }));
         logger.SetLogLevel(ELogLevel::Debug);
 
         logger.LogWarn("Just a warning");

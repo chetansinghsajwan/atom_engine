@@ -1,6 +1,7 @@
+#include "Atom/CoreAll.h"
 #include "Atom/Logging.h"
 
-#if defined(ATOM_PLATFORM_LINUX)
+#if defined(ATOM_PLATFORM_POSIX)
 #    include "Window/LinuxWindow.h"
 using PlatformSelectedWindow = Atom::Engine::LinuxWindow;
 
@@ -22,7 +23,7 @@ namespace Atom::Engine
         if (s_windowCount == 0)
         {
             int success = glfwInit();
-            asserts(success, "GLFW initialization failed.");
+            Contracts::Asserts(success, "GLFW initialization failed.");
 
             glfwSetErrorCallback([](_i32 error_code, const char* description) {
                 // TODO: Fix this compilation error.
@@ -36,7 +37,7 @@ namespace Atom::Engine
 
     auto WindowManger::CloseWindow(Window* window) -> void
     {
-        expects(window != nullptr, "Cannot close NULL window.");
+        Contracts::Expects(window != nullptr, "Cannot close NULL window.");
 
         delete window;
     }
