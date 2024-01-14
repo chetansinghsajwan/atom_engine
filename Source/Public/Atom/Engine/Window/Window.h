@@ -79,15 +79,15 @@ namespace Atom::Engine
     public:
         virtual ~Window() = default;
 
-        virtual auto Update() -> void abstract;
+        virtual auto Update() -> void = 0;
 
-        virtual auto GetSize() const -> SWindowCoords abstract;
-        virtual auto SetSize(SWindowCoords size) -> void abstract;
+        virtual auto GetSize() const -> SWindowCoords = 0;
+        virtual auto SetSize(SWindowCoords size) -> void = 0;
 
-        virtual auto GetPos() const -> SWindowCoords abstract;
-        virtual auto SetPos(SWindowCoords pos) -> void abstract;
+        virtual auto GetPos() const -> SWindowCoords = 0;
+        virtual auto SetPos(SWindowCoords pos) -> void = 0;
 
-        virtual auto GetNative() const -> void* abstract;
+        virtual auto GetNative() const -> void* = 0;
 
     public:
         IEvent<const SWindowEvent&>& OnEvent;

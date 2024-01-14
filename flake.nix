@@ -14,6 +14,8 @@
         devShells.${system}.default = pkgs.mkShell {
             
             packages = with pkgs; [
+                clang_17
+                clang-tools_17
                 cmake
                 gnumake
                 ninja

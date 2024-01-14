@@ -5,11 +5,11 @@ namespace Atom::Engine
     Application::Application()
     {
         WindowProps windowProps{
-            .windowName = "Sandbox", .windowSize = {1920, 1080}
+            .windowName = MakeRange("Sandbox"), .windowSize = {1920, 1080}
         };
 
         _window = WindowManger::CreateWindow(windowProps);
-        debug_asserts(_window != nullptr);
+        Contracts::DebugAsserts(_window != nullptr);
 
         _window->OnEvent += [this](const SWindowEvent& event) { this->OnWindowEvent(event); };
     }
