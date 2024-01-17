@@ -1,7 +1,26 @@
-#include "Atom/Engine/Application.h"
+export module atom.engine:application;
+import :window;
+import :window_manager;
 
 namespace Atom::Engine
 {
+    class Application
+    {
+    public:
+        Application();
+        virtual ~Application();
+
+    public:
+        virtual auto Run() -> void;
+
+        virtual auto OnWindowEvent(const WindowEvent& event) -> void;
+
+    protected:
+        Window* _window;
+    };
+
+    extern Application* CreateApplication();
+
     Application::Application()
     {
         WindowProps windowProps{
@@ -11,7 +30,7 @@ namespace Atom::Engine
         _window = WindowManger::CreateWindow(windowProps);
         Contracts::DebugAsserts(_window != nullptr);
 
-        _window->OnEvent += [this](const SWindowEvent& event) { this->OnWindowEvent(event); };
+        _window->OnEvent += [this](const WindowEvent& event) { this->OnWindowEvent(event); };
     }
 
     Application::~Application()
@@ -30,5 +49,5 @@ namespace Atom::Engine
         }
     }
 
-    auto Application::OnWindowEvent(const SWindowEvent& event) -> void {}
+    auto Application::OnWindowEvent(const WindowEvent& event) -> void {}
 }

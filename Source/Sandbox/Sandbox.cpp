@@ -1,12 +1,10 @@
-#include "Atom/Engine.h"
-#include "Atom/Logging/LogTargets/ConsoleLogTarget.h"
-#include "Atom/Logging/SimpleLogger.h"
-#include "Atom/Range.h"
-#include <iostream>
+import atom.core;
+import atom.logging;
+import atom.engine;
 
 using namespace Atom;
-using namespace Atom::Engine;
 using namespace Atom::Logging;
+using namespace Atom::Engine;
 
 class SandboxApplication: public Application
 {};

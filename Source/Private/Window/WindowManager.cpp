@@ -1,46 +1,82 @@
-#include "Atom/CoreAll.h"
-#include "Atom/Logging.h"
+module;
+#include "GLFW/glfw3.h"
 
-#if defined(ATOM_PLATFORM_POSIX)
-#    include "Window/LinuxWindow.h"
-using PlatformSelectedWindow = Atom::Engine::LinuxWindow;
+export module atom.engine:window_manager;
+import :window;
+import :window.glfw;
+import atom.core;
+import atom.logging;
 
-#elif defined(ATOM_PLATFORM_WINDOWS)
-#    include "Window/WindowsWindow.h"
-using PlatformSelectedWindow = Atom::Engine::WindowsWindow;
-
-#else
-#    error "Atom::Engine::Window is only supported for Linux and Windows platform for now."
-
-#endif
-
+using namespace Atom;
 using namespace Atom::Logging;
 
 namespace Atom::Engine
 {
-    auto WindowManger::CreateWindow(WindowProps props) -> Window*
+    class LinuxWindow: public GlfwWindow
     {
-        if (s_windowCount == 0)
-        {
-            int success = glfwInit();
-            Contracts::Asserts(success, "GLFW initialization failed.");
+    public:
+        LinuxWindow(const WindowProps& props)
+            : GlfwWindow(props)
+        {}
+    };
 
-            glfwSetErrorCallback([](_i32 error_code, const char* description) {
-                // TODO: Fix this compilation error.
-                // LOG_FATAL("GLFW Error: ", description);
-            });
+    class WindowsWindow: public GlfwWindow
+    {
+    public:
+        WindowsWindow(const WindowProps& props)
+            : GlfwWindow(props)
+        {}
+    };
+
+    export class WindowProps
+    {
+    public:
+        String windowName;
+        WindowCoords windowSize;
+    };
+
+    export class WindowManger
+    {
+    public:
+        static auto CreateWindow(WindowProps props) -> Window*
+        {
+            if (s_windowCount == 0)
+            {
+                int success = glfwInit();
+                Contracts::Asserts(success, "GLFW initialization failed.");
+
+                glfwSetErrorCallback([](_i32 error_code, const char* description) {
+                    // TODO: Fix this compilation error.
+                    // LOG_FATAL("GLFW Error: ", description);
+                });
+            }
+
+            s_windowCount++;
+            return new _CreateWindow(props);
         }
 
-        s_windowCount++;
-        return new PlatformSelectedWindow(props);
-    }
+        static auto CloseWindow(Window* window)
+        {
+            Contracts::Expects(window != nullptr, "Cannot close NULL window.");
 
-    auto WindowManger::CloseWindow(Window* window) -> void
-    {
-        Contracts::Expects(window != nullptr, "Cannot close NULL window.");
+            delete window;
+        }
 
-        delete window;
-    }
+    private:
+        static auto _CreateWindow(WindowProps props)
+        {
+            if constexpr (BuildConfig::GetPlatform() == BuildConfig::Platform::Posix)
+                return LinuxWindow(props);
+            else if constexpr (BuildConfig::GetPlatform() == BuildConfig::Platform::Windows)
+                return WindowsWindow(props);
+            else
+                static_assert(false, "Atom::Engine::Window is only supported for Linux and Windows "
+                                     "platform for now.");
+        }
 
-    usize WindowManger::s_windowCount = 0;
+    protected:
+        static usize s_windowCount;
+    };
+
+    static usize WindowManager::s_windowCount = 0;
 }

@@ -25,6 +25,9 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(atom-core atom-logging glfw)
+FetchContent_GetProperties(atom-core)
+
+include("${atom-core_SOURCE_DIR}/CMake/enable-modules.cmake")
 
 # --------------------------------------------------------------------------------------------------
 # C++20 Global Config
@@ -37,10 +40,13 @@ enable_testing()
 # Atom.Engine
 # --------------------------------------------------------------------------------------------------
 
-file(GLOB_RECURSE SOURCES "Source/Private/**.cpp"
-    "Source/Private/**.h" "Public/**.h")
+file(GLOB_RECURSE SOURCES "Source/Private/**.cpp")
 
-add_library(Atom.Engine STATIC ${SOURCES})
+add_library(Atom.Engine STATIC)
+target_sources(Atom.Engine PUBLIC
+    FILE_SET modules TYPE CXX_MODULES FILES
+    "${SOURCES}"
+)
 target_include_directories(Atom.Engine PRIVATE "Source/Private/")
 target_include_directories(Atom.Engine PUBLIC "Source/Public/")
 

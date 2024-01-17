@@ -1,28 +1,28 @@
-#pragma once
-#include "Atom/CoreAll.h"
+export module atom.engine:window;
+import atom.core;
 
 namespace Atom::Engine
 {
-    class WindowCoords
+    export class WindowCoords
     {
     public:
         i32 x;
         i32 y;
     };
 
-    inline auto operator-(const WindowCoords& lhs, const WindowCoords& rhs) -> WindowCoords
+    export inline auto operator-(const WindowCoords& lhs, const WindowCoords& rhs) -> WindowCoords
     {
         return { lhs.x - rhs.x, lhs.y - rhs.y };
     }
 
-    enum class EWindowEventType
+    export enum class EWindowEventType
     {
         Resize,
         Reposition,
         Close,
     };
 
-    class WindowEvent
+    export class WindowEvent
     {
     public:
         WindowEvent(EWindowEventType eventType)
@@ -33,7 +33,7 @@ namespace Atom::Engine
         const EWindowEventType eventType;
     };
 
-    class WindowResizeEvent: public WindowEvent
+    export class WindowResizeEvent: public WindowEvent
     {
     public:
         WindowResizeEvent(WindowCoords size, WindowCoords delta)
@@ -47,7 +47,7 @@ namespace Atom::Engine
         WindowCoords delta;
     };
 
-    class WindowRepositionEvent: public WindowEvent
+    export class WindowRepositionEvent: public WindowEvent
     {
     public:
         WindowRepositionEvent(WindowCoords position, WindowCoords delta)
@@ -61,7 +61,7 @@ namespace Atom::Engine
         WindowCoords delta;
     };
 
-    class WindowCloseEvent: public WindowEvent
+    export class WindowCloseEvent: public WindowEvent
     {
     public:
         WindowCloseEvent()
@@ -69,7 +69,7 @@ namespace Atom::Engine
         {}
     };
 
-    class Window
+    export class Window
     {
     public:
         Window(IEvent<const WindowEvent&>& event)
