@@ -1,11 +1,11 @@
 {
     "version": 4,
     "include": [
-        "CMake/PlatformPresets.json",
-        "CMake/ArchitecturePresets.json",
-        "CMake/CompilerPresets.json",
-        "CMake/GeneratorPresets.json",
-        "CMake/ConfigPresets.json"
+        "cmake/platform_presets.json",
+        "cmake/architecture_presets.json",
+        "cmake/compiler_presets.json",
+        "cmake/generator_presets.json",
+        "cmake/config_presets.json"
     ],
     "configurePresets": [
         {

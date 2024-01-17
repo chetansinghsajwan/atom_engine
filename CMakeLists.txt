@@ -27,7 +27,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(atom-core atom-logging glfw)
 FetchContent_GetProperties(atom-core)
 
-include("${atom-core_SOURCE_DIR}/CMake/enable-modules.cmake")
+include("${atom-core_SOURCE_DIR}/cmake/enable_modules.cmake")
 
 # --------------------------------------------------------------------------------------------------
 # C++20 Global Config
@@ -40,26 +40,21 @@ enable_testing()
 # Atom.Engine
 # --------------------------------------------------------------------------------------------------
 
-file(GLOB_RECURSE SOURCES "Source/Private/**.cpp")
+file(GLOB_RECURSE sources "src/*.cpp")
 
-add_library(Atom.Engine STATIC)
-target_sources(Atom.Engine PUBLIC
+add_library(atom.engine STATIC)
+target_sources(atom.engine PUBLIC
     FILE_SET modules TYPE CXX_MODULES FILES
-    "${SOURCES}"
+    "${sources}"
 )
-target_include_directories(Atom.Engine PRIVATE "Source/Private/")
-target_include_directories(Atom.Engine PUBLIC "Source/Public/")
 
-target_compile_definitions(Atom.Engine PRIVATE ATOM_EXPORT)
-
-target_link_libraries(Atom.Engine PUBLIC Atom.Core)
-target_link_libraries(Atom.Engine PUBLIC Atom.Logging)
-target_link_libraries(Atom.Engine PUBLIC glfw)
+target_link_libraries(atom.engine PUBLIC atom.core)
+target_link_libraries(atom.engine PUBLIC atom.logging)
+target_link_libraries(atom.engine PUBLIC glfw)
 
 # --------------------------------------------------------------------------------------------------
 # Atom.Engine.Sandbox
 # --------------------------------------------------------------------------------------------------
 
-add_executable(Atom.Engine.Sandbox "Source/Sandbox/Sandbox.cpp")
-target_include_directories(Atom.Engine.Sandbox PRIVATE "Source/Sandbox")
-target_link_libraries(Atom.Engine.Sandbox PUBLIC Atom.Engine)
+add_executable(atom.engine.sandbox "sandbox/sandbox.cpp")
+target_link_libraries(atom.engine.sandbox PUBLIC atom.engine)
