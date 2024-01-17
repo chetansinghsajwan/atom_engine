@@ -12,7 +12,7 @@ namespace Atom::Engine
     public:
         virtual auto Run() -> void;
 
-        virtual auto OnWindowEvent(const SWindowEvent& event) -> void;
+        virtual auto OnWindowEvent(const WindowEvent& event) -> void;
 
     protected:
         Window* _window;

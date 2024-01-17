@@ -1,4 +1,7 @@
-#include "Atom/Engine/Application.h"
+export module atom.engine:main;
+
+import :application;
+import atom.core;
 
 using namespace Atom;
 

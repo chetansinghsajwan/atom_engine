@@ -8,7 +8,7 @@ namespace Atom::Engine
     {
     public:
         String windowName;
-        SWindowCoords windowSize;
+        WindowCoords windowSize;
     };
 
     class WindowManger

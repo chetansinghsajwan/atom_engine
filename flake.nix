@@ -20,6 +20,7 @@
                 gnumake
                 ninja
                 glfw
+                xorg.libX11
                 xorg.libXi
                 xorg.libXcursor
                 xorg.libXrandr

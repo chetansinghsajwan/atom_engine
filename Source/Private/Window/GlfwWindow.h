@@ -6,7 +6,7 @@
 
 namespace Atom::Engine
 {
-    class GlfwSWindowCoords
+    class GlfwWindowCoords
     {
     public:
         i32 x;
@@ -16,7 +16,7 @@ namespace Atom::Engine
     class GlfwWindowCoordsConverter
     {
     public:
-        static constexpr auto ToGLFW(SWindowCoords coords) -> GlfwSWindowCoords
+        static constexpr auto ToGLFW(WindowCoords coords) -> GlfwWindowCoords
         {
             coords.x = coords.x.clamp(i32::Min(), i32::Max());
             coords.y = coords.y.clamp(i32::Min(), i32::Max());
@@ -24,7 +24,7 @@ namespace Atom::Engine
             return { coords.x, coords.y };
         };
 
-        static constexpr auto FromGLFW(GlfwSWindowCoords coords) -> SWindowCoords
+        static constexpr auto FromGLFW(GlfwWindowCoords coords) -> WindowCoords
         {
             coords.x = coords.x.clamp(i32::Min(), i32::Max());
             coords.y = coords.y.clamp(i32::Min(), i32::Max());
@@ -41,13 +41,13 @@ namespace Atom::Engine
 
         virtual auto Update() -> void override;
 
-        virtual auto SetPos(SWindowCoords size) -> void override;
-        virtual auto GetPos() const -> SWindowCoords override;
-        virtual auto UpdatePos() -> SWindowCoords;
+        virtual auto SetPos(WindowCoords size) -> void override;
+        virtual auto GetPos() const -> WindowCoords override;
+        virtual auto UpdatePos() -> WindowCoords;
 
-        virtual auto SetSize(SWindowCoords size) -> void override;
-        virtual auto GetSize() const -> SWindowCoords override;
-        virtual auto UpdateSize() -> SWindowCoords;
+        virtual auto SetSize(WindowCoords size) -> void override;
+        virtual auto GetSize() const -> WindowCoords override;
+        virtual auto UpdateSize() -> WindowCoords;
 
         virtual auto GetNative() const -> void* override final;
 
@@ -61,10 +61,10 @@ namespace Atom::Engine
 
     protected:
         GLFWwindow* _glfwWindow;
-        SWindowCoords _windowPos;
-        SWindowCoords _windowSize;
+        WindowCoords _windowPos;
+        WindowCoords _windowSize;
         bool _windowVSync;
 
-        EventSource<const SWindowEvent&> _windowEventSource;
+        EventSource<const WindowEvent&> _windowEventSource;
     };
 }
