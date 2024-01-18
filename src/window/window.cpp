@@ -1,102 +1,101 @@
 export module atom.engine:window;
 import atom.core;
 
-namespace Atom::Engine
+namespace atom::engine
 {
-    export class WindowProps
+    export struct window_coords
     {
-    public:
-        String windowName;
-        WindowCoords windowSize;
-    };
-
-    export class WindowCoords
-    {
-    public:
         i32 x;
         i32 y;
     };
 
-    export inline auto operator-(const WindowCoords& lhs, const WindowCoords& rhs) -> WindowCoords
+    export class window_props
+    {
+    public:
+        string window_name;
+        window_coords window_size;
+    };
+
+    export inline auto operator-(const window_coords& lhs, const window_coords& rhs) -> window_coords
     {
         return { lhs.x - rhs.x, lhs.y - rhs.y };
     }
 
-    export enum class EWindowEventType
+    export enum class ewindow_event_type
     {
-        Resize,
-        Reposition,
-        Close,
+        resize,
+        reposition,
+        close,
     };
 
-    export class WindowEvent
+    export class window_event
     {
     public:
-        WindowEvent(EWindowEventType eventType)
-            : eventType(eventType)
+        window_event(ewindow_event_type event_type)
+            : event_type(event_type)
         {}
 
     public:
-        const EWindowEventType eventType;
+        const ewindow_event_type event_type;
     };
 
-    export class WindowResizeEvent: public WindowEvent
+    export class window_resize_event: public window_event
     {
     public:
-        WindowResizeEvent(WindowCoords size, WindowCoords delta)
+        window_resize_event(window_coords size, window_coords delta)
             : size(size)
             , delta(delta)
-            , WindowEvent(EWindowEventType::Resize)
+            , window_event(ewindow_event_type::resize)
         {}
 
     public:
-        WindowCoords size;
-        WindowCoords delta;
+        window_coords size;
+        window_coords delta;
     };
 
-    export class WindowRepositionEvent: public WindowEvent
+    export class window_reposition_event: public window_event
     {
     public:
-        WindowRepositionEvent(WindowCoords position, WindowCoords delta)
+        window_reposition_event(window_coords position, window_coords delta)
             : position(position)
             , delta(delta)
-            , WindowEvent(EWindowEventType::Reposition)
+            , window_event(ewindow_event_type::reposition)
         {}
 
     public:
-        WindowCoords position;
-        WindowCoords delta;
+        window_coords position;
+        window_coords delta;
     };
 
-    export class WindowCloseEvent: public WindowEvent
+    export class window_close_event: public window_event
     {
     public:
-        WindowCloseEvent()
-            : WindowEvent(EWindowEventType::Close)
+        window_close_event()
+            : window_event(ewindow_event_type::close)
         {}
     };
 
-    export class Window
+    export class window
     {
     public:
-        Window(IEvent<const WindowEvent&>& event)
-            : OnEvent{ event }
+        window(ievent<const window_event&>& event)
+            : on_event{ event }
         {}
 
     public:
-        virtual ~Window() = default;
+        virtual ~window() = default;
 
-        virtual auto Update() -> void = 0;
+        virtual auto update() -> void = 0;
 
-        virtual auto GetSize() const -> WindowCoords = 0;
-        virtual auto SetSize(WindowCoords size) -> void = 0;
+        virtual auto get_size() const -> window_coords = 0;
+        virtual auto set_size(window_coords size) -> void = 0;
 
-        virtual auto GetPos() const -> WindowCoords = 0;
-        virtual auto SetPos(WindowCoords pos) -> void = 0;
+        virtual auto get_pos() const -> window_coords = 0;
+        virtual auto set_pos(window_coords pos) -> void = 0;
 
-        virtual auto GetNative() const -> void* = 0;
+        virtual auto get_native() const -> void* = 0;
 
     public:
-        IEvent<const WindowEvent&>& OnEvent;
+        ievent<const window_event&>& on_event;
     };
 }

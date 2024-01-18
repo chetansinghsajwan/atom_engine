@@ -3,12 +3,17 @@ export module atom.engine:main;
 import :application;
 import atom.core;
 
-using namespace Atom;
+using namespace atom;
+
+namespace atom::engine
+{
+    extern "C++" application* create_application();
+}
 
 auto main(int argc, char** args) -> int
 {
-    Engine::Application* app = Engine::CreateApplication();
-    app->Run();
+    engine::application* app = engine::create_application();
+    app->run();
 
     delete app;
 }

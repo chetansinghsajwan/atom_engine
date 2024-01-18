@@ -4,15 +4,15 @@ project(AtomEngine VERSION 0.1.0 LANGUAGES CXX C)
 include(FetchContent)
 
 FetchContent_Declare(
-    atom-core
-    GIT_REPOSITORY "https://github.com/shifu-dev/Atom.Core.git"
+    atom_core
+    GIT_REPOSITORY "https://github.com/shifu-dev/atom.core.git"
     GIT_TAG        "dev"
     GIT_SHALLOW    true
 )
 
 FetchContent_Declare(
-    atom-logging
-    GIT_REPOSITORY "https://github.com/shifu-dev/Atom.Logging.git"
+    atom_logging
+    GIT_REPOSITORY "https://github.com/shifu-dev/atom.logging.git"
     GIT_TAG        "dev"
     GIT_SHALLOW    true
 )
@@ -24,10 +24,10 @@ FetchContent_Declare(
     GIT_SHALLOW    true
 )
 
-FetchContent_MakeAvailable(atom-core atom-logging glfw)
-FetchContent_GetProperties(atom-core)
+FetchContent_MakeAvailable(atom_core atom_logging glfw)
+FetchContent_GetProperties(atom_core)
 
-include("${atom-core_SOURCE_DIR}/cmake/enable_modules.cmake")
+include("${atom_core_SOURCE_DIR}/cmake/enable_modules.cmake")
 
 # --------------------------------------------------------------------------------------------------
 # C++20 Global Config
@@ -57,4 +57,4 @@ target_link_libraries(atom.engine PUBLIC glfw)
 # --------------------------------------------------------------------------------------------------
 
 add_executable(atom.engine.sandbox "sandbox/sandbox.cpp")
-target_link_libraries(atom.engine.sandbox PUBLIC atom.engine)
+target_link_libraries(atom.engine.sandbox PRIVATE atom.engine)
