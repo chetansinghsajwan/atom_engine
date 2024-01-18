@@ -3,6 +3,13 @@ import atom.core;
 
 namespace Atom::Engine
 {
+    export class WindowProps
+    {
+    public:
+        String windowName;
+        WindowCoords windowSize;
+    };
+
     export class WindowCoords
     {
     public:
