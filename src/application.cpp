@@ -1,53 +1,52 @@
 export module atom.engine:application;
 import :window;
 import :window_manager;
+import atom.core;
 
-namespace Atom::Engine
+namespace atom::engine
 {
-    class Application
+    export class application
     {
     public:
-        Application();
-        virtual ~Application();
+        application();
+        virtual ~application();
 
     public:
-        virtual auto Run() -> void;
+        virtual auto run() -> void;
 
-        virtual auto OnWindowEvent(const WindowEvent& event) -> void;
+        virtual auto on_window_event(const window_event& event) -> void;
 
     protected:
-        Window* _window;
+        window* _window;
     };
 
-    extern Application* CreateApplication();
-
-    Application::Application()
+    application::application()
     {
-        WindowProps windowProps{
-            .windowName = MakeRange("Sandbox"), .windowSize = {1920, 1080}
+        window_props window_props{
+            .window_name = make_range("sandbox"), .window_size = {1920, 1080}
         };
 
-        _window = WindowManger::CreateWindow(windowProps);
-        Contracts::DebugAsserts(_window != nullptr);
+        _window = window_manager::create_window(window_props);
+        contracts::debug_asserts(_window != nullptr);
 
-        _window->OnEvent += [this](const WindowEvent& event) { this->OnWindowEvent(event); };
+        _window->on_event += [this](const window_event& event) { this->on_window_event(event); };
     }
 
-    Application::~Application()
+    application::~application()
     {
         if (_window != nullptr)
         {
-            WindowManger::CloseWindow(_window);
+            window_manager::close_window(_window);
         }
     }
 
-    auto Application::Run() -> void
+    auto application::run() -> void
     {
         while (true)
         {
-            _window->Update();
+            _window->update();
         }
     }
 
-    auto Application::OnWindowEvent(const WindowEvent& event) -> void {}
+    auto application::on_window_event(const window_event& event) -> void {}
 }

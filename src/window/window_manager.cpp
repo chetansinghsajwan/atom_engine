@@ -7,69 +7,69 @@ import :glfw_window;
 import atom.core;
 import atom.logging;
 
-using namespace Atom;
-using namespace Atom::Logging;
+using namespace atom;
+using namespace atom::logging;
 
-namespace Atom::Engine
+namespace atom::engine
 {
-    class LinuxWindow: public GlfwWindow
+    class linux_window: public glfw_window
     {
     public:
-        LinuxWindow(const WindowProps& props)
-            : GlfwWindow(props)
+        linux_window(const window_props& props)
+            : glfw_window(props)
         {}
     };
 
-    class WindowsWindow: public GlfwWindow
+    class windows_window: public glfw_window
     {
     public:
-        WindowsWindow(const WindowProps& props)
-            : GlfwWindow(props)
+        windows_window(const window_props& props)
+            : glfw_window(props)
         {}
     };
 
-    export class WindowManger
+    export class window_manager
     {
     public:
-        static auto CreateWindow(WindowProps props) -> Window*
+        static auto create_window(window_props props) -> window*
         {
-            if (s_windowCount == 0)
+            if (s_window_count == 0)
             {
                 int success = glfwInit();
-                Contracts::Asserts(success, "GLFW initialization failed.");
+                contracts::asserts(success, "glfw initialization failed.");
 
                 glfwSetErrorCallback([](_i32 error_code, const char* description) {
-                    // TODO: Fix this compilation error.
-                    // LOG_FATAL("GLFW Error: ", description);
+                    // todo: fix this compilation error.
+                    // log_fatal("glfw error: ", description);
                 });
             }
 
-            s_windowCount++;
-            return new _CreateWindow(props);
+            s_window_count++;
+            return _create_window(props);
         }
 
-        static auto CloseWindow(Window* window)
+        static auto close_window(window* window)
         {
-            Contracts::Expects(window != nullptr, "Cannot close NULL window.");
+            contracts::expects(window != nullptr, "cannot close null window.");
 
             delete window;
         }
 
     private:
-        static auto _CreateWindow(WindowProps props)
+        static auto _create_window(window_props props) -> window*
         {
-            if constexpr (BuildConfig::GetPlatform() == BuildConfig::Platform::Posix)
-                return LinuxWindow(props);
-            else if constexpr (BuildConfig::GetPlatform() == BuildConfig::Platform::Windows)
-                return WindowsWindow(props);
-            else
-                static_assert(false, "Atom::Engine::Window is only supported for Linux and Windows "
-                                     "platform for now.");
+            if constexpr (build_config::get_platform() == build_config::platform::posix)
+                return new linux_window(props);
+            else if constexpr (build_config::get_platform() == build_config::platform::windows)
+                return new windows_window(props);
+            // else
+                // static_assert(false, "atom::engine::window is only supported for linux and windows "
+                                    //  "platform for now.");
         }
 
     protected:
-        static usize s_windowCount;
+        static usize s_window_count;
     };
 
-    static usize WindowManager::s_windowCount = 0;
+    usize window_manager::s_window_count = 0;
 }

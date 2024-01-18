@@ -2,24 +2,24 @@ import atom.core;
 import atom.logging;
 import atom.engine;
 
-using namespace Atom;
-using namespace Atom::Logging;
-using namespace Atom::Engine;
+using namespace atom;
+using namespace atom::logging;
+using namespace atom::engine;
 
-class SandboxApplication: public Application
+class sandbox_application: public application
 {};
 
-namespace Atom::Engine
+namespace atom::engine
 {
-    extern Application* CreateApplication()
+    extern application* create_application()
     {
-        SharedPtr<ConsoleLogTarget> target = MakeShared<ConsoleLogTarget>();
+        shared_ptr<console_log_target> target = make_shared<console_log_target>();
 
-        SimpleLoggerST logger(MakeRange("Test"), MakeRange({ target }));
-        logger.SetLogLevel(ELogLevel::Debug);
+        simple_logger_st logger(make_range("test"), make_range({ target }));
+        logger.set_log_level(log_level::debug);
 
-        logger.LogWarn("Just a warning");
+        logger.log_warn("just a warning");
 
-        return new SandboxApplication();
+        return new sandbox_application();
     }
 }

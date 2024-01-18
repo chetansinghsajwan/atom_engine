@@ -6,188 +6,192 @@ import atom.core;
 import atom.logging;
 import :window;
 
-using namespace Atom;
-using namespace Atom::Logging;
+using namespace atom;
+using namespace atom::logging;
 
-namespace Atom::Engine
+namespace atom::engine
 {
-    class GlfwWindowCoords
+    class glfw_window_coords
     {
     public:
         i32 x;
         i32 y;
     };
 
-    class GlfwWindowCoordsConverter
+    class glfw_window_coords_converter
     {
     public:
-        static constexpr auto ToGLFW(WindowCoords coords) -> GlfwWindowCoords
+        static constexpr auto to_glfw(window_coords coords) -> glfw_window_coords
         {
-            coords.x = coords.x.clamp(i32::Min(), i32::Max());
-            coords.y = coords.y.clamp(i32::Min(), i32::Max());
+            coords.x = coords.x.clamp(i32::min(), i32::max());
+            coords.y = coords.y.clamp(i32::min(), i32::max());
 
             return { coords.x, coords.y };
         };
 
-        static constexpr auto FromGLFW(GlfwWindowCoords coords) -> WindowCoords
+        static constexpr auto from_glfw(glfw_window_coords coords) -> window_coords
         {
-            coords.x = coords.x.clamp(i32::Min(), i32::Max());
-            coords.y = coords.y.clamp(i32::Min(), i32::Max());
+            coords.x = coords.x.clamp(i32::min(), i32::max());
+            coords.y = coords.y.clamp(i32::min(), i32::max());
 
             return { coords.x, coords.y };
         };
     };
 
-    class GlfwWindow: public Window
+    class glfw_window: public window
     {
     public:
-        GlfwWindow(const WindowProps& props);
-        ~GlfwWindow();
+        glfw_window(const window_props& props);
+        ~glfw_window();
 
-        virtual auto Update() -> void override;
+        virtual auto update() -> void override;
 
-        virtual auto SetPos(WindowCoords size) -> void override;
-        virtual auto GetPos() const -> WindowCoords override;
-        virtual auto UpdatePos() -> WindowCoords;
+        virtual auto set_pos(window_coords size) -> void override;
+        virtual auto get_pos() const -> window_coords override;
+        virtual auto update_pos() -> window_coords;
 
-        virtual auto SetSize(WindowCoords size) -> void override;
-        virtual auto GetSize() const -> WindowCoords override;
-        virtual auto UpdateSize() -> WindowCoords;
+        virtual auto set_size(window_coords size) -> void override;
+        virtual auto get_size() const -> window_coords override;
+        virtual auto update_size() -> window_coords;
 
-        virtual auto GetNative() const -> void* override final;
+        virtual auto get_native() const -> void* override final;
 
-        auto SetVSync(bool enable) -> void;
-        auto GetVSync() const -> bool;
+        auto set_vsync(bool enable) -> void;
+        auto get_vsync() const -> bool;
 
-        auto GetNativeGLFW() const -> GLFWwindow*
+        auto get_native_glfw() const -> GLFWwindow*
         {
-            return _glfwWindow;
+            return _glfw_window;
         }
 
     protected:
-        GLFWwindow* _glfwWindow;
-        WindowCoords _windowPos;
-        WindowCoords _windowSize;
-        bool _windowVSync;
+        GLFWwindow* _glfw_window;
+        window_coords _window_pos;
+        window_coords _window_size;
+        bool _window_vsync;
 
-        EventSource<const WindowEvent&> _windowEventSource;
+        event_source<const window_event&> _window_event_source;
     };
 
-    GlfwWindow::GlfwWindow(const WindowProps& props)
-        : Window(_windowEventSource)
+    glfw_window::glfw_window(const window_props& props)
+        : window(_window_event_source)
     {
-        GlfwWindowCoords glfwWindowSize = GlfwWindowCoordsConverter::ToGLFW(props.windowSize);
+        glfw_window_coords glfw_window_size =
+            glfw_window_coords_converter::to_glfw(props.window_size);
 
-        // TODO: Requires encoding conversion.
-        _glfwWindow = glfwCreateWindow(glfwWindowSize.x, glfwWindowSize.y,
-            props.windowName.data().asUnsafe<char>().unwrap(), nullptr, nullptr);
+        // todo: requires encoding conversion.
+        _glfw_window = glfwCreateWindow(glfw_window_size.x, glfw_window_size.y,
+            props.window_name.data().as_unsafe<char>().unwrap(), nullptr, nullptr);
 
-        glfwMakeContextCurrent(_glfwWindow);
-        glfwSetWindowUserPointer(_glfwWindow, this);
+        glfwMakeContextCurrent(_glfw_window);
+        glfwSetWindowUserPointer(_glfw_window, this);
 
-        glfwSetWindowPosCallback(_glfwWindow, [](GLFWwindow* glfwWindow, _i32 xpos, _i32 ypos) {
-            GlfwWindow& window = *reinterpret_cast<GlfwWindow*>(
-                glfwGetWindowUserPointer(glfwWindow));
+        glfwSetWindowPosCallback(_glfw_window, [](GLFWwindow* glfw_window, _i32 xpos, _i32 ypos) {
+            class glfw_window& window =
+                *reinterpret_cast<class glfw_window*>(glfwGetWindowUserPointer(glfw_window));
 
-            WindowCoords oldPos = window._windowPos;
-            WindowCoords newPos = GlfwWindowCoordsConverter::FromGLFW({ xpos, ypos });
-            window._windowPos = newPos;
+            window_coords old_pos = window._window_pos;
+            window_coords new_pos = glfw_window_coords_converter::from_glfw({ xpos, ypos });
+            window._window_pos = new_pos;
 
-            window._windowEventSource.Dispatch(WindowRepositionEvent(newPos, newPos - oldPos));
+            window._window_event_source.dispatch(
+                window_reposition_event(new_pos, new_pos - old_pos));
         });
 
-        glfwSetWindowSizeCallback(_glfwWindow, [](GLFWwindow* glfwWindow, _i32 width, _i32 height) {
-            GlfwWindow& window = *reinterpret_cast<GlfwWindow*>(
-                glfwGetWindowUserPointer(glfwWindow));
+        glfwSetWindowSizeCallback(
+            _glfw_window, [](GLFWwindow* glfw_window, _i32 width, _i32 height) {
+                class glfw_window& window =
+                    *reinterpret_cast<class glfw_window*>(glfwGetWindowUserPointer(glfw_window));
 
-            WindowCoords oldSize = window._windowSize;
-            WindowCoords newSize = GlfwWindowCoordsConverter::FromGLFW({ width, height });
-            window._windowSize = newSize;
+                window_coords old_size = window._window_size;
+                window_coords new_size = glfw_window_coords_converter::from_glfw({ width, height });
+                window._window_size = new_size;
 
-            window._windowEventSource.Dispatch(WindowResizeEvent(newSize, newSize - oldSize));
+                window._window_event_source.dispatch(
+                    window_resize_event(new_size, new_size - old_size));
+            });
+
+        glfwSetWindowCloseCallback(_glfw_window, [](GLFWwindow* glfw_window) {
+            class glfw_window& window =
+                *reinterpret_cast<class glfw_window*>(glfwGetWindowUserPointer(glfw_window));
+
+            window._window_event_source.dispatch(window_close_event());
         });
 
-        glfwSetWindowCloseCallback(_glfwWindow, [](GLFWwindow* glfwWindow) {
-            GlfwWindow& window =
-                *reinterpret_cast<GlfwWindow*>(glfwGetWindowUserPointer(glfwWindow));
-
-            window._windowEventSource.Dispatch(WindowCloseEvent());
-        });
-
-        UpdatePos();
-        UpdateSize();
-        SetVSync(true);
+        update_pos();
+        update_size();
+        set_vsync(true);
     }
 
-    GlfwWindow::~GlfwWindow()
+    glfw_window::~glfw_window()
     {
-        glfwDestroyWindow(_glfwWindow);
+        glfwDestroyWindow(_glfw_window);
     }
 
-    auto GlfwWindow::Update() -> void
+    auto glfw_window::update() -> void
     {
         glfwPollEvents();
-        glfwSwapBuffers(_glfwWindow);
+        glfwSwapBuffers(_glfw_window);
     }
 
-    auto GlfwWindow::SetPos(WindowCoords pos) -> void
+    auto glfw_window::set_pos(window_coords pos) -> void
     {
-        GlfwWindowCoords glfwPos = GlfwWindowCoordsConverter::ToGLFW(pos);
+        glfw_window_coords glfw_pos = glfw_window_coords_converter::to_glfw(pos);
 
-        glfwSetWindowPos(_glfwWindow, glfwPos.x, glfwPos.y);
-        _windowPos = GlfwWindowCoordsConverter::FromGLFW(glfwPos);
+        glfwSetWindowPos(_glfw_window, glfw_pos.x, glfw_pos.y);
+        _window_pos = glfw_window_coords_converter::from_glfw(glfw_pos);
     }
 
-    auto GlfwWindow::GetPos() const -> WindowCoords
+    auto glfw_window::get_pos() const -> window_coords
     {
-        return _windowPos;
+        return _window_pos;
     }
 
-    auto GlfwWindow::UpdatePos() -> WindowCoords
-    {
-        int x;
-        int y;
-        glfwGetWindowPos(_glfwWindow, &x, &y);
-
-        return GlfwWindowCoordsConverter::FromGLFW(GlfwWindowCoords{ x, y });
-    }
-
-    auto GlfwWindow::SetSize(WindowCoords size) -> void
-    {
-        GlfwWindowCoords glfwSize = GlfwWindowCoordsConverter::ToGLFW(size);
-
-        glfwSetWindowSize(_glfwWindow, glfwSize.x, glfwSize.y);
-        _windowSize = GlfwWindowCoordsConverter::FromGLFW(glfwSize);
-    }
-
-    auto GlfwWindow::GetSize() const -> WindowCoords
-    {
-        return _windowSize;
-    }
-
-    auto GlfwWindow::UpdateSize() -> WindowCoords
+    auto glfw_window::update_pos() -> window_coords
     {
         int x;
         int y;
-        glfwGetWindowSize(_glfwWindow, &x, &y);
+        glfwGetWindowPos(_glfw_window, &x, &y);
 
-        _windowSize = GlfwWindowCoordsConverter::FromGLFW(GlfwWindowCoords{ x, y });
-        return _windowSize;
+        return glfw_window_coords_converter::from_glfw(glfw_window_coords{ x, y });
     }
 
-    auto GlfwWindow::SetVSync(bool enable) -> void
+    auto glfw_window::set_size(window_coords size) -> void
+    {
+        glfw_window_coords glfw_size = glfw_window_coords_converter::to_glfw(size);
+
+        glfwSetWindowSize(_glfw_window, glfw_size.x, glfw_size.y);
+        _window_size = glfw_window_coords_converter::from_glfw(glfw_size);
+    }
+
+    auto glfw_window::get_size() const -> window_coords
+    {
+        return _window_size;
+    }
+
+    auto glfw_window::update_size() -> window_coords
+    {
+        int x;
+        int y;
+        glfwGetWindowSize(_glfw_window, &x, &y);
+
+        _window_size = glfw_window_coords_converter::from_glfw(glfw_window_coords{ x, y });
+        return _window_size;
+    }
+
+    auto glfw_window::set_vsync(bool enable) -> void
     {
         glfwSwapInterval(enable ? 1 : 0);
-        _windowVSync = enable;
+        _window_vsync = enable;
     }
 
-    auto GlfwWindow::GetVSync() const -> bool
+    auto glfw_window::get_vsync() const -> bool
     {
-        return _windowVSync;
+        return _window_vsync;
     }
 
-    auto GlfwWindow::GetNative() const -> void*
+    auto glfw_window::get_native() const -> void*
     {
-        return _glfwWindow;
+        return _glfw_window;
     }
 }
