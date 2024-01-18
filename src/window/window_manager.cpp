@@ -3,7 +3,7 @@ module;
 
 export module atom.engine:window_manager;
 import :window;
-import :window.glfw;
+import :glfw_window;
 import atom.core;
 import atom.logging;
 
@@ -26,13 +26,6 @@ namespace Atom::Engine
         WindowsWindow(const WindowProps& props)
             : GlfwWindow(props)
         {}
-    };
-
-    export class WindowProps
-    {
-    public:
-        String windowName;
-        WindowCoords windowSize;
     };
 
     export class WindowManger

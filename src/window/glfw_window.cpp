@@ -1,11 +1,10 @@
 module;
 #include "GLFW/glfw3.h"
 
-export module atom.engine:window.glfw;
+export module atom.engine:glfw_window;
 import atom.core;
 import atom.logging;
 import :window;
-import :window_manager;
 
 using namespace Atom;
 using namespace Atom::Logging;
