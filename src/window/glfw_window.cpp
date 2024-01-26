@@ -86,9 +86,9 @@ namespace atom::engine
         glfwMakeContextCurrent(_glfw_window);
         glfwSetWindowUserPointer(_glfw_window, this);
 
-        glfwSetWindowPosCallback(_glfw_window, [](GLFWwindow* glfw_window, _i32 xpos, _i32 ypos) {
-            class glfw_window& window =
-                *reinterpret_cast<class glfw_window*>(glfwGetWindowUserPointer(glfw_window));
+        glfwSetWindowPosCallback(_glfw_window, [](GLFWwindow* native_window, _i32 xpos, _i32 ypos) {
+            glfw_window& window =
+                *reinterpret_cast<class glfw_window*>(glfwGetWindowUserPointer(native_window));
 
             window_coords old_pos = window._window_pos;
             window_coords new_pos = glfw_window_coords_converter::from_glfw({ xpos, ypos });
@@ -99,9 +99,9 @@ namespace atom::engine
         });
 
         glfwSetWindowSizeCallback(
-            _glfw_window, [](GLFWwindow* glfw_window, _i32 width, _i32 height) {
-                class glfw_window& window =
-                    *reinterpret_cast<class glfw_window*>(glfwGetWindowUserPointer(glfw_window));
+            _glfw_window, [](GLFWwindow* native_window, _i32 width, _i32 height) {
+                glfw_window& window =
+                    *reinterpret_cast<class glfw_window*>(glfwGetWindowUserPointer(native_window));
 
                 window_coords old_size = window._window_size;
                 window_coords new_size = glfw_window_coords_converter::from_glfw({ width, height });
@@ -111,9 +111,9 @@ namespace atom::engine
                     window_resize_event(new_size, new_size - old_size));
             });
 
-        glfwSetWindowCloseCallback(_glfw_window, [](GLFWwindow* glfw_window) {
-            class glfw_window& window =
-                *reinterpret_cast<class glfw_window*>(glfwGetWindowUserPointer(glfw_window));
+        glfwSetWindowCloseCallback(_glfw_window, [](GLFWwindow* native_window) {
+            glfw_window& window =
+                *reinterpret_cast<class glfw_window*>(glfwGetWindowUserPointer(native_window));
 
             window._window_event_source.dispatch(window_close_event());
         });
@@ -149,8 +149,7 @@ namespace atom::engine
 
     auto glfw_window::update_pos() -> window_coords
     {
-        int x;
-        int y;
+        int x, y;
         glfwGetWindowPos(_glfw_window, &x, &y);
 
         return glfw_window_coords_converter::from_glfw(glfw_window_coords{ x, y });
