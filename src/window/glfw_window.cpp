@@ -41,65 +41,34 @@ namespace atom::engine
     class glfw_window: public window
     {
     public:
-        glfw_window(const window_props& props);
-        ~glfw_window();
-
-        virtual auto update() -> void override;
-
-        virtual auto set_pos(window_coords size) -> void override;
-        virtual auto get_pos() const -> window_coords override;
-        virtual auto update_pos() -> window_coords;
-
-        virtual auto set_size(window_coords size) -> void override;
-        virtual auto get_size() const -> window_coords override;
-        virtual auto update_size() -> window_coords;
-
-        virtual auto get_native() const -> void* override final;
-
-        auto set_vsync(bool enable) -> void;
-        auto get_vsync() const -> bool;
-
-        auto get_native_glfw() const -> GLFWwindow*
+        glfw_window(const window_props& props)
+            : window(_window_event_source)
         {
-            return _glfw_window;
-        }
+            glfw_window_coords glfw_window_size =
+                glfw_window_coords_converter::to_glfw(props.window_size);
 
-    protected:
-        GLFWwindow* _glfw_window;
-        window_coords _window_pos;
-        window_coords _window_size;
-        bool _window_vsync;
+            // todo: requires encoding conversion.
+            _glfw_window = glfwCreateWindow(glfw_window_size.x, glfw_window_size.y,
+                props.window_name.data().as_unsafe<char>().unwrap(), nullptr, nullptr);
 
-        event_source<const window_event&> _window_event_source;
-    };
+            glfwMakeContextCurrent(_glfw_window);
+            glfwSetWindowUserPointer(_glfw_window, this);
 
-    glfw_window::glfw_window(const window_props& props)
-        : window(_window_event_source)
-    {
-        glfw_window_coords glfw_window_size =
-            glfw_window_coords_converter::to_glfw(props.window_size);
+            glfwSetWindowPosCallback(
+                _glfw_window, [](GLFWwindow* native_window, _i32 xpos, _i32 ypos) {
+                    glfw_window& window = *reinterpret_cast<class glfw_window*>(
+                        glfwGetWindowUserPointer(native_window));
 
-        // todo: requires encoding conversion.
-        _glfw_window = glfwCreateWindow(glfw_window_size.x, glfw_window_size.y,
-            props.window_name.data().as_unsafe<char>().unwrap(), nullptr, nullptr);
+                    window_coords old_pos = window._window_pos;
+                    window_coords new_pos = glfw_window_coords_converter::from_glfw({ xpos, ypos });
+                    window._window_pos = new_pos;
 
-        glfwMakeContextCurrent(_glfw_window);
-        glfwSetWindowUserPointer(_glfw_window, this);
+                    window._window_event_source.dispatch(
+                        window_reposition_event(new_pos, new_pos - old_pos));
+                });
 
-        glfwSetWindowPosCallback(_glfw_window, [](GLFWwindow* native_window, _i32 xpos, _i32 ypos) {
-            glfw_window& window =
-                *reinterpret_cast<class glfw_window*>(glfwGetWindowUserPointer(native_window));
-
-            window_coords old_pos = window._window_pos;
-            window_coords new_pos = glfw_window_coords_converter::from_glfw({ xpos, ypos });
-            window._window_pos = new_pos;
-
-            window._window_event_source.dispatch(
-                window_reposition_event(new_pos, new_pos - old_pos));
-        });
-
-        glfwSetWindowSizeCallback(
-            _glfw_window, [](GLFWwindow* native_window, _i32 width, _i32 height) {
+            glfwSetWindowSizeCallback(_glfw_window, [](GLFWwindow* native_window, _i32 width,
+                                                        _i32 height) {
                 glfw_window& window =
                     *reinterpret_cast<class glfw_window*>(glfwGetWindowUserPointer(native_window));
 
@@ -111,86 +80,95 @@ namespace atom::engine
                     window_resize_event(new_size, new_size - old_size));
             });
 
-        glfwSetWindowCloseCallback(_glfw_window, [](GLFWwindow* native_window) {
-            glfw_window& window =
-                *reinterpret_cast<class glfw_window*>(glfwGetWindowUserPointer(native_window));
+            glfwSetWindowCloseCallback(_glfw_window, [](GLFWwindow* native_window) {
+                glfw_window& window =
+                    *reinterpret_cast<class glfw_window*>(glfwGetWindowUserPointer(native_window));
 
-            window._window_event_source.dispatch(window_close_event());
-        });
+                window._window_event_source.dispatch(window_close_event());
+            });
 
-        update_pos();
-        update_size();
-        set_vsync(true);
-    }
+            update_pos();
+            update_size();
+            set_vsync(true);
+        }
 
-    glfw_window::~glfw_window()
-    {
-        glfwDestroyWindow(_glfw_window);
-    }
+        ~glfw_window()
+        {
+            glfwDestroyWindow(_glfw_window);
+        }
 
-    auto glfw_window::update() -> void
-    {
-        glfwPollEvents();
-        glfwSwapBuffers(_glfw_window);
-    }
+        virtual auto update() -> void override
+        {
+            glfwPollEvents();
+            glfwSwapBuffers(_glfw_window);
+        }
 
-    auto glfw_window::set_pos(window_coords pos) -> void
-    {
-        glfw_window_coords glfw_pos = glfw_window_coords_converter::to_glfw(pos);
+        virtual auto set_pos(window_coords pos) -> void override
+        {
+            glfw_window_coords glfw_pos = glfw_window_coords_converter::to_glfw(pos);
 
-        glfwSetWindowPos(_glfw_window, glfw_pos.x, glfw_pos.y);
-        _window_pos = glfw_window_coords_converter::from_glfw(glfw_pos);
-    }
+            glfwSetWindowPos(_glfw_window, glfw_pos.x, glfw_pos.y);
+            _window_pos = glfw_window_coords_converter::from_glfw(glfw_pos);
+        }
 
-    auto glfw_window::get_pos() const -> window_coords
-    {
-        return _window_pos;
-    }
+        virtual auto get_pos() const -> window_coords override
+        {
+            return _window_pos;
+        }
 
-    auto glfw_window::update_pos() -> window_coords
-    {
-        int x, y;
-        glfwGetWindowPos(_glfw_window, &x, &y);
+        virtual auto update_pos() -> window_coords
+        {
+            int x, y;
+            glfwGetWindowPos(_glfw_window, &x, &y);
 
-        return glfw_window_coords_converter::from_glfw(glfw_window_coords{ x, y });
-    }
+            return glfw_window_coords_converter::from_glfw(glfw_window_coords{ x, y });
+        }
 
-    auto glfw_window::set_size(window_coords size) -> void
-    {
-        glfw_window_coords glfw_size = glfw_window_coords_converter::to_glfw(size);
+        virtual auto set_size(window_coords size) -> void override
+        {
+            glfw_window_coords glfw_size = glfw_window_coords_converter::to_glfw(size);
 
-        glfwSetWindowSize(_glfw_window, glfw_size.x, glfw_size.y);
-        _window_size = glfw_window_coords_converter::from_glfw(glfw_size);
-    }
+            glfwSetWindowSize(_glfw_window, glfw_size.x, glfw_size.y);
+            _window_size = glfw_window_coords_converter::from_glfw(glfw_size);
+        }
 
-    auto glfw_window::get_size() const -> window_coords
-    {
-        return _window_size;
-    }
+        virtual auto get_size() const -> window_coords override
+        {
+            return _window_size;
+        }
 
-    auto glfw_window::update_size() -> window_coords
-    {
-        int x;
-        int y;
-        glfwGetWindowSize(_glfw_window, &x, &y);
+        virtual auto update_size() -> window_coords
+        {
+            int x;
+            int y;
+            glfwGetWindowSize(_glfw_window, &x, &y);
 
-        _window_size = glfw_window_coords_converter::from_glfw(glfw_window_coords{ x, y });
-        return _window_size;
-    }
+            _window_size = glfw_window_coords_converter::from_glfw(glfw_window_coords{ x, y });
+            return _window_size;
+        }
 
-    auto glfw_window::set_vsync(bool enable) -> void
-    {
-        glfwSwapInterval(enable ? 1 : 0);
-        _window_vsync = enable;
-    }
+        virtual auto get_native() const -> void* override final
+        {
+            return _glfw_window;
+        }
 
-    auto glfw_window::get_vsync() const -> bool
-    {
-        return _window_vsync;
-    }
+        auto set_vsync(bool enable) -> void
+        {
+            glfwSwapInterval(enable ? 1 : 0);
+            _window_vsync = enable;
+        }
 
-    auto glfw_window::get_native() const -> void*
-    {
-        return _glfw_window;
-    }
+        auto get_vsync() const -> bool
+        {
+            return _window_vsync;
+        }
+
+    protected:
+        GLFWwindow* _glfw_window;
+        window_coords _window_pos;
+        window_coords _window_size;
+        bool _window_vsync;
+
+        event_source<const window_event&> _window_event_source;
+    };
 }
