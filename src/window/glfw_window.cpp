@@ -48,7 +48,8 @@ namespace atom::engine
                 glfw_window_coords_converter::to_glfw(props.window_size);
 
             // todo: requires encoding conversion.
-            _glfw_window = glfwCreateWindow(glfw_window_size.x, glfw_window_size.y,
+            _glfw_window = glfwCreateWindow(glfw_window_size.x.to_unwrapped(),
+                glfw_window_size.y.to_unwrapped(),
                 props.window_name.data().as_unsafe<char>().unwrap(), nullptr, nullptr);
 
             glfwMakeContextCurrent(_glfw_window);
@@ -107,7 +108,7 @@ namespace atom::engine
         {
             glfw_window_coords glfw_pos = glfw_window_coords_converter::to_glfw(pos);
 
-            glfwSetWindowPos(_glfw_window, glfw_pos.x, glfw_pos.y);
+            glfwSetWindowPos(_glfw_window, glfw_pos.x.to_unwrapped(), glfw_pos.y.to_unwrapped());
             _window_pos = glfw_window_coords_converter::from_glfw(glfw_pos);
         }
 
@@ -128,7 +129,7 @@ namespace atom::engine
         {
             glfw_window_coords glfw_size = glfw_window_coords_converter::to_glfw(size);
 
-            glfwSetWindowSize(_glfw_window, glfw_size.x, glfw_size.y);
+            glfwSetWindowSize(_glfw_window, glfw_size.x.to_unwrapped(), glfw_size.y.to_unwrapped());
             _window_size = glfw_window_coords_converter::from_glfw(glfw_size);
         }
 
