@@ -11,13 +11,13 @@ namespace atom::engine
         application()
         {
             window_props window_props{
-                .window_name = make_range("sandbox"), .window_size = {1920, 1080}
+                .window_name = "sandbox", .window_size = {1920, 1080}
             };
 
             _window = window_manager::create_window(window_props);
             contracts::debug_asserts(_window != nullptr);
 
-            _window->on_event +=
+            _window->event +=
                 [this](const window_event& event) { this->on_window_event(event); };
         }
 

@@ -49,8 +49,8 @@ namespace atom::engine
 
             // todo: requires encoding conversion.
             _glfw_window = glfwCreateWindow(glfw_window_size.x.to_unwrapped(),
-                glfw_window_size.y.to_unwrapped(),
-                props.window_name.data().as_unsafe<char>().unwrap(), nullptr, nullptr);
+                glfw_window_size.y.to_unwrapped(), props.window_name.to_std_char_ptr(), nullptr,
+                nullptr);
 
             glfwMakeContextCurrent(_glfw_window);
             glfwSetWindowUserPointer(_glfw_window, this);

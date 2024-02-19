@@ -16,7 +16,8 @@ namespace atom::engine
         window_coords window_size;
     };
 
-    export inline auto operator-(const window_coords& lhs, const window_coords& rhs) -> window_coords
+    export inline auto operator-(const window_coords& lhs, const window_coords& rhs)
+        -> window_coords
     {
         return { lhs.x - rhs.x, lhs.y - rhs.y };
     }
@@ -78,8 +79,8 @@ namespace atom::engine
     export class window
     {
     public:
-        window(ievent<const window_event&>& event)
-            : on_event{ event }
+        window(event_source_view<const window_event&> event)
+            : event{ event }
         {}
 
     public:
@@ -96,6 +97,6 @@ namespace atom::engine
         virtual auto get_native() const -> void* = 0;
 
     public:
-        ievent<const window_event&>& on_event;
+        event_source_view<const window_event&> event;
     };
 }
