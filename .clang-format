@@ -1,5 +1,3 @@
-# BasedOnStyle: Microsoft
-
 Language: Cpp
 DisableFormat: false
 
@@ -145,29 +143,15 @@ BreakBeforeTernaryOperators: true
 BreakStringLiterals: true
 BreakConstructorInitializers: BeforeComma
 BreakInheritanceList: BeforeComma
-AllowBreakBeforeNoexceptSpecifier: Never
+# AllowBreakBeforeNoexceptSpecifier: Never  # this is clang-format18 option
 RequiresClausePosition: OwnLine
 
 # --------------------------------------------------------------------------------------------------
 # Includes
-# 
-# To Do: Review these
 # --------------------------------------------------------------------------------------------------
 
 IncludeBlocks: Preserve
-IncludeCategories: 
-  - Regex: '^"(llvm|llvm-c|clang|clang-c)/'
-    Priority: 2
-    SortPriority: 0
-    CaseSensitive: false
-  - Regex: '^(<|"(gtest|gmock|isl|json)/)'
-    Priority: 3
-    SortPriority: 0
-    CaseSensitive: false
-  - Regex: '.*'
-    Priority: 1
-    SortPriority: 0
-    CaseSensitive: false
+IncludeCategories:
 IncludeIsMainRegex: '(Test)?$'
 IncludeIsMainSourceRegex: ''
 SortIncludes: CaseSensitive
