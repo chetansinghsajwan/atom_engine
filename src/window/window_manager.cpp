@@ -62,9 +62,11 @@ namespace atom::engine
                 return new linux_window(props);
             else if constexpr (build_config::get_platform() == build_config::platform::windows)
                 return new windows_window(props);
-            // else
-                // static_assert(false, "atom::engine::window is only supported for linux and windows "
-                                    //  "platform for now.");
+            else
+            {
+                // static_assert(sizeof(bool) != 1, "atom::engine::window is only supported for linux and windows "
+                //                      "platform for now.");
+            }
         }
 
     protected:
