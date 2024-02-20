@@ -27,6 +27,8 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(atom_core atom_logging glfw)
 FetchContent_GetProperties(atom_core)
 
+add_subdirectory("vendor/glad")
+
 include("${atom_core_SOURCE_DIR}/cmake/enable_modules.cmake")
 
 # --------------------------------------------------------------------------------------------------
@@ -48,9 +50,11 @@ target_sources(atom.engine PUBLIC
     "${sources}"
 )
 
-target_link_libraries(atom.engine PUBLIC atom.core)
-target_link_libraries(atom.engine PUBLIC atom.logging)
-target_link_libraries(atom.engine PUBLIC glfw)
+target_link_libraries(atom.engine PRIVATE atom.core)
+target_link_libraries(atom.engine PRIVATE atom.logging)
+target_link_libraries(atom.engine PRIVATE glfw)
+target_link_libraries(atom.engine PRIVATE glad)
+target_compile_definitions(atom.engine PRIVATE "GLFW_INCLUDE_NONE")
 
 # --------------------------------------------------------------------------------------------------
 # Atom.Engine.Sandbox
