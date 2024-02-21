@@ -70,13 +70,17 @@ namespace atom::engine
 
             _layers.emplace_at(_normal_layer_count, layer);
             _normal_layer_count++;
+            layer->on_attach();
         }
 
         auto pop_layer(mut_ptr<layer> layer) -> void
         {
             contracts::debug_expects(layer != nullptr);
 
-            _layers.remove_find(layer);
+            if (_layers.remove_find(layer) != usize::max())
+            {
+                layer->on_deattach();
+            }
         }
 
         auto count_layers() const -> usize
@@ -89,18 +93,30 @@ namespace atom::engine
             contracts::debug_expects(layer != nullptr);
 
             _layers.emplace_back(layer);
+            layer->on_attach();
         }
 
         auto pop_overlay_layer(mut_ptr<layer> layer) -> void
         {
             contracts::debug_expects(layer != nullptr);
 
-            _layers.remove_find(layer);
+            if (_layers.remove_find(layer) != usize::max())
+            {
+                layer->on_deattach();
+            }
         }
 
         auto count_overlay_layers() const -> usize
         {
             return _layers.count() - _normal_layer_count;
+        }
+
+        auto update_layers()
+        {
+            for (mut_ptr<layer> layer : _layers)
+            {
+                layer->on_update();
+            }
         }
 
     private:
