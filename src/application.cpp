@@ -50,6 +50,7 @@ namespace atom::engine
             while (true)
             {
                 _window->update();
+                _layers.update_layers();
             }
         }
 
