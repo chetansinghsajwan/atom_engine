@@ -1,6 +1,6 @@
 module;
-#include "glad/glad.h"
 #include "GLFW/glfw3.h"
+#include "glad/glad.h"
 
 export module atom.engine:glfw_window;
 import atom.core;
@@ -48,16 +48,15 @@ namespace atom::engine
             glfw_window_coords glfw_window_size =
                 glfw_window_coords_converter::to_glfw(props.window_size);
 
-            // todo: requires encoding conversion.
-            _glfw_window = glfwCreateWindow(glfw_window_size.x.to_unwrapped(),
-                glfw_window_size.y.to_unwrapped(), props.window_name.to_std_char_ptr(), nullptr,
-                nullptr);
+            _glfw_window = glfwCreateWindow(glfw_window_size.x.to_unwrapped<int>(),
+                glfw_window_size.y.to_unwrapped<int>(), props.window_name.to_std_char_ptr(),
+                nullptr, nullptr);
 
             glfwMakeContextCurrent(_glfw_window);
             glfwSetWindowUserPointer(_glfw_window, this);
 
             int glad_load_status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-            contracts::debug_expects(glad_load_status != 0, "glad inititliazation failed.");
+            contracts::asserts(glad_load_status != 0, "glad inititliazation failed.");
 
             glfwSetWindowPosCallback(
                 _glfw_window, [](GLFWwindow* native_window, _i32 xpos, _i32 ypos) {
