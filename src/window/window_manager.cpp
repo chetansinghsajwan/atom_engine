@@ -75,7 +75,7 @@ namespace atom::engine
         {
             for (window* window : _s_windows)
             {
-                // wind ow_close_event will be dispatched from the window itself.
+                // `window_close_event` will be dispatched from the window itself.
 
                 _destroy_window(window);
             }
