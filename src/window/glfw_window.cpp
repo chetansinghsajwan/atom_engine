@@ -157,6 +157,11 @@ namespace atom::engine
             return _glfw_window;
         }
 
+        auto get_native_glfw() const -> GLFWwindow*
+        {
+            return _glfw_window;
+        }
+
         auto set_vsync(bool enable) -> void
         {
             glfwSwapInterval(enable ? 1 : 0);
