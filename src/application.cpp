@@ -1,5 +1,6 @@
 export module atom.engine:application;
 import :window;
+import :window_events;
 import :window_manager;
 import :layer_stack;
 import :imgui_layer;

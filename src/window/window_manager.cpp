@@ -3,6 +3,7 @@ module;
 
 export module atom.engine:window_manager;
 import :window;
+import :window_events;
 import :glfw_window;
 import atom.core;
 import atom.logging;
@@ -51,9 +52,12 @@ namespace atom::engine
         {
             window* window = _create_window(props);
             _s_windows.emplace_back(window);
+            _s_event_source.dispatch(window_create_event(window));
+
             return window;
         }
 
+        // should we rename this to close_window?
         static auto destroy_window(window* window) -> void
         {
             contracts::expects(window != nullptr, "cannot close null window.");
@@ -63,6 +67,7 @@ namespace atom::engine
                 return;
             }
 
+            _s_event_source.dispatch(window_close_event(window));
             _destroy_window(window);
         }
 
@@ -70,6 +75,8 @@ namespace atom::engine
         {
             for (window* window : _s_windows)
             {
+                // wind ow_close_event will be dispatched from the window itself.
+
                 _destroy_window(window);
             }
         }
@@ -93,7 +100,11 @@ namespace atom::engine
             delete window;
         }
 
+    public:
+        static event_source_view<const window_event&> event;
+
     private:
         static inline dynamic_array<window*> _s_windows;
+        static inline event_source<const window_event&> _s_event_source;
     };
 }
