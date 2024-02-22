@@ -31,28 +31,47 @@ namespace atom::engine
     export class window_manager
     {
     public:
-        static auto create_window(window_props props) -> window*
+        static auto init() -> void
         {
-            if (s_window_count == 0)
-            {
-                int success = glfwInit();
-                contracts::asserts(success, "glfw initialization failed.");
+            int success = glfwInit();
+            contracts::asserts(success, "glfw initialization failed.");
 
-                glfwSetErrorCallback([](_i32 error_code, const char* description) {
-                    // todo: fix this compilation error.
-                    // log_fatal("glfw error: ", description);
-                });
-            }
-
-            s_window_count++;
-            return _create_window(props);
+            glfwSetErrorCallback([](_i32 error_code, const char* description) {
+                // todo: fix this compilation error.
+                // log_fatal("glfw error: ", description);
+            });
         }
 
-        static auto close_window(window* window)
+        static auto shutdown() -> void
+        {
+            destroy_all_windows();
+        }
+
+        static auto create_window(window_props props) -> window*
+        {
+            window* window = _create_window(props);
+            _s_windows.emplace_back(window);
+            return window;
+        }
+
+        static auto destroy_window(window* window) -> void
         {
             contracts::expects(window != nullptr, "cannot close null window.");
+            if (_s_windows.remove_find(window) == usize::max())
+            {
+                // todo: log here: window not found in window_manager's entries.
+                return;
+            }
 
-            delete window;
+            _destroy_window(window);
+        }
+
+        static auto destroy_all_windows() -> void
+        {
+            for (window* window : _s_windows)
+            {
+                _destroy_window(window);
+            }
         }
 
     private:
@@ -69,9 +88,12 @@ namespace atom::engine
             }
         }
 
-    protected:
-        static usize s_window_count;
-    };
+        static auto _destroy_window(window* window) -> void
+        {
+            delete window;
+        }
 
-    usize window_manager::s_window_count = 0;
+    private:
+        static inline dynamic_array<window*> _s_windows;
+    };
 }
