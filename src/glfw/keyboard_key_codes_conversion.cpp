@@ -279,7 +279,7 @@ namespace atom::engine
             keyboard_key_code map[GLFW_KEY_LAST + 1];
         };
 
-        contracts::debug_expects(key >= -1 || key <= GLFW_KEY_MENU, "glfw key is out of range.");
+        contracts::debug_expects(key >= -1 || key <= GLFW_KEY_LAST, "glfw key is out of range.");
 
         if (key == GLFW_KEY_UNKNOWN)
             return keyboard_key_code::unknown;
@@ -320,7 +320,7 @@ namespace atom::engine
             keyboard_key_state map[2];
         };
 
-        contracts::debug_expects(state <= GLFW_PRESS, "glfw state is out of range.");
+        contracts::debug_expects(state >= 0 && state <= GLFW_PRESS, "glfw state is out of range.");
 
         constexpr auto map = conversion_map();
         return map.map[state];
