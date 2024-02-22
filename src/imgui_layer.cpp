@@ -5,6 +5,7 @@ module;
 export module atom.engine:imgui_layer;
 import :layer_stack;
 import :window;
+import :window_events;
 
 namespace atom::engine
 {

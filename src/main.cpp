@@ -4,6 +4,7 @@ import :window_manager;
 import atom.core;
 
 using namespace atom;
+using namespace atom::engine;
 
 namespace atom::engine
 {

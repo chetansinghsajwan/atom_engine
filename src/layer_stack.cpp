@@ -1,4 +1,5 @@
 export module atom.engine:layer_stack;
+import :window_events;
 import :window;
 import atom.core;
 

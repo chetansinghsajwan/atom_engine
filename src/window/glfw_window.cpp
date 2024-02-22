@@ -5,6 +5,7 @@ module;
 export module atom.engine:glfw_window;
 import atom.core;
 import atom.logging;
+import :window_events;
 import :window;
 
 using namespace atom;
@@ -68,7 +69,7 @@ namespace atom::engine
                     window._window_pos = new_pos;
 
                     window._window_event_source.dispatch(
-                        window_reposition_event(new_pos, new_pos - old_pos));
+                        window_reposition_event(&window, new_pos, new_pos - old_pos));
                 });
 
             glfwSetWindowSizeCallback(_glfw_window, [](GLFWwindow* native_window, _i32 width,
@@ -81,14 +82,14 @@ namespace atom::engine
                 window._window_size = new_size;
 
                 window._window_event_source.dispatch(
-                    window_resize_event(new_size, new_size - old_size));
+                    window_resize_event(&window, new_size, new_size - old_size));
             });
 
             glfwSetWindowCloseCallback(_glfw_window, [](GLFWwindow* native_window) {
                 glfw_window& window =
                     *reinterpret_cast<class glfw_window*>(glfwGetWindowUserPointer(native_window));
 
-                window._window_event_source.dispatch(window_close_event());
+                window._window_event_source.dispatch(window_close_event(&window));
             });
 
             update_pos();
