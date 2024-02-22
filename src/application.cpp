@@ -32,7 +32,7 @@ namespace atom::engine
         {
             if (_window != nullptr)
             {
-                window_manager::close_window(_window);
+                window_manager::destroy_window(_window);
             }
 
             _layers.pop_layer(_imgui_layer);
