@@ -57,7 +57,6 @@ namespace atom::engine
             return window;
         }
 
-        // should we rename this to close_window?
         static auto destroy_window(window* window) -> void
         {
             contracts::expects(window != nullptr, "cannot close null window.");
@@ -81,6 +80,11 @@ namespace atom::engine
             }
         }
 
+        static auto get_windows() -> array_view<window*>
+        {
+            return _s_windows;
+        }
+
     private:
         static auto _create_window(window_props props) -> window*
         {
@@ -100,11 +104,11 @@ namespace atom::engine
             delete window;
         }
 
-    public:
-        static event_source_view<const window_event&> event;
-
     private:
         static inline dynamic_array<window*> _s_windows;
         static inline event_source<const window_event&> _s_event_source;
+
+    public:
+        static inline event_source_view<const window_event&> event = _s_event_source;
     };
 }

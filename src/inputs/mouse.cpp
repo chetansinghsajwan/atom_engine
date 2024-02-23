@@ -3,6 +3,7 @@ import :input_device;
 import :mouse_button_codes;
 import :mouse_events;
 import :math;
+import atom.core;
 
 namespace atom::engine
 {
