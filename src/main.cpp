@@ -13,11 +13,11 @@ namespace atom::engine
 
 auto main(int argc, char** args) -> int
 {
-    window_manager::init();
+    window_manager::initialize();
 
     engine::application* app = engine::create_application();
     app->run();
     delete app;
 
-    window_manager::shutdown();
+    window_manager::finalize();
 }
