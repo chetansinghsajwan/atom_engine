@@ -8,7 +8,8 @@ namespace atom::engine
     {
     public:
         window(string name, event_source_view<const window_event&> event)
-            : event{ event }
+            : _name(move(name))
+            , event{ event }
         {}
 
         virtual ~window() = default;

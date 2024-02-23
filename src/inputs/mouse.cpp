@@ -11,7 +11,7 @@ namespace atom::engine
     {
     public:
         mouse(input_device_id id, string name)
-            : input_device(id, name)
+            : input_device(id, move(name))
         {}
 
         virtual ~mouse() = default;

@@ -16,7 +16,7 @@ namespace atom::engine
     {
     public:
         glfw_keyboard(glfw_window* window, input_device_id id, string name)
-            : keyboard(id, name)
+            : keyboard(id, move(name))
             , _window(window)
         {}
 

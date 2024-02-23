@@ -19,7 +19,7 @@ namespace atom::engine
     public:
         input_device(input_device_id id, string name)
             : _id(id)
-            , _name(name)
+            , _name(move(name))
         {}
 
         virtual ~input_device() = default;

@@ -16,7 +16,7 @@ namespace atom::engine
     {
     public:
         glfw_mouse(glfw_window* window, input_device_id id, string name)
-            : mouse(id, name)
+            : mouse(id, move(name))
             , _window(window)
             , _delta_scroll()
         {
