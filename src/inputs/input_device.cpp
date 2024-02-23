@@ -6,6 +6,11 @@ namespace atom::engine
     export class input_device_id
     {
     public:
+        input_device_id(usize num)
+            : num(num)
+        {}
+
+    public:
         usize num;
     };
 

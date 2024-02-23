@@ -4,9 +4,11 @@ module;
 export module atom.engine:glfw_mouse;
 import :glfw_mouse_button_code_conversions;
 import :glfw_window;
+import :input_device;
 import :mouse_button_codes;
 import :mouse;
 import :math;
+import atom.core;
 
 namespace atom::engine
 {
