@@ -1,14 +1,17 @@
 export module atom.engine:mouse;
+import :input_device;
 import :mouse_button_codes;
 import :mouse_events;
 import :math;
 
 namespace atom::engine
 {
-    export class mouse
+    export class mouse: public input_device
     {
     public:
-        mouse() = default;
+        mouse(input_device_id id, string name)
+            : input_device(id, name)
+        {}
 
         virtual ~mouse() = default;
 

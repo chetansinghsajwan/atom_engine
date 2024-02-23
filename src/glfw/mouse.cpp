@@ -13,8 +13,9 @@ namespace atom::engine
     class glfw_mouse: public mouse
     {
     public:
-        glfw_mouse(glfw_window* window)
-            : _window(window)
+        glfw_mouse(glfw_window* window, input_device_id id, string name)
+            : mouse(id, name)
+            , _window(window)
             , _delta_scroll()
         {
             glfwSetScrollCallback(
