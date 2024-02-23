@@ -1,14 +1,17 @@
 export module atom.engine:keyboard;
+import :input_device;
 import :keyboard_key_codes;
 import :keyboard_events;
 import atom.core;
 
 namespace atom::engine
 {
-    export class keyboard
+    export class keyboard: public input_device
     {
     public:
-        keyboard() = default;
+        keyboard(input_device_id id, string name)
+            : input_device(id, name)
+        {}
 
         virtual ~keyboard() = default;
 
