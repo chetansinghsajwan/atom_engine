@@ -32,7 +32,7 @@ namespace atom::engine
     export class window_manager
     {
     public:
-        static auto init() -> void
+        static auto initialize() -> void
         {
             int success = glfwInit();
             contracts::asserts(success, "glfw initialization failed.");
@@ -43,7 +43,7 @@ namespace atom::engine
             });
         }
 
-        static auto shutdown() -> void
+        static auto finalize() -> void
         {
             destroy_all_windows();
         }
