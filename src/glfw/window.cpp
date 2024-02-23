@@ -44,7 +44,7 @@ namespace atom::engine
     {
     public:
         glfw_window(const window_props& props)
-            : window(_window_event_source)
+            : window(props.window_name, _window_event_source)
         {
             glfw_window_coords glfw_window_size =
                 glfw_window_coords_converter::to_glfw(props.window_size);
@@ -102,6 +102,7 @@ namespace atom::engine
             glfwDestroyWindow(_glfw_window);
         }
 
+    public:
         virtual auto update() -> void override
         {
             glfwPollEvents();

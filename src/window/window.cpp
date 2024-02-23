@@ -7,12 +7,17 @@ namespace atom::engine
     export extern "C++" class window
     {
     public:
-        window(event_source_view<const window_event&> event)
+        window(string name, event_source_view<const window_event&> event)
             : event{ event }
         {}
 
-    public:
         virtual ~window() = default;
+
+    public:
+        auto get_name() const -> string_view
+        {
+            return _name;
+        }
 
         virtual auto update() -> void = 0;
 
@@ -26,5 +31,8 @@ namespace atom::engine
 
     public:
         event_source_view<const window_event&> event;
+
+    private:
+        string _name;
     };
 }
