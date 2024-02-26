@@ -78,7 +78,7 @@ namespace atom::engine
         {
             contracts::debug_expects(layer != nullptr);
 
-            if (_layers.remove_find(layer) != usize::max())
+            if (_layers.remove_one_find(layer))
             {
                 layer->on_deattach();
             }
@@ -101,7 +101,7 @@ namespace atom::engine
         {
             contracts::debug_expects(layer != nullptr);
 
-            if (_layers.remove_find(layer) != usize::max())
+            if (_layers.remove_one_find(layer))
             {
                 layer->on_deattach();
             }

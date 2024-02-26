@@ -60,7 +60,7 @@ namespace atom::engine
         static auto destroy_window(window* window) -> void
         {
             contracts::expects(window != nullptr, "cannot close null window.");
-            if (_s_windows.remove_find(window) == usize::max())
+            if (_s_windows.remove_one_find(window))
             {
                 // todo: log here: window not found in window_manager's entries.
                 return;
