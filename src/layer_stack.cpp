@@ -109,7 +109,7 @@ namespace atom::engine
 
         auto count_overlay_layers() const -> usize
         {
-            return _layers.count() - _normal_layer_count;
+            return _layers.get_count() - _normal_layer_count;
         }
 
         auto update_layers()
