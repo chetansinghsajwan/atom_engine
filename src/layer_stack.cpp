@@ -65,7 +65,7 @@ namespace atom::engine
         {}
 
     public:
-        auto push_layer(mut_ptr<layer> layer) -> void
+        auto push_layer(layer* layer) -> void
         {
             contracts::debug_expects(layer != nullptr);
 
@@ -74,7 +74,7 @@ namespace atom::engine
             layer->on_attach();
         }
 
-        auto pop_layer(mut_ptr<layer> layer) -> void
+        auto pop_layer(layer* layer) -> void
         {
             contracts::debug_expects(layer != nullptr);
 
@@ -89,7 +89,7 @@ namespace atom::engine
             return _normal_layer_count;
         }
 
-        auto push_overlay_layer(mut_ptr<layer> layer) -> void
+        auto push_overlay_layer(layer* layer) -> void
         {
             contracts::debug_expects(layer != nullptr);
 
@@ -97,7 +97,7 @@ namespace atom::engine
             layer->on_attach();
         }
 
-        auto pop_overlay_layer(mut_ptr<layer> layer) -> void
+        auto pop_overlay_layer(layer* layer) -> void
         {
             contracts::debug_expects(layer != nullptr);
 
@@ -114,14 +114,14 @@ namespace atom::engine
 
         auto update_layers()
         {
-            for (mut_ptr<layer> layer : _layers)
+            for (layer* layer : _layers)
             {
                 layer->on_update();
             }
         }
 
     private:
-        dynamic_array<mut_ptr<layer>> _layers;
+        dynamic_array<layer*> _layers;
         usize _normal_layer_count;
     };
 }
