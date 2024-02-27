@@ -26,7 +26,7 @@ namespace atom::engine
             _window->event += [this](const window_event& event) { this->on_window_event(event); };
 
             _imgui_layer = make_unique<imgui_layer>();
-            _layers.push_layer(_imgui_layer);
+            _layers.push_layer(_imgui_layer.to_unwrapped());
         }
 
         virtual ~application()
@@ -36,7 +36,7 @@ namespace atom::engine
                 window_manager::destroy_window(_window);
             }
 
-            _layers.pop_layer(_imgui_layer);
+            _layers.pop_layer(_imgui_layer.to_unwrapped());
         }
 
     public:
