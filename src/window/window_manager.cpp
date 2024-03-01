@@ -34,7 +34,7 @@ namespace atom::engine
     public:
         static auto initialize() -> void
         {
-            _logger = logger_manager::create_logger({ name : "window_manager" }).get_at<0>();
+            _logger = logger_manager::create_logger({ .name = "window_manager" }).get_at<0>();
 
             _logger->log_info("initializing glfw...");
             int success = glfwInit();
