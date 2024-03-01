@@ -50,8 +50,8 @@ namespace atom::engine
                 glfw_window_coords_converter::to_glfw(props.window_size);
 
             _glfw_window = glfwCreateWindow(glfw_window_size.x.to_unwrapped<int>(),
-                glfw_window_size.y.to_unwrapped<int>(), props.window_name.to_std_char_ptr(),
-                nullptr, nullptr);
+                glfw_window_size.y.to_unwrapped<int>(), props.window_name.get_data(), nullptr,
+                nullptr);
 
             glfwMakeContextCurrent(_glfw_window);
             glfwSetWindowUserPointer(_glfw_window, this);
