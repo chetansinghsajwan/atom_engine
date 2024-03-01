@@ -3,8 +3,10 @@ import :application;
 import :window_manager;
 import :input_manager;
 import atom.core;
+import atom.logging;
 
 using namespace atom;
+using namespace atom::logging;
 using namespace atom::engine;
 
 namespace atom::engine
@@ -14,6 +16,7 @@ namespace atom::engine
 
 auto main(int argc, char** args) -> int
 {
+    logger_manager::initialize();
     window_manager::initialize();
     input_manager::initialize();
 
@@ -23,6 +26,7 @@ auto main(int argc, char** args) -> int
 
     input_manager::finalize();
     window_manager::finalize();
+    logger_manager::finalize();
 
     return 0;
 }
