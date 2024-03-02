@@ -1,7 +1,7 @@
 #pragma once
 #include "atom/engine/inputs/keyboard.h"
-#include "glfw/glfw_window.h"
-#include "glfw/glfw_keyboard_key_conversions.h"
+#include "engine/glfw/glfw_window.h"
+#include "engine/glfw/glfw_keyboard_key_conversions.h"
 
 #include "GLFW/glfw3.h"
 #include "backends/imgui_impl_glfw.h"

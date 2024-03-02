@@ -1,8 +1,8 @@
 #pragma once
 #include "atom.core.h"
 #include "atom/engine/inputs/mouse.h"
-#include "glfw/glfw_window.h"
-#include "glfw/glfw_mouse_button_conversions.h"
+#include "engine/glfw/glfw_window.h"
+#include "engine/glfw/glfw_mouse_button_conversions.h"
 
 #include "GLFW/glfw3.h"
 

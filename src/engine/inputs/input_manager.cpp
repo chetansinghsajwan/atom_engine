@@ -1,5 +1,5 @@
 #include "atom/engine/inputs/input_manager.h"
-#include "glfw/glfw_input_manager.h"
+#include "engine/glfw/glfw_input_manager.h"
 
 namespace atom::engine
 {

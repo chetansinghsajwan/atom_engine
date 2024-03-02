@@ -1,5 +1,6 @@
 #include "atom/engine/window/window_manager.h"
-#include "glfw/glfw_window.h"
+#include "engine/glfw/glfw_window.h"
+
 #include "GLFW/glfw3.h"
 
 using namespace atom;
