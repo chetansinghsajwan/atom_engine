@@ -1,5 +1,7 @@
 #pragma once
 #include "atom.core.h"
+#include "atom/engine/inputs/keyboard_events.h"
+#include "atom/engine/inputs/mouse_events.h"
 #include "atom/engine/window/window_events.h"
 
 namespace atom::engine
@@ -8,6 +10,9 @@ namespace atom::engine
     ///
     /// --------------------------------------------------------------------------------------------
     class layer
+        : public window_event_listener
+        , public keyboard_event_listener
+        , public mouse_event_listener
     {
     public:
         /// ----------------------------------------------------------------------------------------
@@ -49,7 +54,17 @@ namespace atom::engine
         /// ----------------------------------------------------------------------------------------
         ///
         /// ----------------------------------------------------------------------------------------
-        virtual auto on_window_event(window_event& event) -> void {}
+        virtual auto handle(window_event& event) -> void {}
+
+        /// ----------------------------------------------------------------------------------------
+        ///
+        /// ----------------------------------------------------------------------------------------
+        virtual auto handle(keyboard_event& event) -> void {}
+
+        /// ----------------------------------------------------------------------------------------
+        ///
+        /// ----------------------------------------------------------------------------------------
+        virtual auto handle(mouse_event& event) -> void {}
 
     private:
         const string _name;
