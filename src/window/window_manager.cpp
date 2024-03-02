@@ -73,10 +73,11 @@ namespace atom::engine
         _logger->log_info("creating window '{}'.", props.window_name);
 
         window* window = _create_window(props);
-        _s_windows.emplace_back(window);
+        _windows.emplace_back(window);
 
         _logger->log_info("created window.");
-        _s_event_source.dispatch(window_create_event(window));
+        window_create_event event(window);
+        _event_source.dispatch(event);
 
         return window;
     }
@@ -86,29 +87,25 @@ namespace atom::engine
         contracts::expects(window != nullptr, "cannot close null window.");
 
         _logger->log_info("destroying window '{}'.", window->get_name());
-        if (_s_windows.remove_one_find(window))
+        if (_windows.remove_one_find(window))
         {
             _logger->log_info("window not found in window_manager's entries.");
             return;
         }
 
         _logger->log_info("destroyed window.");
-        _s_event_source.dispatch(window_close_event(window));
+        window_close_event event(window);
+        _event_source.dispatch(event);
         _destroy_window(window);
     }
 
     auto window_manager::destroy_all_windows() -> void
     {
-        for (window* window : _s_windows)
+        for (window* window : _windows)
         {
             // `window_close_event` will be dispatched from the window itself.
 
             _destroy_window(window);
         }
-    }
-
-    auto window_manager::get_windows() -> array_view<window*>
-    {
-        return _s_windows;
     }
 }

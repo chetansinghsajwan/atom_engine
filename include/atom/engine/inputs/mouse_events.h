@@ -1,12 +1,13 @@
 #pragma once
 #include "atom.core.h"
 #include "atom/engine/inputs/mouse_buttons.h"
+#include "atom/engine/events.h"
 
 namespace atom::engine
 {
     class mouse;
 
-    class mouse_event
+    class mouse_event: public event_base
     {
     public:
         mouse_event(mouse* device)
@@ -58,4 +59,7 @@ namespace atom::engine
         const f64 delta_x;
         const f64 delta_y;
     };
+
+    class mouse_event_listener: public event_listener<mouse_event>
+    {};
 }

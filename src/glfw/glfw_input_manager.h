@@ -11,7 +11,9 @@
 
 namespace atom::engine
 {
-    class glfw_input_manager_impl: public input_manager_impl
+    class glfw_input_manager_impl
+        : public input_manager_impl
+        , public window_event_listener
     {
     public:
         glfw_input_manager_impl()
@@ -22,12 +24,7 @@ namespace atom::engine
                 _create_devices_for_window(reinterpret_cast<glfw_window*>(win));
             }
 
-            window_manager::event += [this](const window_event& event) {
-                if (event.event_type == window_event_type::create)
-                {
-                    this->_on_window_create(reinterpret_cast<const window_create_event&>(event));
-                }
-            };
+            window_manager::subscribe_event(this);
         }
 
         ~glfw_input_manager_impl()
@@ -47,7 +44,7 @@ namespace atom::engine
         }
 
     private:
-        auto _on_window_create(const window_create_event& event) -> void
+        virtual auto handle(window_event& event) -> void override
         {
             _create_devices_for_window(
                 reinterpret_cast<glfw_window*>(const_cast<window*>(event.win)));

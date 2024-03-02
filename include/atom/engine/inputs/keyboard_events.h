@@ -2,13 +2,14 @@
 #include "atom.core.h"
 #include "atom/engine/inputs/keyboard_events.h"
 #include "atom/engine/inputs/keyboard_keys.h"
+#include "atom/engine/events.h"
 
 namespace atom::engine
 {
     class keyboard;
     using unicode_code_point = u32;
 
-    class keyboard_event
+    class keyboard_event: public event_base
     {
     public:
         keyboard_event(keyboard* device)
@@ -44,4 +45,7 @@ namespace atom::engine
     public:
         unicode_code_point ch;
     };
+
+    class keyboard_event_listener: public event_listener<keyboard_event>
+    {};
 }

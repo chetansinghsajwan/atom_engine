@@ -1,5 +1,6 @@
 #pragma once
 #include "atom.core.h"
+#include "atom/engine/events.h"
 
 namespace atom::engine
 {
@@ -32,7 +33,7 @@ namespace atom::engine
         reposition,
     };
 
-    class window_event
+    class window_event: public event_base
     {
     public:
         window_event(window* win, window_event_type event_type)
@@ -93,4 +94,8 @@ namespace atom::engine
         window_coords position;
         window_coords delta;
     };
+
+    class window_event_listener: public event_listener<window_event>
+    {};
+
 }

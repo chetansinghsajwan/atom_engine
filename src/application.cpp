@@ -15,7 +15,7 @@ namespace atom::engine
         _window = window_manager::create_window(window_props);
         contracts::debug_asserts(_window != nullptr);
 
-        _window->event += [this](const window_event& event) { this->on_window_event(event); };
+        _window->subscribe_event(this);
 
         _layer = unique_ptr<layer>(new imgui_layer());
         _layers.push_layer(_layer.to_unwrapped());
@@ -25,6 +25,7 @@ namespace atom::engine
     {
         if (_window != nullptr)
         {
+            _window->unsubscribe_event(this);
             window_manager::destroy_window(_window);
         }
 
@@ -40,7 +41,7 @@ namespace atom::engine
         }
     }
 
-    auto application::on_window_event(const window_event& event) -> void {}
+    auto application::handle(window_event& event) -> void {}
 
     auto get_application_window() -> window*
     {
