@@ -37,7 +37,7 @@ namespace atom::engine
     {
     public:
         glfw_window(const window_props& props)
-            : window(props.window_name, _window_event_source)
+            : window(props.window_name)
         {
             glfw_window_coords glfw_window_size =
                 glfw_window_coords_converter::to_glfw(props.window_size);
@@ -61,8 +61,8 @@ namespace atom::engine
                     window_coords new_pos = glfw_window_coords_converter::from_glfw({ xpos, ypos });
                     window._window_pos = new_pos;
 
-                    window._window_event_source.dispatch(
-                        window_reposition_event(&window, new_pos, new_pos - old_pos));
+                    window_reposition_event event(&window, new_pos, new_pos - old_pos);
+                    window._event_source.dispatch(event);
                 });
 
             glfwSetWindowSizeCallback(_glfw_window, [](GLFWwindow* native_window, _i32 width,
@@ -74,15 +74,16 @@ namespace atom::engine
                 window_coords new_size = glfw_window_coords_converter::from_glfw({ width, height });
                 window._window_size = new_size;
 
-                window._window_event_source.dispatch(
-                    window_resize_event(&window, new_size, new_size - old_size));
+                window_resize_event event(&window, new_size, new_size - old_size);
+                window._event_source.dispatch(event);
             });
 
             glfwSetWindowCloseCallback(_glfw_window, [](GLFWwindow* native_window) {
                 glfw_window& window =
                     *reinterpret_cast<class glfw_window*>(glfwGetWindowUserPointer(native_window));
 
-                window._window_event_source.dispatch(window_close_event(&window));
+                window_close_event event(&window);
+                window._event_source.dispatch(event);
             });
 
             update_pos();
@@ -167,12 +168,21 @@ namespace atom::engine
             return _window_vsync;
         }
 
+        virtual auto subscribe_event(window_event_listener* listener) -> void override
+        {
+            _event_source.subscribe(listener);
+        }
+
+        virtual auto unsubscribe_event(window_event_listener* listener) -> void override
+        {
+            _event_source.unsubscribe(listener);
+        }
+
     protected:
         GLFWwindow* _glfw_window;
         window_coords _window_pos;
         window_coords _window_size;
         bool _window_vsync;
-
-        event_source<const window_event&> _window_event_source;
+        event_source<window_event> _event_source;
     };
 }

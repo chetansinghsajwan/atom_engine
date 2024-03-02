@@ -8,7 +8,7 @@
 
 namespace atom::engine
 {
-    class application
+    class application: public window_event_listener
     {
     public:
         application();
@@ -29,9 +29,10 @@ namespace atom::engine
             return _window;
         }
 
-        virtual auto on_window_event(const window_event& event) -> void;
+    private:
+        virtual auto handle(window_event& event) -> void override;
 
-    protected:
+    private:
         window* _window;
         layer_stack _layers;
         unique_ptr<layer> _layer;

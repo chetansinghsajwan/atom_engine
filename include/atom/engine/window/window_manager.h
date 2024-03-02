@@ -19,14 +19,24 @@ namespace atom::engine
 
         static auto destroy_all_windows() -> void;
 
-        static auto get_windows() -> array_view<window*>;
+        static auto get_windows() -> array_view<window*>
+        {
+            return _windows;
+        }
+
+        static auto subscribe_event(window_event_listener* listener) -> void
+        {
+            _event_source.subscribe(listener);
+        }
+
+        static auto unsubscribe_event(window_event_listener* listener) -> void
+        {
+            _event_source.unsubscribe(listener);
+        }
 
     private:
-        static inline dynamic_array<window*> _s_windows;
-        static inline event_source<const window_event&> _s_event_source;
+        static inline dynamic_array<window*> _windows;
+        static inline event_source<window_event> _event_source;
         static inline logging::logger* _logger;
-
-    public:
-        static inline event_source_view<const window_event&> event = _s_event_source;
     };
 }

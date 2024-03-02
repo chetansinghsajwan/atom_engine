@@ -7,9 +7,8 @@ namespace atom::engine
     class window
     {
     public:
-        window(string name, event_source_view<const window_event&> event)
+        window(string name)
             : _name(move(name))
-            , event{ event }
         {}
 
         virtual ~window() = default;
@@ -30,8 +29,8 @@ namespace atom::engine
 
         virtual auto get_native() const -> void* = 0;
 
-    public:
-        event_source_view<const window_event&> event;
+        virtual auto subscribe_event(window_event_listener* listener) -> void = 0;
+        virtual auto unsubscribe_event(window_event_listener* listener) -> void = 0;
 
     private:
         string _name;
