@@ -1,65 +1,72 @@
 #pragma once
 #include "atom.core.h"
-#include "atom/engine/inputs/mouse_buttons.h"
 #include "atom/engine/events.h"
+#include "atom/engine/inputs/mouse_buttons.h"
 
 namespace atom::engine
 {
     class mouse;
 
-    class mouse_event: public event_base
+    enum struct mouse_event_type
     {
-    public:
-        mouse_event(mouse* device)
-            : device(device)
+        create_event,
+        destroy_event,
+        button_event,
+        move_event,
+        scroll_event,
+    };
+
+    struct mouse_event: event_base
+    {
+        mouse_event(mouse_event_type event_type, mouse* device)
+            : event_type(event_type)
+            , device(device)
         {}
 
-    public:
+        mouse_event_type event_type;
         mouse* device;
     };
 
-    class mouse_button_event: public mouse_event
+    struct mouse_button_event: mouse_event
     {
-    public:
         mouse_button_event(mouse* device, mouse_button_code button, mouse_button_state state)
-            : mouse_event(device)
+            : mouse_event(mouse_event_type::button_event, device)
             , button(button)
             , state(state)
         {}
 
-    public:
-        const mouse_button_code button;
-        const mouse_button_state state;
+        mouse_button_code button;
+        mouse_button_state state;
     };
 
-    class mouse_move_event: public mouse_event
+    struct mouse_move_event: mouse_event
     {
-    public:
-        mouse_move_event(mouse* device, f64 delta_x, f64 delta_y)
-            : mouse_event(device)
-            , delta_x(delta_x)
-            , delta_y(delta_y)
+        mouse_move_event(mouse* device, f64 xdelta, f64 ydelta)
+            : mouse_event(mouse_event_type::move_event, device)
+            , xdelta(xdelta)
+            , ydelta(ydelta)
         {}
 
-    public:
-        const f64 delta_x;
-        const f64 delta_y;
+        f64 xpos;
+        f64 ypos;
+        f64 xdelta;
+        f64 ydelta;
     };
 
-    class mouse_scroll_event: public mouse_event
+    struct mouse_scroll_event: mouse_event
     {
-    public:
-        mouse_scroll_event(mouse* device, f64 delta_x, f64 delta_y)
-            : mouse_event(device)
-            , delta_x(delta_x)
-            , delta_y(delta_y)
+        mouse_scroll_event(mouse* device, f64 xdelta, f64 ydelta)
+            : mouse_event(mouse_event_type::scroll_event, device)
+            , xdelta(xdelta)
+            , ydelta(ydelta)
         {}
 
-    public:
-        const f64 delta_x;
-        const f64 delta_y;
+        f64 xoffset;
+        f64 yoffset;
+        f64 xdelta;
+        f64 ydelta;
     };
 
-    class mouse_event_listener: public event_listener<mouse_event>
+    struct mouse_event_listener: event_listener<mouse_event>
     {};
 }

@@ -12,33 +12,30 @@ namespace atom::engine
         i32 y;
     };
 
-    class window_props
+    struct window_props
     {
-    public:
         string window_name;
         window_coords window_size;
     };
 
-    inline auto operator-(const window_coords& lhs, const window_coords& rhs)
-        -> window_coords
+    inline auto operator-(const window_coords& lhs, const window_coords& rhs) -> window_coords
     {
         return { lhs.x - rhs.x, lhs.y - rhs.y };
     }
 
-    enum class window_event_type
+    enum struct window_event_type
     {
         create,
-        close,
+        destroy,
         resize,
         reposition,
     };
 
-    class window_event: public event_base
+    struct window_event: event_base
     {
-    public:
-        window_event(window* win, window_event_type event_type)
-            : win(win)
-            , event_type(event_type)
+        window_event(window_event_type event_type, window* win)
+            : event_type(event_type)
+            , win(win)
         {}
 
         window_event(window_event_type event_type)
@@ -46,56 +43,58 @@ namespace atom::engine
             , event_type(event_type)
         {}
 
-    public:
         const window* win;
         const window_event_type event_type;
     };
 
-    class window_create_event: public window_event
+    struct window_create_event: window_event
     {
-    public:
         window_create_event(window* win)
-            : window_event(win, window_event_type::create)
+            : window_event(window_event_type::create, win)
         {}
     };
 
-    class window_close_event: public window_event
+    struct window_destroy_event: window_event
     {
-    public:
-        window_close_event(window* win)
-            : window_event(win, window_event_type::close)
+        window_destroy_event(window* win)
+            : window_event(window_event_type::destroy, win)
         {}
     };
 
-    class window_resize_event: public window_event
+    struct window_focus_event: window_event
     {
-    public:
+        window_focus_event(window* win, bool is_focused)
+            : window_event(window_event_type::destroy, win)
+            , is_focused(is_focused)
+        {}
+
+        bool is_focused;
+    };
+
+    struct window_resize_event: window_event
+    {
         window_resize_event(window* win, window_coords size, window_coords delta)
             : size(size)
             , delta(delta)
-            , window_event(win, window_event_type::resize)
+            , window_event(window_event_type::resize, win)
         {}
 
-    public:
         window_coords size;
         window_coords delta;
     };
 
-    class window_reposition_event: public window_event
+    struct window_reposition_event: window_event
     {
-    public:
         window_reposition_event(window* win, window_coords position, window_coords delta)
             : position(position)
             , delta(delta)
-            , window_event(win, window_event_type::reposition)
+            , window_event(window_event_type::reposition, win)
         {}
 
-    public:
         window_coords position;
         window_coords delta;
     };
 
-    class window_event_listener: public event_listener<window_event>
+    struct window_event_listener: event_listener<window_event>
     {};
-
 }
