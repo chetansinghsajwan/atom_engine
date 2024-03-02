@@ -82,7 +82,7 @@ namespace atom::engine
                 glfw_window& window =
                     *reinterpret_cast<class glfw_window*>(glfwGetWindowUserPointer(native_window));
 
-                window_close_event event(&window);
+                window_destroy_event event(&window);
                 window._event_source.dispatch(event);
             });
 

@@ -95,7 +95,7 @@ namespace atom::engine
         }
 
         _logger->log_info("destroyed window.");
-        window_close_event event(window);
+        window_destroy_event event(window);
         _event_source.dispatch(event);
         _destroy_window(window);
     }
@@ -104,7 +104,7 @@ namespace atom::engine
     {
         for (window* window : _windows)
         {
-            // `window_close_event` will be dispatched from the window itself.
+            // `window_destroy_event` will be dispatched from the window itself.
 
             _destroy_window(window);
         }

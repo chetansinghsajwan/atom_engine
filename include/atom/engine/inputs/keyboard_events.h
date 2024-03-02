@@ -1,51 +1,68 @@
 #pragma once
 #include "atom.core.h"
-#include "atom/engine/inputs/keyboard_events.h"
-#include "atom/engine/inputs/keyboard_keys.h"
 #include "atom/engine/events.h"
+#include "atom/engine/inputs/keyboard_keys.h"
 
 namespace atom::engine
 {
     class keyboard;
     using unicode_code_point = u32;
 
-    class keyboard_event: public event_base
+    enum struct keyboard_event_type
     {
-    public:
-        keyboard_event(keyboard* device)
-            : device(device)
+        create_event,
+        destroy_event,
+        key_event,
+        char_event,
+    };
+
+    struct keyboard_event: event_base
+    {
+        keyboard_event(keyboard_event_type event_type, keyboard* device)
+            : event_type(event_type)
+            , device(device)
         {}
 
-    public:
+        keyboard_event_type event_type;
         keyboard* device;
     };
 
-    class keyboard_key_event: public keyboard_event
+    struct keyboard_create_event: keyboard_event
     {
-    public:
+        keyboard_create_event(keyboard* device)
+            : keyboard_event(keyboard_event_type::create_event, device)
+        {}
+    };
+
+    struct keyboard_destroy_event: keyboard_event
+    {
+        keyboard_destroy_event(keyboard* device)
+            : keyboard_event(keyboard_event_type::destroy_event, device)
+        {}
+    };
+
+    struct keyboard_key_event: keyboard_event
+    {
         keyboard_key_event(keyboard* device, keyboard_key_code key, keyboard_key_state state)
-            : keyboard_event(device)
+            : keyboard_event(keyboard_event_type::key_event, device)
             , key(key)
             , state(state)
         {}
 
-    public:
         keyboard_key_code key;
         keyboard_key_state state;
     };
 
-    class keyboard_char_event: public keyboard_event
+    struct keyboard_char_event: keyboard_event
     {
-    public:
         keyboard_char_event(keyboard* device, unicode_code_point ch)
-            : keyboard_event(device)
+            : keyboard_event(keyboard_event_type::char_event, device)
             , ch(ch)
         {}
 
-    public:
         unicode_code_point ch;
     };
 
-    class keyboard_event_listener: public event_listener<keyboard_event>
+    struct keyboard_event_listener: event_listener<keyboard_event>
     {};
 }
