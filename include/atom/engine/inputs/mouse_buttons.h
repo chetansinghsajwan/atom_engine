@@ -4,6 +4,7 @@ namespace atom::engine
 {
     enum class mouse_button_code
     {
+        unknown,
         n0,
         n1,
         n2,
