@@ -1,13 +1,13 @@
-export module atom.engine:mouse;
-import :input_device;
-import :mouse_button_codes;
-import :mouse_events;
-import :math;
-import atom.core;
+#pragma once
+#include "atom.core.h"
+#include "atom/engine/inputs/input_device.h"
+#include "atom/engine/inputs/mouse_buttons.h"
+#include "atom/engine/inputs/mouse_events.h"
+#include "atom/engine/math.h"
 
 namespace atom::engine
 {
-    export class mouse: public input_device
+    class mouse: public input_device
     {
     public:
         mouse(input_device_id id, string name)

@@ -1,8 +1,9 @@
-export module atom.engine:keyboard_key_codes;
+#pragma once
+#include "atom.core.h"
 
 namespace atom::engine
 {
-    export enum class keyboard_key_code
+    enum class keyboard_key_code
     {
         unknown,
         space,
@@ -129,7 +130,7 @@ namespace atom::engine
         MAX = menu,
     };
 
-    export enum class keyboard_key_state
+    enum class keyboard_key_state
     {
         up,
         pressed,

@@ -1,9 +1,9 @@
-export module atom.engine:input_device;
-import atom.core;
+#pragma once
+#include "atom.core.h"
 
 namespace atom::engine
 {
-    export class input_device_id
+    class input_device_id
     {
     public:
         input_device_id(usize num)
@@ -14,7 +14,7 @@ namespace atom::engine
         usize num;
     };
 
-    export class input_device
+    class input_device
     {
     public:
         input_device(input_device_id id, string name)

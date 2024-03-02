@@ -1,10 +1,10 @@
-export module atom.engine:input_manager_impl;
-import :input_device;
-import atom.core;
+#pragma once
+#include "atom.core.h"
+#include "atom/engine/inputs/input_device.h"
 
 namespace atom::engine
 {
-    export class input_manager_impl
+    class input_manager_impl
     {
     public:
         input_manager_impl()

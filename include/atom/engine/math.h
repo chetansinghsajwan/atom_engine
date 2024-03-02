@@ -1,9 +1,9 @@
-export module atom.engine:math;
-import atom.core;
+#pragma once
+#include "atom.core.h"
 
 namespace atom::engine
 {
-    export class vec2
+    class vec2
     {
     public:
         constexpr vec2()

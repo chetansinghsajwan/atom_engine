@@ -1,13 +1,14 @@
-export module atom.engine:keyboard_events;
-import :keyboard_key_codes;
-import atom.core;
+#pragma once
+#include "atom.core.h"
+#include "atom/engine/inputs/keyboard_events.h"
+#include "atom/engine/inputs/keyboard_keys.h"
 
 namespace atom::engine
 {
-    export class keyboard;
+    class keyboard;
     using unicode_code_point = u32;
 
-    export class keyboard_event
+    class keyboard_event
     {
     public:
         keyboard_event(keyboard* device)
@@ -18,7 +19,7 @@ namespace atom::engine
         keyboard* device;
     };
 
-    export class keyboard_key_event: public keyboard_event
+    class keyboard_key_event: public keyboard_event
     {
     public:
         keyboard_key_event(keyboard* device, keyboard_key_code key, keyboard_key_state state)
@@ -32,7 +33,7 @@ namespace atom::engine
         keyboard_key_state state;
     };
 
-    export class keyboard_char_event: public keyboard_event
+    class keyboard_char_event: public keyboard_event
     {
     public:
         keyboard_char_event(keyboard* device, unicode_code_point ch)

@@ -64,20 +64,18 @@ enable_testing()
 # atom.engine
 # --------------------------------------------------------------------------------------------------
 
-file(GLOB_RECURSE sources "src/*.cpp")
-
 add_library(atom.engine STATIC)
-target_sources(atom.engine PUBLIC
-    FILE_SET modules TYPE CXX_MODULES FILES
-    "${sources}"
-)
 
-target_link_libraries(atom.engine PRIVATE atom.core)
-target_link_libraries(atom.engine PRIVATE atom.logging)
-target_link_libraries(atom.engine PRIVATE glfw)
-target_link_libraries(atom.engine PRIVATE glad)
-target_link_libraries(atom.engine PRIVATE imgui)
-target_compile_definitions(atom.engine PRIVATE "GLFW_INCLUDE_NONE")
+file(GLOB_RECURSE sources "src/*.cpp")
+target_sources(atom.engine PUBLIC "${sources}")
+target_include_directories(atom.engine PUBLIC "include")
+target_include_directories(atom.engine PUBLIC "src")
+target_link_libraries(atom.engine PUBLIC atom.core)
+target_link_libraries(atom.engine PUBLIC atom.logging)
+target_link_libraries(atom.engine PUBLIC glfw)
+target_link_libraries(atom.engine PUBLIC glad)
+target_link_libraries(atom.engine PUBLIC imgui)
+target_compile_definitions(atom.engine PUBLIC "GLFW_INCLUDE_NONE")
 
 # --------------------------------------------------------------------------------------------------
 # atom.engine.sandbox

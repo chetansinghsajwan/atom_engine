@@ -1,15 +1,8 @@
-module;
+#pragma once
+#include "atom/engine/window/window.h"
+
 #include "GLFW/glfw3.h"
 #include "glad/glad.h"
-
-export module atom.engine:glfw_window;
-import atom.core;
-import atom.logging;
-import :window_events;
-import :window;
-
-using namespace atom;
-using namespace atom::logging;
 
 namespace atom::engine
 {

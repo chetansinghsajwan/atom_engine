@@ -1,14 +1,10 @@
-module;
-#include "GLFW/glfw3.h"
+#pragma once
+#include "atom/engine/inputs/keyboard.h"
+#include "glfw/glfw_window.h"
+#include "glfw/glfw_keyboard_key_conversions.h"
 
-export module atom.engine:glfw_keyboard;
-import :glfw_window;
-import :glfw_keyboard_key_code_conversions;
-import :input_device;
-import :keyboard;
-import :keyboard_key_codes;
-import :keyboard_events;
-import atom.core;
+#include "GLFW/glfw3.h"
+#include "backends/imgui_impl_glfw.h"
 
 namespace atom::engine
 {
