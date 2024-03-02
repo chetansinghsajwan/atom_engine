@@ -1,24 +1,15 @@
-export module atom.engine:input_manager;
-import atom.core;
-import :input_manager_impl;
-import :glfw_input_manager_impl;
+#include "atom/engine/inputs/input_manager.h"
+#include "glfw/glfw_input_manager.h"
 
 namespace atom::engine
 {
-    export class input_manager
+    auto input_manager::initialize() -> void
     {
-    public:
-        static auto initialize() -> void
-        {
-            _impl = new glfw_input_manager_impl();
-        }
+        _impl = new glfw_input_manager_impl();
+    }
 
-        static auto finalize() -> void
-        {
-            delete _impl;
-        }
-
-    private:
-        static inline input_manager_impl* _impl;
-    };
+    auto input_manager::finalize() -> void
+    {
+        delete _impl;
+    }
 }

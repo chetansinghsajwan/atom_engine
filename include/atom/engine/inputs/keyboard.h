@@ -1,12 +1,12 @@
-export module atom.engine:keyboard;
-import :input_device;
-import :keyboard_key_codes;
-import :keyboard_events;
-import atom.core;
+#pragma once
+#include "atom.core.h"
+#include "atom/engine/inputs/input_device.h"
+#include "atom/engine/inputs/keyboard_keys.h"
+#include "atom/engine/inputs/keyboard_events.h"
 
 namespace atom::engine
 {
-    export class keyboard: public input_device
+    class keyboard: public input_device
     {
     public:
         keyboard(input_device_id id, string name)

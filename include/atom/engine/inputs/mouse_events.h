@@ -1,12 +1,12 @@
-export module atom.engine:mouse_events;
-import :mouse_button_codes;
-import atom.core;
+#pragma once
+#include "atom.core.h"
+#include "atom/engine/inputs/mouse_buttons.h"
 
 namespace atom::engine
 {
-    export class mouse;
+    class mouse;
 
-    export class mouse_event
+    class mouse_event
     {
     public:
         mouse_event(mouse* device)
@@ -17,7 +17,7 @@ namespace atom::engine
         mouse* device;
     };
 
-    export class mouse_button_event: public mouse_event
+    class mouse_button_event: public mouse_event
     {
     public:
         mouse_button_event(mouse* device, mouse_button_code button, mouse_button_state state)
@@ -31,7 +31,7 @@ namespace atom::engine
         const mouse_button_state state;
     };
 
-    export class mouse_move_event: public mouse_event
+    class mouse_move_event: public mouse_event
     {
     public:
         mouse_move_event(mouse* device, f64 delta_x, f64 delta_y)
@@ -45,7 +45,7 @@ namespace atom::engine
         const f64 delta_y;
     };
 
-    export class mouse_scroll_event: public mouse_event
+    class mouse_scroll_event: public mouse_event
     {
     public:
         mouse_scroll_event(mouse* device, f64 delta_x, f64 delta_y)

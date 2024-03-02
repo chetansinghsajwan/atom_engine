@@ -1,10 +1,10 @@
-export module atom.engine:window;
-import :window_events;
-import atom.core;
+#pragma once
+#include "atom.core.h"
+#include "atom/engine/window/window_events.h"
 
 namespace atom::engine
 {
-    export extern "C++" class window
+    class window
     {
     public:
         window(string name, event_source_view<const window_event&> event)

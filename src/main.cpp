@@ -1,9 +1,6 @@
-export module atom.engine:main;
-import :application;
-import :window_manager;
-import :input_manager;
-import atom.core;
-import atom.logging;
+#include "atom/engine/window/window_manager.h"
+#include "atom/engine/inputs/input_manager.h"
+#include "atom/engine/application.h"
 
 using namespace atom;
 using namespace atom::logging;
@@ -11,7 +8,7 @@ using namespace atom::engine;
 
 namespace atom::engine
 {
-    extern "C++" application* create_application();
+    application* create_application();
 }
 
 auto main(int argc, char** args) -> int

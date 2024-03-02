@@ -1,14 +1,10 @@
-module;
-#include "GLFW/glfw3.h"
+#pragma once
+#include "atom.core.h"
+#include "atom/engine/inputs/mouse.h"
+#include "glfw/glfw_window.h"
+#include "glfw/glfw_mouse_button_conversions.h"
 
-export module atom.engine:glfw_mouse;
-import :glfw_mouse_button_code_conversions;
-import :glfw_window;
-import :input_device;
-import :mouse_button_codes;
-import :mouse;
-import :math;
-import atom.core;
+#include "GLFW/glfw3.h"
 
 namespace atom::engine
 {

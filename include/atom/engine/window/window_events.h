@@ -1,30 +1,30 @@
-export module atom.engine:window_events;
-import atom.core;
+#pragma once
+#include "atom.core.h"
 
 namespace atom::engine
 {
-    export extern "C++" class window;
+    class window;
 
-    export struct window_coords
+    struct window_coords
     {
         i32 x;
         i32 y;
     };
 
-    export class window_props
+    class window_props
     {
     public:
         string window_name;
         window_coords window_size;
     };
 
-    export inline auto operator-(const window_coords& lhs, const window_coords& rhs)
+    inline auto operator-(const window_coords& lhs, const window_coords& rhs)
         -> window_coords
     {
         return { lhs.x - rhs.x, lhs.y - rhs.y };
     }
 
-    export enum class window_event_type
+    enum class window_event_type
     {
         create,
         close,
@@ -32,7 +32,7 @@ namespace atom::engine
         reposition,
     };
 
-    export class window_event
+    class window_event
     {
     public:
         window_event(window* win, window_event_type event_type)
@@ -50,7 +50,7 @@ namespace atom::engine
         const window_event_type event_type;
     };
 
-    export class window_create_event: public window_event
+    class window_create_event: public window_event
     {
     public:
         window_create_event(window* win)
@@ -58,7 +58,7 @@ namespace atom::engine
         {}
     };
 
-    export class window_close_event: public window_event
+    class window_close_event: public window_event
     {
     public:
         window_close_event(window* win)
@@ -66,7 +66,7 @@ namespace atom::engine
         {}
     };
 
-    export class window_resize_event: public window_event
+    class window_resize_event: public window_event
     {
     public:
         window_resize_event(window* win, window_coords size, window_coords delta)
@@ -80,7 +80,7 @@ namespace atom::engine
         window_coords delta;
     };
 
-    export class window_reposition_event: public window_event
+    class window_reposition_event: public window_event
     {
     public:
         window_reposition_event(window* win, window_coords position, window_coords delta)

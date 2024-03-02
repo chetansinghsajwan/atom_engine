@@ -1,8 +1,8 @@
-export module atom.engine:mouse_button_codes;
+#pragma once
 
 namespace atom::engine
 {
-    export enum class mouse_button_code
+    enum class mouse_button_code
     {
         n0,
         n1,
@@ -19,7 +19,7 @@ namespace atom::engine
         MAX = n7,
     };
 
-    export enum class mouse_button_state
+    enum class mouse_button_state
     {
         up,
         pressed,

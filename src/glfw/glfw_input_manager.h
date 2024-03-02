@@ -1,19 +1,17 @@
-module;
-#include "GLFW/glfw3.h"
+#pragma once
+#include "atom.core.h"
+#include "atom/engine/inputs/input_manager_impl.h"
+#include "atom/engine/window/window.h"
+#include "atom/engine/window/window_manager.h"
+#include "glfw/glfw_keyboard.h"
+#include "glfw/glfw_mouse.h"
+#include "glfw/glfw_window.h"
 
-export module atom.engine:glfw_input_manager_impl;
-import :input_manager_impl;
-import :input_device;
-import :window_manager;
-import :window_events;
-import :glfw_mouse;
-import :glfw_keyboard;
-import :glfw_window;
-import atom.core;
+#include "GLFW/glfw3.h"
 
 namespace atom::engine
 {
-    export class glfw_input_manager_impl: public input_manager_impl
+    class glfw_input_manager_impl: public input_manager_impl
     {
     public:
         glfw_input_manager_impl()
@@ -51,7 +49,8 @@ namespace atom::engine
     private:
         auto _on_window_create(const window_create_event& event) -> void
         {
-            _create_devices_for_window(reinterpret_cast<glfw_window*>(const_cast<window*>(event.win)));
+            _create_devices_for_window(
+                reinterpret_cast<glfw_window*>(const_cast<window*>(event.win)));
         }
 
         auto _create_devices_for_window(glfw_window* win) -> void
@@ -59,14 +58,13 @@ namespace atom::engine
             input_device_id keyboard_id = input_manager_impl::_create_new_id();
             string keyboard_name =
                 string::format("glfw_keyboard for window '{0}'", win->get_name());
-            glfw_keyboard* keyboard_device =
-                new glfw_keyboard(win, keyboard_id, move(keyboard_name));
-            input_manager_impl::_add_new_device(keyboard_device);
+            glfw_keyboard* keyboard = new glfw_keyboard(win, keyboard_id, move(keyboard_name));
+            input_manager_impl::_add_new_device(keyboard);
 
             input_device_id mouse_id = input_manager_impl::_create_new_id();
             string mouse_name = string::format("glfw_mouse for window '{0}'", win->get_name());
-            glfw_mouse* mouse_device = new glfw_mouse(win, mouse_id, move(mouse_name));
-            input_manager_impl::_add_new_device(mouse_device);
+            glfw_mouse* mouse = new glfw_mouse(win, mouse_id, move(mouse_name));
+            input_manager_impl::_add_new_device(mouse);
         }
     };
 }

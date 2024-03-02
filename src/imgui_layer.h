@@ -1,22 +1,11 @@
-module;
+#include "atom/engine/layers/layer.h"
+#include "atom/engine/window/window_events.h"
+
 #include "GLFW/glfw3.h"
 #include "backends/imgui_impl_opengl3.h"
 
-export module atom.engine:imgui_layer;
-import :layer_stack;
-import :window;
-import :window_events;
-
 namespace atom::engine
 {
-    /// --------------------------------------------------------------------------------------------
-    /// # todo:
-    ///
-    /// - remove this, this is to prevent this module to depend upon application and cause a
-    ///   cyclic dependency.
-    /// --------------------------------------------------------------------------------------------
-    extern "C++" auto get_application_window() -> window*;
-
     class imgui_layer: public layer
     {
     public:
@@ -64,7 +53,7 @@ namespace atom::engine
         virtual auto on_update() -> void override final
         {
             ImGuiIO& io = ImGui::GetIO();
-            window_coords window_size = get_application_window()->get_size();
+            window_coords window_size = application::get()->get_window()->get_size();
             io.DisplaySize =
                 ImVec2(window_size.x.to_unwrapped<float>(), window_size.y.to_unwrapped<float>());
 
