@@ -27,6 +27,7 @@ namespace atom::engine
     {
         create,
         destroy,
+        focus,
         resize,
         reposition,
     };
@@ -64,7 +65,7 @@ namespace atom::engine
     struct window_focus_event: window_event
     {
         window_focus_event(window* win, bool is_focused)
-            : window_event(window_event_type::destroy, win)
+            : window_event(window_event_type::focus, win)
             , is_focused(is_focused)
         {}
 
