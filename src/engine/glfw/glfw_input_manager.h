@@ -3,9 +3,9 @@
 #include "atom/engine/inputs/input_manager_impl.h"
 #include "atom/engine/window/window.h"
 #include "atom/engine/window/window_manager.h"
-#include "glfw/glfw_keyboard.h"
-#include "glfw/glfw_mouse.h"
-#include "glfw/glfw_window.h"
+#include "engine/glfw/glfw_keyboard.h"
+#include "engine/glfw/glfw_mouse.h"
+#include "engine/glfw/glfw_window.h"
 
 #include "GLFW/glfw3.h"
 

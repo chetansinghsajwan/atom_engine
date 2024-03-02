@@ -1,6 +1,7 @@
 #pragma once
-#include "GLFW/glfw3.h"
 #include "atom/engine/inputs/keyboard_keys.h"
+
+#include "GLFW/glfw3.h"
 
 // todo: add handler for default cases.
 namespace atom::engine
