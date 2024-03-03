@@ -1,4 +1,3 @@
-#pragma once
 #include "glfw_keyboard.h"
 #include "engine/glfw/glfw_window_user_data.h"
 
