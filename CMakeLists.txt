@@ -34,7 +34,7 @@ FetchContent_Declare(
 FetchContent_Declare(
     imgui
     GIT_REPOSITORY "https://github.com/ocornut/imgui.git"
-    GIT_TAG        "v1.90.3"
+    GIT_TAG        "docking"
     GIT_SHALLOW    true
 )
 
@@ -51,9 +51,13 @@ add_subdirectory("vendor/glad")
 # --------------------------------------------------------------------------------------------------
 add_library(imgui SHARED)
 file(GLOB imgui_sources "${imgui_SOURCE_DIR}/*.cpp")
-list(APPEND imgui_sources "${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp")
+list(APPEND imgui_sources
+    "${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp"
+    "${imgui_SOURCE_DIR}/backends/imgui_impl_glfw.cpp")
 target_sources(imgui PRIVATE "${imgui_sources}")
 target_include_directories(imgui PUBLIC "${imgui_SOURCE_DIR}")
+target_link_libraries(imgui PUBLIC glfw)
+target_compile_definitions(imgui PRIVATE "GLFW_INCLUDE_NONE")
 
 # --------------------------------------------------------------------------------------------------
 # enable moduels

@@ -88,7 +88,7 @@ namespace atom::engine
         contracts::expects(window != nullptr, "cannot close null window.");
 
         _logger->log_info("destroying window '{}'.", window->get_name());
-        if (_windows.remove_one_find(window))
+        if (not _windows.remove_one_find(window))
         {
             _logger->log_info("window not found in window_manager's entries.");
             return;
