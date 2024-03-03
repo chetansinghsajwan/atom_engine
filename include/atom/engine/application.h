@@ -36,6 +36,7 @@ namespace atom::engine
         window* _window;
         layer_stack _layers;
         unique_ptr<layer> _layer;
+        bool _should_run;
 
     private:
         static inline application* _s_app;
