@@ -16,6 +16,17 @@ namespace atom::engine
     public:
         glfw_mouse(glfw_window* window, input_device_id id, string name);
 
+    public:
+        virtual auto subscribe_event(mouse_event_listener* listener) -> void override
+        {
+            _event_source.subscribe(listener);
+        }
+
+        virtual auto unsubscribe_event(mouse_event_listener* listener) -> void override
+        {
+            _event_source.unsubscribe(listener);
+        }
+
     protected:
         virtual auto _is_raw_move_supported() const -> bool override final
         {

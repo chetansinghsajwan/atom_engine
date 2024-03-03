@@ -11,6 +11,11 @@ namespace atom::engine
 
         static auto finalize() -> void;
 
+        static auto get_devices() -> array_view<input_device*>
+        {
+            return _impl->get_devices();
+        }
+
     private:
         static inline input_manager_impl* _impl;
     };
