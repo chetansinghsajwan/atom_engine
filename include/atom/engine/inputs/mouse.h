@@ -11,7 +11,7 @@ namespace atom::engine
     {
     public:
         mouse(input_device_id id, string name)
-            : input_device(id, move(name))
+            : input_device(id, input_device_type::mouse, move(name))
         {}
 
         virtual ~mouse() {}
@@ -86,6 +86,10 @@ namespace atom::engine
         {
             return vec2(_scroll_pos_x - _last_scroll_pos_x, _scroll_pos_y - _last_scroll_pos_y);
         }
+
+        virtual auto subscribe_event(mouse_event_listener* listener) -> void = 0;
+
+        virtual auto unsubscribe_event(mouse_event_listener* listener) -> void = 0;
 
     protected:
         virtual auto _is_raw_move_enabled() const -> bool = 0;

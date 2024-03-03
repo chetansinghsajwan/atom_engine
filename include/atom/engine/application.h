@@ -8,7 +8,10 @@
 
 namespace atom::engine
 {
-    class application: public window_event_listener
+    class application
+        : public window_event_listener
+        , public keyboard_event_listener
+        , public mouse_event_listener
     {
     public:
         application();
@@ -31,6 +34,10 @@ namespace atom::engine
 
     private:
         virtual auto handle(window_event& event) -> void override;
+
+        virtual auto handle(keyboard_event& event) -> void override;
+
+        virtual auto handle(mouse_event& event) -> void override;
 
     private:
         window* _window;

@@ -69,6 +69,11 @@ namespace atom::engine
             }
         }
 
+        auto get_layers() const -> array_view<layer*>
+        {
+            return _layers;
+        }
+
     private:
         dynamic_array<layer*> _layers;
         usize _normal_layer_count;

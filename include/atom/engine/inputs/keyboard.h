@@ -10,7 +10,7 @@ namespace atom::engine
     {
     public:
         keyboard(input_device_id id, string name)
-            : input_device(id, move(name))
+            : input_device(id, input_device_type::keyboard, move(name))
             , _key_states()
         {}
 

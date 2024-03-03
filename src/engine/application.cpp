@@ -1,4 +1,7 @@
 #include "atom/engine/application.h"
+#include "atom/engine/inputs/keyboard.h"
+#include "atom/engine/inputs/mouse.h"
+#include "atom/engine/inputs/input_manager.h"
 #include "imgui/imgui_layer.h"
 
 namespace atom::engine
@@ -23,6 +26,18 @@ namespace atom::engine
 
         _layer = unique_ptr<layer>(new imgui_layer());
         _layers.push_layer(_layer.to_unwrapped());
+
+        for (input_device* device : input_manager::get_devices())
+        {
+            if (device->get_type() == input_device_type::keyboard)
+            {
+                reinterpret_cast<keyboard*>(device)->subscribe_event(this);
+            }
+            else if (device->get_type() == input_device_type::mouse)
+            {
+                reinterpret_cast<mouse*>(device)->subscribe_event(this);
+            }
+        }
     }
 
     application::~application()
@@ -56,6 +71,27 @@ namespace atom::engine
             }
 
             default: break;
+        }
+
+        for (class layer* layer : _layers.get_layers())
+        {
+            layer->handle(event);
+        }
+    }
+
+    auto application::handle(keyboard_event& event) -> void
+    {
+        for (class layer* layer : _layers.get_layers())
+        {
+            layer->handle(event);
+        }
+    }
+
+    auto application::handle(mouse_event& event) -> void
+    {
+        for (class layer* layer : _layers.get_layers())
+        {
+            layer->handle(event);
         }
     }
 }
