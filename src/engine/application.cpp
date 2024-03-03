@@ -4,6 +4,10 @@
 namespace atom::engine
 {
     application::application()
+        : _window(nullptr)
+        , _layers()
+        , _layer(nullptr)
+        , _should_run(true)
     {
         contracts::debug_expects(get() == nullptr, "an appication instance already exists.");
         _s_app = this;
@@ -34,14 +38,26 @@ namespace atom::engine
 
     auto application::run() -> void
     {
-        while (true)
+        while (_should_run)
         {
             _window->update();
             _layers.update_layers();
         }
     }
 
-    auto application::handle(window_event& event) -> void {}
+    auto application::handle(window_event& event) -> void
+    {
+        switch (event.event_type)
+        {
+            case window_event_type::destroy:
+            {
+                _should_run = false;
+                break;
+            }
+
+            default: break;
+        }
+    }
 
     auto get_application_window() -> window*
     {
