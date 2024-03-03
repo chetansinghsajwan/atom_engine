@@ -58,9 +58,4 @@ namespace atom::engine
             default: break;
         }
     }
-
-    auto get_application_window() -> window*
-    {
-        return application::get()->get_window();
-    }
 }
