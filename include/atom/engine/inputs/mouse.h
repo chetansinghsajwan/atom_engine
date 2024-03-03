@@ -14,12 +14,12 @@ namespace atom::engine
             : input_device(id, move(name))
         {}
 
-        virtual ~mouse() = default;
+        virtual ~mouse() {}
 
     public:
         auto get_button_state(mouse_button_code button) const -> mouse_button_state
         {
-            return _get_button_state(button);
+            return _button_states[(usize::unwrapped_type)button];
         }
 
         auto is_button_up(mouse_button_code button) const -> bool
@@ -42,9 +42,19 @@ namespace atom::engine
             return get_button_state(button) == mouse_button_state::released;
         }
 
-        auto get_delta_move() const -> vec2
+        auto get_pos() const -> vec2
         {
-            return _get_delta_move();
+            return vec2(_pos_x, _pos_y);
+        }
+
+        auto get_last_pos() const -> vec2
+        {
+            return vec2(_last_pos_x, _last_pos_y);
+        }
+
+        auto get_delta_pos() const -> vec2
+        {
+            return vec2(_pos_x - _last_pos_x, _pos_y - _last_pos_y);
         }
 
         auto is_raw_move_supported() const -> bool
@@ -62,17 +72,35 @@ namespace atom::engine
             return _set_raw_move(enable);
         }
 
-        auto get_delta_scroll() const -> vec2
+        auto get_scroll_pos() const -> vec2
         {
-            return _get_delta_scroll();
+            return vec2(_scroll_pos_x, _scroll_pos_y);
+        }
+
+        auto get_last_scroll_pos() const -> vec2
+        {
+            return vec2(_last_scroll_pos_x, _last_scroll_pos_y);
+        }
+
+        auto get_delta_scroll_pos() const -> vec2
+        {
+            return vec2(_scroll_pos_x - _last_scroll_pos_x, _scroll_pos_y - _last_scroll_pos_y);
         }
 
     protected:
-        virtual auto _get_button_state(mouse_button_code button) const -> mouse_button_state = 0;
-        virtual auto _get_delta_move() const -> vec2 = 0;
         virtual auto _is_raw_move_enabled() const -> bool = 0;
         virtual auto _is_raw_move_supported() const -> bool = 0;
         virtual auto _set_raw_move(bool enable) -> void = 0;
-        virtual auto _get_delta_scroll() const -> vec2 = 0;
+
+    protected:
+        mouse_button_state _button_states[(usize::unwrapped_type)mouse_button_code::MAX + 1];
+        f64 _pos_x;
+        f64 _pos_y;
+        f64 _last_pos_x;
+        f64 _last_pos_y;
+        f64 _scroll_pos_x;
+        f64 _scroll_pos_y;
+        f64 _last_scroll_pos_x;
+        f64 _last_scroll_pos_y;
     };
 }
