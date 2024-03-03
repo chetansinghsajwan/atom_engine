@@ -18,6 +18,13 @@ FetchContent_Declare(
 )
 
 FetchContent_Declare(
+    glm
+    GIT_REPOSITORY "https://github.com/g-truc/glm.git"
+    GIT_TAG        "1.0.1"
+    GIT_SHALLOW    true
+)
+
+FetchContent_Declare(
     glfw
     GIT_REPOSITORY "https://github.com/glfw/glfw.git"
     GIT_TAG        "3.3.9"
@@ -31,7 +38,7 @@ FetchContent_Declare(
     GIT_SHALLOW    true
 )
 
-FetchContent_MakeAvailable(atom_core atom_logging glfw imgui)
+FetchContent_MakeAvailable(atom_core atom_logging glm glfw imgui)
 FetchContent_GetProperties(atom_core imgui)
 
 # --------------------------------------------------------------------------------------------------
@@ -67,15 +74,16 @@ enable_testing()
 add_library(atom.engine STATIC)
 
 file(GLOB_RECURSE sources "src/*.cpp")
-target_sources(atom.engine PUBLIC "${sources}")
+target_sources(atom.engine PRIVATE "${sources}")
 target_include_directories(atom.engine PUBLIC "include")
-target_include_directories(atom.engine PUBLIC "src")
-target_link_libraries(atom.engine PUBLIC atom.core)
-target_link_libraries(atom.engine PUBLIC atom.logging)
-target_link_libraries(atom.engine PUBLIC glfw)
-target_link_libraries(atom.engine PUBLIC glad)
-target_link_libraries(atom.engine PUBLIC imgui)
-target_compile_definitions(atom.engine PUBLIC "GLFW_INCLUDE_NONE")
+target_include_directories(atom.engine PRIVATE "src")
+target_link_libraries(atom.engine PRIVATE atom.core)
+target_link_libraries(atom.engine PRIVATE atom.logging)
+target_link_libraries(atom.engine PRIVATE glm)
+target_link_libraries(atom.engine PRIVATE glfw)
+target_link_libraries(atom.engine PRIVATE glad)
+target_link_libraries(atom.engine PRIVATE imgui)
+target_compile_definitions(atom.engine PRIVATE "GLFW_INCLUDE_NONE")
 
 # --------------------------------------------------------------------------------------------------
 # atom.engine.sandbox
