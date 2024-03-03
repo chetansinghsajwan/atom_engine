@@ -4,6 +4,8 @@
 #include "atom/engine/inputs/input_manager.h"
 #include "imgui/imgui_layer.h"
 
+#include "glad/glad.h"
+
 namespace atom::engine
 {
     application::application()
@@ -24,8 +26,8 @@ namespace atom::engine
 
         _window->subscribe_event(this);
 
-        _layer = unique_ptr<layer>(new imgui_layer());
-        _layers.push_layer(_layer.to_unwrapped());
+        _layer = new imgui_layer();
+        _layers.push_layer(_layer);
 
         for (input_device* device : input_manager::get_devices())
         {
@@ -48,15 +50,29 @@ namespace atom::engine
             window_manager::destroy_window(_window);
         }
 
-        _layers.pop_layer(_layer.to_unwrapped());
+        _layers.pop_layer(_layer);
+        delete _layer;
     }
 
     auto application::run() -> void
     {
         while (_should_run)
         {
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            for (layer* layer : _layers.get_layers())
+                layer->on_update();
+
+            class imgui_layer* imgui_layer = (class imgui_layer*)_layer;
+
+            imgui_layer->begin_render();
+            for (layer* layer : _layers.get_layers())
+            {
+                layer->on_imgui_render();
+            }
+            imgui_layer->end_render();
+
             _window->update();
-            _layers.update_layers();
         }
     }
 
@@ -72,26 +88,9 @@ namespace atom::engine
 
             default: break;
         }
-
-        for (class layer* layer : _layers.get_layers())
-        {
-            layer->handle(event);
-        }
     }
 
-    auto application::handle(keyboard_event& event) -> void
-    {
-        for (class layer* layer : _layers.get_layers())
-        {
-            layer->handle(event);
-        }
-    }
+    auto application::handle(keyboard_event& event) -> void {}
 
-    auto application::handle(mouse_event& event) -> void
-    {
-        for (class layer* layer : _layers.get_layers())
-        {
-            layer->handle(event);
-        }
-    }
+    auto application::handle(mouse_event& event) -> void {}
 }

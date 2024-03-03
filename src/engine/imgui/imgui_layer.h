@@ -1,8 +1,5 @@
 #pragma once
-#include "atom/engine/inputs/keyboard_events.h"
-#include "atom/engine/inputs/mouse_events.h"
 #include "atom/engine/layers/layer.h"
-#include "atom/engine/window/window_events.h"
 
 namespace atom::engine
 {
@@ -15,17 +12,15 @@ namespace atom::engine
         {}
 
     public:
-        virtual auto on_attach() -> void override final;
+        virtual auto on_attach() -> void override;
 
-        virtual auto on_update() -> void override final;
+        virtual auto on_imgui_render() -> void override;
 
-        virtual auto on_deattach() -> void override final;
+        virtual auto on_deattach() -> void override;
 
-        virtual auto handle(window_event& event) -> void override final;
+        auto begin_render() -> void;
 
-        virtual auto handle(keyboard_event& event) -> void override final;
-
-        virtual auto handle(mouse_event& event) -> void override final;
+        auto end_render() -> void;
 
     private:
         double _time;

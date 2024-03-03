@@ -42,7 +42,7 @@ namespace atom::engine
     private:
         window* _window;
         layer_stack _layers;
-        unique_ptr<layer> _layer;
+        layer* _layer;
         bool _should_run;
 
     private:
