@@ -154,7 +154,7 @@ IncludeBlocks: Preserve
 IncludeCategories:
 IncludeIsMainRegex: '(Test)?$'
 IncludeIsMainSourceRegex: ''
-SortIncludes: CaseSensitive
+SortIncludes: Never
 
 # --------------------------------------------------------------------------------------------------
 # Penalties

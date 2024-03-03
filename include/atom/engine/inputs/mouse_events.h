@@ -41,8 +41,10 @@ namespace atom::engine
 
     struct mouse_move_event: mouse_event
     {
-        mouse_move_event(mouse* device, f64 xdelta, f64 ydelta)
+        mouse_move_event(mouse* device, f64 xpos, f64 ypos, f64 xdelta, f64 ydelta)
             : mouse_event(mouse_event_type::move_event, device)
+            , xpos(xpos)
+            , ypos(ypos)
             , xdelta(xdelta)
             , ydelta(ydelta)
         {}
@@ -55,8 +57,10 @@ namespace atom::engine
 
     struct mouse_scroll_event: mouse_event
     {
-        mouse_scroll_event(mouse* device, f64 xdelta, f64 ydelta)
+        mouse_scroll_event(mouse* device, f64 xoffset, f64 yoffset, f64 xdelta, f64 ydelta)
             : mouse_event(mouse_event_type::scroll_event, device)
+            , xoffset(xoffset)
+            , yoffset(yoffset)
             , xdelta(xdelta)
             , ydelta(ydelta)
         {}

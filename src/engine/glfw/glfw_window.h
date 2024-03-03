@@ -1,5 +1,6 @@
 #pragma once
 #include "atom/engine/window/window.h"
+#include "engine/glfw/glfw_window_user_data.h"
 
 #include "GLFW/glfw3.h"
 #include "glad/glad.h"
@@ -38,6 +39,7 @@ namespace atom::engine
     public:
         glfw_window(const window_props& props)
             : window(props.window_name)
+            , _user_data()
         {
             glfw_window_coords glfw_window_size =
                 glfw_window_coords_converter::to_glfw(props.window_size);
@@ -47,43 +49,48 @@ namespace atom::engine
                 nullptr);
 
             glfwMakeContextCurrent(_glfw_window);
-            glfwSetWindowUserPointer(_glfw_window, this);
+
+            _user_data.window = this;
+            glfwSetWindowUserPointer(_glfw_window, &_user_data);
 
             int glad_load_status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
             contracts::asserts(glad_load_status != 0, "glad inititliazation failed.");
 
             glfwSetWindowPosCallback(
-                _glfw_window, [](GLFWwindow* native_window, _i32 xpos, _i32 ypos) {
-                    glfw_window& window = *reinterpret_cast<class glfw_window*>(
-                        glfwGetWindowUserPointer(native_window));
+                _glfw_window, [](GLFWwindow* native_window, int xpos, int ypos) {
+                    glfw_window_user_data* user_data =
+                        (glfw_window_user_data*)glfwGetWindowUserPointer(native_window);
+                    glfw_window* window = user_data->window;
 
-                    window_coords old_pos = window._window_pos;
+                    window_coords old_pos = window->_window_pos;
                     window_coords new_pos = glfw_window_coords_converter::from_glfw({ xpos, ypos });
-                    window._window_pos = new_pos;
+                    window->_window_pos = new_pos;
 
-                    window_reposition_event event(&window, new_pos, new_pos - old_pos);
-                    window._event_source.dispatch(event);
+                    window_reposition_event event(window, new_pos, new_pos - old_pos);
+                    window->_event_source.dispatch(event);
                 });
 
-            glfwSetWindowSizeCallback(_glfw_window, [](GLFWwindow* native_window, _i32 width,
-                                                        _i32 height) {
-                glfw_window& window =
-                    *reinterpret_cast<class glfw_window*>(glfwGetWindowUserPointer(native_window));
+            glfwSetWindowSizeCallback(_glfw_window, [](GLFWwindow* native_window, int width,
+                                                        int height) {
+                glfw_window_user_data* user_data =
+                    (glfw_window_user_data*)glfwGetWindowUserPointer(native_window);
+                glfw_window* window = user_data->window;
 
-                window_coords old_size = window._window_size;
+                window_coords old_size = window->_window_size;
                 window_coords new_size = glfw_window_coords_converter::from_glfw({ width, height });
-                window._window_size = new_size;
+                window->_window_size = new_size;
 
-                window_resize_event event(&window, new_size, new_size - old_size);
-                window._event_source.dispatch(event);
+                window_resize_event event(window, new_size, new_size - old_size);
+                window->_event_source.dispatch(event);
             });
 
             glfwSetWindowCloseCallback(_glfw_window, [](GLFWwindow* native_window) {
-                glfw_window& window =
-                    *reinterpret_cast<class glfw_window*>(glfwGetWindowUserPointer(native_window));
+                glfw_window_user_data* user_data =
+                    (glfw_window_user_data*)glfwGetWindowUserPointer(native_window);
+                glfw_window* window = user_data->window;
 
-                window_destroy_event event(&window);
-                window._event_source.dispatch(event);
+                window_destroy_event event(window);
+                window->_event_source.dispatch(event);
             });
 
             update_pos();
@@ -178,11 +185,12 @@ namespace atom::engine
             _event_source.unsubscribe(listener);
         }
 
-    protected:
+    private:
         GLFWwindow* _glfw_window;
         window_coords _window_pos;
         window_coords _window_size;
         bool _window_vsync;
         event_source<window_event> _event_source;
+        glfw_window_user_data _user_data;
     };
 }

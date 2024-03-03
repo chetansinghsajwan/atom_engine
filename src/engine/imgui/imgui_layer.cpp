@@ -75,6 +75,10 @@ namespace atom::engine
         io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
 
         ImGui_ImplOpenGL3_Init("#version 410");
+
+        window_coords window_size = application::get()->get_window()->get_size();
+        io.DisplaySize =
+            ImVec2(window_size.x.to_unwrapped<float>(), window_size.y.to_unwrapped<float>());
     }
 
     auto imgui_layer::on_update() -> void
