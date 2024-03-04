@@ -1,6 +1,7 @@
 #pragma once
 #include "atom/engine/window/window.h"
 #include "engine/glfw/glfw_window_user_data.h"
+#include "engine/opengl/opengl_context.h"
 
 #include "GLFW/glfw3.h"
 
@@ -66,5 +67,6 @@ namespace atom::engine
         bool _window_vsync;
         event_source<window_event> _event_source;
         glfw_window_user_data _user_data;
+        opengl_context* _graphics_context;
     };
 }
