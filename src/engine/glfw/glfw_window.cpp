@@ -34,6 +34,7 @@ namespace atom::engine
     glfw_window::glfw_window(const window_props& props)
         : window(props.window_name)
         , _user_data()
+        , _graphics_context(nullptr)
     {
         glfw_window_coords glfw_window_size =
             glfw_window_coords_converter::to_glfw(props.window_size);
@@ -41,7 +42,8 @@ namespace atom::engine
         _glfw_window = glfwCreateWindow(glfw_window_size.x.to_unwrapped<int>(),
             glfw_window_size.y.to_unwrapped<int>(), props.window_name.get_data(), nullptr, nullptr);
 
-        glfwMakeContextCurrent(_glfw_window);
+        _graphics_context = new opengl_context(_glfw_window);
+        _graphics_context->initialize();
 
         _user_data.window = this;
         glfwSetWindowUserPointer(_glfw_window, &_user_data);
@@ -98,7 +100,7 @@ namespace atom::engine
     auto glfw_window::update() -> void
     {
         glfwPollEvents();
-        glfwSwapBuffers(_glfw_window);
+        _graphics_context->swap_buffers();
     }
 
     auto glfw_window::set_pos(window_coords pos) -> void
