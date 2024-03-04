@@ -39,7 +39,7 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(atom_core atom_logging glm glfw imgui)
-FetchContent_GetProperties(atom_core imgui)
+FetchContent_GetProperties(imgui)
 
 # --------------------------------------------------------------------------------------------------
 # glad
@@ -58,11 +58,6 @@ target_sources(imgui PRIVATE "${imgui_sources}")
 target_include_directories(imgui PUBLIC "${imgui_SOURCE_DIR}")
 target_link_libraries(imgui PUBLIC glfw)
 target_compile_definitions(imgui PRIVATE "GLFW_INCLUDE_NONE")
-
-# --------------------------------------------------------------------------------------------------
-# enable moduels
-# --------------------------------------------------------------------------------------------------
-include("${atom_core_SOURCE_DIR}/cmake/enable_modules.cmake")
 
 # --------------------------------------------------------------------------------------------------
 # cpp20 global configs
