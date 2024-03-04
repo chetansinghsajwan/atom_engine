@@ -72,10 +72,10 @@ enable_testing()
 
 add_library(atom.engine STATIC)
 
-file(GLOB_RECURSE sources "src/*.cpp")
+file(GLOB_RECURSE sources "source/*.cpp")
 target_sources(atom.engine PRIVATE "${sources}")
 target_include_directories(atom.engine PUBLIC "include")
-target_include_directories(atom.engine PRIVATE "src")
+target_include_directories(atom.engine PRIVATE "source")
 target_link_libraries(atom.engine PUBLIC atom.core)
 target_link_libraries(atom.engine PUBLIC atom.logging)
 target_link_libraries(atom.engine PUBLIC glm)
