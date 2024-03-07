@@ -19,7 +19,7 @@ namespace atom::engine
     public:
         auto get_key_state(keyboard_key_code key) const -> keyboard_key_state
         {
-            return _key_states[(usize::unwrapped_type)key];
+            return _key_states[(usize)key];
         }
 
         auto is_key_up(keyboard_key_code key) const -> bool
@@ -47,6 +47,6 @@ namespace atom::engine
         virtual auto unsubscribe_event(keyboard_event_listener* listener) -> void = 0;
 
     protected:
-        keyboard_key_state _key_states[(usize::unwrapped_type)keyboard_key_code::MAX + 1];
+        keyboard_key_state _key_states[(usize)keyboard_key_code::MAX + 1];
     };
 }

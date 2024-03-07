@@ -1,4 +1,5 @@
 #include "atom/engine/window/window_manager.h"
+#include "atom/core/contracts.h"
 #include "engine/glfw/glfw_window.h"
 
 #include "GLFW/glfw3.h"
@@ -52,13 +53,13 @@ namespace atom::engine
         if (success == 0)
         {
             _logger->log_info("glfw initialization failed.");
-            panic("glfw initialization failed.");
+            ATOM_PANIC("glfw initialization failed.");
         }
 
         _logger->log_info("initialized glfw successfully.");
 
-        glfwSetErrorCallback([](_i32 error_code, const char* description) -> void {
-            panic("glfw error: error_code: {}, description: {}", error_code, description);
+        glfwSetErrorCallback([](int error_code, const char* description) -> void {
+            ATOM_PANIC("glfw error: error_code: {}, description: {}", error_code, description);
         });
     }
 
@@ -85,7 +86,7 @@ namespace atom::engine
 
     auto window_manager::destroy_window(window* window) -> void
     {
-        contracts::expects(window != nullptr, "cannot close null window.");
+        ATOM_EXPECTS(window != nullptr, "cannot close null window.");
 
         _logger->log_info("destroying window '{}'.", window->get_name());
         if (not _windows.remove_one_find(window))

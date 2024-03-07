@@ -16,16 +16,16 @@ namespace atom::engine
     public:
         static constexpr auto to_glfw(window_coords coords) -> glfw_window_coords
         {
-            coords.x = coords.x.clamp(i32::min(), i32::max());
-            coords.y = coords.y.clamp(i32::min(), i32::max());
+            coords.x = math::clamp(coords.x, math::min<i32>(), math::max<i32>());
+            coords.y = math::clamp(coords.y, math::min<i32>(), math::max<i32>());
 
             return { coords.x, coords.y };
         };
 
         static constexpr auto from_glfw(glfw_window_coords coords) -> window_coords
         {
-            coords.x = coords.x.clamp(i32::min(), i32::max());
-            coords.y = coords.y.clamp(i32::min(), i32::max());
+            coords.x = math::clamp(coords.x, math::min<i32>(), math::max<i32>());
+            coords.y = math::clamp(coords.y, math::min<i32>(), math::max<i32>());
 
             return { coords.x, coords.y };
         };
@@ -39,8 +39,8 @@ namespace atom::engine
         glfw_window_coords glfw_window_size =
             glfw_window_coords_converter::to_glfw(props.window_size);
 
-        _glfw_window = glfwCreateWindow(glfw_window_size.x.to_unwrapped<int>(),
-            glfw_window_size.y.to_unwrapped<int>(), props.window_name.get_data(), nullptr, nullptr);
+        _glfw_window = glfwCreateWindow(
+            glfw_window_size.x, glfw_window_size.y, props.window_name.get_data(), nullptr, nullptr);
 
         _graphics_context = new opengl_context(_glfw_window);
         _graphics_context->initialize();
@@ -49,7 +49,7 @@ namespace atom::engine
         glfwSetWindowUserPointer(_glfw_window, &_user_data);
 
         int glad_load_status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-        contracts::asserts(glad_load_status != 0, "glad inititliazation failed.");
+        ATOM_ASSERTS(glad_load_status != 0, "glad inititliazation failed.");
 
         glfwSetWindowPosCallback(_glfw_window, [](GLFWwindow* native_window, int xpos, int ypos) {
             glfw_window_user_data* user_data =
@@ -107,7 +107,7 @@ namespace atom::engine
     {
         glfw_window_coords glfw_pos = glfw_window_coords_converter::to_glfw(pos);
 
-        glfwSetWindowPos(_glfw_window, glfw_pos.x.to_unwrapped(), glfw_pos.y.to_unwrapped());
+        glfwSetWindowPos(_glfw_window, glfw_pos.x, glfw_pos.y);
         _window_pos = glfw_window_coords_converter::from_glfw(glfw_pos);
     }
 
@@ -128,7 +128,7 @@ namespace atom::engine
     {
         glfw_window_coords glfw_size = glfw_window_coords_converter::to_glfw(size);
 
-        glfwSetWindowSize(_glfw_window, glfw_size.x.to_unwrapped(), glfw_size.y.to_unwrapped());
+        glfwSetWindowSize(_glfw_window, glfw_size.x, glfw_size.y);
         _window_size = glfw_window_coords_converter::from_glfw(glfw_size);
     }
 

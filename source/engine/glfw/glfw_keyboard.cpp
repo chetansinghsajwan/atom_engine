@@ -11,7 +11,7 @@ namespace atom::engine
         , _prev_char_callback(nullptr)
         , _chain_prev_callbacks(true)
     {
-        contracts::debug_expects(window != nullptr);
+        ATOM_DEBUG_EXPECTS(window != nullptr);
 
         glfw_window_user_data* user_data =
             (glfw_window_user_data*)glfwGetWindowUserPointer(window->get_native_glfw());
@@ -32,7 +32,7 @@ namespace atom::engine
                 keyboard_key_code key_code = convert_keyboard_key_code_glfw_to_atom(key);
                 keyboard_key_state key_state = convert_keyboard_key_state_glfw_to_atom(action);
 
-                keyboard->_key_states[(usize::unwrapped_type)key_code] = key_state;
+                keyboard->_key_states[(usize)key_code] = key_state;
 
                 keyboard_key_event event(keyboard, key_code, key_state);
                 keyboard->_event_source.dispatch(event);

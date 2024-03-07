@@ -52,7 +52,7 @@ namespace atom::engine
                 mouse_button_code button_code = convert_mouse_button_code_glfw_to_atom(button);
                 mouse_button_state button_state = convert_mouse_button_state_glfw_to_atom(action);
 
-                mouse->_button_states[(usize::unwrapped_type)button_code] = button_state;
+                mouse->_button_states[(usize)button_code] = button_state;
 
                 mouse_button_event event(mouse, button_code, button_state);
                 mouse->_event_source.dispatch(event);

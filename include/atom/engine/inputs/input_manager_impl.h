@@ -23,7 +23,9 @@ namespace atom::engine
     protected:
         auto _create_new_id() -> input_device_id
         {
-            return input_device_id(_last_id.num.add_assign(1));
+            input_device_id id(_last_id.num);
+            _last_id.num++;
+            return id;
         }
 
         auto _add_new_device(input_device* device) -> void
