@@ -19,7 +19,7 @@ namespace atom::engine
     public:
         auto get_button_state(mouse_button_code button) const -> mouse_button_state
         {
-            return _button_states[(usize::unwrapped_type)button];
+            return _button_states[(usize)button];
         }
 
         auto is_button_up(mouse_button_code button) const -> bool
@@ -97,7 +97,7 @@ namespace atom::engine
         virtual auto _set_raw_move(bool enable) -> void = 0;
 
     protected:
-        mouse_button_state _button_states[(usize::unwrapped_type)mouse_button_code::MAX + 1];
+        mouse_button_state _button_states[(usize)mouse_button_code::MAX + 1];
         f64 _pos_x;
         f64 _pos_y;
         f64 _last_pos_x;

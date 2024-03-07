@@ -1,4 +1,5 @@
 #include "atom/engine/application.h"
+#include "atom/core/contracts.h"
 #include "atom/engine/inputs/keyboard.h"
 #include "atom/engine/inputs/mouse.h"
 #include "atom/engine/inputs/input_manager.h"
@@ -14,7 +15,7 @@ namespace atom::engine
         , _layer(nullptr)
         , _should_run(true)
     {
-        contracts::debug_expects(get() == nullptr, "an appication instance already exists.");
+        ATOM_DEBUG_EXPECTS(get() == nullptr, "an appication instance already exists.");
         _s_app = this;
 
         window_props window_props{
@@ -22,7 +23,7 @@ namespace atom::engine
         };
 
         _window = window_manager::create_window(window_props);
-        contracts::debug_asserts(_window != nullptr);
+        ATOM_DEBUG_EXPECTS(_window != nullptr);
 
         _window->subscribe_event(this);
 

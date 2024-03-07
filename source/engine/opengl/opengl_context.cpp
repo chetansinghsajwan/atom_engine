@@ -13,7 +13,7 @@ namespace atom::engine
     {
         glfwMakeContextCurrent(_window);
         int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-        contracts::asserts(status != 0, "failed to initialize glad.");
+        ATOM_ASSERTS(status != 0, "failed to initialize glad.");
     }
 
     auto opengl_context::swap_buffers() -> void
