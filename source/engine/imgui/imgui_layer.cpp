@@ -1,5 +1,4 @@
 #include "imgui_layer.h"
-#include "engine/imgui/imgui_keyboard_key_conversions.h"
 #include "engine/glfw/glfw_window.h"
 #include "atom/engine/application.h"
 
@@ -7,7 +6,6 @@
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
 #include "GLFW/glfw3.h"
-#include "glad/glad.h"
 
 namespace atom::engine
 {
