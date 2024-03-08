@@ -1,11 +1,17 @@
 #include "atom/engine/application.h"
 #include "atom/core/contracts.h"
+#include "atom/engine/window/window_manager.h"
 #include "atom/engine/inputs/keyboard.h"
 #include "atom/engine/inputs/mouse.h"
 #include "atom/engine/inputs/input_manager.h"
-#include "imgui/imgui_layer.h"
+#include "engine/imgui/imgui_layer.h"
+#include "engine/opengl/opengl_vertex_buffer.h"
+#include "engine/opengl/opengl_index_buffer.h"
 
+#include "engine/rendering/index_buffer.h"
+#include "engine/rendering/vertex_buffer.h"
 #include "glad/glad.h"
+#include <cstdint>
 
 namespace atom::engine
 {
@@ -41,6 +47,14 @@ namespace atom::engine
                 reinterpret_cast<mouse*>(device)->subscribe_event(this);
             }
         }
+
+        float vertices[3 * 3] = { -0.5f, -0.5f, +0.0f, +0.5f, -0.5f, +0.0f, +0.0f, +0.5f, +0.0f };
+        _vertex_buffer =
+            unique_ptr(vertex_buffer::create(vertices, sizeof(vertices) / sizeof(float)));
+
+        uint32_t indices[3] = { 0, 1, 2 };
+        _index_buffer =
+            unique_ptr(index_buffer::create(indices, sizeof(indices) / sizeof(uint32_t)));
     }
 
     application::~application()

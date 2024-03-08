@@ -2,9 +2,10 @@
 #include "atom.core.h"
 #include "atom/engine/window/window.h"
 #include "atom/engine/window/window_events.h"
-#include "atom/engine/window/window_manager.h"
 #include "atom/engine/layers/layer.h"
 #include "atom/engine/layers/layer_stack.h"
+#include "engine/rendering/vertex_buffer.h"
+#include "engine/rendering/index_buffer.h"
 
 namespace atom::engine
 {
@@ -43,6 +44,8 @@ namespace atom::engine
         window* _window;
         layer_stack _layers;
         layer* _layer;
+        unique_ptr<vertex_buffer> _vertex_buffer;
+        unique_ptr<index_buffer> _index_buffer;
         bool _should_run;
 
     private:
