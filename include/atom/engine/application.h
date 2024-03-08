@@ -1,5 +1,7 @@
 #pragma once
 #include "atom.core.h"
+#include "atom/core/memory/unique_ptr.h"
+#include "atom/engine/rendering/shader.h"
 #include "atom/engine/window/window.h"
 #include "atom/engine/window/window_events.h"
 #include "atom/engine/layers/layer.h"
@@ -44,8 +46,9 @@ namespace atom::engine
         window* _window;
         layer_stack _layers;
         layer* _layer;
-        unique_ptr<vertex_buffer> _vertex_buffer;
-        unique_ptr<index_buffer> _index_buffer;
+        std::unique_ptr<shader> _shader;
+        std::unique_ptr<vertex_buffer> _vertex_buffer;
+        std::unique_ptr<index_buffer> _index_buffer;
         bool _should_run;
 
     private:
