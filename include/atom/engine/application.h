@@ -49,6 +49,7 @@ namespace atom::engine
         std::unique_ptr<shader> _shader;
         std::unique_ptr<vertex_buffer> _vertex_buffer;
         std::unique_ptr<index_buffer> _index_buffer;
+        unsigned int _vertex_array;
         bool _should_run;
 
     private:
