@@ -33,11 +33,12 @@ namespace atom::engine
             // We don't need the shader anymore.
             glDeleteShader(vertexShader);
 
-            ATOM_ENGINE_LOG_PANIC("vertex shader compilation failed. infoLog: {}", infoLog);
+            ATOM_ENGINE_LOG_PANIC(
+                "compilation failed for vertex shader. infoLog: {}", infoLog.data());
             return;
         }
 
-        ATOM_ENGINE_LOG_INFO("vertex shader compiled.");
+        ATOM_ENGINE_LOG_INFO("compiled vertex shader.");
         ATOM_ENGINE_LOG_INFO("compiling fragment shader...");
 
         // Create an empty fragment shader handle
@@ -65,11 +66,12 @@ namespace atom::engine
             glDeleteShader(fragmentShader);
             glDeleteShader(vertexShader);
 
-            ATOM_ENGINE_LOG_PANIC("fragment shader compilation failed. infoLog: {}", infoLog);
+            ATOM_ENGINE_LOG_PANIC(
+                "compilation failed for fragment shader. infoLog: {}", infoLog.data());
             return;
         }
 
-        ATOM_ENGINE_LOG_INFO("fragment shader compiled.");
+        ATOM_ENGINE_LOG_INFO("compiled fragment shader.");
 
         // Vertex and fragment shaders are successfully compiled.
         // Now time to link them together into a program.
@@ -103,11 +105,11 @@ namespace atom::engine
             glDeleteShader(vertexShader);
             glDeleteShader(fragmentShader);
 
-            ATOM_ENGINE_LOG_PANIC("program linking failed. infoLog: {}", infoLog);
+            ATOM_ENGINE_LOG_PANIC("linking failed for program. infoLog: {}", infoLog.data());
             return;
         }
 
-        ATOM_ENGINE_LOG_INFO("program linked.");
+        ATOM_ENGINE_LOG_INFO("linked program.");
 
         // Always detach shaders after a successful link.
         glDetachShader(_program, vertexShader);
