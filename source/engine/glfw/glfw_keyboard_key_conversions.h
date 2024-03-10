@@ -3,7 +3,9 @@
 
 #include "GLFW/glfw3.h"
 
-// todo: add handler for default cases.
+/// ------------------------------------------------------------------------------------------------
+/// @todo maybe convert panics to debug panics, return unknown values in release.
+/// ------------------------------------------------------------------------------------------------
 namespace atom::engine
 {
     constexpr auto convert_keyboard_key_code_atom_to_glfw(keyboard_key_code key) -> int
@@ -131,7 +133,10 @@ namespace atom::engine
             case keyboard_key_code::right_alt:     return GLFW_KEY_RIGHT_ALT;
             case keyboard_key_code::right_super:   return GLFW_KEY_RIGHT_SUPER;
             case keyboard_key_code::menu:          return GLFW_KEY_MENU;
-            default:                               throw 0;
+            default:
+            {
+                ATOM_PANIC("invalid key.", key);
+            }
         }
     }
 
@@ -260,7 +265,10 @@ namespace atom::engine
             case GLFW_KEY_RIGHT_ALT:     return keyboard_key_code::right_alt;
             case GLFW_KEY_RIGHT_SUPER:   return keyboard_key_code::right_super;
             case GLFW_KEY_MENU:          return keyboard_key_code::menu;
-            default:                     throw 0;
+            default:
+            {
+                ATOM_PANIC("invalid key.", key);
+            }
         }
     }
 
@@ -272,7 +280,10 @@ namespace atom::engine
             case keyboard_key_state::pressed:  return GLFW_PRESS;
             case keyboard_key_state::down:     return GLFW_PRESS;
             case keyboard_key_state::released: return GLFW_RELEASE;
-            default:                           throw 0;
+            default:
+            {
+                ATOM_PANIC("invalid state.", state);
+            }
         }
     }
 
@@ -282,7 +293,10 @@ namespace atom::engine
         {
             case GLFW_PRESS:   return keyboard_key_state::pressed;
             case GLFW_RELEASE: return keyboard_key_state::released;
-            default:           throw 0;
+            default:
+            {
+                ATOM_PANIC("invalid state.", state);
+            }
         }
     }
 }

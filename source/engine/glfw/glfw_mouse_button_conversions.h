@@ -4,6 +4,9 @@
 
 #include "GLFW/glfw3.h"
 
+/// ------------------------------------------------------------------------------------------------
+/// @todo maybe convert panics to debug panics, return unknown values in release.
+/// ------------------------------------------------------------------------------------------------
 namespace atom::engine
 {
     constexpr auto convert_mouse_button_code_atom_to_glfw(mouse_button_code button) -> int
@@ -18,7 +21,10 @@ namespace atom::engine
             case mouse_button_code::n5: return GLFW_MOUSE_BUTTON_6;
             case mouse_button_code::n6: return GLFW_MOUSE_BUTTON_7;
             case mouse_button_code::n7: return GLFW_MOUSE_BUTTON_8;
-            default:                    throw 0;
+            default:
+            {
+                ATOM_PANIC("invalid button.", button);
+            }
         }
     }
 
@@ -34,7 +40,10 @@ namespace atom::engine
             case GLFW_MOUSE_BUTTON_6: return mouse_button_code::n5;
             case GLFW_MOUSE_BUTTON_7: return mouse_button_code::n6;
             case GLFW_MOUSE_BUTTON_8: return mouse_button_code::n7;
-            default:                  throw 0;
+            default:
+            {
+                ATOM_PANIC("invalid button.", button);
+            }
         }
     }
 
@@ -46,7 +55,10 @@ namespace atom::engine
             case mouse_button_state::pressed:  return GLFW_PRESS;
             case mouse_button_state::down:     return GLFW_PRESS;
             case mouse_button_state::released: return GLFW_RELEASE;
-            default:                           throw 0;
+            default:
+            {
+                ATOM_PANIC("invalid state.", state);
+            }
         }
     }
 
@@ -56,7 +68,10 @@ namespace atom::engine
         {
             case GLFW_PRESS:   return mouse_button_state::pressed;
             case GLFW_RELEASE: return mouse_button_state::released;
-            default:           throw 0;
+            default:
+            {
+                ATOM_PANIC("invalid state.", state);
+            }
         }
     }
 }
