@@ -1,42 +1,40 @@
 cmake_minimum_required(VERSION 3.5)
-project(AtomEngine VERSION 0.1.0 LANGUAGES CXX C)
+project(
+    AtomEngine
+    VERSION 0.1.0
+    LANGUAGES CXX C)
 
 include(FetchContent)
 
 FetchContent_Declare(
     atom_core
     GIT_REPOSITORY "https://github.com/shifu-dev/atom.core.git"
-    GIT_TAG        "dev"
-    GIT_SHALLOW    true
-)
+    GIT_TAG "dev"
+    GIT_SHALLOW true)
 
 FetchContent_Declare(
     atom_logging
     GIT_REPOSITORY "https://github.com/shifu-dev/atom.logging.git"
-    GIT_TAG        "dev"
-    GIT_SHALLOW    true
-)
+    GIT_TAG "dev"
+    GIT_SHALLOW true)
 
 FetchContent_Declare(
     glm
     GIT_REPOSITORY "https://github.com/g-truc/glm.git"
-    GIT_TAG        "1.0.1"
-    GIT_SHALLOW    true
-)
+    GIT_TAG "1.0.1"
+    GIT_SHALLOW true)
 
 FetchContent_Declare(
     glfw
     GIT_REPOSITORY "https://github.com/glfw/glfw.git"
-    GIT_TAG        "3.3.9"
-    GIT_SHALLOW    true
-)
+    GIT_TAG "3.3.9"
+    GIT_SHALLOW true)
 
 FetchContent_Declare(
     imgui
     GIT_REPOSITORY "https://github.com/ocornut/imgui.git"
-    GIT_TAG        "docking"
-    GIT_SHALLOW    true
-)
+    GIT_TAG "docking"
+    GIT_SHALLOW true)
 
 FetchContent_MakeAvailable(atom_core atom_logging glm glfw imgui)
 FetchContent_GetProperties(imgui)
@@ -51,9 +49,8 @@ add_subdirectory("vendor/glad")
 # --------------------------------------------------------------------------------------------------
 add_library(imgui SHARED)
 file(GLOB imgui_sources "${imgui_SOURCE_DIR}/*.cpp")
-list(APPEND imgui_sources
-    "${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp"
-    "${imgui_SOURCE_DIR}/backends/imgui_impl_glfw.cpp")
+list(APPEND imgui_sources "${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp"
+     "${imgui_SOURCE_DIR}/backends/imgui_impl_glfw.cpp")
 target_sources(imgui PRIVATE "${imgui_sources}")
 target_include_directories(imgui PUBLIC "${imgui_SOURCE_DIR}")
 target_link_libraries(imgui PUBLIC glfw)
