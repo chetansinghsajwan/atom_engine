@@ -17,6 +17,7 @@
                 clang_17
                 clang-tools_17
                 cmake
+                cmake-format
                 gnumake
                 ninja
                 glfw
