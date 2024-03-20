@@ -1,42 +1,49 @@
 cmake_minimum_required(VERSION 3.5)
 project(
-    AtomEngine
+    atom.engine
     VERSION 0.1.0
     LANGUAGES CXX C)
 
 include(FetchContent)
+set(FETCHCONTENT_QUIET "OFF")
 
 FetchContent_Declare(
     atom_core
     GIT_REPOSITORY "https://github.com/shifu-dev/atom.core.git"
     GIT_TAG "dev"
-    GIT_SHALLOW true)
+    GIT_SHALLOW true
+    EXCLUDE_FROM_ALL)
 
 FetchContent_Declare(
     atom_logging
     GIT_REPOSITORY "https://github.com/shifu-dev/atom.logging.git"
     GIT_TAG "dev"
-    GIT_SHALLOW true)
+    GIT_SHALLOW true
+    EXCLUDE_FROM_ALL)
 
 FetchContent_Declare(
     glm
     GIT_REPOSITORY "https://github.com/g-truc/glm.git"
     GIT_TAG "1.0.1"
-    GIT_SHALLOW true)
+    GIT_SHALLOW true
+    EXCLUDE_FROM_ALL)
 
 FetchContent_Declare(
-    glfw
+    glfw3
     GIT_REPOSITORY "https://github.com/glfw/glfw.git"
     GIT_TAG "3.3.9"
-    GIT_SHALLOW true)
+    GIT_SHALLOW true
+    EXCLUDE_FROM_ALL
+    FIND_PACKAGE_ARGS "")
 
 FetchContent_Declare(
     imgui
     GIT_REPOSITORY "https://github.com/ocornut/imgui.git"
     GIT_TAG "docking"
-    GIT_SHALLOW true)
+    GIT_SHALLOW true
+    EXCLUDE_FROM_ALL)
 
-FetchContent_MakeAvailable(atom_core atom_logging glm glfw imgui)
+FetchContent_MakeAvailable(atom_core atom_logging glm glfw3 imgui)
 FetchContent_GetProperties(imgui)
 
 # --------------------------------------------------------------------------------------------------
