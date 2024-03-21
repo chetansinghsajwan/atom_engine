@@ -54,7 +54,7 @@ add_subdirectory("vendor/glad")
 # --------------------------------------------------------------------------------------------------
 # imgui
 # --------------------------------------------------------------------------------------------------
-add_library(imgui SHARED)
+add_library(imgui STATIC)
 file(GLOB imgui_sources "${imgui_SOURCE_DIR}/*.cpp")
 list(APPEND imgui_sources "${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp"
      "${imgui_SOURCE_DIR}/backends/imgui_impl_glfw.cpp")
