@@ -76,7 +76,7 @@ namespace atom::engine
         // Vertex and fragment shaders are successfully compiled.
         // Now time to link them together into a program.
         // Get a program object.
-        GLuint _program = glCreateProgram();
+        _program = glCreateProgram();
 
         // Attach our shaders to our program
         glAttachShader(_program, vertexShader);
