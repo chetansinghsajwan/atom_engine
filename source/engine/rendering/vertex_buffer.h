@@ -1,5 +1,6 @@
 #pragma once
 #include "atom.core.h"
+#include "engine/rendering/buffer_layout.h"
 
 namespace atom::engine
 {
@@ -15,5 +16,7 @@ namespace atom::engine
         virtual auto bind() const -> void = 0;
         virtual auto unbind() const -> void = 0;
         virtual auto get_count() const -> u32 = 0;
+        virtual auto set_layout(const buffer_layout& layout) -> void = 0;
+        virtual auto get_layout() -> buffer_layout& = 0;
     };
 }
