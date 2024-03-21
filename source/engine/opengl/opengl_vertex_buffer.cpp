@@ -1,4 +1,5 @@
 #include "opengl_vertex_buffer.h"
+#include "engine/rendering/buffer_layout.h"
 #include "glad/glad.h"
 
 namespace atom::engine
@@ -16,7 +17,7 @@ namespace atom::engine
     {
         glDeleteBuffers(1, &_renderer_id);
     }
-    
+
     auto opengl_vertex_buffer::bind() const -> void
     {
         glBindBuffer(GL_ARRAY_BUFFER, _renderer_id);
@@ -30,5 +31,15 @@ namespace atom::engine
     auto opengl_vertex_buffer::get_count() const -> u32
     {
         return _count;
+    }
+
+    auto opengl_vertex_buffer::set_layout(const buffer_layout& layout) -> void
+    {
+        _layout = layout;
+    }
+
+    auto opengl_vertex_buffer::get_layout() -> buffer_layout&
+    {
+        return _layout;
     }
 }

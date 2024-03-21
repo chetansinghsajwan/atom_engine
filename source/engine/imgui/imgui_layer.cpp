@@ -38,7 +38,7 @@ namespace atom::engine
 
     auto imgui_layer::on_imgui_render() -> void
     {
-        ImGui::ShowDemoWindow();
+        // ImGui::ShowDemoWindow();
     }
 
     auto imgui_layer::end_render() -> void
