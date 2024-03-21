@@ -6,6 +6,7 @@
 #include "atom/engine/window/window_events.h"
 #include "atom/engine/layers/layer.h"
 #include "atom/engine/layers/layer_stack.h"
+#include "engine/rendering/vertex_array.h"
 #include "engine/rendering/vertex_buffer.h"
 #include "engine/rendering/index_buffer.h"
 
@@ -47,9 +48,7 @@ namespace atom::engine
         layer_stack _layers;
         layer* _layer;
         std::unique_ptr<shader> _shader;
-        std::unique_ptr<vertex_buffer> _vertex_buffer;
-        std::unique_ptr<index_buffer> _index_buffer;
-        unsigned int _vertex_array;
+        std::unique_ptr<vertex_array> _vertex_array;
         bool _should_run;
 
     private:

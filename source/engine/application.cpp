@@ -16,29 +16,6 @@
 
 namespace atom::engine
 {
-    constexpr auto convert_shader_data_type_atom_to_opengl(shader_data_type type) -> GLenum
-    {
-        switch (type)
-        {
-            case shader_data_type::boolean: return GL_BOOL;
-            case shader_data_type::int1:    return GL_INT;
-            case shader_data_type::int2:    return GL_INT;
-            case shader_data_type::int3:    return GL_INT;
-            case shader_data_type::int4:    return GL_INT;
-            case shader_data_type::float1:  return GL_FLOAT;
-            case shader_data_type::float2:  return GL_FLOAT;
-            case shader_data_type::float3:  return GL_FLOAT;
-            case shader_data_type::float4:  return GL_FLOAT;
-            case shader_data_type::mat3:    return GL_FLOAT;
-            case shader_data_type::mat4:    return GL_FLOAT;
-            default:
-            {
-                ATOM_PANIC("invalid shader_data_type.");
-                return 0;
-            }
-        }
-    }
-
     application::application()
         : _window(nullptr)
         , _layers()
@@ -80,8 +57,7 @@ namespace atom::engine
 
         // renderer setup
 
-        glGenVertexArrays(1, &_vertex_array);
-        glBindVertexArray(_vertex_array);
+        _vertex_array = std::unique_ptr<vertex_array>(vertex_array::create());
 
         // clang-format off
         float vertices[] =
@@ -91,30 +67,17 @@ namespace atom::engine
 			 0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f
         };
         // clang-format on
-        _vertex_buffer = std::unique_ptr<vertex_buffer>(
-            vertex_buffer::create(vertices, sizeof(vertices) / sizeof(float)));
 
-        _vertex_buffer->set_layout({
+        vertex_buffer* vbuffer = vertex_buffer::create(vertices, sizeof(vertices) / sizeof(float));
+        vbuffer->set_layout({
             {shader_data_type::float3,  "a_position"},
             { shader_data_type::float4, "a_color"   }
         });
-
-        const buffer_layout& layout = _vertex_buffer->get_layout();
-        array_view<buffer_element> layout_elements = layout.get_elements();
-        for (usize i = 0; i < layout_elements.get_count(); i++)
-        {
-            const auto& elem = layout_elements[i];
-
-            glEnableVertexAttribArray(i);
-            glVertexAttribPointer(i, elem.get_component_count(),
-                convert_shader_data_type_atom_to_opengl(elem.type),
-                elem.is_normalized ? GL_TRUE : GL_FALSE, layout.get_stride(),
-                (const void*)elem.offset);
-        }
+        _vertex_array->add_vertex_buffer(&*vbuffer);
 
         uint32_t indices[3] = { 0, 1, 2 };
-        _index_buffer = std::unique_ptr<index_buffer>(
-            index_buffer::create(indices, sizeof(indices) / sizeof(uint32_t)));
+        index_buffer* ibuffer = index_buffer::create(indices, sizeof(indices) / sizeof(uint32_t));
+        _vertex_array->set_index_buffer(&*ibuffer);
 
         const string_view vertex_shader_source = R"(
             #version 330 core
@@ -159,6 +122,12 @@ namespace atom::engine
 
         _layers.pop_layer(_layer);
         delete _layer;
+
+        delete _vertex_array->get_index_buffer();
+        for (const vertex_buffer* buffer : _vertex_array->get_vertex_buffers())
+        {
+            delete buffer;
+        }
     }
 
     auto application::run() -> void
@@ -169,8 +138,9 @@ namespace atom::engine
             glClear(GL_COLOR_BUFFER_BIT);
 
             _shader->bind();
-            glBindVertexArray(_vertex_array);
-            glDrawElements(GL_TRIANGLES, _index_buffer->get_count(), GL_UNSIGNED_INT, nullptr);
+            _vertex_array->bind();
+            glDrawElements(GL_TRIANGLES, _vertex_array->get_index_buffer()->get_count(),
+                GL_UNSIGNED_INT, nullptr);
 
             for (layer* layer : _layers.get_layers())
                 layer->on_update();
