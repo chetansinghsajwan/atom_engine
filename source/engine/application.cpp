@@ -34,11 +34,6 @@ namespace atom::engine
 
         _window->subscribe_event(this);
 
-        // layer setup
-
-        _layer = new imgui_layer();
-        _layers.push_layer(_layer);
-
         // inputs event setup
 
         for (input_device* device : input_manager::get_devices())
@@ -52,6 +47,11 @@ namespace atom::engine
                 reinterpret_cast<mouse*>(device)->subscribe_event(this);
             }
         }
+
+        // layer setup
+
+        _layer = new imgui_layer();
+        _layers.push_layer(_layer);
 
         // renderer setup
 
