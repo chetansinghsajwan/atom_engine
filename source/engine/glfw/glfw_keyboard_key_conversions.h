@@ -293,6 +293,7 @@ namespace atom::engine
         {
             case GLFW_PRESS:   return keyboard_key_state::pressed;
             case GLFW_RELEASE: return keyboard_key_state::released;
+            case GLFW_REPEAT: return keyboard_key_state::pressed;
             default:
             {
                 ATOM_PANIC("invalid state.", state);
