@@ -6,10 +6,6 @@
 #include "atom/engine/window/window_events.h"
 #include "atom/engine/layers/layer.h"
 #include "atom/engine/layers/layer_stack.h"
-#include "engine/rendering/vertex_array.h"
-#include "engine/rendering/vertex_buffer.h"
-#include "engine/rendering/index_buffer.h"
-#include "engine/rendering/orthographic_camera.h"
 
 namespace atom::engine
 {
@@ -37,6 +33,11 @@ namespace atom::engine
             return _window;
         }
 
+        auto push_layer(class layer* layer) -> void
+        {
+            _layers.push_layer(layer);
+        }
+
     private:
         virtual auto handle(window_event& event) -> void override;
 
@@ -48,9 +49,6 @@ namespace atom::engine
         window* _window;
         layer_stack _layers;
         layer* _layer;
-        std::unique_ptr<shader> _shader;
-        std::unique_ptr<vertex_array> _vertex_array;
-        orthographic_camera _camera;
         bool _should_run;
 
     private:
