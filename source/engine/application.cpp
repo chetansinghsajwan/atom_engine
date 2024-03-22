@@ -11,6 +11,7 @@
 #include "engine/rendering/index_buffer.h"
 #include "engine/rendering/vertex_buffer.h"
 #include "engine/rendering/renderer.h"
+#include "GLFW/glfw3.h"
 #include <memory>
 #include <cstdint>
 
@@ -20,6 +21,7 @@ namespace atom::engine
         : _window(nullptr)
         , _layers()
         , _layer(nullptr)
+        , _last_frame_time(0)
         , _should_run(true)
     {
         ATOM_DEBUG_EXPECTS(get() == nullptr, "an appication instance already exists.");
@@ -72,8 +74,12 @@ namespace atom::engine
     {
         while (_should_run)
         {
+            float time = glfwGetTime();
+            float delta_time = time - _last_frame_time;
+            _last_frame_time = time;
+
             for (layer* layer : _layers.get_layers())
-                layer->on_update();
+                layer->on_update(time_stemp(delta_time));
 
             class imgui_layer* imgui_layer = (class imgui_layer*)_layer;
 

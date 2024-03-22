@@ -6,6 +6,7 @@
 #include "atom/engine/window/window_events.h"
 #include "atom/engine/layers/layer.h"
 #include "atom/engine/layers/layer_stack.h"
+#include "atom/engine/time.h"
 
 namespace atom::engine
 {
@@ -49,6 +50,7 @@ namespace atom::engine
         window* _window;
         layer_stack _layers;
         layer* _layer;
+        float _last_frame_time;
         bool _should_run;
 
     private:
