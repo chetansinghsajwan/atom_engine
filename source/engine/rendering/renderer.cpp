@@ -2,5 +2,13 @@
 
 namespace atom::engine
 {
-    renderer_api renderer::_api = renderer_api::opengl;
+    auto renderer::begin_scene() -> void {}
+
+    auto renderer::end_scene() -> void {}
+
+    auto renderer::submit(vertex_array* arr) -> void
+    {
+        arr->bind();
+        render_command::draw_indexed(arr);
+    }
 }
