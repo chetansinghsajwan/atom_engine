@@ -24,7 +24,8 @@ namespace atom::engine
 
         auto is_key_up(keyboard_key_code key) const -> bool
         {
-            return get_key_state(key) == keyboard_key_state::up;
+            keyboard_key_state state = get_key_state(key);
+            return state == keyboard_key_state::up || state == keyboard_key_state::released;
         }
 
         auto is_key_pressed(keyboard_key_code key) const -> bool
@@ -34,7 +35,8 @@ namespace atom::engine
 
         auto is_key_down(keyboard_key_code key) const -> bool
         {
-            return get_key_state(key) == keyboard_key_state::down;
+            keyboard_key_state state = get_key_state(key);
+            return state == keyboard_key_state::down || state == keyboard_key_state::pressed;
         }
 
         auto is_key_released(keyboard_key_code key) const -> bool
