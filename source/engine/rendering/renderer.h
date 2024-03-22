@@ -1,22 +1,19 @@
 #pragma once
+#include "renderer_api.h"
+#include "engine/rendering/render_command.h"
 
 namespace atom::engine
 {
-    enum class renderer_api
-    {
-        none,
-        opengl
-    };
-
     class renderer
     {
     public:
-        static auto get_api() -> renderer_api
+        static auto get_api() -> renderer_api::api
         {
-            return _api;
+            return renderer_api::get_api();
         }
 
-    private:
-        static renderer_api _api;
+        static auto begin_scene() -> void;
+        static auto end_scene() -> void;
+        static auto submit(vertex_array* arr) -> void;
     };
 }

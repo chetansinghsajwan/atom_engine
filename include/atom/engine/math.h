@@ -1,5 +1,6 @@
 #pragma once
 #include "atom.core.h"
+#include "glm/glm.hpp"
 
 namespace atom::engine
 {
@@ -20,4 +21,6 @@ namespace atom::engine
         f64 x;
         f64 y;
     };
+
+    using vec4 = glm::vec4;
 }

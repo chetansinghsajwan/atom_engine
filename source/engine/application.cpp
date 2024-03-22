@@ -10,7 +10,7 @@
 #include "engine/rendering/buffer_layout.h"
 #include "engine/rendering/index_buffer.h"
 #include "engine/rendering/vertex_buffer.h"
-#include "glad/glad.h"
+#include "engine/rendering/renderer.h"
 #include <memory>
 #include <cstdint>
 
@@ -137,10 +137,15 @@ namespace atom::engine
             glClearColor(0.1f, 0.1f, 0.1f, 1);
             glClear(GL_COLOR_BUFFER_BIT);
 
+            render_command::set_clear_color({ 0.1f, 0.1f, 0.1f, 1 });
+            render_command::clear_color();
+
+            renderer::begin_scene();
+
             _shader->bind();
-            _vertex_array->bind();
-            glDrawElements(GL_TRIANGLES, _vertex_array->get_index_buffer()->get_count(),
-                GL_UNSIGNED_INT, nullptr);
+            renderer::submit(&*_vertex_array);
+
+            renderer::end_scene();
 
             for (layer* layer : _layers.get_layers())
                 layer->on_update();
