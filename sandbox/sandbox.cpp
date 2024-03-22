@@ -14,8 +14,8 @@ public:
         , _camera(-1.6f, 1.6f, -0.9f, 0.9f) // ratio: 16:9
         , _camera_pos(0, 0, 0)
         , _camera_rot(0)
-        , _camera_move_speed(0.05f)
-        , _camera_rot_speed(0.8)
+        , _camera_move_speed(5)
+        , _camera_rot_speed(180)
     {
         _setup_logging();
         _setup_keyboard();
@@ -37,15 +37,15 @@ public:
         _logger->log_info("sandbox layer attached.");
     }
 
-    virtual auto on_update() -> void override
+    virtual auto on_update(time_stemp delta_time) -> void override
     {
-        _process_inputs();
-
-        render_command::set_clear_color({ 0.1f, 0.1f, 0.1f, 1 });
-        render_command::clear_color();
+        _process_inputs(delta_time);
 
         _camera.set_position(_camera_pos);
         _camera.set_rotation(_camera_rot);
+
+        render_command::set_clear_color({ 0.1f, 0.1f, 0.1f, 1 });
+        render_command::clear_color();
 
         renderer::begin_scene(&_camera);
         renderer::submit(&*_shader, &*_vertex_array);
@@ -132,49 +132,48 @@ private:
         _shader = std::make_unique<opengl_shader>(vertex_shader_source, fragment_shader_source);
     }
 
-    auto _process_inputs() -> void
+    auto _process_inputs(time_stemp delta_time) -> void
     {
         ATOM_DEBUG_EXPECTS(_keyboard != nullptr);
 
         if (_keyboard->is_key_down(keyboard_key_code::w))
         {
-            _logger->log_info("w is down.");
-            _camera_pos.y += _camera_move_speed;
+            _camera_pos.y += _camera_move_speed * delta_time.get_seconds();
         }
 
         if (_keyboard->is_key_down(keyboard_key_code::s))
         {
-            _camera_pos.y -= _camera_move_speed;
+            _camera_pos.y -= _camera_move_speed * delta_time.get_seconds();
         }
 
         if (_keyboard->is_key_down(keyboard_key_code::a))
         {
-            _camera_pos.x -= _camera_move_speed;
+            _camera_pos.x -= _camera_move_speed * delta_time.get_seconds();
         }
 
         if (_keyboard->is_key_down(keyboard_key_code::d))
         {
-            _camera_pos.x += _camera_move_speed;
+            _camera_pos.x += _camera_move_speed * delta_time.get_seconds();
         }
 
         if (_keyboard->is_key_down(keyboard_key_code::q))
         {
-            _camera_pos.z -= _camera_move_speed;
+            _camera_pos.z -= _camera_move_speed * delta_time.get_seconds();
         }
 
         if (_keyboard->is_key_down(keyboard_key_code::e))
         {
-            _camera_pos.z += _camera_move_speed;
+            _camera_pos.z += _camera_move_speed * delta_time.get_seconds();
         }
 
         if (_keyboard->is_key_down(keyboard_key_code::z))
         {
-            _camera_rot += _camera_rot_speed;
+            _camera_rot += _camera_rot_speed * delta_time.get_seconds();
         }
 
         if (_keyboard->is_key_down(keyboard_key_code::x))
         {
-            _camera_rot -= _camera_rot_speed;
+            _camera_rot -= _camera_rot_speed * delta_time.get_seconds();
         }
     }
 

@@ -3,6 +3,7 @@
 #include "atom/engine/inputs/keyboard_events.h"
 #include "atom/engine/inputs/mouse_events.h"
 #include "atom/engine/window/window_events.h"
+#include "atom/engine/time.h"
 
 namespace atom::engine
 {
@@ -23,7 +24,7 @@ namespace atom::engine
 
         virtual auto on_attach() -> void {}
 
-        virtual auto on_update() -> void {}
+        virtual auto on_update(time_stemp delta_time) -> void {}
 
         virtual auto on_imgui_render() -> void {}
 

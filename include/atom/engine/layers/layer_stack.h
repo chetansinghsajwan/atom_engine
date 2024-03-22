@@ -61,11 +61,11 @@ namespace atom::engine
             return _layers.get_count() - _normal_layer_count;
         }
 
-        auto update_layers()
+        auto update_layers(time_stemp delta_time)
         {
             for (layer* layer : _layers)
             {
-                layer->on_update();
+                layer->on_update(delta_time);
             }
         }
 
