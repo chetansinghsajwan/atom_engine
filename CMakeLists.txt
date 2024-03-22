@@ -33,8 +33,7 @@ FetchContent_Declare(
     GIT_REPOSITORY "https://github.com/glfw/glfw.git"
     GIT_TAG "3.3.9"
     GIT_SHALLOW true
-    EXCLUDE_FROM_ALL
-    FIND_PACKAGE_ARGS "")
+    EXCLUDE_FROM_ALL FIND_PACKAGE_ARGS "")
 
 FetchContent_Declare(
     imgui
@@ -92,5 +91,6 @@ target_compile_definitions(atom.engine PUBLIC "GLFW_INCLUDE_NONE")
 # atom.engine.sandbox
 # --------------------------------------------------------------------------------------------------
 
-add_executable(atom.engine.sandbox "sandbox/sandbox.cpp")
+add_executable(atom.engine.sandbox)
+target_sources(atom.engine.sandbox PRIVATE "sandbox/sandbox.cpp" "sandbox/sandbox_layer.cpp")
 target_link_libraries(atom.engine.sandbox PRIVATE atom.engine)
