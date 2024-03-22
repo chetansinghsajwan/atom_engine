@@ -12,6 +12,68 @@ public:
     sandbox_layer()
         : layer("sandbox")
         , _camera(-1.6f, 1.6f, -0.9f, 0.9f) // ratio: 16:9
+        , _camera_pos(0, 0, 0)
+        , _camera_rot(0)
+        , _camera_move_speed(0.05f)
+        , _camera_rot_speed(0.8)
+    {
+        _setup_logging();
+        _setup_keyboard();
+        _setup_rendering();
+    }
+
+    ~sandbox_layer()
+    {
+        delete _vertex_array->get_index_buffer();
+        for (const vertex_buffer* buffer : _vertex_array->get_vertex_buffers())
+        {
+            delete buffer;
+        }
+    }
+
+public:
+    virtual auto on_attach() -> void override
+    {
+        _logger->log_info("sandbox layer attached.");
+    }
+
+    virtual auto on_update() -> void override
+    {
+        _process_inputs();
+
+        render_command::set_clear_color({ 0.1f, 0.1f, 0.1f, 1 });
+        render_command::clear_color();
+
+        _camera.set_position(_camera_pos);
+        _camera.set_rotation(_camera_rot);
+
+        renderer::begin_scene(&_camera);
+        renderer::submit(&*_shader, &*_vertex_array);
+        renderer::end_scene();
+    }
+
+private:
+    auto _setup_logging() -> void
+    {
+        _logger = logger_manager::create_logger({ .name = "sandbox" }).get_at<0>();
+    }
+
+    auto _setup_keyboard() -> void
+    {
+        for (input_device* device : input_manager::get_devices())
+        {
+            if (device->get_type() == input_device_type::keyboard)
+            {
+                _keyboard = reinterpret_cast<keyboard*>(device);
+                _logger->log_info("using keyboard '{}'.", _keyboard->get_name());
+                break;
+            }
+        }
+
+        ATOM_DEBUG_ASSERTS(_keyboard != nullptr);
+    }
+
+    auto _setup_rendering() -> void
     {
         _vertex_array = std::unique_ptr<vertex_array>(vertex_array::create());
 
@@ -70,33 +132,62 @@ public:
         _shader = std::make_unique<opengl_shader>(vertex_shader_source, fragment_shader_source);
     }
 
-    ~sandbox_layer()
+    auto _process_inputs() -> void
     {
-        delete _vertex_array->get_index_buffer();
-        for (const vertex_buffer* buffer : _vertex_array->get_vertex_buffers())
+        ATOM_DEBUG_EXPECTS(_keyboard != nullptr);
+
+        if (_keyboard->is_key_down(keyboard_key_code::w))
         {
-            delete buffer;
+            _logger->log_info("w is down.");
+            _camera_pos.y += _camera_move_speed;
+        }
+
+        if (_keyboard->is_key_down(keyboard_key_code::s))
+        {
+            _camera_pos.y -= _camera_move_speed;
+        }
+
+        if (_keyboard->is_key_down(keyboard_key_code::a))
+        {
+            _camera_pos.x -= _camera_move_speed;
+        }
+
+        if (_keyboard->is_key_down(keyboard_key_code::d))
+        {
+            _camera_pos.x += _camera_move_speed;
+        }
+
+        if (_keyboard->is_key_down(keyboard_key_code::q))
+        {
+            _camera_pos.z -= _camera_move_speed;
+        }
+
+        if (_keyboard->is_key_down(keyboard_key_code::e))
+        {
+            _camera_pos.z += _camera_move_speed;
+        }
+
+        if (_keyboard->is_key_down(keyboard_key_code::z))
+        {
+            _camera_rot += _camera_rot_speed;
+        }
+
+        if (_keyboard->is_key_down(keyboard_key_code::x))
+        {
+            _camera_rot -= _camera_rot_speed;
         }
     }
 
-public:
-    virtual auto on_update() -> void override
-    {
-        render_command::set_clear_color({ 0.1f, 0.1f, 0.1f, 1 });
-        render_command::clear_color();
-
-        _camera.set_position({ 0.5f, 0.5f, 0.0f });
-        _camera.set_rotation(45.0f);
-
-        renderer::begin_scene(&_camera);
-        renderer::submit(&*_shader, &*_vertex_array);
-        renderer::end_scene();
-    }
-
 private:
+    logger* _logger;
     std::unique_ptr<shader> _shader;
     std::unique_ptr<vertex_array> _vertex_array;
     orthographic_camera _camera;
+    glm::vec3 _camera_pos;
+    float _camera_rot;
+    float _camera_move_speed;
+    float _camera_rot_speed;
+    keyboard* _keyboard;
 };
 
 class sandbox_application: public application
