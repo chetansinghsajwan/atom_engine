@@ -1,5 +1,4 @@
 #include "sandbox_layer.h"
-#include "engine/opengl/opengl_shader.h"
 #include "engine/rendering/renderer.h"
 
 using namespace atom;
@@ -126,7 +125,8 @@ namespace sandbox
             }
         )";
 
-        _shader = std::make_unique<opengl_shader>(vertex_shader_source, fragment_shader_source);
+        _shader =
+            std::unique_ptr<shader>(shader::create(vertex_shader_source, fragment_shader_source));
     }
 
     auto sandbox_layer::_process_inputs(time_stemp delta_time) -> void
