@@ -21,6 +21,7 @@ namespace atom::engine
         , _layers()
         , _layer(nullptr)
         , _should_run(true)
+        , _camera(-1.6f, 1.6f, -0.9f, 0.9f) // ratio: 16:9
     {
         ATOM_DEBUG_EXPECTS(get() == nullptr, "an appication instance already exists.");
         _s_app = this;
@@ -88,11 +89,13 @@ namespace atom::engine
 			out vec3 v_position;
 			out vec4 v_color;
 
+            uniform mat4 u_view_projection;
+
             void main()
             {
                 v_position = a_position;
                 v_color = a_color;
-                gl_Position = vec4(a_position, 1.0);
+                gl_Position = u_view_projection * vec4(a_position, 1.0);
             }
         )";
 
@@ -140,11 +143,11 @@ namespace atom::engine
             render_command::set_clear_color({ 0.1f, 0.1f, 0.1f, 1 });
             render_command::clear_color();
 
-            renderer::begin_scene();
+            _camera.set_position({ 0.5f, 0.5f, 0.0f });
+            _camera.set_rotation(45.0f);
 
-            _shader->bind();
-            renderer::submit(&*_vertex_array);
-
+            renderer::begin_scene(&_camera);
+            renderer::submit(&*_shader, &*_vertex_array);
             renderer::end_scene();
 
             for (layer* layer : _layers.get_layers())
