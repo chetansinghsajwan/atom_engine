@@ -9,6 +9,7 @@
 #include "engine/rendering/vertex_array.h"
 #include "engine/rendering/vertex_buffer.h"
 #include "engine/rendering/index_buffer.h"
+#include "engine/rendering/orthographic_camera.h"
 
 namespace atom::engine
 {
@@ -49,6 +50,7 @@ namespace atom::engine
         layer* _layer;
         std::unique_ptr<shader> _shader;
         std::unique_ptr<vertex_array> _vertex_array;
+        orthographic_camera _camera;
         bool _should_run;
 
     private:
