@@ -51,6 +51,11 @@ FetchContent_GetProperties(imgui)
 add_subdirectory("vendor/glad")
 
 # --------------------------------------------------------------------------------------------------
+# stb_image
+# --------------------------------------------------------------------------------------------------
+add_subdirectory("vendor/stb_image")
+
+# --------------------------------------------------------------------------------------------------
 # imgui
 # --------------------------------------------------------------------------------------------------
 add_library(imgui STATIC)
@@ -85,6 +90,7 @@ target_link_libraries(atom.engine PUBLIC glm)
 target_link_libraries(atom.engine PUBLIC glfw)
 target_link_libraries(atom.engine PUBLIC glad)
 target_link_libraries(atom.engine PUBLIC imgui)
+target_link_libraries(atom.engine PUBLIC stb_image)
 target_compile_definitions(atom.engine PUBLIC "GLFW_INCLUDE_NONE")
 
 # --------------------------------------------------------------------------------------------------
