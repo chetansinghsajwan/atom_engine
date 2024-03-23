@@ -19,6 +19,8 @@ namespace atom::engine
             return _api;
         }
 
+        virtual auto initialize() -> void = 0;
+        virtual auto finalize() -> void = 0;
         virtual auto set_clear_color(vec4 color) -> void = 0;
         virtual auto clear_color() -> void = 0;
         virtual auto draw_indexed(vertex_array* arr) -> void = 0;

@@ -25,11 +25,32 @@ namespace atom::engine
         _height = y;
         _width = x;
 
+        int gl_format = 0;
+        int gl_data_format = 0;
+
+        if (channels == 3)
+        {
+            gl_format = GL_RGB8;
+            gl_data_format = GL_RGB;
+        }
+        else if (channels == 4)
+        {
+            gl_format = GL_RGBA8;
+            gl_data_format = GL_RGBA;
+        }
+        else
+        {
+            ATOM_PANIC(
+                "atom.engine only supports rgb and rgba texture formats for now. channels: {}",
+                channels);
+        }
+
         glCreateTextures(GL_TEXTURE_2D, 1, &_renderer_id);
-        glTextureStorage2D(_renderer_id, 1, GL_RGB8, _width, _height);
+        glTextureStorage2D(_renderer_id, 1, gl_format, _width, _height);
         glTextureParameteri(_renderer_id, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTextureParameteri(_renderer_id, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glTextureSubImage2D(_renderer_id, 0, 0, 0, _width, _height, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glTextureSubImage2D(
+            _renderer_id, 0, 0, 0, _width, _height, gl_data_format, GL_UNSIGNED_BYTE, data);
 
         stbi_image_free(data);
         ATOM_ENGINE_LOG_INFO("loading texture completed.");

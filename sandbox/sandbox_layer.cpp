@@ -47,8 +47,13 @@ namespace sandbox
 
         renderer::begin_scene(&_camera);
 
-        _texture->bind();
-        renderer::submit(&*_shader, &*_vertex_array, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+        _checkerboard_texture->bind();
+        renderer::submit(
+            &*_texture_shader, &*_vertex_array, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+
+        _cherno_texture->bind();
+        renderer::submit(
+            &*_texture_shader, &*_vertex_array, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
         renderer::end_scene();
     }
@@ -130,13 +135,17 @@ namespace sandbox
             }
         )";
 
-        _shader =
+        _texture_shader =
             std::unique_ptr<shader>(shader::create(vertex_shader_source, fragment_shader_source));
 
-        _texture = std::shared_ptr<texture2d>(texture2d::create(
+        _checkerboard_texture = std::shared_ptr<texture2d>(texture2d::create(
             "/home/chetan/projects/atom.engine/sandbox/assets/textures/checkerboard.png"));
-        static_cast<opengl_shader*>(&*_shader)->bind();
-        static_cast<opengl_shader*>(&*_shader)->upload_uniform_int("u_texture", 0);
+
+        _cherno_texture = std::shared_ptr<texture2d>(texture2d::create(
+            "/home/chetan/projects/atom.engine/sandbox/assets/textures/cherno.png"));
+
+        static_cast<opengl_shader*>(&*_texture_shader)->bind();
+        static_cast<opengl_shader*>(&*_texture_shader)->upload_uniform_int("u_texture", 0);
     }
 
     auto sandbox_layer::_process_inputs(time_stemp delta_time) -> void

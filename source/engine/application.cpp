@@ -38,6 +38,8 @@ namespace atom::engine
 
         _window->subscribe_event(this);
 
+        renderer::initialize();
+
         // inputs event setup
 
         for (input_device* device : input_manager::get_devices())

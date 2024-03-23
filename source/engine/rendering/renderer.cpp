@@ -1,8 +1,24 @@
 #include "renderer.h"
 #include "engine/opengl/opengl_shader.h"
+#include "engine/rendering/render_command.h"
+#include "atom/engine/logging.h"
 
 namespace atom::engine
 {
+    auto renderer::initialize() -> void
+    {
+        ATOM_ENGINE_LOG_INFO("initializing renderer...");
+        render_command::initialize();
+        ATOM_ENGINE_LOG_INFO("initializing renderer done.");
+    }
+
+    auto renderer::finalize() -> void
+    {
+        ATOM_ENGINE_LOG_INFO("finalizing renderer...");
+        render_command::finalize();
+        ATOM_ENGINE_LOG_INFO("finalizing renderer done.");
+    }
+
     auto renderer::begin_scene(orthographic_camera* camera) -> void
     {
         _data->view_projection_matrix = camera->get_view_projection_matrix();

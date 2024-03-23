@@ -6,6 +6,16 @@ namespace atom::engine
     class render_command
     {
     public:
+        static auto initialize() -> void
+        {
+            _api->initialize();
+        }
+
+        static auto finalize() -> void
+        {
+            _api->finalize();
+        }
+
         static auto set_clear_color(vec4 color) -> void
         {
             _api->set_clear_color(color);

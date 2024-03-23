@@ -23,8 +23,9 @@ namespace sandbox
 
     private:
         atom::logging::logger* _logger;
-        std::shared_ptr<atom::engine::texture2d> _texture;
-        std::unique_ptr<atom::engine::shader> _shader;
+        std::shared_ptr<atom::engine::texture2d> _checkerboard_texture;
+        std::shared_ptr<atom::engine::texture2d> _cherno_texture;
+        std::unique_ptr<atom::engine::shader> _texture_shader;
         std::unique_ptr<atom::engine::vertex_array> _vertex_array;
         atom::engine::orthographic_camera _camera;
         glm::vec3 _camera_pos;
