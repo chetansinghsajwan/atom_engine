@@ -10,12 +10,15 @@ namespace atom::engine
 
     auto renderer::end_scene() -> void {}
 
-    auto renderer::submit(class shader* shader, vertex_array* arr) -> void
+    auto renderer::submit(class shader* shader, vertex_array* arr, const glm::mat4& transform)
+        -> void
     {
         shader->bind();
 
         static_cast<opengl_shader*>(shader)->upload_uniform_mat4(
             "u_view_projection", _data->view_projection_matrix);
+
+        static_cast<opengl_shader*>(shader)->upload_uniform_mat4("u_transform", transform);
 
         arr->bind();
         render_command::draw_indexed(arr);

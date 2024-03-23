@@ -16,7 +16,7 @@ namespace atom::engine
 
         static auto begin_scene(orthographic_camera* camera) -> void;
         static auto end_scene() -> void;
-        static auto submit(class shader* shader, vertex_array* arr) -> void;
+        static auto submit(class shader* shader, vertex_array* arr, const glm::mat4& transform) -> void;
 
     private:
         struct scene_data

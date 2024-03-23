@@ -15,6 +15,7 @@ namespace atom::engine
         virtual auto bind() -> void override;
         virtual auto unbind() -> void override;
 
+        auto upload_uniform_int(string_view name, GLint value) -> void;
         auto upload_uniform_mat4(string_view name, const glm::mat4& mat) -> void;
 
     private:
