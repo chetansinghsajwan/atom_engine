@@ -5,4 +5,7 @@
 #include "atom/engine/window/window.h"
 #include "atom/engine/window/window_manager.h"
 #include "atom/engine/application.h"
+#include "atom/engine/rendering/shader.h"
+#include "atom/engine/rendering/texture.h"
+#include "atom/engine/rendering/texture2d.h"
 #include "atom/engine/logging.h"

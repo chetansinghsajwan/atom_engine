@@ -1,4 +1,5 @@
 #include "atom.engine.h"
+#include "atom/engine/rendering/texture2d.h"
 #include "engine/rendering/vertex_array.h"
 #include "engine/rendering/orthographic_camera.h"
 
@@ -22,6 +23,7 @@ namespace sandbox
 
     private:
         atom::logging::logger* _logger;
+        std::shared_ptr<atom::engine::texture2d> _texture;
         std::unique_ptr<atom::engine::shader> _shader;
         std::unique_ptr<atom::engine::vertex_array> _vertex_array;
         atom::engine::orthographic_camera _camera;
