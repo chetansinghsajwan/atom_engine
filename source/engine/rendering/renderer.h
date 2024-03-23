@@ -9,6 +9,9 @@ namespace atom::engine
     class renderer
     {
     public:
+        static auto initialize() -> void;
+        static auto finalize() -> void;
+    
         static auto get_api() -> renderer_api::api
         {
             return renderer_api::get_api();

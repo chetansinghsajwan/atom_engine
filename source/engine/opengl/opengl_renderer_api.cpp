@@ -1,8 +1,26 @@
 #include "opengl_renderer_api.h"
+#include "atom/engine/logging.h"
 #include "glad/glad.h"
+#include "GLFW/glfw3.h"
 
 namespace atom::engine
 {
+    auto opengl_renderer_api::initialize() -> void
+    {
+        ATOM_ENGINE_LOG_INFO("initializing opengl_renderer...");
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        ATOM_ENGINE_LOG_INFO("initializing opengl_renderer done.");
+    }
+
+    auto opengl_renderer_api::finalize() -> void
+    {
+        ATOM_ENGINE_LOG_INFO("finalizing opengl_renderer...");
+        ATOM_ENGINE_LOG_INFO("finalizing opengl_renderer done.");
+    }
+
     auto opengl_renderer_api::set_clear_color(vec4 color) -> void
     {
         glClearColor(color.r, color.g, color.b, color.a);
