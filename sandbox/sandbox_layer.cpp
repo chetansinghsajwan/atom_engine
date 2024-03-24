@@ -1,4 +1,5 @@
 #include "sandbox_layer.h"
+#include "atom/engine/rendering/shader_factory.h"
 #include "engine/rendering/renderer.h"
 #include "engine/opengl/opengl_shader.h"
 
@@ -135,8 +136,8 @@ namespace sandbox
             }
         )";
 
-        _texture_shader =
-            std::unique_ptr<shader>(shader::create(vertex_shader_source, fragment_shader_source));
+        _texture_shader = std::unique_ptr<shader>(
+            shader_factory::create_from_source(vertex_shader_source, fragment_shader_source));
 
         _checkerboard_texture = std::shared_ptr<texture2d>(texture2d::create(
             "/home/chetan/projects/atom.engine/sandbox/assets/textures/checkerboard.png"));
