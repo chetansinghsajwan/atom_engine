@@ -66,7 +66,7 @@ namespace atom::engine
             glVertexAttribPointer(i, elem.get_component_count(),
                 convert_shader_data_type_atom_to_opengl(elem.type),
                 elem.is_normalized ? GL_TRUE : GL_FALSE, layout.get_stride(),
-                (const void*)elem.offset);
+                (const void*)(usize)elem.offset);
         }
 
         _vertex_buffers.emplace_back(buffer);

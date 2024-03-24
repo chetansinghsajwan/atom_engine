@@ -11,7 +11,8 @@ namespace atom::engine
 
         // Send the vertex shader source code to GL
         const GLchar* source = (const GLchar*)vertex_source.get_data();
-        glShaderSource(vertexShader, 1, &source, 0);
+        GLint source_length = vertex_source.get_count();
+        glShaderSource(vertexShader, 1, &source, &source_length);
 
         ATOM_ENGINE_LOG_INFO("compiling vertex shader...");
 
@@ -46,7 +47,8 @@ namespace atom::engine
 
         // Send the fragment shader source code to GL
         source = (const GLchar*)fragment_source.get_data();
-        glShaderSource(fragmentShader, 1, &source, 0);
+        source_length = vertex_source.get_count();
+        glShaderSource(fragmentShader, 1, &source, &source_length);
 
         // Compile the fragment shader
         glCompileShader(fragmentShader);
