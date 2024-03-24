@@ -22,7 +22,7 @@ namespace atom::engine
 
     auto opengl_shader::get_program_id() -> GLuint
     {
-        _program;
+        return _program;
     }
 
     auto opengl_shader::upload_uniform_int(string_view name, const GLint value) -> void
