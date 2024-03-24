@@ -4,122 +4,11 @@
 
 namespace atom::engine
 {
-    opengl_shader::opengl_shader(string_view vertex_source, string_view fragment_source)
-        : _program(0)
-    {
-        // Create an empty vertex shader handle
-        GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    opengl_shader::opengl_shader(GLuint program)
+        : _program(program)
+    {}
 
-        // Send the vertex shader source code to GL
-        const GLchar* source = (const GLchar*)vertex_source.get_data();
-        glShaderSource(vertexShader, 1, &source, 0);
-
-        ATOM_ENGINE_LOG_INFO("compiling vertex shader...");
-
-        // Compile the vertex shader
-        glCompileShader(vertexShader);
-
-        GLint isCompiled = 0;
-        glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &isCompiled);
-        if (isCompiled == GL_FALSE)
-        {
-            GLint maxLength = 0;
-            glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &maxLength);
-
-            // The maxLength includes the NULL character
-            std::vector<GLchar> infoLog(maxLength);
-            glGetShaderInfoLog(vertexShader, maxLength, &maxLength, &infoLog[0]);
-
-            // We don't need the shader anymore.
-            glDeleteShader(vertexShader);
-
-            ATOM_ENGINE_LOG_PANIC(
-                "compilation failed for vertex shader. infoLog: {}", infoLog.data());
-            return;
-        }
-
-        ATOM_ENGINE_LOG_INFO("compiled vertex shader.");
-        ATOM_ENGINE_LOG_INFO("compiling fragment shader...");
-
-        // Create an empty fragment shader handle
-        GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-        // Send the fragment shader source code to GL
-        source = (const GLchar*)fragment_source.get_data();
-        glShaderSource(fragmentShader, 1, &source, 0);
-
-        // Compile the fragment shader
-        glCompileShader(fragmentShader);
-
-        glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &isCompiled);
-        if (isCompiled == GL_FALSE)
-        {
-            GLint maxLength = 0;
-            glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &maxLength);
-
-            // The maxLength includes the NULL character
-            std::vector<GLchar> infoLog(maxLength);
-            glGetShaderInfoLog(fragmentShader, maxLength, &maxLength, &infoLog[0]);
-
-            // We don't need the shader anymore.
-            // Either of them. Don't leak shaders.
-            glDeleteShader(fragmentShader);
-            glDeleteShader(vertexShader);
-
-            ATOM_ENGINE_LOG_PANIC(
-                "compilation failed for fragment shader. infoLog: {}", infoLog.data());
-            return;
-        }
-
-        ATOM_ENGINE_LOG_INFO("compiled fragment shader.");
-
-        // Vertex and fragment shaders are successfully compiled.
-        // Now time to link them together into a program.
-        // Get a program object.
-        _program = glCreateProgram();
-
-        // Attach our shaders to our program
-        glAttachShader(_program, vertexShader);
-        glAttachShader(_program, fragmentShader);
-
-        ATOM_ENGINE_LOG_INFO("linking program...");
-
-        // Link our program
-        glLinkProgram(_program);
-
-        // Note the different functions here: glGetProgram* instead of glGetShader*.
-        GLint isLinked = 0;
-        glGetProgramiv(_program, GL_LINK_STATUS, (int*)&isLinked);
-        if (isLinked == GL_FALSE)
-        {
-            GLint maxLength = 0;
-            glGetProgramiv(_program, GL_INFO_LOG_LENGTH, &maxLength);
-
-            // The maxLength includes the NULL character
-            std::vector<GLchar> infoLog(maxLength);
-            glGetProgramInfoLog(_program, maxLength, &maxLength, &infoLog[0]);
-
-            // We don't need the program anymore.
-            glDeleteProgram(_program);
-            // Don't leak shaders either.
-            glDeleteShader(vertexShader);
-            glDeleteShader(fragmentShader);
-
-            ATOM_ENGINE_LOG_PANIC("linking failed for program. infoLog: {}", infoLog.data());
-            return;
-        }
-
-        ATOM_ENGINE_LOG_INFO("linked program.");
-
-        // Always detach shaders after a successful link.
-        glDetachShader(_program, vertexShader);
-        glDetachShader(_program, fragmentShader);
-    }
-
-    opengl_shader::~opengl_shader()
-    {
-        glDeleteProgram(_program);
-    }
+    opengl_shader::~opengl_shader() {}
 
     auto opengl_shader::bind() -> void
     {
@@ -131,11 +20,16 @@ namespace atom::engine
         glUseProgram(0);
     }
 
+    auto opengl_shader::get_program_id() -> GLuint
+    {
+        _program;
+    }
+
     auto opengl_shader::upload_uniform_int(string_view name, const GLint value) -> void
     {
         GLint location = glGetUniformLocation(_program, name.get_data());
         ATOM_DEBUG_EXPECTS(location != -1);
-        
+
         glUniform1i(location, value);
     }
 
@@ -143,7 +37,7 @@ namespace atom::engine
     {
         GLint location = glGetUniformLocation(_program, name.get_data());
         ATOM_DEBUG_EXPECTS(location != -1);
-        
+
         glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat));
     }
 }
