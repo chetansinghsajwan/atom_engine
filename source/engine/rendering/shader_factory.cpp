@@ -8,6 +8,22 @@ namespace atom::engine
 {
     static shader_factory_impl* _impl;
     static logging::logger* _logger;
+    static std::string _root_path;
+
+    static auto _get_absolute_path(string_view path) -> string
+    {
+        ATOM_DEBUG_EXPECTS(not path.is_empty());
+
+        // path is already an absolute path
+        if (path.get_front() == '/')
+            return path;
+
+        string_view root_path = string_view::from_std(_root_path);
+        string result = string::with_capacity(root_path.get_count() + path.get_count());
+        result.insert_range_back(root_path);
+        result.insert_range_back(path);
+        return result;
+    }
 
     static auto _parse_sources_from_file(
         string_view source, string_view* vertex_source, string_view* fragement_source) -> void
@@ -96,14 +112,38 @@ namespace atom::engine
         delete _logger;
     }
 
+    auto shader_factory::set_root_path(string_view path) -> void
+    {
+        _root_path = std::string(path.get_data(), path.get_count());
+        if (not _root_path.empty())
+        {
+            if (_root_path.back() == '\0')
+            {
+                _root_path.erase(_root_path.end() - 1);
+            }
+
+            if (_root_path.back() != '/')
+            {
+                _root_path.push_back('/');
+            }
+        }
+    }
+
+    auto shader_factory::get_root_path() -> string_view
+    {
+        return string_view::from_std(_root_path);
+    }
+
     auto shader_factory::create_from_file(string_view path) -> shader*
     {
         ATOM_DEBUG_EXPECTS(_impl != nullptr, "shader_factory is not initialized.");
 
-        _logger->log_trace("loading shader from file '{}'", path);
+        string abs_path = _get_absolute_path(path);
+
+        _logger->log_trace("loading shader from file '{}'", abs_path);
         _logger->log_trace("reading file...");
 
-        string source = filesystem::read_file(path).get_value();
+        string source = filesystem::read_file(abs_path).get_value();
 
         _logger->log_trace("reading file done.");
         _logger->log_trace("parsing file content...");
