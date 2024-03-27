@@ -1,5 +1,6 @@
 #include "sandbox_layer.h"
 #include "atom/engine/rendering/shader_factory.h"
+#include "atom/engine/rendering/shader_registry.h"
 #include "engine/rendering/renderer.h"
 #include "engine/opengl/opengl_shader.h"
 
@@ -94,8 +95,8 @@ namespace sandbox
 
         vertex_buffer* vbuffer = vertex_buffer::create(vertices, sizeof(vertices) / sizeof(float));
         vbuffer->set_layout({
-            {shader_data_type::float3,  "a_position"     },
-            { shader_data_type::float2, "a_texture_coord"}
+            { shader_data_type::float3, "a_position"      },
+            { shader_data_type::float2, "a_texture_coord" }
         });
         _vertex_array->add_vertex_buffer(&*vbuffer);
 
@@ -105,6 +106,8 @@ namespace sandbox
 
         _texture_shader = std::unique_ptr<shader>(shader_factory::create_from_file(
             "/home/chetan/projects/atom.engine/sandbox/assets/shaders/texture_shader.glsl"));
+
+        shader_registry::register_("texture_shader", &*_texture_shader).panic_on_error();
 
         _checkerboard_texture = std::shared_ptr<texture2d>(texture2d::create(
             "/home/chetan/projects/atom.engine/sandbox/assets/textures/checkerboard.png"));
