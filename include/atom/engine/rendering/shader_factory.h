@@ -8,6 +8,8 @@ namespace atom::engine
     public:
         static auto initialize() -> void;
         static auto finalize() -> void;
+        static auto set_root_path(string_view path) -> void;
+        static auto get_root_path() -> string_view;
         static auto create_from_file(string_view path) -> shader*;
         static auto create_from_source(string_view vertex_source, string_view fragment_source)
             -> shader*;

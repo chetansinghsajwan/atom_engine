@@ -82,6 +82,8 @@ namespace sandbox
 
     auto sandbox_layer::_setup_rendering() -> void
     {
+        shader_factory::set_root_path("/home/chetan/projects/atom.engine/sandbox");
+
         _vertex_array = std::unique_ptr<vertex_array>(vertex_array::create());
 
         // clang-format off
@@ -104,8 +106,8 @@ namespace sandbox
         index_buffer* ibuffer = index_buffer::create(indices, sizeof(indices) / sizeof(uint32_t));
         _vertex_array->set_index_buffer(&*ibuffer);
 
-        _texture_shader = std::unique_ptr<shader>(shader_factory::create_from_file(
-            "/home/chetan/projects/atom.engine/sandbox/assets/shaders/texture_shader.glsl"));
+        _texture_shader = std::unique_ptr<shader>(
+            shader_factory::create_from_file("assets/shaders/texture_shader.glsl"));
 
         shader_registry::register_("texture_shader", &*_texture_shader).panic_on_error();
 
