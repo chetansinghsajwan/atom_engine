@@ -62,7 +62,7 @@ namespace sandbox
 
     auto sandbox_layer::_setup_logging() -> void
     {
-        _logger = logger_manager::create_logger({ .name = "sandbox" }).get_at<0>();
+        _logger = logger_manager::create_logger({ .name = "sandbox" }).get_value();
     }
 
     auto sandbox_layer::_setup_keyboard() -> void

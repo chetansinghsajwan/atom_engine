@@ -3,7 +3,7 @@
 
 namespace atom::engine::filesystem
 {
-    auto read_file(string_view path) -> result<string>
+    auto read_file(string_view path) -> result<string, error>
     {
         std::ifstream in(path.get_data(), std::ios::in | std::ios::binary);
         in.seekg(0, std::ios::end);
