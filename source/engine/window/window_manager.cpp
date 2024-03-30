@@ -45,7 +45,7 @@ namespace atom::engine
 
     auto window_manager::initialize() -> void
     {
-        _logger = logger_manager::create_logger({ .name = "window_manager" }).get_at<0>();
+        _logger = logger_manager::create_logger({ .name = "window_manager" }).get_value();
 
         _logger->log_info("initializing glfw...");
         int success = glfwInit();
