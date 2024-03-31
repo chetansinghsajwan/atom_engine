@@ -1,18 +1,13 @@
 #pragma once
 #include "atom/engine/inputs/keyboard_keys.h"
-#include "atom/engine/inputs/mouse_buttons.h"
-
 #include "imgui.h"
 
-/// ------------------------------------------------------------------------------------------------
-/// @todo handle default cases.
-/// ------------------------------------------------------------------------------------------------
 namespace atom::engine
 {
     /// --------------------------------------------------------------------------------------------
     /// returns `ImGuiKey_None` if no match found.
     /// --------------------------------------------------------------------------------------------
-    static auto imgui_atom_key_to_imgui_key(keyboard_key_code key) -> ImGuiKey
+    constexpr auto convert_keyboard_key_code_atom_to_imgui(keyboard_key_code key) -> ImGuiKey
     {
         switch (key)
         {
@@ -142,9 +137,9 @@ namespace atom::engine
     }
 
     /// --------------------------------------------------------------------------------------------
-    /// returns `keyboard_key_code::unknown` is no match found.
+    /// returns `keyboard_key_code::unknown` if no match found.
     /// --------------------------------------------------------------------------------------------
-    static auto imgui_imgui_key_to_atom_key(ImGuiKey key) -> keyboard_key_code
+    constexpr auto convert_keyboard_key_code_imgui_to_atom(ImGuiKey key) -> keyboard_key_code
     {
         switch (key)
         {
@@ -268,59 +263,5 @@ namespace atom::engine
             case ImGuiKey_Menu:           return keyboard_key_code::menu;
             default:                      return keyboard_key_code::unknown;
         }
-    }
-
-    /// --------------------------------------------------------------------------------------------
-    /// returns `ImGuiMouseButton_COUNT` if no match found.
-    /// --------------------------------------------------------------------------------------------
-    static auto imgui_atom_button_to_imgui_button(mouse_button_code button) -> ImGuiMouseButton_
-    {
-        switch (button)
-        {
-            case mouse_button_code::left:   return ImGuiMouseButton_Left;
-            case mouse_button_code::right:  return ImGuiMouseButton_Right;
-            case mouse_button_code::middle: return ImGuiMouseButton_Middle;
-            case mouse_button_code::n3:     return ImGuiMouseButton_(3);
-            case mouse_button_code::n4:     return ImGuiMouseButton_(4);
-            default:                        return ImGuiMouseButton_COUNT;
-        }
-    }
-
-    /// --------------------------------------------------------------------------------------------
-    /// returns `mouse_button_code::unknown` if no match found.
-    /// --------------------------------------------------------------------------------------------
-    static auto imgui_imgui_button_to_atom_button(ImGuiMouseButton_ button) -> mouse_button_code
-    {
-        switch (button)
-        {
-            case ImGuiMouseButton_Left:   return mouse_button_code::left;
-            case ImGuiMouseButton_Right:  return mouse_button_code::right;
-            case ImGuiMouseButton_Middle: return mouse_button_code::middle;
-            case ImGuiMouseButton_(3):    return mouse_button_code::n3;
-            case ImGuiMouseButton_(4):    return mouse_button_code::n4;
-            default:                      return mouse_button_code::unknown;
-        }
-    }
-
-    /// --------------------------------------------------------------------------------------------
-    /// returns `true` if `state` is `keyboard_key_state::pressed` or `keyboard_key_state::down`.
-    /// --------------------------------------------------------------------------------------------
-    static auto imgui_is_atom_keyboard_key_state_down(keyboard_key_state state) -> bool
-    {
-        if (state == keyboard_key_state::pressed || state == keyboard_key_state::down)
-            return true;
-
-        return false;
-    }
-
-    /// --------------------------------------------------------------------------------------------
-    /// returns `true` if `state` is `mouse_button_state::pressed` or `mouse_button_state::down`.
-    /// --------------------------------------------------------------------------------------------
-    static auto imgui_is_atom_mouse_button_state_down(mouse_button_state state) -> bool
-    {
-        if (state == mouse_button_state::pressed || state == mouse_button_state::down)
-            return true;
-
-        return false;
     }
 }
