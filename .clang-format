@@ -132,7 +132,7 @@ BraceWrapping:
   BeforeCatch: true
   AfterCaseLabel: true
   AfterExternBlock: true
-  BeforeLambdaBody: false
+  BeforeLambdaBody: true
   AfterControlStatement: Always
   IndentBraces: false
   SplitEmptyFunction: false
