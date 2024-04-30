@@ -31,6 +31,11 @@ namespace atom::engine
             return _rotation;
         }
 
+        auto set_projection(float left, float right, float bottom, float top) -> void
+        {
+            _projection_matrix = glm::ortho(left, right, bottom, top, -1.0f, 1.0f);
+        }
+
         auto get_projection_matrix() const -> const glm::mat4&
         {
             return _projection_matrix;

@@ -12,14 +12,12 @@ namespace sandbox
 {
     sandbox_layer::sandbox_layer()
         : layer("sandbox")
-        , _camera(-1.6f, 1.6f, -0.9f, 0.9f) // ratio: 16:9
-        , _camera_pos(0, 0, 0)
-        , _camera_rot(0)
-        , _camera_move_speed(3)
-        , _camera_rot_speed(140)
+        , _camera_controller(1920.0 / 1080.0)
     {
         _setup_logging();
         _setup_keyboard();
+        _camera_controller.set_keyboard(_keyboard);
+
         _setup_rendering();
     }
 
@@ -39,15 +37,12 @@ namespace sandbox
 
     auto sandbox_layer::on_update(time_stemp delta_time) -> void
     {
-        _process_inputs(delta_time);
-
-        _camera.set_position(_camera_pos);
-        _camera.set_rotation(_camera_rot);
+        _camera_controller.on_update(delta_time);
 
         render_command::set_clear_color({ 0.1f, 0.1f, 0.1f, 1 });
         render_command::clear_color();
 
-        renderer::begin_scene(&_camera);
+        renderer::begin_scene(_camera_controller.get_camera());
 
         _checkerboard_texture->bind();
         renderer::submit(
@@ -119,50 +114,5 @@ namespace sandbox
 
         static_cast<opengl_shader*>(&*_texture_shader)->bind();
         static_cast<opengl_shader*>(&*_texture_shader)->upload_uniform_int("u_texture", 0);
-    }
-
-    auto sandbox_layer::_process_inputs(time_stemp delta_time) -> void
-    {
-        ATOM_DEBUG_EXPECTS(_keyboard != nullptr);
-
-        if (_keyboard->is_key_down(keyboard_key_code::w))
-        {
-            _camera_pos.y += _camera_move_speed * delta_time.get_seconds();
-        }
-
-        if (_keyboard->is_key_down(keyboard_key_code::s))
-        {
-            _camera_pos.y -= _camera_move_speed * delta_time.get_seconds();
-        }
-
-        if (_keyboard->is_key_down(keyboard_key_code::a))
-        {
-            _camera_pos.x -= _camera_move_speed * delta_time.get_seconds();
-        }
-
-        if (_keyboard->is_key_down(keyboard_key_code::d))
-        {
-            _camera_pos.x += _camera_move_speed * delta_time.get_seconds();
-        }
-
-        if (_keyboard->is_key_down(keyboard_key_code::q))
-        {
-            _camera_pos.z -= _camera_move_speed * delta_time.get_seconds();
-        }
-
-        if (_keyboard->is_key_down(keyboard_key_code::e))
-        {
-            _camera_pos.z += _camera_move_speed * delta_time.get_seconds();
-        }
-
-        if (_keyboard->is_key_down(keyboard_key_code::z))
-        {
-            _camera_rot += _camera_rot_speed * delta_time.get_seconds();
-        }
-
-        if (_keyboard->is_key_down(keyboard_key_code::x))
-        {
-            _camera_rot -= _camera_rot_speed * delta_time.get_seconds();
-        }
     }
 }
