@@ -47,20 +47,20 @@ namespace atom::engine
     {
         _logger = logger_manager::create_logger({ .name = "window_manager" }).get_value();
 
+        glfwSetErrorCallback([](int error_code, const char* description) -> void {
+            ATOM_PANIC("glfw error: error_code: {}, description: {}", error_code, description);
+        });
+
         _logger->log_info("initializing glfw...");
         int success = glfwInit();
 
-        if (success == 0)
+        if (success == GLFW_FALSE)
         {
             _logger->log_info("glfw initialization failed.");
             ATOM_PANIC("glfw initialization failed.");
         }
 
         _logger->log_info("initialized glfw successfully.");
-
-        glfwSetErrorCallback([](int error_code, const char* description) -> void {
-            ATOM_PANIC("glfw error: error_code: {}, description: {}", error_code, description);
-        });
     }
 
     auto window_manager::finalize() -> void
