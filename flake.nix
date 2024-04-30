@@ -12,10 +12,10 @@
     in
     {
         devShells.${system}.default = pkgs.mkShell {
-            
+
             packages = with pkgs; [
-                clang_17
-                clang-tools_17
+                clang_18
+                clang-tools_18
                 cmake
                 cmake-format
                 gnumake
