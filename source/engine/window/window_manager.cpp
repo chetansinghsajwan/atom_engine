@@ -9,40 +9,6 @@ using namespace atom::logging;
 
 namespace atom::engine
 {
-    class linux_window: public glfw_window
-    {
-    public:
-        linux_window(const window_props& props)
-            : glfw_window(props)
-        {}
-    };
-
-    class windows_window: public glfw_window
-    {
-    public:
-        windows_window(const window_props& props)
-            : glfw_window(props)
-        {}
-    };
-
-    static auto _create_window(window_props props) -> window*
-    {
-        if constexpr (build_config::get_platform() == build_config::platform::posix)
-            return new linux_window(props);
-        else if constexpr (build_config::get_platform() == build_config::platform::windows)
-            return new windows_window(props);
-        else
-        {
-            // static_assert(sizeof(bool) != 1, "atom::engine::window is only supported for linux and windows "
-            //                      "platform for now.");
-        }
-    }
-
-    static auto _destroy_window(window* window) -> void
-    {
-        delete window;
-    }
-
     auto window_manager::initialize() -> void
     {
         _logger = logger_manager::create_logger({ .name = "window_manager" }).get_value();
@@ -75,7 +41,7 @@ namespace atom::engine
     {
         _logger->log_info("creating window '{}'.", props.window_name);
 
-        window* window = _create_window(props);
+        window* window = new glfw_window(props);
         _windows.emplace_back(window);
 
         _logger->log_info("created window.");
@@ -99,7 +65,7 @@ namespace atom::engine
         _logger->log_info("destroyed window.");
         window_destroy_event event(window);
         _event_source.dispatch(event);
-        _destroy_window(window);
+        delete window;
     }
 
     auto window_manager::destroy_all_windows() -> void
@@ -108,7 +74,7 @@ namespace atom::engine
         {
             // `window_destroy_event` will be dispatched from the window itself.
 
-            _destroy_window(window);
+            delete window;
         }
     }
 
