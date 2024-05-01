@@ -3,12 +3,14 @@
 
     inputs = {
         nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+        nixpkgs_glfw3.url = "github:nixos/nixpkgs/7a339d87931bba829f68e94621536cad9132971a";
     };
 
-    outputs = { self, nixpkgs }:
+    outputs = { self, nixpkgs, nixpkgs_glfw3 }:
     let
         system = "x86_64-linux";
         pkgs = nixpkgs.legacyPackages.${system};
+        pkgs_glfw3 = nixpkgs_glfw3.legacyPackages.${system};
     in
     {
         devShells.${system}.default = pkgs.mkShell {
@@ -20,7 +22,7 @@
                 cmake-format
                 gnumake
                 ninja
-                glfw
+                pkgs_glfw3.glfw
             ];
         };
     };
