@@ -30,7 +30,7 @@ namespace atom::engine
         // window setup
 
         window_props window_props{
-            .window_name = "sandbox", .window_size = {1920, 1080}
+            .window_name = "sandbox", .window_size = { 1920, 1080 }
         };
 
         _window = window_manager::create_window(window_props);
@@ -80,8 +80,11 @@ namespace atom::engine
             float delta_time = time - _last_frame_time;
             _last_frame_time = time;
 
-            for (layer* layer : _layers.get_layers())
-                layer->on_update(time_stemp(delta_time));
+            if (!_window->is_minimized())
+            {
+                for (layer* layer : _layers.get_layers())
+                    layer->on_update(time_stemp(delta_time));
+            }
 
             class imgui_layer* imgui_layer = (class imgui_layer*)_layer;
 
@@ -106,8 +109,22 @@ namespace atom::engine
                 break;
             }
 
+            case window_event_type::resize:
+            {
+                _on_window_resize_event(reinterpret_cast<window_resize_event&>(event));
+                break;
+            }
+
             default: break;
         }
+    }
+
+    auto application::_on_window_resize_event(window_resize_event& event) -> void
+    {
+        if (_window->is_minimized())
+            return;
+
+        renderer::on_window_resize(event.size.x, event.size.y);
     }
 
     auto application::handle(keyboard_event& event) -> void {}

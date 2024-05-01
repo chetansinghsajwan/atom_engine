@@ -21,6 +21,7 @@ namespace atom::engine
 
         virtual auto update() -> void = 0;
 
+        virtual auto is_minimized() const -> bool = 0;
         virtual auto get_size() const -> window_coords = 0;
         virtual auto set_size(window_coords size) -> void = 0;
 

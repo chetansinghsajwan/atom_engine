@@ -29,6 +29,11 @@ namespace atom::engine
 
         virtual auto update_size() -> window_coords;
 
+        virtual auto is_minimized() const -> bool override
+        {
+            return _window_size.x == 0 || _window_size.y == 0;
+        }
+
         virtual auto get_native() const -> void* override final
         {
             return _glfw_window;

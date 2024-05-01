@@ -40,5 +40,10 @@ namespace atom::engine
         render_command::draw_indexed(arr);
     }
 
+    auto renderer::on_window_resize(u32 width, u32 height) -> void
+    {
+        render_command::set_viewport(0, 0, width, height);
+    }
+
     renderer::scene_data* renderer::_data = new renderer::scene_data();
 }

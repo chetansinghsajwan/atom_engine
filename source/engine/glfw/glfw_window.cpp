@@ -70,6 +70,7 @@ namespace atom::engine
                     (glfw_window_user_data*)glfwGetWindowUserPointer(native_window);
                 glfw_window* window = user_data->window;
 
+
                 window_coords old_size = window->_window_size;
                 window_coords new_size = glfw_window_coords_converter::from_glfw({ width, height });
                 window->_window_size = new_size;
