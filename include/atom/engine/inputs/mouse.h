@@ -44,17 +44,18 @@ namespace atom::engine
 
         auto get_pos() const -> vec2
         {
-            return vec2(_pos_x, _pos_y);
+            return vec2(_pos_x.to_unwrapped(), _pos_y.to_unwrapped());
         }
 
         auto get_last_pos() const -> vec2
         {
-            return vec2(_last_pos_x, _last_pos_y);
+            return vec2(_last_pos_x.to_unwrapped(), _last_pos_y.to_unwrapped());
         }
 
         auto get_delta_pos() const -> vec2
         {
-            return vec2(_pos_x - _last_pos_x, _pos_y - _last_pos_y);
+            return vec2(
+                (_pos_x - _last_pos_x).to_unwrapped(), (_pos_y - _last_pos_y).to_unwrapped());
         }
 
         auto is_raw_move_supported() const -> bool
@@ -74,17 +75,18 @@ namespace atom::engine
 
         auto get_scroll_pos() const -> vec2
         {
-            return vec2(_scroll_pos_x, _scroll_pos_y);
+            return vec2(_scroll_pos_x.to_unwrapped(), _scroll_pos_y.to_unwrapped());
         }
 
         auto get_last_scroll_pos() const -> vec2
         {
-            return vec2(_last_scroll_pos_x, _last_scroll_pos_y);
+            return vec2(_last_scroll_pos_x.to_unwrapped(), _last_scroll_pos_y.to_unwrapped());
         }
 
         auto get_delta_scroll_pos() const -> vec2
         {
-            return vec2(_scroll_pos_x - _last_scroll_pos_x, _scroll_pos_y - _last_scroll_pos_y);
+            return vec2((_scroll_pos_x - _last_scroll_pos_x).to_unwrapped(),
+                (_scroll_pos_y - _last_scroll_pos_y).to_unwrapped());
         }
 
         virtual auto subscribe_event(mouse_event_listener* listener) -> void = 0;
