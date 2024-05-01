@@ -60,7 +60,6 @@ namespace atom::engine
     auto renderer_2d::begin_scene(orthographic_camera* camera) -> void
     {
         _flat_color_shader->bind();
-        _flat_color_shader->set_uniform_mat4("u_transform", glm::mat4(1));
         _flat_color_shader->set_uniform_mat4("u_view_projection", camera->get_projection_matrix());
     }
 
@@ -68,8 +67,11 @@ namespace atom::engine
 
     auto renderer_2d::draw_quad(vec3 position, vec2 size, vec4 color) -> void
     {
+        mat4 transform = math::translate(mat4(1), position) * math::scale(mat4(1), vec3(size, 1));
+
         _flat_color_shader->bind();
         _flat_color_shader->set_uniform_float4("u_color", color);
+        _flat_color_shader->set_uniform_mat4("u_transform", transform);
 
         _square_vertex_array->bind();
         render_command::draw_indexed(_square_vertex_array);

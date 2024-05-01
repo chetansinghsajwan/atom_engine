@@ -44,7 +44,8 @@ namespace sandbox
         render_command::clear_color();
 
         renderer_2d::begin_scene(_camera_controller.get_camera());
-        renderer_2d::draw_quad(vec3(0, 0, 0), engine::vec2(1, 1), _square_color);
+        renderer_2d::draw_quad(vec3(-1, 0, 0), vec2(.8f, .8f), _square_color);
+        renderer_2d::draw_quad(vec3(.5, -.5, 0), vec2(.5, .75), vec4(.8, .2, .3, 1));
         renderer_2d::end_scene();
     }
 
