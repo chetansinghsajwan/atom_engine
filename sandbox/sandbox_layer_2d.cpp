@@ -3,6 +3,7 @@
 #include "atom/engine/rendering/shader_registry.h"
 #include "atom/engine/window/window_manager.h"
 #include "engine/rendering/renderer.h"
+#include "engine/rendering/renderer_2d.h"
 #include "engine/opengl/opengl_shader.h"
 #include "imgui.h"
 
@@ -20,14 +21,7 @@ namespace sandbox
         _setup_logging();
     }
 
-    sandbox_layer_2d::~sandbox_layer_2d()
-    {
-        delete _square_vertex_array->get_index_buffer();
-        for (const vertex_buffer* buffer : _square_vertex_array->get_vertex_buffers())
-        {
-            delete buffer;
-        }
-    }
+    sandbox_layer_2d::~sandbox_layer_2d() {}
 
     auto sandbox_layer_2d::on_attach() -> void
     {
@@ -36,7 +30,6 @@ namespace sandbox
         _setup_window();
         _setup_keyboard();
         _setup_mouse();
-        _setup_rendering();
 
         _camera_controller.set_window(_window);
         _camera_controller.set_keyboard(_keyboard);
@@ -50,16 +43,9 @@ namespace sandbox
         render_command::set_clear_color({ 0.1f, 0.1f, 0.1f, 1 });
         render_command::clear_color();
 
-        renderer::begin_scene(_camera_controller.get_camera());
-
-        opengl_shader* opengl_flat_color_shader = reinterpret_cast<opengl_shader*>(&*_flat_color_shader);
-        opengl_flat_color_shader->bind();
-        opengl_flat_color_shader->upload_uniform_float4("u_color", _square_color);
-
-        renderer::submit(
-            &*_flat_color_shader, &*_square_vertex_array, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
-
-        renderer::end_scene();
+        renderer_2d::begin_scene(_camera_controller.get_camera());
+        renderer_2d::draw_quad(vec3(0, 0, 0), engine::vec2(1, 1), _square_color);
+        renderer_2d::end_scene();
     }
 
     auto sandbox_layer_2d::on_imgui_render() -> void
@@ -110,37 +96,5 @@ namespace sandbox
         }
 
         ATOM_DEBUG_ASSERTS(_mouse != nullptr);
-    }
-
-    auto sandbox_layer_2d::_setup_rendering() -> void
-    {
-        shader_factory::set_root_path("/home/chetan/projects/atom.engine/sandbox");
-
-        float vertices[] = { -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.5f,
-            0.5f, 0.0f, 1.0f, 1.0f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f };
-
-        uint32_t indices[] = { 0, 1, 2, 2, 3, 0 };
-
-        _square_vertex_array = std::unique_ptr<vertex_array>(vertex_array::create());
-
-        vertex_buffer* square_vertex_buffer =
-            vertex_buffer::create(vertices, sizeof(vertices) / sizeof(float));
-
-        square_vertex_buffer->set_layout({
-            { shader_data_type::float3, "a_position"      },
-            { shader_data_type::float2, "a_texture_coord" }
-        });
-
-        _square_vertex_array->add_vertex_buffer(&*square_vertex_buffer);
-
-        index_buffer* square_index_buffer =
-            index_buffer::create(indices, sizeof(indices) / sizeof(uint32_t));
-
-        _square_vertex_array->set_index_buffer(&*square_index_buffer);
-
-        _flat_color_shader = std::unique_ptr<shader>(
-            shader_factory::create_from_file("assets/shaders/flat_color.glsl"));
-
-        shader_registry::register_("flat_color", &*_flat_color_shader).panic_on_error();
     }
 }

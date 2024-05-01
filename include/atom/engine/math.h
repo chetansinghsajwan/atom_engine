@@ -24,7 +24,5 @@ namespace atom::engine
         f64 y;
     };
 
-    using vec4 = glm::vec4;
-
     using namespace ::glm;
 }

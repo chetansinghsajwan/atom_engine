@@ -21,12 +21,9 @@ namespace sandbox
         auto _setup_window() -> void;
         auto _setup_keyboard() -> void;
         auto _setup_mouse() -> void;
-        auto _setup_rendering() -> void;
 
     private:
         atom::logging::logger* _logger;
-        std::unique_ptr<atom::engine::shader> _flat_color_shader;
-        std::unique_ptr<atom::engine::vertex_array> _square_vertex_array;
         atom::engine::orthographic_camera_controller _camera_controller;
         atom::engine::vec4 _square_color;
         atom::engine::window* _window;

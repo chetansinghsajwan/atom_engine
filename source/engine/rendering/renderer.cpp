@@ -1,6 +1,7 @@
 #include "renderer.h"
 #include "engine/opengl/opengl_shader.h"
 #include "engine/rendering/render_command.h"
+#include "engine/rendering/renderer_2d.h"
 #include "atom/engine/logging.h"
 
 namespace atom::engine
@@ -9,12 +10,14 @@ namespace atom::engine
     {
         ATOM_ENGINE_LOG_INFO("initializing renderer...");
         render_command::initialize();
+        renderer_2d::initialize();
         ATOM_ENGINE_LOG_INFO("initializing renderer done.");
     }
 
     auto renderer::finalize() -> void
     {
         ATOM_ENGINE_LOG_INFO("finalizing renderer...");
+        renderer_2d::finalize();
         render_command::finalize();
         ATOM_ENGINE_LOG_INFO("finalizing renderer done.");
     }
