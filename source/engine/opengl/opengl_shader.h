@@ -17,6 +17,7 @@ namespace atom::engine
 
         auto get_program_id() -> GLuint;
         auto upload_uniform_int(string_view name, GLint value) -> void;
+        auto upload_uniform_float4(string_view name, const glm::vec4& vec) -> void;
         auto upload_uniform_mat4(string_view name, const glm::mat4& mat) -> void;
 
     private:

@@ -97,6 +97,7 @@ target_compile_definitions(atom.engine PUBLIC "GLFW_INCLUDE_NONE")
 # atom.engine.sandbox
 # --------------------------------------------------------------------------------------------------
 
+file(GLOB_RECURSE sandbox_sources "sandbox/*.cpp")
 add_executable(atom.engine.sandbox)
-target_sources(atom.engine.sandbox PRIVATE "sandbox/sandbox.cpp" "sandbox/sandbox_layer.cpp")
+target_sources(atom.engine.sandbox PRIVATE ${sandbox_sources})
 target_link_libraries(atom.engine.sandbox PRIVATE atom.engine)

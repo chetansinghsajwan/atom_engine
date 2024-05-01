@@ -33,6 +33,14 @@ namespace atom::engine
         glUniform1i(location, value);
     }
 
+    auto opengl_shader::upload_uniform_float4(string_view name, const glm::vec4& vec) -> void
+    {
+        GLint location = glGetUniformLocation(_program, name.get_data());
+        ATOM_DEBUG_EXPECTS(location != -1);
+
+        glUniform4f(location, vec.x, vec.y, vec.z, vec.w);
+    }
+
     auto opengl_shader::upload_uniform_mat4(string_view name, const glm::mat4& mat) -> void
     {
         GLint location = glGetUniformLocation(_program, name.get_data());
