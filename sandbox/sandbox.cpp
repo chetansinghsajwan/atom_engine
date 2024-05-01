@@ -1,5 +1,6 @@
 #include "atom.engine.h"
 #include "sandbox_layer.h"
+#include "sandbox_layer_2d.h"
 
 using namespace atom;
 using namespace atom::logging;
@@ -12,12 +13,12 @@ namespace sandbox
     public:
         sandbox_application()
         {
-            _layer = new sandbox_layer();
+            _layer = new sandbox_layer_2d();
             push_layer(_layer);
         }
 
     private:
-        sandbox_layer* _layer;
+        sandbox_layer_2d* _layer;
     };
 }
 
