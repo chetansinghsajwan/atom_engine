@@ -19,7 +19,7 @@ namespace atom::engine
 
         static auto destroy_all_windows() -> void;
 
-        static auto get_windows() -> array_view<window*>
+        static auto get_windows() -> array_slice<window*>
         {
             return _windows;
         }
@@ -35,8 +35,8 @@ namespace atom::engine
         }
 
     private:
-        static inline dynamic_array<window*> _windows;
-        static inline event_source<window_event> _event_source;
-        static inline logging::logger* _logger;
+        static dynamic_array<window*> _windows;
+        static event_source<window_event> _event_source;
+        static logging::logger* _logger;
     };
 }

@@ -1,6 +1,7 @@
 #include "sandbox_layer.h"
 #include "atom/engine/rendering/shader_factory.h"
 #include "atom/engine/rendering/shader_registry.h"
+#include "atom/engine/window/window_manager.h"
 #include "engine/rendering/renderer.h"
 #include "engine/opengl/opengl_shader.h"
 
@@ -15,10 +16,6 @@ namespace sandbox
         , _camera_controller(1920.0 / 1080.0)
     {
         _setup_logging();
-        _setup_keyboard();
-        _camera_controller.set_keyboard(_keyboard);
-
-        _setup_rendering();
     }
 
     sandbox_layer::~sandbox_layer()
@@ -33,6 +30,15 @@ namespace sandbox
     auto sandbox_layer::on_attach() -> void
     {
         _logger->log_info("sandbox layer attached.");
+
+        _setup_window();
+        _setup_keyboard();
+        _setup_mouse();
+        _setup_rendering();
+
+        _camera_controller.set_window(_window);
+        _camera_controller.set_keyboard(_keyboard);
+        _camera_controller.set_mouse(_mouse);
     }
 
     auto sandbox_layer::on_update(time_stemp delta_time) -> void
@@ -60,6 +66,14 @@ namespace sandbox
         _logger = logger_manager::create_logger({ .name = "sandbox" }).get_value();
     }
 
+    auto sandbox_layer::_setup_window() -> void
+    {
+        _window = window_manager::get_windows().get_mut_front();
+        _logger->log_info("using window '{}'.", _window->get_name());
+
+        ATOM_DEBUG_ASSERTS(_window != nullptr);
+    }
+
     auto sandbox_layer::_setup_keyboard() -> void
     {
         for (input_device* device : input_manager::get_devices())
@@ -73,6 +87,21 @@ namespace sandbox
         }
 
         ATOM_DEBUG_ASSERTS(_keyboard != nullptr);
+    }
+
+    auto sandbox_layer::_setup_mouse() -> void
+    {
+        for (input_device* device : input_manager::get_devices())
+        {
+            if (device->get_type() == input_device_type::mouse)
+            {
+                _mouse = reinterpret_cast<mouse*>(device);
+                _logger->log_info("using mouse '{}'.", _mouse->get_name());
+                break;
+            }
+        }
+
+        ATOM_DEBUG_ASSERTS(_mouse != nullptr);
     }
 
     auto sandbox_layer::_setup_rendering() -> void

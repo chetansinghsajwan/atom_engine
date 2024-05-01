@@ -6,6 +6,7 @@ namespace atom::engine
         : _aspect_ratio(aspect_ratio)
         , _position(0, 0, 0)
         , _rotation(0)
+        , _zoom_speed(0.25f)
         , _move_speed(3)
         , _rotation_speed(140)
         , _zoom_level(1)
@@ -62,47 +63,59 @@ namespace atom::engine
         _camera.set_rotation(_rotation);
     }
 
+    auto orthographic_camera_controller::set_window(class window* window) -> void
+    {
+        _window = window;
+        _window->subscribe_event(this);
+    }
+
     auto orthographic_camera_controller::set_keyboard(class keyboard* keyboard) -> void
     {
         _keyboard = keyboard;
     }
 
-    auto orthographic_camera_controller::_on_window_event(const window_event& event) -> void
+    auto orthographic_camera_controller::set_mouse(class mouse* mouse) -> void
+    {
+        _mouse = mouse;
+        _mouse->subscribe_event(this);
+    }
+
+    auto orthographic_camera_controller::handle(window_event& event) -> void
     {
         switch (event.event_type)
         {
             case window_event_type::resize:
-                _on_window_resize_event(reinterpret_cast<const window_resize_event&>(event));
+                _on_window_resize_event(reinterpret_cast<window_resize_event&>(event));
                 break;
 
             default: break;
         }
     }
 
-    auto orthographic_camera_controller::_on_window_resize_event(
-        const window_resize_event& event) -> void
+    auto orthographic_camera_controller::_on_window_resize_event(window_resize_event& event) -> void
     {
         _aspect_ratio = (float)event.size.x / (float)event.size.y;
         _camera.set_projection(
             -_aspect_ratio * _zoom_level, _aspect_ratio * _zoom_level, -_zoom_level, _zoom_level);
     }
 
-    auto orthographic_camera_controller::_on_mouse_event(const mouse_event& event) -> void
+    auto orthographic_camera_controller::handle(mouse_event& event) -> void
     {
         switch (event.event_type)
         {
             case mouse_event_type::scroll_event:
-                _on_mouse_scroll_event(reinterpret_cast<const mouse_scroll_event&>(event));
+                _on_mouse_scroll_event(reinterpret_cast<mouse_scroll_event&>(event));
                 break;
 
             default: break;
         }
     }
 
-    auto orthographic_camera_controller::_on_mouse_scroll_event(
-        const mouse_scroll_event& event) -> void
+    auto orthographic_camera_controller::_on_mouse_scroll_event(mouse_scroll_event& event) -> void
     {
-        _zoom_level += event.yoffset.to_unwrapped<float>();
+        _zoom_level -= event.yoffset.to_unwrapped<float>() * _zoom_speed;
+        _zoom_level = std::max(_zoom_level, 0.25f);
+
         _camera.set_projection(
             -_aspect_ratio * _zoom_level, _aspect_ratio * _zoom_level, -_zoom_level, _zoom_level);
     }

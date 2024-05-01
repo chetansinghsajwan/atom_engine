@@ -17,7 +17,9 @@ namespace sandbox
 
     private:
         auto _setup_logging() -> void;
+        auto _setup_window() -> void;
         auto _setup_keyboard() -> void;
+        auto _setup_mouse() -> void;
         auto _setup_rendering() -> void;
 
     private:
@@ -27,6 +29,8 @@ namespace sandbox
         std::unique_ptr<atom::engine::shader> _texture_shader;
         std::unique_ptr<atom::engine::vertex_array> _vertex_array;
         atom::engine::orthographic_camera_controller _camera_controller;
+        atom::engine::window* _window;
         atom::engine::keyboard* _keyboard;
+        atom::engine::mouse* _mouse;
     };
 }
