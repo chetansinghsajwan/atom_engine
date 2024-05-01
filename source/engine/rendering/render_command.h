@@ -16,6 +16,11 @@ namespace atom::engine
             _api->finalize();
         }
 
+        static auto set_viewport(u32 x, u32 y, u32 width, u32 height) -> void
+        {
+            _api->set_viewport(x, y, width, height);
+        }
+
         static auto set_clear_color(vec4 color) -> void
         {
             _api->set_clear_color(color);

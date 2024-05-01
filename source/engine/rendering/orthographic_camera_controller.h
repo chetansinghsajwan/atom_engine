@@ -19,6 +19,16 @@ namespace atom::engine
 
         auto set_keyboard(class keyboard* keyboard) -> void;
 
+        auto set_zoom_level(float zoom) -> void
+        {
+            _zoom_level = zoom;
+        }
+
+        auto get_zoom_level() const -> float
+        {
+            return _zoom_level;
+        }
+
         auto get_camera() -> orthographic_camera*
         {
             return &_camera;

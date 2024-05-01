@@ -36,4 +36,9 @@ namespace atom::engine
         glDrawElements(
             GL_TRIANGLES, arr->get_index_buffer()->get_count(), GL_UNSIGNED_INT, nullptr);
     }
+
+    auto opengl_renderer_api::set_viewport(u32 x, u32 y, u32 width, u32 height) -> void
+    {
+        glViewport(x, y, width, height);
+    }
 }

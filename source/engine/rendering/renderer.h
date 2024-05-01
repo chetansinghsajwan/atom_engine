@@ -21,6 +21,8 @@ namespace atom::engine
         static auto end_scene() -> void;
         static auto submit(class shader* shader, vertex_array* arr, const glm::mat4& transform) -> void;
 
+        static auto on_window_resize(u32 width, u32 height) -> void;
+
     private:
         struct scene_data
         {

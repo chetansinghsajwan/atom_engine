@@ -11,5 +11,6 @@ namespace atom::engine
         virtual auto set_clear_color(vec4 color) -> void override;
         virtual auto clear_color() -> void override;
         virtual auto draw_indexed(vertex_array* arr) -> void override;
+        virtual auto set_viewport(u32 x, u32 y, u32 width, u32 height) -> void override;
     };
 }

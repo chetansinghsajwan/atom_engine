@@ -42,6 +42,8 @@ namespace atom::engine
     private:
         virtual auto handle(window_event& event) -> void override;
 
+        auto _on_window_resize_event(window_resize_event& event) -> void;
+
         virtual auto handle(keyboard_event& event) -> void override;
 
         virtual auto handle(mouse_event& event) -> void override;
