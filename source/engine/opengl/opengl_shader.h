@@ -15,6 +15,10 @@ namespace atom::engine
         virtual auto bind() -> void override;
         virtual auto unbind() -> void override;
 
+        virtual auto set_uniform_int(string_view name, i32 value) -> void override;
+        virtual auto set_uniform_float4(string_view name, const vec4& vec) -> void override;
+        virtual auto set_uniform_mat4(string_view name, const mat4& mat) -> void override;
+
         auto get_program_id() -> GLuint;
         auto upload_uniform_int(string_view name, GLint value) -> void;
         auto upload_uniform_float4(string_view name, const glm::vec4& vec) -> void;

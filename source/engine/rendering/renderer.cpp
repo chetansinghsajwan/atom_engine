@@ -33,11 +33,8 @@ namespace atom::engine
         -> void
     {
         shader->bind();
-
-        static_cast<opengl_shader*>(shader)->upload_uniform_mat4(
-            "u_view_projection", _data->view_projection_matrix);
-
-        static_cast<opengl_shader*>(shader)->upload_uniform_mat4("u_transform", transform);
+        shader->set_uniform_mat4("u_view_projection", _data->view_projection_matrix);
+        shader->set_uniform_mat4("u_transform", transform);
 
         arr->bind();
         render_command::draw_indexed(arr);

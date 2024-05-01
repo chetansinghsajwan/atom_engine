@@ -141,7 +141,7 @@ namespace sandbox
         _cherno_texture = std::shared_ptr<texture2d>(texture2d::create(
             "/home/chetan/projects/atom.engine/sandbox/assets/textures/cherno.png"));
 
-        static_cast<opengl_shader*>(&*_texture_shader)->bind();
-        static_cast<opengl_shader*>(&*_texture_shader)->upload_uniform_int("u_texture", 0);
+        _texture_shader->bind();
+        _texture_shader->set_uniform_int("u_texture", 0);
     }
 }
