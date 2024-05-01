@@ -25,6 +25,21 @@ namespace atom::engine
         return _program;
     }
 
+    auto opengl_shader::set_uniform_int(string_view name, i32 value) -> void
+    {
+        upload_uniform_int(name, value);
+    }
+
+    auto opengl_shader::set_uniform_float4(string_view name, const vec4& vec) -> void
+    {
+        upload_uniform_float4(name, vec);
+    }
+
+    auto opengl_shader::set_uniform_mat4(string_view name, const mat4& mat) -> void
+    {
+        upload_uniform_mat4(name, mat);
+    }
+
     auto opengl_shader::upload_uniform_int(string_view name, const GLint value) -> void
     {
         GLint location = glGetUniformLocation(_program, name.get_data());

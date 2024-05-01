@@ -59,23 +59,17 @@ namespace atom::engine
 
     auto renderer_2d::begin_scene(orthographic_camera* camera) -> void
     {
-        opengl_shader* opengl_flat_color_shader =
-            reinterpret_cast<opengl_shader*>(&*_flat_color_shader);
-
-        opengl_flat_color_shader->bind();
-        opengl_flat_color_shader->upload_uniform_mat4("u_transform", glm::mat4(1));
-        opengl_flat_color_shader->upload_uniform_mat4(
-            "u_view_projection", camera->get_projection_matrix());
+        _flat_color_shader->bind();
+        _flat_color_shader->set_uniform_mat4("u_transform", glm::mat4(1));
+        _flat_color_shader->set_uniform_mat4("u_view_projection", camera->get_projection_matrix());
     }
 
     auto renderer_2d::end_scene() -> void {}
 
     auto renderer_2d::draw_quad(vec3 position, vec2 size, vec4 color) -> void
     {
-        opengl_shader* opengl_flat_color_shader =
-            reinterpret_cast<opengl_shader*>(&*_flat_color_shader);
-        opengl_flat_color_shader->bind();
-        opengl_flat_color_shader->upload_uniform_float4("u_color", color);
+        _flat_color_shader->bind();
+        _flat_color_shader->set_uniform_float4("u_color", color);
 
         _square_vertex_array->bind();
         render_command::draw_indexed(_square_vertex_array);

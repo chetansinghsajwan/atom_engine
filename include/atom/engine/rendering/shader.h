@@ -1,5 +1,6 @@
 #pragma once
 #include "atom.core.h"
+#include "atom/engine/math.h"
 
 namespace atom::engine
 {
@@ -11,5 +12,9 @@ namespace atom::engine
     public:
         virtual auto bind() -> void = 0;
         virtual auto unbind() -> void = 0;
+
+        virtual auto set_uniform_int(string_view name, i32 value) -> void = 0;
+        virtual auto set_uniform_float4(string_view name, const vec4& vec) -> void = 0;
+        virtual auto set_uniform_mat4(string_view name, const mat4& mat) -> void = 0;
     };
 }
