@@ -60,7 +60,7 @@ namespace atom::engine
     auto renderer_2d::begin_scene(orthographic_camera* camera) -> void
     {
         _flat_color_shader->bind();
-        _flat_color_shader->set_uniform_mat4("u_view_projection", camera->get_projection_matrix());
+        _flat_color_shader->set_uniform_mat4("u_view_projection", camera->get_view_projection_matrix());
     }
 
     auto renderer_2d::end_scene() -> void {}

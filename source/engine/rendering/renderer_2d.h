@@ -13,13 +13,5 @@ namespace atom::engine
         static auto end_scene() -> void;
 
         static auto draw_quad(vec3 position, vec2 size, vec4 color) -> void;
-
-    private:
-        struct scene_data
-        {
-            glm::mat4 view_projection_matrix;
-        };
-
-        static scene_data* _data;
     };
 }
