@@ -131,7 +131,7 @@ namespace sandbox
         _vertex_array->set_index_buffer(&*ibuffer);
 
         _texture_shader = std::unique_ptr<shader>(
-            shader_factory::create_from_file("assets/shaders/texture_shader.glsl"));
+            shader_factory::create_from_file("assets/shaders/texture.glsl"));
 
         shader_registry::register_("texture_shader", &*_texture_shader).panic_on_error();
 
