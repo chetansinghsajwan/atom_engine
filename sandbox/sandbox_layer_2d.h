@@ -25,6 +25,7 @@ namespace sandbox
     private:
         atom::logging::logger* _logger;
         atom::engine::orthographic_camera_controller _camera_controller;
+        atom::engine::texture2d* _checkerboard_texture;
         atom::engine::vec4 _square_color;
         atom::engine::window* _window;
         atom::engine::keyboard* _keyboard;

@@ -34,6 +34,9 @@ namespace sandbox
         _camera_controller.set_window(_window);
         _camera_controller.set_keyboard(_keyboard);
         _camera_controller.set_mouse(_mouse);
+
+        _checkerboard_texture = texture2d::create(
+            "/home/chetan/projects/atom.engine/sandbox/assets/textures/checkerboard.png");
     }
 
     auto sandbox_layer_2d::on_update(time_stemp delta_time) -> void
@@ -46,6 +49,7 @@ namespace sandbox
         renderer_2d::begin_scene(_camera_controller.get_camera());
         renderer_2d::draw_quad(vec3(-1, 0, 0), vec2(.8f, .8f), _square_color);
         renderer_2d::draw_quad(vec3(.5, -.5, 0), vec2(.5, .75), vec4(.8, .2, .3, 1));
+        renderer_2d::draw_texture(vec3(0, 0, -.1), vec2(10, 10), _checkerboard_texture);
         renderer_2d::end_scene();
     }
 

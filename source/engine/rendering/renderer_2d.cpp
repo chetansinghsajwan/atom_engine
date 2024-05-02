@@ -1,13 +1,13 @@
 #include "renderer_2d.h"
 #include "engine/opengl/opengl_shader.h"
 #include "atom/engine/rendering/shader_factory.h"
-#include "atom/engine/rendering/shader_registry.h"
 #include "engine/rendering/render_command.h"
 #include "atom/engine/logging.h"
 
 namespace atom::engine
 {
     static shader* _flat_color_shader;
+    static shader* _texture_shader;
     static vertex_array* _square_vertex_array;
 
     auto renderer_2d::initialize() -> void
@@ -40,7 +40,9 @@ namespace atom::engine
 
         _flat_color_shader = shader_factory::create_from_file("assets/shaders/flat_color.glsl");
 
-        shader_registry::register_("flat_color", &*_flat_color_shader).panic_on_error();
+        _texture_shader = shader_factory::create_from_file("assets/shaders/texture.glsl");
+        _texture_shader->bind();
+        _texture_shader->set_uniform_int("u_texture", 0);
 
         ATOM_ENGINE_LOG_INFO("initializing renderer_2d done.");
     }
@@ -53,6 +55,7 @@ namespace atom::engine
 
         delete _square_vertex_array;
         delete _flat_color_shader;
+        delete _texture_shader;
 
         ATOM_ENGINE_LOG_INFO("finalizing renderer_2d done.");
     }
@@ -60,7 +63,12 @@ namespace atom::engine
     auto renderer_2d::begin_scene(orthographic_camera* camera) -> void
     {
         _flat_color_shader->bind();
-        _flat_color_shader->set_uniform_mat4("u_view_projection", camera->get_view_projection_matrix());
+        _flat_color_shader->set_uniform_mat4(
+            "u_view_projection", camera->get_view_projection_matrix());
+
+        _texture_shader->bind();
+        _texture_shader->set_uniform_mat4(
+            "u_view_projection", camera->get_view_projection_matrix());
     }
 
     auto renderer_2d::end_scene() -> void {}
@@ -72,6 +80,19 @@ namespace atom::engine
         _flat_color_shader->bind();
         _flat_color_shader->set_uniform_float4("u_color", color);
         _flat_color_shader->set_uniform_mat4("u_transform", transform);
+
+        _square_vertex_array->bind();
+        render_command::draw_indexed(_square_vertex_array);
+    }
+
+    auto renderer_2d::draw_texture(vec3 position, vec2 size, texture2d* texture) -> void
+    {
+        mat4 transform = math::translate(mat4(1), position) * math::scale(mat4(1), vec3(size, 1));
+
+        texture->bind();
+
+        _texture_shader->bind();
+        _texture_shader->set_uniform_mat4("u_transform", transform);
 
         _square_vertex_array->bind();
         render_command::draw_indexed(_square_vertex_array);

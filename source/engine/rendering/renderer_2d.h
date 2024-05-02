@@ -1,5 +1,6 @@
 #pragma once
 #include "engine/rendering/orthographic_camera.h"
+#include "atom/engine/rendering/texture2d.h"
 
 namespace atom::engine
 {
@@ -13,5 +14,6 @@ namespace atom::engine
         static auto end_scene() -> void;
 
         static auto draw_quad(vec3 position, vec2 size, vec4 color) -> void;
+        static auto draw_texture(vec3 position, vec2 size, texture2d* texture) -> void;
     };
 }
