@@ -47,9 +47,9 @@ namespace sandbox
         render_command::clear_color();
 
         renderer_2d::begin_scene(_camera_controller.get_camera());
-        renderer_2d::draw_quad(vec3(-1, 0, 0), vec2(.8f, .8f), _square_color);
-        renderer_2d::draw_quad(vec3(.5, -.5, 0), vec2(.5, .75), vec4(.8, .2, .3, 1));
-        renderer_2d::draw_texture(vec3(0, 0, -.1), vec2(10, 10), _checkerboard_texture);
+        renderer_2d::draw_quad(vec3(-1, 0, 0), vec2(.8f, .8f), glm::radians(45.), _square_color);
+        renderer_2d::draw_quad(vec3(.5, -.5, 0), vec2(.5, .75), glm::radians(.0), vec4(.8, .2, .3, 1));
+        renderer_2d::draw_texture(vec3(0, 0, -.1), vec2(10, 10), glm::radians(45.), _checkerboard_texture, 10, vec4(1, .9, .9, 1));
         renderer_2d::end_scene();
     }
 

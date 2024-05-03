@@ -2,6 +2,7 @@
 #include "engine/opengl/opengl_shader.h"
 #include "atom/engine/rendering/shader_factory.h"
 #include "engine/rendering/render_command.h"
+#include "atom/engine/math.h"
 #include "atom/engine/logging.h"
 
 namespace atom::engine
@@ -70,10 +71,17 @@ namespace atom::engine
 
     auto renderer_2d::end_scene() -> void {}
 
-    auto renderer_2d::draw_quad(vec3 position, vec2 size, vec4 color) -> void
+    auto renderer_2d::draw_quad(vec3 position, vec2 size, float rotation, vec4 color) -> void
     {
         mat4 transform = math::translate(mat4(1), position) * math::scale(mat4(1), vec3(size, 1));
+
+        if (rotation != 0)
+        {
+            transform *= math::rotate(mat4(1), rotation, vec3(0, 0, 1));
+        }
+
         _texture_shader->set_uniform_mat4("u_transform", transform);
+        _texture_shader->set_uniform_float("u_tiling_factor", 1);
         _texture_shader->set_uniform_float4("u_color", color);
 
         _white_texture->bind();
@@ -81,11 +89,19 @@ namespace atom::engine
         render_command::draw_indexed(_square_vertex_array);
     }
 
-    auto renderer_2d::draw_texture(vec3 position, vec2 size, texture2d* texture) -> void
+    auto renderer_2d::draw_texture(vec3 position, vec2 size, float rotation, texture2d* texture,
+        float tiling_factor, vec4 tint) -> void
     {
         mat4 transform = math::translate(mat4(1), position) * math::scale(mat4(1), vec3(size, 1));
+
+        if (rotation != 0)
+        {
+            transform *= math::rotate(mat4(1), rotation, vec3(0, 0, 1));
+        }
+
         _texture_shader->set_uniform_mat4("u_transform", transform);
-        _texture_shader->set_uniform_float4("u_color", vec4(1, 1, 1, 1));
+        _texture_shader->set_uniform_float("u_tiling_factor", tiling_factor);
+        _texture_shader->set_uniform_float4("u_color", tint);
 
         texture->bind();
         _square_vertex_array->bind();
