@@ -5,11 +5,29 @@
 
 namespace atom::engine
 {
+    opengl_texture2d::opengl_texture2d(u32 width, u32 height)
+        : _file_path()
+        , _width(width)
+        , _height(height)
+        , _renderer_id(0)
+        , _gl_format(GL_RGBA8)
+        , _gl_data_format(GL_RGBA)
+    {
+        glCreateTextures(GL_TEXTURE_2D, 1, &_renderer_id);
+        glTextureStorage2D(_renderer_id, 1, _gl_format, _width, _height);
+        glTextureParameteri(_renderer_id, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTextureParameteri(_renderer_id, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTextureParameteri(_renderer_id, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTextureParameteri(_renderer_id, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    }
+
     opengl_texture2d::opengl_texture2d(string_view file_path)
         : _file_path(file_path)
-        , _height(0)
         , _width(0)
+        , _height(0)
         , _renderer_id(0)
+        , _gl_format(0)
+        , _gl_data_format(0)
     {
         ATOM_ENGINE_LOG_INFO("loading texture '{}'", file_path);
 
@@ -25,18 +43,15 @@ namespace atom::engine
         _height = y;
         _width = x;
 
-        int gl_format = 0;
-        int gl_data_format = 0;
-
         if (channels == 3)
         {
-            gl_format = GL_RGB8;
-            gl_data_format = GL_RGB;
+            _gl_format = GL_RGB8;
+            _gl_data_format = GL_RGB;
         }
         else if (channels == 4)
         {
-            gl_format = GL_RGBA8;
-            gl_data_format = GL_RGBA;
+            _gl_format = GL_RGBA8;
+            _gl_data_format = GL_RGBA;
         }
         else
         {
@@ -46,11 +61,13 @@ namespace atom::engine
         }
 
         glCreateTextures(GL_TEXTURE_2D, 1, &_renderer_id);
-        glTextureStorage2D(_renderer_id, 1, gl_format, _width, _height);
+        glTextureStorage2D(_renderer_id, 1, _gl_format, _width, _height);
         glTextureParameteri(_renderer_id, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTextureParameteri(_renderer_id, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTextureParameteri(_renderer_id, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTextureParameteri(_renderer_id, GL_TEXTURE_WRAP_T, GL_REPEAT);
         glTextureSubImage2D(
-            _renderer_id, 0, 0, 0, _width, _height, gl_data_format, GL_UNSIGNED_BYTE, data);
+            _renderer_id, 0, 0, 0, _width, _height, _gl_data_format, GL_UNSIGNED_BYTE, data);
 
         stbi_image_free(data);
         ATOM_ENGINE_LOG_INFO("loading texture completed.");
@@ -64,5 +81,14 @@ namespace atom::engine
     auto opengl_texture2d::bind(u32 slot) -> void
     {
         glBindTextureUnit(slot, _renderer_id);
+    }
+
+    auto opengl_texture2d::set_data(const void* data, u32 size) -> void
+    {
+        u32 bytes_per_pixel = _gl_data_format == GL_RGBA ? 4 : 3;
+        ATOM_DEBUG_EXPECTS(size == _width * _height * bytes_per_pixel, "data must be entire texture.");
+
+        glTextureSubImage2D(
+            _renderer_id, 0, 0, 0, _width, _height, _gl_data_format, GL_UNSIGNED_BYTE, data);
     }
 }
