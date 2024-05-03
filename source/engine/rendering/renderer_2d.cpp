@@ -6,9 +6,9 @@
 
 namespace atom::engine
 {
-    static shader* _flat_color_shader;
     static shader* _texture_shader;
     static vertex_array* _square_vertex_array;
+    static texture2d* _white_texture;
 
     auto renderer_2d::initialize() -> void
     {
@@ -38,11 +38,13 @@ namespace atom::engine
 
         _square_vertex_array->set_index_buffer(&*square_index_buffer);
 
-        _flat_color_shader = shader_factory::create_from_file("assets/shaders/flat_color.glsl");
-
         _texture_shader = shader_factory::create_from_file("assets/shaders/texture.glsl");
         _texture_shader->bind();
         _texture_shader->set_uniform_int("u_texture", 0);
+
+        u32 _white_texture_data = 0xffffffff;
+        _white_texture = texture2d::create(1, 1);
+        _white_texture->set_data(&_white_texture_data, sizeof(_white_texture_data));
 
         ATOM_ENGINE_LOG_INFO("initializing renderer_2d done.");
     }
@@ -54,7 +56,6 @@ namespace atom::engine
         render_command::finalize();
 
         delete _square_vertex_array;
-        delete _flat_color_shader;
         delete _texture_shader;
 
         ATOM_ENGINE_LOG_INFO("finalizing renderer_2d done.");
@@ -62,10 +63,6 @@ namespace atom::engine
 
     auto renderer_2d::begin_scene(orthographic_camera* camera) -> void
     {
-        _flat_color_shader->bind();
-        _flat_color_shader->set_uniform_mat4(
-            "u_view_projection", camera->get_view_projection_matrix());
-
         _texture_shader->bind();
         _texture_shader->set_uniform_mat4(
             "u_view_projection", camera->get_view_projection_matrix());
@@ -76,11 +73,10 @@ namespace atom::engine
     auto renderer_2d::draw_quad(vec3 position, vec2 size, vec4 color) -> void
     {
         mat4 transform = math::translate(mat4(1), position) * math::scale(mat4(1), vec3(size, 1));
+        _texture_shader->set_uniform_mat4("u_transform", transform);
+        _texture_shader->set_uniform_float4("u_color", color);
 
-        _flat_color_shader->bind();
-        _flat_color_shader->set_uniform_float4("u_color", color);
-        _flat_color_shader->set_uniform_mat4("u_transform", transform);
-
+        _white_texture->bind();
         _square_vertex_array->bind();
         render_command::draw_indexed(_square_vertex_array);
     }
@@ -88,12 +84,10 @@ namespace atom::engine
     auto renderer_2d::draw_texture(vec3 position, vec2 size, texture2d* texture) -> void
     {
         mat4 transform = math::translate(mat4(1), position) * math::scale(mat4(1), vec3(size, 1));
+        _texture_shader->set_uniform_mat4("u_transform", transform);
+        _texture_shader->set_uniform_float4("u_color", vec4(1, 1, 1, 1));
 
         texture->bind();
-
-        _texture_shader->bind();
-        _texture_shader->set_uniform_mat4("u_transform", transform);
-
         _square_vertex_array->bind();
         render_command::draw_indexed(_square_vertex_array);
     }
