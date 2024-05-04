@@ -8,6 +8,7 @@ namespace atom::engine
     class opengl_vertex_buffer: public vertex_buffer
     {
     public:
+        opengl_vertex_buffer(u32 size);
         opengl_vertex_buffer(float* vertices, u32 count);
         virtual ~opengl_vertex_buffer();
 
@@ -17,6 +18,7 @@ namespace atom::engine
         virtual auto get_count() const -> u32 override;
         virtual auto set_layout(const buffer_layout& layout) -> void override;
         virtual auto get_layout() -> buffer_layout& override;
+        virtual auto set_data(const void* data, u32 size) -> void override;
 
     private:
         uint32_t _renderer_id;

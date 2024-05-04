@@ -48,7 +48,7 @@ namespace atom::engine
     auto opengl_shader::upload_uniform_int(string_view name, const GLint value) -> void
     {
         GLint location = glGetUniformLocation(_program, name.get_data());
-        ATOM_DEBUG_EXPECTS(location != -1);
+        ATOM_DEBUG_EXPECTS(location != -1, name.to_std());
 
         glUniform1i(location, value);
     }

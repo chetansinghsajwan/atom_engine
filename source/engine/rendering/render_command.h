@@ -31,9 +31,9 @@ namespace atom::engine
             _api->clear_color();
         }
 
-        static auto draw_indexed(vertex_array* arr) -> void
+        static auto draw_indexed(vertex_array* arr, u32 index_count = 0) -> void
         {
-            _api->draw_indexed(arr);
+            _api->draw_indexed(arr, index_count);
         }
 
     private:
