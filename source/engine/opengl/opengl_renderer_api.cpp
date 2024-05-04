@@ -32,10 +32,16 @@ namespace atom::engine
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    auto opengl_renderer_api::draw_indexed(vertex_array* arr) -> void
+    auto opengl_renderer_api::draw_indexed(vertex_array* arr, u32 index_count) -> void
     {
-        glDrawElements(
-            GL_TRIANGLES, arr->get_index_buffer()->get_count(), GL_UNSIGNED_INT, nullptr);
+        // if (index_count == 0)
+        // {
+        //     index_count = arr->get_index_buffer()->get_count();
+        // }
+
+		uint32_t count = index_count ? arr->get_index_buffer()->get_count() : index_count;
+        glDrawElements(GL_TRIANGLES, index_count, GL_UNSIGNED_INT, nullptr);
+        glBindTexture(GL_TEXTURE_2D, 0);
     }
 
     auto opengl_renderer_api::set_viewport(u32 x, u32 y, u32 width, u32 height) -> void

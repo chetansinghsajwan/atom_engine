@@ -4,6 +4,15 @@
 
 namespace atom::engine
 {
+    opengl_vertex_buffer::opengl_vertex_buffer(u32 size)
+        : _renderer_id(0)
+        , _count(size)
+    {
+        glCreateBuffers(1, &_renderer_id);
+        glBindBuffer(GL_ARRAY_BUFFER, _renderer_id);
+        glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
+    }
+
     opengl_vertex_buffer::opengl_vertex_buffer(float* vertices, u32 count)
         : _renderer_id(0)
         , _count(count)
@@ -41,5 +50,11 @@ namespace atom::engine
     auto opengl_vertex_buffer::get_layout() -> buffer_layout&
     {
         return _layout;
+    }
+
+    auto opengl_vertex_buffer::set_data(const void* data, u32 size) -> void
+    {
+        glBindBuffer(GL_ARRAY_BUFFER, _renderer_id);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
     }
 }
