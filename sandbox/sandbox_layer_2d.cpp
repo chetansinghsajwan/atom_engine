@@ -47,12 +47,10 @@ namespace sandbox
         render_command::clear_color();
 
         renderer_2d::begin_scene(_camera_controller.get_camera());
-        // renderer_2d::draw_quad({ -1.0f, 0.0f, 0 }, { 0.8f, 0.8f }, 0, { 0.8f, 0.2f, 0.3f, 1.0f });
-        // renderer_2d::draw_quad({ 0.5f, -0.5f, 0 }, { 0.5f, 0.75f }, 0, { 0.2f, 0.3f, 0.8f, 1.0f });
-        // renderer_2d::draw_quad(vec3(.5, -.5, 0), vec2(.5, .75), glm::radians(.0), vec4(.8, .2, .3, 1));
-        // renderer_2d::draw_texture(vec3(0, 0, -.1), vec2(10, 10), glm::radians(45.), _checkerboard_texture, 10, vec4(1, .9, .9, 1));
+        renderer_2d::draw_quad({ -1.0f, 0.0f, 0 }, { 0.8f, 0.8f }, 0, { 0.8f, 0.2f, 0.3f, 1.0f });
         renderer_2d::draw_quad(vec3(0, 0, 0), vec2(1, 1), 0, _square_color);
         renderer_2d::draw_quad(vec3(1.1f, 1.1f, 0), vec2(1, 1), 0, _square_color);
+        renderer_2d::draw_texture(vec3(-5, -5, -.1), vec2(10, 10), 0, _checkerboard_texture, 10, vec4(1, .9, .9, 1));
         renderer_2d::end_scene();
     }
 

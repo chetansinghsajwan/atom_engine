@@ -45,6 +45,11 @@ namespace atom::engine
         upload_uniform_mat4(name, mat);
     }
 
+    auto opengl_shader::set_int_array(string_view name, const int* array, usize count) -> void
+    {
+        upload_uniform_int_array(name, array, count);
+    }
+
     auto opengl_shader::upload_uniform_int(string_view name, const GLint value) -> void
     {
         GLint location = glGetUniformLocation(_program, name.get_data());
@@ -75,5 +80,13 @@ namespace atom::engine
         ATOM_DEBUG_EXPECTS(location != -1);
 
         glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat));
+    }
+
+    auto opengl_shader::upload_uniform_int_array(string_view name, const int* array, usize count) -> void
+    {
+        GLint location = glGetUniformLocation(_program, name.get_data());
+        ATOM_DEBUG_EXPECTS(location != -1);
+
+		glUniform1iv(location, count, array);
     }
 }
