@@ -12,11 +12,14 @@ namespace atom::engine
         vec3 position;
         vec4 color;
         vec2 texture_coord;
+        float texture_index;
+        float tiling_factor;
     };
 
     static const u32 _max_quads = 10000;
     static const u32 _max_vertices = _max_quads * 4;
     static const u32 _max_indices = _max_quads * 6;
+    static const u32 _max_texture_slots = 32;
     static vertex_array* _quad_vertex_array = nullptr;
     static vertex_buffer* _quad_vertex_buffer = nullptr;
     static shader* _texture_shader = nullptr;
@@ -24,6 +27,8 @@ namespace atom::engine
     static u32 _quad_index_count = 0;
     static quad_vertex* _quad_vertex_buffer_base = nullptr;
     static quad_vertex* _quad_vertex_buffer_ptr = nullptr;
+    static texture2d** _texture_slots;
+    static u32 _texture_slot_index = 1; // 0 is reserved for white
 
     auto renderer_2d::initialize() -> void
     {
@@ -31,16 +36,15 @@ namespace atom::engine
 
         shader_factory::set_root_path("/home/chetan/projects/atom.engine/sandbox");
 
-        // float vertices[] = { -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.5f,
-        //     0.5f, 0.0f, 1.0f, 1.0f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f };
-
         _quad_vertex_array = vertex_array::create();
 
         _quad_vertex_buffer = vertex_buffer::create_with_size(_max_vertices * sizeof(quad_vertex));
         _quad_vertex_buffer->set_layout({
             { shader_data_type::float3, "a_position"      },
             { shader_data_type::float4, "a_color"         },
-            { shader_data_type::float2, "a_texture_coord" }
+            { shader_data_type::float2, "a_texture_coord" },
+            { shader_data_type::float1, "a_texture_index" },
+            { shader_data_type::float1, "a_tiling_factor" },
         });
         _quad_vertex_array->add_vertex_buffer(_quad_vertex_buffer);
 
@@ -63,15 +67,22 @@ namespace atom::engine
 
         index_buffer* quad_index_buffer = index_buffer::create(quad_indices, _max_indices);
         _quad_vertex_array->set_index_buffer(quad_index_buffer);
-        delete quad_indices;
+        delete[] quad_indices;
+
+        int samplers[_max_texture_slots];
+        for (usize i = 0; i < _max_texture_slots; i++)
+            samplers[i] = i;
 
         _texture_shader = shader_factory::create_from_file("assets/shaders/texture.glsl");
         _texture_shader->bind();
-        // _texture_shader->set_uniform_int("u_texture", 0);
+        _texture_shader->set_int_array("u_textures", samplers, _max_texture_slots);
 
         _white_texture = texture2d::create(1, 1);
         u32 _white_texture_data = 0xffffffff;
         _white_texture->set_data(&_white_texture_data, sizeof(_white_texture_data));
+
+        _texture_slots = new texture2d*[_max_texture_slots];
+        _texture_slots[0] = _white_texture;
 
         ATOM_ENGINE_LOG_INFO("initializing renderer_2d done.");
     }
@@ -86,6 +97,7 @@ namespace atom::engine
         delete _quad_vertex_buffer;
         delete _quad_vertex_buffer_base;
         delete _texture_shader;
+        delete _texture_slots;
 
         ATOM_ENGINE_LOG_INFO("finalizing renderer_2d done.");
     }
@@ -98,6 +110,8 @@ namespace atom::engine
 
         _quad_vertex_buffer_ptr = _quad_vertex_buffer_base;
         _quad_index_count = 0;
+
+        _texture_slot_index = 1;
     }
 
     auto renderer_2d::end_scene() -> void
@@ -110,65 +124,97 @@ namespace atom::engine
 
     auto renderer_2d::flush() -> void
     {
+        for (usize i = 0; i < _texture_slot_index; i++)
+        {
+            _texture_slots[i]->bind(i);
+        }
+
         render_command::draw_indexed(_quad_vertex_array, _quad_index_count);
     }
 
     auto renderer_2d::draw_quad(vec3 position, vec2 size, float rotation, vec4 color) -> void
     {
+        const float texture_index = 0;
+        const float tiling_factor = 1;
+
         _quad_vertex_buffer_ptr->position = position;
         _quad_vertex_buffer_ptr->color = color;
         _quad_vertex_buffer_ptr->texture_coord = vec2(0, 0);
+        _quad_vertex_buffer_ptr->texture_index = texture_index;
+        _quad_vertex_buffer_ptr->tiling_factor = tiling_factor;
         _quad_vertex_buffer_ptr++;
 
         _quad_vertex_buffer_ptr->position = vec3(position.x + size.x, position.y, 0);
         _quad_vertex_buffer_ptr->color = color;
         _quad_vertex_buffer_ptr->texture_coord = vec2(1, 0);
+        _quad_vertex_buffer_ptr->texture_index = texture_index;
+        _quad_vertex_buffer_ptr->tiling_factor = tiling_factor;
         _quad_vertex_buffer_ptr++;
 
         _quad_vertex_buffer_ptr->position = vec3(position.x + size.x, position.y + size.x, 0);
         _quad_vertex_buffer_ptr->color = color;
         _quad_vertex_buffer_ptr->texture_coord = vec2(1, 1);
+        _quad_vertex_buffer_ptr->texture_index = texture_index;
+        _quad_vertex_buffer_ptr->tiling_factor = tiling_factor;
         _quad_vertex_buffer_ptr++;
 
         _quad_vertex_buffer_ptr->position = vec3(position.x, position.y + size.y, 0);
         _quad_vertex_buffer_ptr->color = color;
         _quad_vertex_buffer_ptr->texture_coord = vec2(0, 1);
+        _quad_vertex_buffer_ptr->texture_index = texture_index;
+        _quad_vertex_buffer_ptr->tiling_factor = tiling_factor;
         _quad_vertex_buffer_ptr++;
 
         _quad_index_count += 6;
+    }
 
-        // mat4 transform = math::translate(mat4(1), position) * math::scale(mat4(1), vec3(size, 1));
+    static auto _get_texture_index(texture2d* texture) -> usize
+    {
+        for (usize i = 0; i < _texture_slot_index; i++)
+        {
+            if (_texture_slots[i] == texture)
+                return i;
+        }
 
-        // if (rotation != 0)
-        // {
-        //     transform *= math::rotate(mat4(1), rotation, vec3(0, 0, 1));
-        // }
-
-        // _texture_shader->set_uniform_mat4("u_transform", transform);
-        // _texture_shader->set_uniform_float("u_tiling_factor", 1);
-        // _texture_shader->set_uniform_float4("u_color", color);
-
-        // _white_texture->bind();
-        // _quad_vertex_array->bind();
-        // render_command::draw_indexed(_quad_vertex_array);
+        _texture_slots[_texture_slot_index] = texture;
+        return _texture_slot_index++;
     }
 
     auto renderer_2d::draw_texture(vec3 position, vec2 size, float rotation, texture2d* texture,
         float tiling_factor, vec4 tint) -> void
     {
-        mat4 transform = math::translate(mat4(1), position) * math::scale(mat4(1), vec3(size, 1));
+        ATOM_DEBUG_EXPECTS(texture != nullptr);
 
-        if (rotation != 0)
-        {
-            transform *= math::rotate(mat4(1), rotation, vec3(0, 0, 1));
-        }
+        float texture_index = _get_texture_index(texture);
 
-        _texture_shader->set_uniform_mat4("u_transform", transform);
-        _texture_shader->set_uniform_float("u_tiling_factor", tiling_factor);
-        _texture_shader->set_uniform_float4("u_color", tint);
+        _quad_vertex_buffer_ptr->position = position;
+        _quad_vertex_buffer_ptr->color = tint;
+        _quad_vertex_buffer_ptr->texture_coord = vec2(0, 0);
+        _quad_vertex_buffer_ptr->texture_index = texture_index;
+        _quad_vertex_buffer_ptr->tiling_factor = tiling_factor;
+        _quad_vertex_buffer_ptr++;
 
-        texture->bind();
-        _quad_vertex_array->bind();
-        render_command::draw_indexed(_quad_vertex_array);
+        _quad_vertex_buffer_ptr->position = vec3(position.x + size.x, position.y, 0);
+        _quad_vertex_buffer_ptr->color = tint;
+        _quad_vertex_buffer_ptr->texture_coord = vec2(1, 0);
+        _quad_vertex_buffer_ptr->texture_index = texture_index;
+        _quad_vertex_buffer_ptr->tiling_factor = tiling_factor;
+        _quad_vertex_buffer_ptr++;
+
+        _quad_vertex_buffer_ptr->position = vec3(position.x + size.x, position.y + size.x, 0);
+        _quad_vertex_buffer_ptr->color = tint;
+        _quad_vertex_buffer_ptr->texture_coord = vec2(1, 1);
+        _quad_vertex_buffer_ptr->texture_index = texture_index;
+        _quad_vertex_buffer_ptr->tiling_factor = tiling_factor;
+        _quad_vertex_buffer_ptr++;
+
+        _quad_vertex_buffer_ptr->position = vec3(position.x, position.y + size.y, 0);
+        _quad_vertex_buffer_ptr->color = tint;
+        _quad_vertex_buffer_ptr->texture_coord = vec2(0, 1);
+        _quad_vertex_buffer_ptr->texture_index = texture_index;
+        _quad_vertex_buffer_ptr->tiling_factor = tiling_factor;
+        _quad_vertex_buffer_ptr++;
+
+        _quad_index_count += 6;
     }
 }
