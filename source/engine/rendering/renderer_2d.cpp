@@ -30,6 +30,7 @@ namespace atom::engine
     static texture2d* _white_texture = nullptr;
     static texture2d** _texture_slots;
     static u32 _texture_slot_index = 1; // 0 is reserved for white
+    static renderer_2d::statistics _stats;
 
     auto renderer_2d::initialize() -> void
     {
@@ -136,10 +137,26 @@ namespace atom::engine
         }
 
         render_command::draw_indexed(_quad_vertex_array, _quad_index_count);
+        _stats.draw_calls += 1;
+    }
+
+    auto renderer_2d::start_new_batch() -> void
+    {
+        _quad_vertex_buffer_ptr = _quad_vertex_buffer_base;
+        _quad_index_count = 0;
+
+        _texture_slot_index = 1;
+
+        end_scene();
     }
 
     auto renderer_2d::draw_quad(vec3 position, vec2 size, float rotation, vec4 color) -> void
     {
+        if (_quad_index_count >= _max_indices)
+        {
+            start_new_batch();
+        }
+
         const float texture_index = 0;
         const float tiling_factor = 1;
 
@@ -180,6 +197,8 @@ namespace atom::engine
         _quad_vertex_buffer_ptr++;
 
         _quad_index_count += 6;
+
+        _stats.quad_count++;
     }
 
     static auto _get_texture_index(texture2d* texture) -> usize
@@ -198,6 +217,11 @@ namespace atom::engine
         float tiling_factor, vec4 tint) -> void
     {
         ATOM_DEBUG_EXPECTS(texture != nullptr);
+
+        if (_quad_index_count >= _max_indices)
+        {
+            start_new_batch();
+        }
 
         float texture_index = _get_texture_index(texture);
 
@@ -238,5 +262,17 @@ namespace atom::engine
         _quad_vertex_buffer_ptr++;
 
         _quad_index_count += 6;
+
+        _stats.quad_count += 1;
+    }
+
+    auto renderer_2d::reset_stats() -> void
+    {
+        _stats = renderer_2d::statistics();
+    }
+
+    auto renderer_2d::get_stats() -> statistics
+    {
+        return _stats;
     }
 }
