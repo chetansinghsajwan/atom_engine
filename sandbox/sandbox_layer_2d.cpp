@@ -16,7 +16,7 @@ namespace sandbox
     sandbox_layer_2d::sandbox_layer_2d()
         : layer("sandbox")
         , _camera_controller(1920.0 / 1080.0)
-        , _square_color(.2f, .3f, .8f, 1)
+        , _quad_color(.2f, .3f, .8f, 1)
     {
         _setup_logging();
     }
@@ -43,21 +43,33 @@ namespace sandbox
     {
         _camera_controller.on_update(delta_time);
 
+        renderer_2d::reset_stats();
+
         render_command::set_clear_color({ 0.1f, 0.1f, 0.1f, 1 });
         render_command::clear_color();
 
         renderer_2d::begin_scene(_camera_controller.get_camera());
         renderer_2d::draw_quad({ -1.0f, 0.0f, 0 }, { 0.8f, 0.8f }, 0, { 0.8f, 0.2f, 0.3f, 1.0f });
-        renderer_2d::draw_quad(vec3(0, 0, 0), vec2(1, 1), 0, _square_color);
-        renderer_2d::draw_quad(vec3(1.1f, 1.1f, 0), vec2(1, 1), 0, _square_color);
-        renderer_2d::draw_texture(vec3(-5, -5, -.1), vec2(10, 10), 45, _checkerboard_texture, 10, vec4(1, .9, .9, 1));
+        renderer_2d::draw_quad(vec3(0, 0, 0), vec2(1, 1), 0, _quad_color);
+        renderer_2d::draw_quad(vec3(1.1f, 1.1f, 0), vec2(1, 1), 0, _quad_color);
+        renderer_2d::draw_texture(
+            vec3(-5, -5, -.1), vec2(10, 10), 45, _checkerboard_texture, 10, vec4(1, .9, .9, 1));
         renderer_2d::end_scene();
     }
 
     auto sandbox_layer_2d::on_imgui_render() -> void
     {
         ImGui::Begin("settings");
-        ImGui::ColorEdit4("square color", glm::value_ptr(_square_color));
+
+        renderer_2d::statistics stats = renderer_2d::get_stats();
+        ImGui::Text("-- Renderer2D Stats -----------------------------------");
+        ImGui::Text("Draw Calls: %d", stats.draw_calls);
+        ImGui::Text("Quads: %d", stats.quad_count);
+        ImGui::Text("Vertices: %d", stats.get_total_vertex_count());
+        ImGui::Text("Indices: %d", stats.get_total_index_count());
+
+        ImGui::ColorEdit4("quad color", glm::value_ptr(_quad_color));
+
         ImGui::End();
     }
 
