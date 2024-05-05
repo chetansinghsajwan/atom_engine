@@ -22,11 +22,12 @@ namespace atom::engine
     static const u32 _max_texture_slots = 32;
     static vertex_array* _quad_vertex_array = nullptr;
     static vertex_buffer* _quad_vertex_buffer = nullptr;
-    static shader* _texture_shader = nullptr;
-    static texture2d* _white_texture = nullptr;
+    static vec4 _quad_vertex_positions[4];
     static u32 _quad_index_count = 0;
+    static shader* _texture_shader = nullptr;
     static quad_vertex* _quad_vertex_buffer_base = nullptr;
     static quad_vertex* _quad_vertex_buffer_ptr = nullptr;
+    static texture2d* _white_texture = nullptr;
     static texture2d** _texture_slots;
     static u32 _texture_slot_index = 1; // 0 is reserved for white
 
@@ -84,6 +85,11 @@ namespace atom::engine
         _texture_slots = new texture2d*[_max_texture_slots];
         _texture_slots[0] = _white_texture;
 
+        _quad_vertex_positions[0] = vec4(-.5f, -.5f, 0, 1);
+        _quad_vertex_positions[1] = vec4(.5f, -.5f, 0, 1);
+        _quad_vertex_positions[2] = vec4(.5f, .5f, 0, 1);
+        _quad_vertex_positions[3] = vec4(-.5f, .5f, 0, 1);
+
         ATOM_ENGINE_LOG_INFO("initializing renderer_2d done.");
     }
 
@@ -137,28 +143,36 @@ namespace atom::engine
         const float texture_index = 0;
         const float tiling_factor = 1;
 
-        _quad_vertex_buffer_ptr->position = position;
+        mat4 transform =
+            math::translate(mat4(1), position) * math::scale(mat4(1), vec3(size.x, size.y, 1));
+
+        if (rotation != 0.)
+        {
+            transform *= math::rotate(math::mat4(1.0f), math::radians(rotation), vec3(0, 0, 1));
+        }
+
+        _quad_vertex_buffer_ptr->position = transform * _quad_vertex_positions[0];
         _quad_vertex_buffer_ptr->color = color;
         _quad_vertex_buffer_ptr->texture_coord = vec2(0, 0);
         _quad_vertex_buffer_ptr->texture_index = texture_index;
         _quad_vertex_buffer_ptr->tiling_factor = tiling_factor;
         _quad_vertex_buffer_ptr++;
 
-        _quad_vertex_buffer_ptr->position = vec3(position.x + size.x, position.y, 0);
+        _quad_vertex_buffer_ptr->position = transform * _quad_vertex_positions[1];
         _quad_vertex_buffer_ptr->color = color;
         _quad_vertex_buffer_ptr->texture_coord = vec2(1, 0);
         _quad_vertex_buffer_ptr->texture_index = texture_index;
         _quad_vertex_buffer_ptr->tiling_factor = tiling_factor;
         _quad_vertex_buffer_ptr++;
 
-        _quad_vertex_buffer_ptr->position = vec3(position.x + size.x, position.y + size.x, 0);
+        _quad_vertex_buffer_ptr->position = transform * _quad_vertex_positions[2];
         _quad_vertex_buffer_ptr->color = color;
         _quad_vertex_buffer_ptr->texture_coord = vec2(1, 1);
         _quad_vertex_buffer_ptr->texture_index = texture_index;
         _quad_vertex_buffer_ptr->tiling_factor = tiling_factor;
         _quad_vertex_buffer_ptr++;
 
-        _quad_vertex_buffer_ptr->position = vec3(position.x, position.y + size.y, 0);
+        _quad_vertex_buffer_ptr->position = transform * _quad_vertex_positions[3];
         _quad_vertex_buffer_ptr->color = color;
         _quad_vertex_buffer_ptr->texture_coord = vec2(0, 1);
         _quad_vertex_buffer_ptr->texture_index = texture_index;
@@ -187,28 +201,36 @@ namespace atom::engine
 
         float texture_index = _get_texture_index(texture);
 
-        _quad_vertex_buffer_ptr->position = position;
+        mat4 transform =
+            math::translate(mat4(1), position) * math::scale(mat4(1), vec3(size.x, size.y, 1));
+
+        if (rotation != 0.)
+        {
+            transform *= math::rotate(math::mat4(1.0f), math::radians(rotation), vec3(0, 0, 1));
+        }
+
+        _quad_vertex_buffer_ptr->position = transform * _quad_vertex_positions[0];
         _quad_vertex_buffer_ptr->color = tint;
         _quad_vertex_buffer_ptr->texture_coord = vec2(0, 0);
         _quad_vertex_buffer_ptr->texture_index = texture_index;
         _quad_vertex_buffer_ptr->tiling_factor = tiling_factor;
         _quad_vertex_buffer_ptr++;
 
-        _quad_vertex_buffer_ptr->position = vec3(position.x + size.x, position.y, 0);
+        _quad_vertex_buffer_ptr->position = transform * _quad_vertex_positions[1];
         _quad_vertex_buffer_ptr->color = tint;
         _quad_vertex_buffer_ptr->texture_coord = vec2(1, 0);
         _quad_vertex_buffer_ptr->texture_index = texture_index;
         _quad_vertex_buffer_ptr->tiling_factor = tiling_factor;
         _quad_vertex_buffer_ptr++;
 
-        _quad_vertex_buffer_ptr->position = vec3(position.x + size.x, position.y + size.x, 0);
+        _quad_vertex_buffer_ptr->position = transform * _quad_vertex_positions[2];
         _quad_vertex_buffer_ptr->color = tint;
         _quad_vertex_buffer_ptr->texture_coord = vec2(1, 1);
         _quad_vertex_buffer_ptr->texture_index = texture_index;
         _quad_vertex_buffer_ptr->tiling_factor = tiling_factor;
         _quad_vertex_buffer_ptr++;
 
-        _quad_vertex_buffer_ptr->position = vec3(position.x, position.y + size.y, 0);
+        _quad_vertex_buffer_ptr->position = transform * _quad_vertex_positions[3];
         _quad_vertex_buffer_ptr->color = tint;
         _quad_vertex_buffer_ptr->texture_coord = vec2(0, 1);
         _quad_vertex_buffer_ptr->texture_index = texture_index;
