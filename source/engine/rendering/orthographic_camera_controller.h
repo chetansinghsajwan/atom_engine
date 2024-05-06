@@ -23,6 +23,8 @@ namespace atom::engine
         auto set_keyboard(class keyboard* keyboard) -> void;
         auto set_mouse(class mouse* mouse) -> void;
 
+        auto on_resize(vec2 size) -> void;
+
         auto set_zoom_level(float zoom) -> void
         {
             _zoom_level = zoom;

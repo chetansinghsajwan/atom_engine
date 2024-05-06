@@ -16,6 +16,7 @@ namespace atom::editor
     editor_layer::editor_layer()
         : layer("editor")
         , _camera_controller(1920.0 / 1080.0)
+        , _viewport_size(0, 0)
     {
         _setup_logging();
     }
@@ -166,10 +167,27 @@ namespace atom::editor
             ImGui::Text("Vertices: %d", stats.get_total_vertex_count());
             ImGui::Text("Indices: %d", stats.get_total_index_count());
 
-            u32 renderer_id = _rpg_texture->get_renderer_id();
-            ImGui::Image(reinterpret_cast<void*>(renderer_id), ImVec2(1280, 720));
+            ImGui::End();
+
+            ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
+            ImGui::Begin("viewport");
+
+            ImVec2 imgui_new_viewport_size = ImGui::GetContentRegionAvail();
+            vec2 new_viewport_size = vec2(imgui_new_viewport_size.x, imgui_new_viewport_size.y);
+            if (new_viewport_size != _viewport_size)
+            {
+                _viewport_size = new_viewport_size;
+                _frame_buffer->resize(_viewport_size);
+                _camera_controller.on_resize(_viewport_size);
+            }
+
+            void* imgui_texture_renderer_id =
+                reinterpret_cast<void*>(_frame_buffer->get_color_attachment_renderer_id());
+            ImGui::Image(imgui_texture_renderer_id, ImVec2(_viewport_size.x, _viewport_size.y),
+                ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 
             ImGui::End();
+            ImGui::PopStyleVar();
         }
 
         ImGui::End();

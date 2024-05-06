@@ -63,6 +63,13 @@ namespace atom::engine
         _camera.set_rotation(_rotation);
     }
 
+    auto orthographic_camera_controller::on_resize(vec2 size) -> void
+    {
+        _aspect_ratio = size.x / size.y;
+        _camera.set_projection(
+            -_aspect_ratio * _zoom_level, _aspect_ratio * _zoom_level, -_zoom_level, _zoom_level);
+    }
+
     auto orthographic_camera_controller::set_window(class window* window) -> void
     {
         _window = window;
@@ -94,9 +101,8 @@ namespace atom::engine
 
     auto orthographic_camera_controller::_on_window_resize_event(window_resize_event& event) -> void
     {
-        _aspect_ratio = (float)event.size.x / (float)event.size.y;
-        _camera.set_projection(
-            -_aspect_ratio * _zoom_level, _aspect_ratio * _zoom_level, -_zoom_level, _zoom_level);
+        // todo: refactor this.
+        on_resize({ event.size.x, event.size.y });
     }
 
     auto orthographic_camera_controller::handle(mouse_event& event) -> void

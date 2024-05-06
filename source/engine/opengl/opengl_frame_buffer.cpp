@@ -12,11 +12,14 @@ namespace atom::engine
     opengl_frame_buffer::~opengl_frame_buffer()
     {
         glDeleteFramebuffers(1, &_renderer_id);
+        glDeleteTextures(1, &_color_attachment);
+        glDeleteTextures(1, &_depth_attatchment);
     }
 
     auto opengl_frame_buffer::bind() -> void
     {
         glBindFramebuffer(GL_FRAMEBUFFER, _renderer_id);
+        glViewport(0, 0, _specs.width, _specs.height);
     }
 
     auto opengl_frame_buffer::unbind() -> void
@@ -24,8 +27,23 @@ namespace atom::engine
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
+    auto opengl_frame_buffer::resize(vec2 size) -> void
+    {
+        _specs.width = size.x;
+        _specs.height = size.y;
+
+        _invalidate();
+    }
+
     auto opengl_frame_buffer::_invalidate() -> void
     {
+        if (_renderer_id != 0)
+        {
+            glDeleteFramebuffers(1, &_renderer_id);
+            glDeleteTextures(1, &_color_attachment);
+            glDeleteTextures(1, &_depth_attatchment);
+        }
+
         glCreateFramebuffers(1, &_renderer_id);
         glBindFramebuffer(GL_FRAMEBUFFER, _renderer_id);
 
@@ -42,8 +60,6 @@ namespace atom::engine
         glCreateTextures(GL_TEXTURE_2D, 1, &_depth_attatchment);
         glBindTexture(GL_TEXTURE_2D, _depth_attatchment);
         glTexStorage2D(GL_TEXTURE_2D, 1, GL_DEPTH24_STENCIL8, _specs.width, _specs.height);
-        // glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, _specs.width, _specs.height, 0,
-        //     GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, 0);
         glFramebufferTexture2D(
             GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, _depth_attatchment, 0);
 
