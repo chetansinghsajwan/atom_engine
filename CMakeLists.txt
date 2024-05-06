@@ -42,7 +42,14 @@ FetchContent_Declare(
     GIT_SHALLOW true
     EXCLUDE_FROM_ALL)
 
-FetchContent_MakeAvailable(atom_core atom_logging glm glfw3 imgui)
+FetchContent_Declare(
+    entt
+    GIT_REPOSITORY "https://github.com/skypjack/entt.git"
+    GIT_TAG "v3.13.2"
+    GIT_SHALLOW true
+    EXCLUDE_FROM_ALL)
+
+FetchContent_MakeAvailable(atom_core atom_logging glm glfw3 imgui entt)
 FetchContent_GetProperties(imgui)
 
 # --------------------------------------------------------------------------------------------------
@@ -91,6 +98,7 @@ target_link_libraries(atom.engine PUBLIC glfw)
 target_link_libraries(atom.engine PUBLIC glad)
 target_link_libraries(atom.engine PUBLIC imgui)
 target_link_libraries(atom.engine PUBLIC stb_image)
+target_link_libraries(atom.engine PUBLIC EnTT::EnTT)
 target_compile_definitions(atom.engine PUBLIC "GLFW_INCLUDE_NONE")
 
 # --------------------------------------------------------------------------------------------------

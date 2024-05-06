@@ -43,10 +43,22 @@ namespace atom::engine
         static auto end_scene() -> void;
         static auto flush() -> void;
 
-        static auto draw_quad(vec3 position, vec2 size, float rotation, vec4 color) -> void;
-        static auto draw_texture(vec3 position, vec2 size, float rotation, texture2d* texture,
+        static auto draw_quad(const mat4& transform, const vec4& color) -> void;
+
+        static auto draw_quad(
+            const vec3& position, vec2 size, float rotation, const vec4& color) -> void;
+
+        static auto draw_texture(const mat4& transform, texture2d* texture, float tiling_factor = 1,
+            vec4 tint = vec4(1)) -> void;
+
+        static auto draw_texture(const vec3& position, vec2 size, float rotation,
+            texture2d* texture, float tiling_factor = 1, vec4 tint = vec4(1)) -> void;
+
+        static auto draw_sprite(const vec3& position, vec2 size, float rotation,
+            class sprite* sprite, float tiling_factor = 1, vec4 tint = vec4(1)) -> void;
+
+        static auto draw_sprite(const mat4& transform, class sprite* sprite,
             float tiling_factor = 1, vec4 tint = vec4(1)) -> void;
-        static auto draw_sprite(const sprite_draw_data& data) -> void;
 
         static auto reset_stats() -> void;
         static auto get_stats() -> statistics;
