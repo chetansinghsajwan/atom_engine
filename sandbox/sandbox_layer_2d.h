@@ -1,4 +1,5 @@
 #include "atom.engine.h"
+#include "atom/engine/rendering/sprite.h"
 #include "atom/engine/rendering/texture2d.h"
 #include "engine/rendering/vertex_array.h"
 #include "engine/rendering/orthographic_camera_controller.h"
@@ -25,7 +26,10 @@ namespace sandbox
     private:
         atom::logging::logger* _logger;
         atom::engine::orthographic_camera_controller _camera_controller;
-        atom::engine::texture2d* _checkerboard_texture;
+        atom::engine::texture2d* _rpg_texture;
+        atom::engine::sprite* _stairs_sprite;
+        atom::engine::sprite* _barrel_sprite;
+        atom::engine::sprite* _tree_sprite;
         atom::engine::vec4 _quad_color;
         atom::engine::window* _window;
         atom::engine::keyboard* _keyboard;

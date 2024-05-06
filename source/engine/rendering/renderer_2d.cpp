@@ -140,65 +140,14 @@ namespace atom::engine
         _stats.draw_calls += 1;
     }
 
-    auto renderer_2d::start_new_batch() -> void
+    auto _start_new_batch() -> void
     {
         _quad_vertex_buffer_ptr = _quad_vertex_buffer_base;
         _quad_index_count = 0;
 
         _texture_slot_index = 1;
 
-        end_scene();
-    }
-
-    auto renderer_2d::draw_quad(vec3 position, vec2 size, float rotation, vec4 color) -> void
-    {
-        if (_quad_index_count >= _max_indices)
-        {
-            start_new_batch();
-        }
-
-        const float texture_index = 0;
-        const float tiling_factor = 1;
-
-        mat4 transform =
-            math::translate(mat4(1), position) * math::scale(mat4(1), vec3(size.x, size.y, 1));
-
-        if (rotation != 0.)
-        {
-            transform *= math::rotate(math::mat4(1.0f), math::radians(rotation), vec3(0, 0, 1));
-        }
-
-        _quad_vertex_buffer_ptr->position = transform * _quad_vertex_positions[0];
-        _quad_vertex_buffer_ptr->color = color;
-        _quad_vertex_buffer_ptr->texture_coord = vec2(0, 0);
-        _quad_vertex_buffer_ptr->texture_index = texture_index;
-        _quad_vertex_buffer_ptr->tiling_factor = tiling_factor;
-        _quad_vertex_buffer_ptr++;
-
-        _quad_vertex_buffer_ptr->position = transform * _quad_vertex_positions[1];
-        _quad_vertex_buffer_ptr->color = color;
-        _quad_vertex_buffer_ptr->texture_coord = vec2(1, 0);
-        _quad_vertex_buffer_ptr->texture_index = texture_index;
-        _quad_vertex_buffer_ptr->tiling_factor = tiling_factor;
-        _quad_vertex_buffer_ptr++;
-
-        _quad_vertex_buffer_ptr->position = transform * _quad_vertex_positions[2];
-        _quad_vertex_buffer_ptr->color = color;
-        _quad_vertex_buffer_ptr->texture_coord = vec2(1, 1);
-        _quad_vertex_buffer_ptr->texture_index = texture_index;
-        _quad_vertex_buffer_ptr->tiling_factor = tiling_factor;
-        _quad_vertex_buffer_ptr++;
-
-        _quad_vertex_buffer_ptr->position = transform * _quad_vertex_positions[3];
-        _quad_vertex_buffer_ptr->color = color;
-        _quad_vertex_buffer_ptr->texture_coord = vec2(0, 1);
-        _quad_vertex_buffer_ptr->texture_index = texture_index;
-        _quad_vertex_buffer_ptr->tiling_factor = tiling_factor;
-        _quad_vertex_buffer_ptr++;
-
-        _quad_index_count += 6;
-
-        _stats.quad_count++;
+        renderer_2d::end_scene();
     }
 
     static auto _get_texture_index(texture2d* texture) -> usize
@@ -213,14 +162,14 @@ namespace atom::engine
         return _texture_slot_index++;
     }
 
-    auto renderer_2d::draw_texture(vec3 position, vec2 size, float rotation, texture2d* texture,
-        float tiling_factor, vec4 tint) -> void
+    static auto _draw(vec3 position, vec2 size, float rotation, texture2d* texture,
+        const vec2* texture_coords, float tiling_factor, vec4 tint) -> void
     {
         ATOM_DEBUG_EXPECTS(texture != nullptr);
 
         if (_quad_index_count >= _max_indices)
         {
-            start_new_batch();
+            _start_new_batch();
         }
 
         float texture_index = _get_texture_index(texture);
@@ -235,28 +184,28 @@ namespace atom::engine
 
         _quad_vertex_buffer_ptr->position = transform * _quad_vertex_positions[0];
         _quad_vertex_buffer_ptr->color = tint;
-        _quad_vertex_buffer_ptr->texture_coord = vec2(0, 0);
+        _quad_vertex_buffer_ptr->texture_coord = texture_coords[0];
         _quad_vertex_buffer_ptr->texture_index = texture_index;
         _quad_vertex_buffer_ptr->tiling_factor = tiling_factor;
         _quad_vertex_buffer_ptr++;
 
         _quad_vertex_buffer_ptr->position = transform * _quad_vertex_positions[1];
         _quad_vertex_buffer_ptr->color = tint;
-        _quad_vertex_buffer_ptr->texture_coord = vec2(1, 0);
+        _quad_vertex_buffer_ptr->texture_coord = texture_coords[1];
         _quad_vertex_buffer_ptr->texture_index = texture_index;
         _quad_vertex_buffer_ptr->tiling_factor = tiling_factor;
         _quad_vertex_buffer_ptr++;
 
         _quad_vertex_buffer_ptr->position = transform * _quad_vertex_positions[2];
         _quad_vertex_buffer_ptr->color = tint;
-        _quad_vertex_buffer_ptr->texture_coord = vec2(1, 1);
+        _quad_vertex_buffer_ptr->texture_coord = texture_coords[2];
         _quad_vertex_buffer_ptr->texture_index = texture_index;
         _quad_vertex_buffer_ptr->tiling_factor = tiling_factor;
         _quad_vertex_buffer_ptr++;
 
         _quad_vertex_buffer_ptr->position = transform * _quad_vertex_positions[3];
         _quad_vertex_buffer_ptr->color = tint;
-        _quad_vertex_buffer_ptr->texture_coord = vec2(0, 1);
+        _quad_vertex_buffer_ptr->texture_coord = texture_coords[3];
         _quad_vertex_buffer_ptr->texture_index = texture_index;
         _quad_vertex_buffer_ptr->tiling_factor = tiling_factor;
         _quad_vertex_buffer_ptr++;
@@ -264,6 +213,27 @@ namespace atom::engine
         _quad_index_count += 6;
 
         _stats.quad_count += 1;
+    }
+
+    auto renderer_2d::draw_quad(vec3 position, vec2 size, float rotation, vec4 color) -> void
+    {
+        constexpr vec2 texture_coords[4] = { vec2(0, 0), vec2(1, 0), vec2(1, 1), vec2(0, 1) };
+
+        _draw(position, size, rotation, _white_texture, texture_coords, 1, color);
+    }
+
+    auto renderer_2d::draw_texture(vec3 position, vec2 size, float rotation, texture2d* texture,
+        float tiling_factor, vec4 tint) -> void
+    {
+        constexpr vec2 texture_coords[4] = { vec2(0, 0), vec2(1, 0), vec2(1, 1), vec2(0, 1) };
+
+        _draw(position, size, rotation, texture, texture_coords, tiling_factor, tint);
+    }
+
+    auto renderer_2d::draw_sprite(const sprite_draw_data& data) -> void
+    {
+        _draw(data.position, data.size, data.rotation, data.sprite->get_texture(),
+            data.sprite->get_texture_coords().get_data(), data.tiling_factor, data.tint);
     }
 
     auto renderer_2d::reset_stats() -> void

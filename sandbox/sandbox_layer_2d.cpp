@@ -21,7 +21,13 @@ namespace sandbox
         _setup_logging();
     }
 
-    sandbox_layer_2d::~sandbox_layer_2d() {}
+    sandbox_layer_2d::~sandbox_layer_2d()
+    {
+        delete _rpg_texture;
+        delete _stairs_sprite;
+        delete _barrel_sprite;
+        delete _logger;
+    }
 
     auto sandbox_layer_2d::on_attach() -> void
     {
@@ -35,8 +41,13 @@ namespace sandbox
         _camera_controller.set_keyboard(_keyboard);
         _camera_controller.set_mouse(_mouse);
 
-        _checkerboard_texture = texture2d::create(
-            "/home/chetan/projects/atom.engine/sandbox/assets/textures/checkerboard.png");
+        _rpg_texture = texture2d::create(
+            "/home/chetan/projects/atom.engine/sandbox/assets/textures/rpg-pack.png");
+
+        _stairs_sprite = sprite::make_from_coords(_rpg_texture, vec2(7, 6), vec2(128, 128));
+        _barrel_sprite = sprite::make_from_coords(_rpg_texture, vec2(8, 2), vec2(128, 128));
+        _tree_sprite =
+            sprite::make_from_coords(_rpg_texture, vec2(2, 1), vec2(128, 128), vec2(1, 2));
     }
 
     auto sandbox_layer_2d::on_update(time_stemp delta_time) -> void
@@ -49,11 +60,28 @@ namespace sandbox
         render_command::clear_color();
 
         renderer_2d::begin_scene(_camera_controller.get_camera());
-        renderer_2d::draw_quad({ -1.0f, 0.0f, 0 }, { 0.8f, 0.8f }, 0, { 0.8f, 0.2f, 0.3f, 1.0f });
-        renderer_2d::draw_quad(vec3(0, 0, 0), vec2(1, 1), 0, _quad_color);
-        renderer_2d::draw_quad(vec3(1.1f, 1.1f, 0), vec2(1, 1), 0, _quad_color);
-        renderer_2d::draw_texture(
-            vec3(-5, -5, -.1), vec2(10, 10), 45, _checkerboard_texture, 10, vec4(1, .9, .9, 1));
+
+        renderer_2d::draw_sprite(renderer_2d::sprite_draw_data{
+            .sprite = _stairs_sprite,
+            .position = vec3(),
+            .size = vec2(1, 1),
+            .rotation = 0,
+        });
+
+        renderer_2d::draw_sprite(renderer_2d::sprite_draw_data{
+            .sprite = _barrel_sprite,
+            .position = vec3(1, 0, 0),
+            .size = vec2(1, 1),
+            .rotation = 0,
+        });
+
+        renderer_2d::draw_sprite(renderer_2d::sprite_draw_data{
+            .sprite = _tree_sprite,
+            .position = vec3(-1, 0, 0),
+            .size = vec2(1, 2),
+            .rotation = 0,
+        });
+
         renderer_2d::end_scene();
     }
 
