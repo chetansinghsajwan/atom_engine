@@ -27,6 +27,7 @@ namespace atom::engine
         }
 
     public:
+        virtual auto stop() -> void;
         virtual auto run() -> void;
 
         auto get_window() const -> window*
