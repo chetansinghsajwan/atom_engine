@@ -72,6 +72,11 @@ namespace atom::engine
         delete _layer;
     }
 
+    auto application::stop() -> void
+    {
+        _should_run = false;
+    }
+
     auto application::run() -> void
     {
         while (_should_run)
