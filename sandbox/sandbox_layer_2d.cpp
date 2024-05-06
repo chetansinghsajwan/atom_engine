@@ -16,13 +16,13 @@ namespace sandbox
     sandbox_layer_2d::sandbox_layer_2d()
         : layer("sandbox")
         , _camera_controller(1920.0 / 1080.0)
-        , _quad_color(.2f, .3f, .8f, 1)
     {
         _setup_logging();
     }
 
     sandbox_layer_2d::~sandbox_layer_2d()
     {
+        delete _frame_buffer;
         delete _rpg_texture;
         delete _stairs_sprite;
         delete _barrel_sprite;
@@ -48,6 +48,11 @@ namespace sandbox
         _barrel_sprite = sprite::make_from_coords(_rpg_texture, vec2(8, 2), vec2(128, 128));
         _tree_sprite =
             sprite::make_from_coords(_rpg_texture, vec2(2, 1), vec2(128, 128), vec2(1, 2));
+
+        _frame_buffer = frame_buffer::create({
+            .width = 1280,
+            .height = 720,
+        });
     }
 
     auto sandbox_layer_2d::on_update(time_stemp delta_time) -> void
@@ -56,6 +61,7 @@ namespace sandbox
 
         renderer_2d::reset_stats();
 
+        _frame_buffer->bind();
         render_command::set_clear_color({ 0.1f, 0.1f, 0.1f, 1 });
         render_command::clear_color();
 
@@ -83,6 +89,7 @@ namespace sandbox
         });
 
         renderer_2d::end_scene();
+        _frame_buffer->unbind();
     }
 
     auto sandbox_layer_2d::on_imgui_render() -> void
@@ -163,7 +170,8 @@ namespace sandbox
                 ImGui::Text("Vertices: %d", stats.get_total_vertex_count());
                 ImGui::Text("Indices: %d", stats.get_total_index_count());
 
-                ImGui::ColorEdit4("quad color", glm::value_ptr(_quad_color));
+                u32 renderer_id = _rpg_texture->get_renderer_id();
+                ImGui::Image(reinterpret_cast<void*>(renderer_id), ImVec2(1280, 720));
 
                 ImGui::End();
             }
@@ -181,7 +189,8 @@ namespace sandbox
             ImGui::Text("Vertices: %d", stats.get_total_vertex_count());
             ImGui::Text("Indices: %d", stats.get_total_index_count());
 
-            ImGui::ColorEdit4("quad color", glm::value_ptr(_quad_color));
+            u32 renderer_id = _rpg_texture->get_renderer_id();
+            ImGui::Image(reinterpret_cast<void*>(renderer_id), ImVec2(1280, 720));
 
             ImGui::End();
         }

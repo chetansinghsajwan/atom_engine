@@ -1,5 +1,6 @@
 #pragma once
 #include "engine/rendering/orthographic_camera.h"
+#include "engine/rendering/frame_buffer.h"
 #include "atom/engine/rendering/texture2d.h"
 #include "atom/engine/rendering/sprite.h"
 
