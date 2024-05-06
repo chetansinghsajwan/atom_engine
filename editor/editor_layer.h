@@ -36,5 +36,6 @@ namespace atom::editor
         engine::mouse* _mouse;
 
         engine::frame_buffer* _frame_buffer;
+        engine::vec2 _viewport_size = engine::vec2{ 0, 0 };
     };
 }

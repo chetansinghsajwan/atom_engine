@@ -36,10 +36,7 @@ namespace atom::engine
         ImGui::NewFrame();
     }
 
-    auto imgui_layer::on_imgui_render() -> void
-    {
-        // ImGui::ShowDemoWindow();
-    }
+    auto imgui_layer::on_imgui_render() -> void {}
 
     auto imgui_layer::end_render() -> void
     {
