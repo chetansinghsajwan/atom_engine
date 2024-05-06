@@ -4,6 +4,8 @@
 #include "engine/rendering/vertex_array.h"
 #include "engine/rendering/orthographic_camera_controller.h"
 #include "engine/rendering/renderer_2d.h"
+#include "atom/engine/ecs.h"
+#include "atom/engine/rendering/scene.h"
 
 namespace atom::editor
 {
@@ -29,11 +31,14 @@ namespace atom::editor
         engine::orthographic_camera_controller _camera_controller;
         engine::texture2d* _rpg_texture;
         engine::sprite* _stairs_sprite;
+        engine::entity* _stairs_entity;
         engine::sprite* _barrel_sprite;
         engine::sprite* _tree_sprite;
         engine::window* _window;
         engine::keyboard* _keyboard;
         engine::mouse* _mouse;
+        engine::scene* _scene;
+        engine::entity_manager* _entity_manager;
 
         engine::frame_buffer* _frame_buffer;
         engine::vec2 _viewport_size = engine::vec2{ 0, 0 };

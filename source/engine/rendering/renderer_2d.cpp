@@ -162,8 +162,8 @@ namespace atom::engine
         return _texture_slot_index++;
     }
 
-    static auto _draw(vec3 position, vec2 size, float rotation, texture2d* texture,
-        const vec2* texture_coords, float tiling_factor, vec4 tint) -> void
+    static auto _draw(const mat4& transform, texture2d* texture, const vec2* texture_coords,
+        float tiling_factor, vec4 tint) -> void
     {
         ATOM_DEBUG_EXPECTS(texture != nullptr);
 
@@ -173,14 +173,6 @@ namespace atom::engine
         }
 
         float texture_index = _get_texture_index(texture);
-
-        mat4 transform =
-            math::translate(mat4(1), position) * math::scale(mat4(1), vec3(size.x, size.y, 1));
-
-        if (rotation != 0.)
-        {
-            transform *= math::rotate(math::mat4(1.0f), math::radians(rotation), vec3(0, 0, 1));
-        }
 
         _quad_vertex_buffer_ptr->position = transform * _quad_vertex_positions[0];
         _quad_vertex_buffer_ptr->color = tint;
@@ -215,25 +207,65 @@ namespace atom::engine
         _stats.quad_count += 1;
     }
 
-    auto renderer_2d::draw_quad(vec3 position, vec2 size, float rotation, vec4 color) -> void
+    static auto _draw(const vec3& position, vec2 size, float rotation, texture2d* texture,
+        const vec2* texture_coords, float tiling_factor, vec4 tint) -> void
+    {
+        ATOM_DEBUG_EXPECTS(texture != nullptr);
+
+        mat4 transform =
+            math::translate(mat4(1), position) * math::scale(mat4(1), vec3(size.x, size.y, 1));
+
+        if (rotation != 0.)
+        {
+            transform *= math::rotate(math::mat4(1.0f), math::radians(rotation), vec3(0, 0, 1));
+        }
+
+        _draw(transform, texture, texture_coords, tiling_factor, tint);
+    }
+
+    auto renderer_2d::draw_quad(const mat4& transform, const vec4& color) -> void
+    {
+        constexpr vec2 texture_coords[4] = { vec2(0, 0), vec2(1, 0), vec2(1, 1), vec2(0, 1) };
+
+        _draw(transform, _white_texture, texture_coords, 1, color);
+    }
+
+    auto renderer_2d::draw_quad(
+        const vec3& position, vec2 size, float rotation, const vec4& color) -> void
     {
         constexpr vec2 texture_coords[4] = { vec2(0, 0), vec2(1, 0), vec2(1, 1), vec2(0, 1) };
 
         _draw(position, size, rotation, _white_texture, texture_coords, 1, color);
     }
 
-    auto renderer_2d::draw_texture(vec3 position, vec2 size, float rotation, texture2d* texture,
-        float tiling_factor, vec4 tint) -> void
+    auto renderer_2d::draw_texture(
+        const mat4& transform, texture2d* texture, float tiling_factor, vec4 tint) -> void
+    {
+        constexpr vec2 texture_coords[4] = { vec2(0, 0), vec2(1, 0), vec2(1, 1), vec2(0, 1) };
+
+        _draw(transform, texture, texture_coords, tiling_factor, tint);
+    }
+
+    auto renderer_2d::draw_texture(const vec3& position, vec2 size, float rotation,
+        texture2d* texture, float tiling_factor, vec4 tint) -> void
     {
         constexpr vec2 texture_coords[4] = { vec2(0, 0), vec2(1, 0), vec2(1, 1), vec2(0, 1) };
 
         _draw(position, size, rotation, texture, texture_coords, tiling_factor, tint);
     }
 
-    auto renderer_2d::draw_sprite(const sprite_draw_data& data) -> void
+    auto renderer_2d::draw_sprite(const vec3& position, vec2 size, float rotation,
+        class sprite* sprite, float tiling_factor, vec4 tint) -> void
     {
-        _draw(data.position, data.size, data.rotation, data.sprite->get_texture(),
-            data.sprite->get_texture_coords().get_data(), data.tiling_factor, data.tint);
+        _draw(position, size, rotation, sprite->get_texture(),
+            sprite->get_texture_coords().get_data(), tiling_factor, tint);
+    }
+
+    auto renderer_2d::draw_sprite(
+        const mat4& transform, class sprite* sprite, float tiling_factor, vec4 tint) -> void
+    {
+        _draw(transform, sprite->get_texture(), sprite->get_texture_coords().get_data(),
+            tiling_factor, tint);
     }
 
     auto renderer_2d::reset_stats() -> void
