@@ -17,8 +17,9 @@
 
 namespace atom::engine
 {
-    application::application()
-        : _window(nullptr)
+    application::application(string_view name)
+        : _name(name)
+        , _window(nullptr)
         , _layers()
         , _layer(nullptr)
         , _last_frame_time(0)
@@ -30,7 +31,7 @@ namespace atom::engine
         // window setup
 
         window_props window_props{
-            .window_name = "sandbox", .window_size = { 1920, 1080 }
+            .window_name = name, .window_size = { 1920, 1080 }
         };
 
         _window = window_manager::create_window(window_props);

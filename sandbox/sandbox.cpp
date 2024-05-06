@@ -12,6 +12,7 @@ namespace sandbox
     {
     public:
         sandbox_application()
+            : application("sandbox")
         {
             _layer = new sandbox_layer_2d();
             push_layer(_layer);

@@ -34,7 +34,5 @@ namespace sandbox
         atom::engine::window* _window;
         atom::engine::keyboard* _keyboard;
         atom::engine::mouse* _mouse;
-
-        atom::engine::frame_buffer* _frame_buffer;
     };
 }

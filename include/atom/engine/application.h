@@ -16,7 +16,7 @@ namespace atom::engine
         , public mouse_event_listener
     {
     public:
-        application();
+        application(string_view name);
 
         virtual ~application();
 
@@ -50,6 +50,7 @@ namespace atom::engine
         virtual auto handle(mouse_event& event) -> void override;
 
     private:
+        string _name;
         window* _window;
         layer_stack _layers;
         layer* _layer;

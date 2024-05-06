@@ -94,6 +94,15 @@ target_link_libraries(atom.engine PUBLIC stb_image)
 target_compile_definitions(atom.engine PUBLIC "GLFW_INCLUDE_NONE")
 
 # --------------------------------------------------------------------------------------------------
+# atom.editor
+# --------------------------------------------------------------------------------------------------
+
+file(GLOB_RECURSE editor_sources "editor/*.cpp")
+add_executable(atom.editor)
+target_sources(atom.editor PRIVATE ${editor_sources})
+target_link_libraries(atom.editor PRIVATE atom.engine)
+
+# --------------------------------------------------------------------------------------------------
 # atom.engine.sandbox
 # --------------------------------------------------------------------------------------------------
 
