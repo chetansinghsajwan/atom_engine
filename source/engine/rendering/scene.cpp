@@ -13,7 +13,7 @@ namespace atom::engine
         delete _entity_manager;
     }
 
-    auto scene::on_update(time_stemp time) -> void
+    auto scene::on_update(time_step time) -> void
     {
         entt::registry* entt_registry = _entity_manager->get_internal();
         auto group = entt_registry->group<transform_component>(entt::get<sprite_component>);

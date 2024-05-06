@@ -41,7 +41,7 @@ namespace sandbox
         _camera_controller.set_mouse(_mouse);
     }
 
-    auto sandbox_layer::on_update(time_stemp delta_time) -> void
+    auto sandbox_layer::on_update(time_step delta_time) -> void
     {
         _camera_controller.on_update(delta_time);
 

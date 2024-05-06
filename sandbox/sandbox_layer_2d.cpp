@@ -49,7 +49,7 @@ namespace sandbox
             sprite::make_from_coords(_rpg_texture, vec2(2, 1), vec2(128, 128), vec2(1, 2));
     }
 
-    auto sandbox_layer_2d::on_update(time_stemp delta_time) -> void
+    auto sandbox_layer_2d::on_update(time_step delta_time) -> void
     {
         _camera_controller.on_update(delta_time);
 

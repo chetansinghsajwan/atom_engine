@@ -2,10 +2,10 @@
 
 namespace atom::engine
 {
-    class time_stemp
+    class time_step
     {
     public:
-        time_stemp(float seconds)
+        time_step(float seconds)
             : _seconds(seconds)
         {}
 

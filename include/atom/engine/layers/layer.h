@@ -24,7 +24,7 @@ namespace atom::engine
 
         virtual auto on_attach() -> void {}
 
-        virtual auto on_update(time_stemp delta_time) -> void {}
+        virtual auto on_update(time_step delta_time) -> void {}
 
         virtual auto on_imgui_render() -> void {}
 

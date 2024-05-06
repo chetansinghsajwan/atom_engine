@@ -64,7 +64,7 @@ namespace atom::editor
         _stairs_entity->emplace_component<sprite_component>(vec4(0, 1, 0, 1));
     }
 
-    auto editor_layer::on_update(time_stemp delta_time) -> void
+    auto editor_layer::on_update(time_step delta_time) -> void
     {
         _camera_controller.on_update(delta_time);
 

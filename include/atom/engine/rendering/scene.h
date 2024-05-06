@@ -11,7 +11,7 @@ namespace atom::engine
         ~scene();
 
     public:
-        auto on_update(time_stemp time) -> void;
+        auto on_update(time_step time) -> void;
     
         auto get_entity_manager() const -> entity_manager*
         {
