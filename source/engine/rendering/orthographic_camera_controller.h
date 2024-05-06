@@ -17,7 +17,7 @@ namespace atom::engine
         orthographic_camera_controller(float aspect_ratio);
 
     public:
-        auto on_update(time_stemp delta_time) -> void;
+        auto on_update(time_step delta_time) -> void;
 
         auto set_window(class window* window) -> void;
         auto set_keyboard(class keyboard* keyboard) -> void;

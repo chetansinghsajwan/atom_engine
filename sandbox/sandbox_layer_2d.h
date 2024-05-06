@@ -15,7 +15,7 @@ namespace sandbox
 
     public:
         virtual auto on_attach() -> void override;
-        virtual auto on_update(atom::engine::time_stemp delta_time) -> void override;
+        virtual auto on_update(atom::engine::time_step delta_time) -> void override;
         virtual auto on_imgui_render() -> void override;
 
     private:

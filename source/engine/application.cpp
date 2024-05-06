@@ -89,7 +89,7 @@ namespace atom::engine
             if (!_window->is_minimized())
             {
                 for (layer* layer : _layers.get_layers())
-                    layer->on_update(time_stemp(delta_time));
+                    layer->on_update(time_step(delta_time));
             }
 
             class imgui_layer* imgui_layer = (class imgui_layer*)_layer;

@@ -14,7 +14,7 @@ namespace atom::engine
               -_aspect_ratio * _zoom_level, _aspect_ratio * _zoom_level, -_zoom_level, _zoom_level)
     {}
 
-    auto orthographic_camera_controller::on_update(time_stemp delta_time) -> void
+    auto orthographic_camera_controller::on_update(time_step delta_time) -> void
     {
         if (_keyboard == nullptr)
             return;
