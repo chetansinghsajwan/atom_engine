@@ -1,6 +1,7 @@
 #pragma once
 #include "entt/entt.hpp"
 #include "atom/engine/ecs/entity.h"
+#include "atom/engine/ecs/transform_component.h"
 
 namespace atom::engine
 {
@@ -12,10 +13,14 @@ namespace atom::engine
         ~entity_manager() {}
 
     public:
-        auto create_entity() -> entity*
+        auto create_entity(string_view name) -> entity*
         {
             entt::entity entt_id = _registry.create();
-            return new entity(entt_id, &_registry);
+            class entity* entity =
+                &_registry.emplace<class entity>(entt_id, entt_id, &_registry, name);
+            _registry.emplace<transform_component>(entt_id);
+
+            return entity;
         }
 
         auto destroy_entity(class entity* entity) -> void
@@ -25,7 +30,7 @@ namespace atom::engine
                 return;
             }
 
-            delete entity;
+            _registry.destroy(entity->get_id());
         }
 
         auto get_internal() -> entt::registry*

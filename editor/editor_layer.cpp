@@ -59,8 +59,7 @@ namespace atom::editor
         _scene = new scene();
         _entity_manager = _scene->get_entity_manager();
 
-        _stairs_entity = _entity_manager->create_entity();
-        _stairs_entity->emplace_component<transform_component>();
+        _stairs_entity = _entity_manager->create_entity("stairs");
         _stairs_entity->emplace_component<sprite_component>(vec4(0, 1, 0, 1));
     }
 
@@ -76,29 +75,8 @@ namespace atom::editor
 
         renderer_2d::begin_scene(_camera_controller.get_camera());
         _scene->on_update(delta_time);
-
-        // renderer_2d::draw_sprite(renderer_2d::sprite_draw_data{
-        //     .sprite = _stairs_sprite,
-        //     .position = vec3(),
-        //     .size = vec2(1, 1),
-        //     .rotation = 0,
-        // });
-
-        // renderer_2d::draw_sprite(renderer_2d::sprite_draw_data{
-        //     .sprite = _barrel_sprite,
-        //     .position = vec3(1, 0, 0),
-        //     .size = vec2(1, 1),
-        //     .rotation = 0,
-        // });
-
-        // renderer_2d::draw_sprite(renderer_2d::sprite_draw_data{
-        //     .sprite = _tree_sprite,
-        //     .position = vec3(-1, 0, 0),
-        //     .size = vec2(1, 2),
-        //     .rotation = 0,
-        // });
-
         renderer_2d::end_scene();
+
         _frame_buffer->unbind();
     }
 
