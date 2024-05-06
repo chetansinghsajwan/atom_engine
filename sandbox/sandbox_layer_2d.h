@@ -3,6 +3,7 @@
 #include "atom/engine/rendering/texture2d.h"
 #include "engine/rendering/vertex_array.h"
 #include "engine/rendering/orthographic_camera_controller.h"
+#include "engine/rendering/renderer_2d.h"
 
 namespace sandbox
 {
@@ -30,9 +31,10 @@ namespace sandbox
         atom::engine::sprite* _stairs_sprite;
         atom::engine::sprite* _barrel_sprite;
         atom::engine::sprite* _tree_sprite;
-        atom::engine::vec4 _quad_color;
         atom::engine::window* _window;
         atom::engine::keyboard* _keyboard;
         atom::engine::mouse* _mouse;
+
+        atom::engine::frame_buffer* _frame_buffer;
     };
 }

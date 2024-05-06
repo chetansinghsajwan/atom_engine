@@ -12,6 +12,11 @@ namespace atom::engine
         virtual ~opengl_texture2d();
 
     public:
+        virtual auto get_renderer_id() const -> u32 override final
+        {
+            return _renderer_id;
+        }
+
         virtual auto get_height() const -> u32 override final
         {
             return _height;
