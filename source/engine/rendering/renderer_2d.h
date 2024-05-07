@@ -1,5 +1,6 @@
 #pragma once
 #include "engine/rendering/orthographic_camera.h"
+#include "engine/rendering/camera.h"
 #include "engine/rendering/frame_buffer.h"
 #include "atom/engine/rendering/texture2d.h"
 #include "atom/engine/rendering/sprite.h"
@@ -40,6 +41,8 @@ namespace atom::engine
         static auto finalize() -> void;
 
         static auto begin_scene(orthographic_camera* camera) -> void;
+        static auto begin_scene(class camera* camera, const mat4& transform) -> void;
+
         static auto end_scene() -> void;
         static auto flush() -> void;
 

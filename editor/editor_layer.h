@@ -28,7 +28,8 @@ namespace atom::editor
 
     private:
         logging::logger* _logger;
-        engine::orthographic_camera_controller _camera_controller;
+        // engine::orthographic_camera_controller _camera_controller;
+        engine::entity* _camera_entity;
         engine::texture2d* _rpg_texture;
         engine::sprite* _stairs_sprite;
         engine::entity* _stairs_entity;

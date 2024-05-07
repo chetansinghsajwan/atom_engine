@@ -121,6 +121,19 @@ namespace atom::engine
         _texture_slot_index = 1;
     }
 
+    auto renderer_2d::begin_scene(class camera* camera, const mat4& transform) -> void
+    {
+        mat4 view_projection = camera->get_projection() * math::inverse(transform);
+
+        _texture_shader->bind();
+        _texture_shader->set_uniform_mat4("u_view_projection", view_projection);
+
+        _quad_vertex_buffer_ptr = _quad_vertex_buffer_base;
+        _quad_index_count = 0;
+
+        _texture_slot_index = 1;
+    }
+
     auto renderer_2d::end_scene() -> void
     {
         u32 data_size = (uint8_t*)_quad_vertex_buffer_ptr - (uint8_t*)_quad_vertex_buffer_base;
