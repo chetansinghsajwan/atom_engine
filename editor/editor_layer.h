@@ -43,5 +43,7 @@ namespace atom::editor
 
         engine::frame_buffer* _frame_buffer;
         engine::vec2 _viewport_size = engine::vec2{ 0, 0 };
+        bool _is_viewport_focused = false;
+        bool _is_viewport_hovered = false;
     };
 }

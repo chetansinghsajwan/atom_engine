@@ -15,7 +15,6 @@ namespace atom::editor
 {
     editor_layer::editor_layer()
         : layer("editor")
-        // , _camera_controller(1920.0 / 1080.0)
         , _viewport_size(0, 0)
     {
         _setup_logging();
@@ -39,10 +38,6 @@ namespace atom::editor
         _setup_keyboard();
         _setup_mouse();
 
-        // _camera_controller.set_window(_window);
-        // _camera_controller.set_keyboard(_keyboard);
-        // _camera_controller.set_mouse(_mouse);
-
         _rpg_texture = texture2d::create(
             "/home/chetan/projects/atom.engine/editor/assets/textures/rpg-pack.png");
 
@@ -60,7 +55,7 @@ namespace atom::editor
         _entity_manager = _scene->get_entity_manager();
 
         _camera_entity = _entity_manager->create_entity("camera");
-        _camera_entity->emplace_component<camera_component>(engine::math::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+        _camera_entity->emplace_component<camera_component>();
 
         _stairs_entity = _entity_manager->create_entity("stairs");
         _stairs_entity->emplace_component<sprite_component>(vec4(0, 1, 0, 1));
@@ -68,7 +63,13 @@ namespace atom::editor
 
     auto editor_layer::on_update(time_step delta_time) -> void
     {
-        // _camera_controller.on_update(delta_time);
+        const frame_buffer_specs& specs = _frame_buffer->get_specs();
+        if (_viewport_size.x > 0.0f && _viewport_size.y > 0.0f
+            && (specs.width != _viewport_size.x || specs.height != _viewport_size.y))
+        {
+            _frame_buffer->resize(_viewport_size);
+            _scene->on_viewport_resize(_viewport_size);
+        }
 
         renderer_2d::reset_stats();
 
@@ -160,14 +161,11 @@ namespace atom::editor
             ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
             ImGui::Begin("viewport");
 
-            ImVec2 imgui_new_viewport_size = ImGui::GetContentRegionAvail();
-            vec2 new_viewport_size = vec2(imgui_new_viewport_size.x, imgui_new_viewport_size.y);
-            if (new_viewport_size != _viewport_size)
-            {
-                _viewport_size = new_viewport_size;
-                _frame_buffer->resize(_viewport_size);
-                // _camera_controller.on_resize(_viewport_size);
-            }
+            ImVec2 imgui_viewport_size = ImGui::GetContentRegionAvail();
+            _viewport_size = vec2(imgui_viewport_size.x, imgui_viewport_size.y);
+
+            _is_viewport_focused = ImGui::IsWindowFocused();
+            _is_viewport_hovered = ImGui::IsWindowHovered();
 
             void* imgui_texture_renderer_id =
                 reinterpret_cast<void*>(_frame_buffer->get_color_attachment_renderer_id());

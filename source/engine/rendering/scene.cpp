@@ -18,11 +18,11 @@ namespace atom::engine
         class camera* camera = nullptr;
         const mat4* camera_transform = nullptr;
 
-        auto group = _entity_manager->get_internal()->view<transform_component, camera_component>();
-        for (auto entity : group)
+        auto view = _entity_manager->get_internal()->view<transform_component, camera_component>();
+        for (auto entity : view)
         {
             auto [transform, camera_comp] =
-                group.get<transform_component, camera_component>(entity);
+                view.get<transform_component, camera_component>(entity);
 
             camera = &camera_comp.get_camera();
             camera_transform = &transform.get_matrix();
@@ -43,6 +43,19 @@ namespace atom::engine
             }
 
             renderer_2d::end_scene();
+        }
+    }
+
+    auto scene::on_viewport_resize(vec2 size) -> void
+    {
+        _width = size.x;
+        _height = size.y;
+
+        auto view = _entity_manager->get_internal()->view<camera_component>();
+        for (auto entity : view)
+        {
+            auto& camera_comp = view.get<camera_component>(entity);
+            camera_comp.get_camera().set_viewport_size(_width, _height);
         }
     }
 }
