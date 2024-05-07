@@ -15,7 +15,7 @@ namespace atom::editor
 {
     editor_layer::editor_layer()
         : layer("editor")
-        , _camera_controller(1920.0 / 1080.0)
+        // , _camera_controller(1920.0 / 1080.0)
         , _viewport_size(0, 0)
     {
         _setup_logging();
@@ -39,9 +39,9 @@ namespace atom::editor
         _setup_keyboard();
         _setup_mouse();
 
-        _camera_controller.set_window(_window);
-        _camera_controller.set_keyboard(_keyboard);
-        _camera_controller.set_mouse(_mouse);
+        // _camera_controller.set_window(_window);
+        // _camera_controller.set_keyboard(_keyboard);
+        // _camera_controller.set_mouse(_mouse);
 
         _rpg_texture = texture2d::create(
             "/home/chetan/projects/atom.engine/editor/assets/textures/rpg-pack.png");
@@ -59,13 +59,16 @@ namespace atom::editor
         _scene = new scene();
         _entity_manager = _scene->get_entity_manager();
 
+        _camera_entity = _entity_manager->create_entity("camera");
+        _camera_entity->emplace_component<camera_component>(engine::math::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+
         _stairs_entity = _entity_manager->create_entity("stairs");
         _stairs_entity->emplace_component<sprite_component>(vec4(0, 1, 0, 1));
     }
 
     auto editor_layer::on_update(time_step delta_time) -> void
     {
-        _camera_controller.on_update(delta_time);
+        // _camera_controller.on_update(delta_time);
 
         renderer_2d::reset_stats();
 
@@ -73,9 +76,7 @@ namespace atom::editor
         render_command::set_clear_color({ 0.1f, 0.1f, 0.1f, 1 });
         render_command::clear_color();
 
-        renderer_2d::begin_scene(_camera_controller.get_camera());
         _scene->on_update(delta_time);
-        renderer_2d::end_scene();
 
         _frame_buffer->unbind();
     }
@@ -165,7 +166,7 @@ namespace atom::editor
             {
                 _viewport_size = new_viewport_size;
                 _frame_buffer->resize(_viewport_size);
-                _camera_controller.on_resize(_viewport_size);
+                // _camera_controller.on_resize(_viewport_size);
             }
 
             void* imgui_texture_renderer_id =
