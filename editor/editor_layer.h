@@ -6,6 +6,7 @@
 #include "engine/rendering/renderer_2d.h"
 #include "atom/engine/ecs.h"
 #include "atom/engine/rendering/scene.h"
+#include "panels/entity_explorer_panel.h"
 
 namespace atom::editor
 {
@@ -45,5 +46,7 @@ namespace atom::editor
         engine::vec2 _viewport_size = engine::vec2{ 0, 0 };
         bool _is_viewport_focused = false;
         bool _is_viewport_hovered = false;
+
+        entity_explorer_panel* _entity_explorer_panel;
     };
 }

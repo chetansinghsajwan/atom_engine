@@ -1,4 +1,5 @@
 #pragma once
+#include "atom.core.h"
 #include "entt/entt.hpp"
 #include "atom/engine/ecs/entity_component.h"
 
@@ -54,6 +55,6 @@ namespace atom::engine
     public:
         entt::entity _id;
         entt::registry* _registry;
-        string_view _name;
+        string _name;
     };
 }
