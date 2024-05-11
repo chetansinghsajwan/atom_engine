@@ -12,6 +12,9 @@ namespace atom::engine
             return _entity;
         }
 
+    public:
+        virtual auto on_update() -> void {}
+
     private:
         entity* _entity;
     };

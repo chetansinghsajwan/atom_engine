@@ -1,4 +1,5 @@
 #include "panels/inspector_panel.h"
+#include "drawers/property_drawer_provider.h"
 #include "imgui.h"
 
 namespace atom::editor
@@ -18,6 +19,15 @@ namespace atom::editor
             if (ImGui::InputText("name", buffer, sizeof(buffer)))
             {
                 _entity->set_name(string_view::from_cstr(buffer, sizeof(buffer)));
+            }
+
+            for (engine::entity_component* component: _entity->get_all_components())
+            {
+                property_drawer* drawer = property_drawer_provider::get(component);
+                if (drawer == nullptr)
+                    continue;
+
+                drawer->draw();
             }
         }
 
