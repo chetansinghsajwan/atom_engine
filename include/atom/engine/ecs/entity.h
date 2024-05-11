@@ -20,6 +20,11 @@ namespace atom::engine
             return _id;
         }
 
+        auto set_name(string name) -> void
+        {
+            _name = name;
+        }
+
         auto get_name() const -> string_view
         {
             return _name;
@@ -31,9 +36,11 @@ namespace atom::engine
                      and (typeinfo<component_type>::template is_derived_from<entity_component>)
                      and (typeinfo<component_type>::template is_constructible_from<arg_types...>)
         {
-            component_type& component =
-                _registry->emplace<component_type>(_id, forward<arg_types>(args)...);
-            return &component;
+            component_type* component =
+                &_registry->emplace<component_type>(_id, forward<arg_types>(args)...);
+
+            _components.emplace_back(component);
+            return component;
         }
 
         template <typename component_type>
@@ -42,6 +49,11 @@ namespace atom::engine
                      and (typeinfo<component_type>::template is_derived_from<entity_component>)
         {
             return _registry->try_get<component_type>(_id);
+        }
+
+        auto get_all_components() -> array_slice<entity_component*>
+        {
+            return _components;
         }
 
         template <typename component_type>
@@ -56,5 +68,6 @@ namespace atom::engine
         entt::entity _id;
         entt::registry* _registry;
         string _name;
+        buf_array<entity_component*, 10> _components;
     };
 }
