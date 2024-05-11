@@ -28,6 +28,7 @@ namespace atom::editor
         delete _barrel_sprite;
         delete _stairs_entity;
         delete _entity_explorer_panel;
+        delete _inspector_panel;
         delete _logger;
     }
 
@@ -55,6 +56,7 @@ namespace atom::editor
         _scene = new scene();
         _entity_manager = _scene->get_entity_manager();
         _entity_explorer_panel = new entity_explorer_panel(_entity_manager);
+        _inspector_panel = new inspector_panel();
 
         _camera_entity = _entity_manager->create_entity("camera");
         _camera_entity->emplace_component<camera_component>();
@@ -150,6 +152,10 @@ namespace atom::editor
 
         {
             _entity_explorer_panel->on_imgui_render();
+            engine::entity* entity = _entity_explorer_panel->get_selected_entity();
+
+            _inspector_panel->set_entity(entity);
+            _inspector_panel->on_imgui_render();
         }
 
         {

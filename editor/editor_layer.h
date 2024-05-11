@@ -6,7 +6,7 @@
 #include "engine/rendering/renderer_2d.h"
 #include "atom/engine/ecs.h"
 #include "atom/engine/rendering/scene.h"
-#include "panels/entity_explorer_panel.h"
+#include "panels.h"
 
 namespace atom::editor
 {
@@ -48,5 +48,6 @@ namespace atom::editor
         bool _is_viewport_hovered = false;
 
         entity_explorer_panel* _entity_explorer_panel;
+        inspector_panel* _inspector_panel;
     };
 }
