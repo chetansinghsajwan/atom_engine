@@ -16,7 +16,7 @@ namespace atom::engine
     auto scene::on_update(time_step time) -> void
     {
         class camera* camera = nullptr;
-        const mat4* camera_transform = nullptr;
+        mat4 camera_transform;
 
         auto view = _entity_manager->get_internal()->view<transform_component, camera_component>();
         for (auto entity : view)
@@ -25,13 +25,13 @@ namespace atom::engine
                 view.get<transform_component, camera_component>(entity);
 
             camera = &camera_comp.get_camera();
-            camera_transform = &transform.get_matrix();
+            camera_transform = transform.get_matrix();
             break;
         }
 
         if (camera != nullptr)
         {
-            renderer_2d::begin_scene(camera, *camera_transform);
+            renderer_2d::begin_scene(camera, camera_transform);
 
             entt::registry* entt_registry = _entity_manager->get_internal();
             auto group = entt_registry->group<transform_component>(entt::get<sprite_component>);

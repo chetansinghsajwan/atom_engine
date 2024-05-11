@@ -14,19 +14,21 @@ namespace atom::editor
 
             // todo: replace this with a atom.core.buffer helper class.
             char buffer[100];
-            std::copy(entity_name.get_data(), entity_name.get_data() + entity_name.get_count(), buffer);
+            std::copy(
+                entity_name.get_data(), entity_name.get_data() + entity_name.get_count(), buffer);
 
             if (ImGui::InputText("name", buffer, sizeof(buffer)))
             {
                 _entity->set_name(string_view::from_cstr(buffer, sizeof(buffer)));
             }
 
-            for (engine::entity_component* component: _entity->get_all_components())
+            for (engine::entity_component* component : _entity->get_all_components())
             {
                 property_drawer* drawer = property_drawer_provider::get(component);
                 if (drawer == nullptr)
                     continue;
 
+                drawer->set_property(component);
                 drawer->draw();
             }
         }

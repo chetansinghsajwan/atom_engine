@@ -10,7 +10,6 @@ namespace atom::editor
 
     public:
         virtual auto draw() -> void = 0;
-
-        virtual auto get_heading() -> string_view = 0;
+        virtual auto set_property(void* property) -> void = 0;
     };
 }
