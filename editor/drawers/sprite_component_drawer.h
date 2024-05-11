@@ -15,17 +15,12 @@ namespace atom::editor
             ImGui::Text("sprite component");
         }
 
-        virtual auto get_heading() -> string_view override
+        virtual auto set_property(void* property) -> void override
         {
-            return "sprite component";
-        }
-
-        auto set_component(engine::sprite_component* sprite) -> void
-        {
-            _transform = sprite;
+            _sprite_component = reinterpret_cast<engine::sprite_component*>(property);
         }
 
     private:
-        engine::sprite_component* _transform;
+        engine::sprite_component* _sprite_component;
     };
 }

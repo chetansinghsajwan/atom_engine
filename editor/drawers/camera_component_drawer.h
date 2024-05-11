@@ -15,17 +15,12 @@ namespace atom::editor
             ImGui::Text("camera component");
         }
 
-        virtual auto get_heading() -> string_view override
+        virtual auto set_property(void* property) -> void override
         {
-            return "camera component";
-        }
-
-        auto set_component(engine::camera_component* camera) -> void
-        {
-            _transform = camera;
+            _camera_component = reinterpret_cast<engine::camera_component*>(property);
         }
 
     private:
-        engine::camera_component* _transform;
+        engine::camera_component* _camera_component;
     };
 }
