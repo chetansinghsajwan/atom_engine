@@ -19,8 +19,8 @@ namespace atom::engine
             entt::entity entt_id = _registry.create();
             class entity* entity =
                 &_registry.emplace<class entity>(entt_id, entt_id, &_registry, name);
-            _registry.emplace<transform_component>(entt_id);
 
+            entity->emplace_component<transform_component>();
             return entity;
         }
 
