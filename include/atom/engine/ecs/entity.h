@@ -43,6 +43,11 @@ namespace atom::engine
             return component;
         }
 
+        auto remove_component(entity_component* component) -> void
+        {
+            std::cout << "remove component" << std::endl;
+        }
+
         template <typename component_type>
         auto get_component() -> component_type*
             requires typeinfo<component_type>::is_pure

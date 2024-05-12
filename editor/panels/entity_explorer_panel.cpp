@@ -18,16 +18,52 @@ namespace atom::editor
             }
 
             bool opened = ImGui::TreeNodeEx(
-                (void*)(uint64_t)(uint32_t)entity->get_id(), flags, "%s", entity->get_name().get_data());
+                (void*)entity->get_id(), flags, "%s", entity->get_name().get_data());
             if (ImGui::IsItemClicked())
             {
                 _selected_entity = entity;
+            }
+
+            bool delete_entity = false;
+            if (ImGui::BeginPopupContextItem())
+            {
+                if (ImGui::MenuItem("delete entity"))
+                {
+                    delete_entity = true;
+                }
+
+                ImGui::EndPopup();
             }
 
             if (opened)
             {
                 ImGui::TreePop();
             }
+
+            if (delete_entity)
+            {
+                _manager->destroy_entity(entity);
+                if (entity == _selected_entity)
+                {
+                    _selected_entity = nullptr;
+                }
+            }
+        }
+
+        if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
+        {
+            _selected_entity = nullptr;
+        }
+
+        if (ImGui::BeginPopupContextWindow(
+                0, ImGuiPopupFlags_MouseButtonRight | ImGuiPopupFlags_NoOpenOverItems))
+        {
+            if (ImGui::MenuItem("create entity"))
+            {
+                _manager->create_entity("new entity");
+            }
+
+            ImGui::EndPopup();
         }
 
         ImGui::End();

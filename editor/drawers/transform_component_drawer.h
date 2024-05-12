@@ -1,4 +1,5 @@
 #pragma once
+#include "atom/core/string/string_view.h"
 #include "atom/engine/ecs.h"
 #include "drawers/property_drawer.h"
 #include "imgui_internal.h"
@@ -16,28 +17,32 @@ namespace atom::editor
             if (_transform == nullptr)
                 return;
 
-            if (ImGui::TreeNodeEx((void*)typeid(engine::transform_component).hash_code(),
-                    ImGuiTreeNodeFlags_DefaultOpen, "transform component"))
-            {
-                engine::vec3 position = _transform->get_position();
-                _draw_vec3("position", &position);
-                _transform->set_position(position);
+            engine::vec3 position = _transform->get_position();
+            _draw_vec3("position", &position);
+            _transform->set_position(position);
 
-                engine::vec3 rotation = engine::math::degrees(_transform->get_rotation());
-                _draw_vec3("rotation", &rotation);
-                _transform->set_rotation(engine::math::radians(rotation));
+            engine::vec3 rotation = engine::math::degrees(_transform->get_rotation());
+            _draw_vec3("rotation", &rotation);
+            _transform->set_rotation(engine::math::radians(rotation));
 
-                engine::vec3 scale = _transform->get_scale();
-                _draw_vec3("scale", &scale);
-                _transform->set_scale(scale);
-
-                ImGui::TreePop();
-            }
+            engine::vec3 scale = _transform->get_scale();
+            _draw_vec3("scale", &scale);
+            _transform->set_scale(scale);
         }
 
         virtual auto set_property(void* property) -> void override
         {
             _transform = reinterpret_cast<engine::transform_component*>(property);
+        }
+
+        virtual auto get_property_name() -> string_view override
+        {
+            return "transform component";
+        }
+
+        virtual auto get_id() -> void* override
+        {
+            return (void*)typeid(engine::transform_component).hash_code();
         }
 
     private:
