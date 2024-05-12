@@ -20,6 +20,16 @@ namespace atom::editor
             _sprite_component = reinterpret_cast<engine::sprite_component*>(property);
         }
 
+        virtual auto get_property_name() -> string_view override
+        {
+            return "sprite component";
+        }
+
+        virtual auto get_id() -> void* override
+        {
+            return (void*)typeid(engine::sprite_component).hash_code();
+        }
+
     private:
         engine::sprite_component* _sprite_component;
     };

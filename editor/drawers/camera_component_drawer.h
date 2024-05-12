@@ -20,6 +20,16 @@ namespace atom::editor
             _camera_component = reinterpret_cast<engine::camera_component*>(property);
         }
 
+        virtual auto get_property_name() -> string_view override
+        {
+            return "camera component";
+        }
+
+        virtual auto get_id() -> void* override
+        {
+            return (void*)typeid(engine::camera_component).hash_code();
+        }
+
     private:
         engine::camera_component* _camera_component;
     };
