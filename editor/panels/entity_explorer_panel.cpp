@@ -11,7 +11,11 @@ namespace atom::editor
         {
             engine::entity* entity = &std::get<1>(entry);
 
-            ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow;
+            ImGuiStyle& style = ImGui::GetStyle();
+            style.WindowMinSize.x = 370;
+
+            ImGuiTreeNodeFlags flags =
+                ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
             if (_selected_entity == entity)
             {
                 flags |= ImGuiTreeNodeFlags_Selected;
