@@ -18,6 +18,6 @@ namespace atom::editor
         auto _draw_component(engine::entity_component* component) -> void;
 
     private:
-        engine::entity* _entity;
+        engine::entity* _entity = nullptr;
     };
 }
