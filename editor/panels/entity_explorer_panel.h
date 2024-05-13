@@ -28,7 +28,7 @@ namespace atom::editor
         }
 
     private:
-        engine::entity_manager* _manager;
-        engine::entity* _selected_entity;
+        engine::entity_manager* _manager = nullptr;
+        engine::entity* _selected_entity = nullptr;
     };
 }
