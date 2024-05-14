@@ -1,5 +1,5 @@
 #pragma once
-#include "atom.core.h"
+// #include "atom.core.h"
 #include "atom/engine/events.h"
 
 namespace atom::engine

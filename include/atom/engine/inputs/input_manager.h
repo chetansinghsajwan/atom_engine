@@ -1,5 +1,5 @@
 #pragma once
-#include "atom.core.h"
+// #include "atom.core.h"
 #include "atom/engine/inputs/input_manager_impl.h"
 
 namespace atom::engine

@@ -1,3 +1,6 @@
+import atom.core;
+import atom.logging;
+
 #include "atom.engine.h"
 #include "sandbox_layer.h"
 #include "sandbox_layer_2d.h"

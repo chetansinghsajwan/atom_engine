@@ -1,5 +1,4 @@
 #pragma once
-#include "atom/core/string/string_view.h"
 #include "atom/engine/ecs.h"
 #include "drawers/property_drawer.h"
 #include "imgui_internal.h"

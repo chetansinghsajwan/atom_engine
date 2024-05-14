@@ -1,5 +1,5 @@
 #pragma once
-#include "atom.core.h"
+// #include "atom.core.h"
 #include "engine/rendering/buffer_layout.h"
 
 namespace atom::engine

@@ -1,3 +1,6 @@
+import atom.core;
+import atom.logging;
+
 #include "atom/engine/rendering/texture2d.h"
 #include "engine/rendering/renderer_api.h"
 #include "engine/opengl/opengl_texture2d.h"

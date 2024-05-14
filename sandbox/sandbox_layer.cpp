@@ -1,3 +1,6 @@
+import atom.core;
+import atom.logging;
+
 #include "sandbox_layer.h"
 #include "atom/engine/rendering/shader_factory.h"
 #include "atom/engine/rendering/shader_registry.h"

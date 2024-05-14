@@ -1,5 +1,5 @@
 #pragma once
-#include "atom.core.h"
+// #include "atom.core.h"
 #include "atom/engine/inputs/input_device.h"
 #include "atom/engine/inputs/mouse_buttons.h"
 #include "atom/engine/inputs/mouse_events.h"

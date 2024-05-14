@@ -1,3 +1,6 @@
+import atom.core;
+import atom.logging;
+
 #include "panels/entity_explorer_panel.h"
 #include "imgui.h"
 

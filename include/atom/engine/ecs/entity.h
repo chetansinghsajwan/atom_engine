@@ -1,6 +1,6 @@
 #pragma once
-#include "atom.core.h"
-#include "entt/entt.hpp"
+// #include "atom.core.h"
+// #include "entt/entt.hpp"
 #include "atom/engine/ecs/entity_component.h"
 
 namespace atom::engine

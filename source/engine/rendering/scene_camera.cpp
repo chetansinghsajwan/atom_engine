@@ -1,3 +1,6 @@
+import atom.core;
+import atom.logging;
+
 #include "engine/rendering/scene_camera.h"
 
 namespace atom::engine

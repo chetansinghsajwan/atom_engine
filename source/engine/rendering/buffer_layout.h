@@ -1,7 +1,5 @@
 #pragma once
-#include "atom.core.h"
-#include "atom/core/core/int_wrapper.h"
-#include "atom/core/contracts.h"
+// #include "atom.core.h"
 #include <initializer_list>
 
 namespace atom::engine

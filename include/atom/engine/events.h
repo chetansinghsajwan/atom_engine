@@ -1,5 +1,6 @@
 #pragma once
-#include "atom.core.h"
+
+// #include "atom.core.h"
 
 namespace atom::engine
 {
@@ -24,7 +25,7 @@ namespace atom::engine
     template <typename event_type>
     class event_source
     {
-        static_assert(std::derived_from<event_type, event_base>,
+        static_assert(typeinfo<event_type>::template is_derived_from<event_base>,
             "event_type must be derived from `event_base`.");
 
     public:

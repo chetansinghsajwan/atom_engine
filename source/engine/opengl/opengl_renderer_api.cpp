@@ -1,3 +1,6 @@
+import atom.core;
+import atom.logging;
+
 #include "opengl_renderer_api.h"
 #include "atom/engine/logging.h"
 #include "glad/glad.h"

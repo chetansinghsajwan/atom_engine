@@ -1,3 +1,6 @@
+import atom.core;
+import atom.logging;
+
 #include "renderer_api.h"
 
 namespace atom::engine

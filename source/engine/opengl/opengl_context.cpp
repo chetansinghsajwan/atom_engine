@@ -1,5 +1,7 @@
+import atom.core;
+import atom.logging;
+
 #include "opengl_context.h"
-#include "atom.core.h"
 
 #include "glad/glad.h"
 

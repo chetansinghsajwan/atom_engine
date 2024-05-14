@@ -1,3 +1,6 @@
+import atom.core;
+import atom.logging;
+
 #include "engine/opengl/opengl_shader_factory_impl.h"
 #include "atom/engine/logging.h"
 

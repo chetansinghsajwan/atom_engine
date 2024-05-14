@@ -1,3 +1,6 @@
+import atom.core;
+import atom.logging;
+
 #include "atom/engine/window/window_manager.h"
 #include "atom/engine/inputs/input_manager.h"
 #include "atom/engine/rendering/shader_factory.h"

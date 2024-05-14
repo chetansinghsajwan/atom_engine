@@ -1,5 +1,5 @@
 #pragma once
-#include "atom.core.h"
+// #include "atom.core.h"
 #include "engine/rendering/vertex_array.h"
 
 namespace atom::engine

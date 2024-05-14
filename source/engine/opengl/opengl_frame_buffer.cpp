@@ -1,3 +1,6 @@
+import atom.core;
+import atom.logging;
+
 #include "engine/opengl/opengl_frame_buffer.h"
 #include "glad/glad.h"
 

@@ -1,3 +1,6 @@
+import atom.core;
+import atom.logging;
+
 #include "vertex_array.h"
 #include "engine/rendering/renderer.h"
 #include "engine/opengl/opengl_vertex_array.h"

@@ -1,3 +1,6 @@
+import atom.core;
+import atom.logging;
+
 #include "glfw_keyboard.h"
 #include "engine/glfw/glfw_window_user_data.h"
 
