@@ -1,3 +1,6 @@
+import atom.core;
+import atom.logging;
+
 #include "atom/engine/rendering/scene.h"
 #include "engine/rendering/renderer_2d.h"
 

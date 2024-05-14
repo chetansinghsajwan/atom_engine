@@ -1,4 +1,6 @@
 #pragma once
+import entt;
+
 #include "ecs/entity.h"
 #include "ecs/entity_manager.h"
 #include "ecs/entity_component.h"

@@ -1,4 +1,6 @@
-#include "atom/core/contracts.h"
+import atom.core;
+import atom.logging;
+
 #include "atom/engine/application.h"
 #include "atom/engine/window/window_manager.h"
 #include "atom/engine/inputs/keyboard.h"

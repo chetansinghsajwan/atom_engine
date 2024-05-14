@@ -1,3 +1,6 @@
+import atom.core;
+import atom.logging;
+
 #include "orthographic_camera_controller.h"
 
 namespace atom::engine

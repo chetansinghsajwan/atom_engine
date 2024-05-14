@@ -1,6 +1,5 @@
 #pragma once
-#include "atom.core.h"
-#include "atom/core/memory/unique_ptr.h"
+// #include "atom.core.h"
 #include "atom/engine/rendering/shader.h"
 #include "atom/engine/window/window.h"
 #include "atom/engine/window/window_events.h"

@@ -1,3 +1,6 @@
+import atom.core;
+import atom.logging;
+
 #include "imgui_layer.h"
 #include "engine/glfw/glfw_window.h"
 #include "atom/engine/application.h"

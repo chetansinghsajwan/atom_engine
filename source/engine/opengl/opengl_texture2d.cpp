@@ -1,3 +1,6 @@
+import atom.core;
+import atom.logging;
+
 #include "opengl_texture2d.h"
 #include "atom/engine/logging.h"
 #include "stb_image.h"

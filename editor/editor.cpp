@@ -1,3 +1,6 @@
+import atom.core;
+import atom.logging;
+
 #include "atom.engine.h"
 #include "editor_layer.h"
 

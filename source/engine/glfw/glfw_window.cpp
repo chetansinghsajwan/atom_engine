@@ -1,5 +1,7 @@
-#include "glfw_window.h"
+import atom.core;
+import atom.logging;
 
+#include "glfw_window.h"
 #include "glad/glad.h"
 
 namespace atom::engine

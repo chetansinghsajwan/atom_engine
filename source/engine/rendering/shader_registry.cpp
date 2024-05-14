@@ -1,3 +1,6 @@
+import atom.core;
+import atom.logging;
+
 #include "atom/engine/rendering/shader_registry.h"
 #include "atom/engine/logging.h"
 

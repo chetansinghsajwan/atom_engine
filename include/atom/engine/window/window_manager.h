@@ -1,6 +1,6 @@
 #pragma once
-#include "atom.core.h"
-#include "atom.logging.h"
+// #include "atom.core.h"
+// #include "atom.logging.h"
 #include "atom/engine/window/window.h"
 #include "atom/engine/window/window_events.h"
 

@@ -1,3 +1,6 @@
+import atom.core;
+import atom.logging;
+
 #include "sandbox_layer_2d.h"
 #include "atom/engine/rendering/shader_factory.h"
 #include "atom/engine/rendering/shader_registry.h"
@@ -60,26 +63,9 @@ namespace sandbox
 
         renderer_2d::begin_scene(_camera_controller.get_camera());
 
-        renderer_2d::draw_sprite(renderer_2d::sprite_draw_data{
-            .sprite = _stairs_sprite,
-            .position = vec3(),
-            .size = vec2(1, 1),
-            .rotation = 0,
-        });
-
-        renderer_2d::draw_sprite(renderer_2d::sprite_draw_data{
-            .sprite = _barrel_sprite,
-            .position = vec3(1, 0, 0),
-            .size = vec2(1, 1),
-            .rotation = 0,
-        });
-
-        renderer_2d::draw_sprite(renderer_2d::sprite_draw_data{
-            .sprite = _tree_sprite,
-            .position = vec3(-1, 0, 0),
-            .size = vec2(1, 2),
-            .rotation = 0,
-        });
+        renderer_2d::draw_sprite(vec3(), vec2(1, 1), 0, _stairs_sprite);
+        renderer_2d::draw_sprite(vec3(1, 0, 0), vec2(1, 1), 0, _barrel_sprite);
+        renderer_2d::draw_sprite(vec3(-1, 0, 0), vec2(1, 2), 0, _tree_sprite);
 
         renderer_2d::end_scene();
     }

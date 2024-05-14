@@ -1,3 +1,6 @@
+import atom.core;
+import atom.logging;
+
 #include "index_buffer.h"
 #include "engine/opengl/opengl_index_buffer.h"
 #include "engine/rendering/renderer.h"

@@ -1,5 +1,5 @@
 #pragma once
-#include "atom.core.h"
+// #include "atom.core.h"
 #include "atom/engine/inputs/input_manager_impl.h"
 #include "atom/engine/window/window.h"
 #include "atom/engine/window/window_manager.h"

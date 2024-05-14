@@ -1,5 +1,5 @@
 #pragma once
-#include "atom.core.h"
+// #include "atom.core.h"
 #include "atom/engine/layers/layer.h"
 #include "atom/engine/window/window_events.h"
 

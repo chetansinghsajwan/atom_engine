@@ -1,3 +1,6 @@
+import atom.core;
+import atom.logging;
+
 #include "atom/engine/inputs/input_manager.h"
 #include "engine/glfw/glfw_input_manager.h"
 

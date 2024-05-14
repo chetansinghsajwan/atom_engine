@@ -1,11 +1,17 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.28)
 project(
     atom.engine
     VERSION 0.1.0
     LANGUAGES CXX C)
 
+cmake_policy(SET CMP0155 NEW)
+
 include(FetchContent)
-set(FETCHCONTENT_QUIET "OFF")
+set(FETCHCONTENT_QUIET "ON")
+
+set(CMAKE_CXX_STANDARD "23")
+set(CMAKE_CXX_STANDARD_REQUIRED "ON")
+enable_testing()
 
 FetchContent_Declare(
     atom_core
@@ -28,12 +34,8 @@ FetchContent_Declare(
     GIT_SHALLOW true
     EXCLUDE_FROM_ALL)
 
-FetchContent_Declare(
-    glfw3
-    GIT_REPOSITORY "https://github.com/glfw/glfw.git"
-    GIT_TAG "3.3.9"
-    GIT_SHALLOW true
-    EXCLUDE_FROM_ALL FIND_PACKAGE_ARGS "")
+# FetchContent_Declare( glfw3 GIT_REPOSITORY "https://github.com/glfw/glfw.git" GIT_TAG "3.3.9"
+# GIT_SHALLOW true EXCLUDE_FROM_ALL FIND_PACKAGE_ARGS "")
 
 FetchContent_Declare(
     imgui
@@ -49,8 +51,11 @@ FetchContent_Declare(
     GIT_SHALLOW true
     EXCLUDE_FROM_ALL)
 
-FetchContent_MakeAvailable(atom_core atom_logging glm glfw3 imgui entt)
+FetchContent_MakeAvailable(atom_core atom_logging glm imgui entt)
 FetchContent_GetProperties(imgui)
+
+find_package(glfw3 CONFIG REQUIRED)
+get_target_property(GLFW_INCLUDE_DIR glfw INTERFACE_INCLUDE_DIRECTORIES)
 
 # --------------------------------------------------------------------------------------------------
 # glad
@@ -62,6 +67,13 @@ add_subdirectory("vendor/glad")
 # --------------------------------------------------------------------------------------------------
 add_subdirectory("vendor/stb_image")
 
+# temporary fix for clang-scan-dep not finding std headers in nix.
+target_compile_options(
+    stb_image
+    PUBLIC "-I/nix/store/p0siwwr4pfh6d9026ygvagvp43gyck69-libcxx-18.1.3-dev/include/c++/v1"
+           "-I/nix/store/ij144ma6vs8acil8r9hgr8xkb1dp9azg-glibc-2.39-5-dev/include"
+           "-I${GLFW_INCLUDE_DIR}")
+
 # --------------------------------------------------------------------------------------------------
 # imgui
 # --------------------------------------------------------------------------------------------------
@@ -69,17 +81,17 @@ add_library(imgui STATIC)
 file(GLOB imgui_sources "${imgui_SOURCE_DIR}/*.cpp")
 list(APPEND imgui_sources "${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp"
      "${imgui_SOURCE_DIR}/backends/imgui_impl_glfw.cpp")
-target_sources(imgui PRIVATE "${imgui_sources}")
+target_sources(imgui PUBLIC "${imgui_sources}")
 target_include_directories(imgui PUBLIC "${imgui_SOURCE_DIR}")
 target_link_libraries(imgui PUBLIC glfw)
-target_compile_definitions(imgui PRIVATE "GLFW_INCLUDE_NONE")
+target_compile_definitions(imgui PUBLIC "GLFW_INCLUDE_NONE")
 
-# --------------------------------------------------------------------------------------------------
-# cpp20 global configs
-# --------------------------------------------------------------------------------------------------
-set(CMAKE_CXX_STANDARD "23")
-set(CMAKE_CXX_STANDARD_REQUIRED "ON")
-enable_testing()
+# temporary fix for clang-scan-dep not finding std headers in nix.
+target_compile_options(
+    imgui
+    PUBLIC "-I/nix/store/p0siwwr4pfh6d9026ygvagvp43gyck69-libcxx-18.1.3-dev/include/c++/v1"
+           "-I/nix/store/ij144ma6vs8acil8r9hgr8xkb1dp9azg-glibc-2.39-5-dev/include"
+           "-I${GLFW_INCLUDE_DIR}")
 
 # --------------------------------------------------------------------------------------------------
 # atom.engine
@@ -88,18 +100,28 @@ enable_testing()
 add_library(atom.engine STATIC)
 
 file(GLOB_RECURSE sources "source/*.cpp")
-target_sources(atom.engine PRIVATE "${sources}")
-target_include_directories(atom.engine PUBLIC "include")
-target_include_directories(atom.engine PUBLIC "source")
-target_link_libraries(atom.engine PUBLIC atom.core)
-target_link_libraries(atom.engine PUBLIC atom.logging)
-target_link_libraries(atom.engine PUBLIC glm)
-target_link_libraries(atom.engine PUBLIC glfw)
-target_link_libraries(atom.engine PUBLIC glad)
-target_link_libraries(atom.engine PUBLIC imgui)
-target_link_libraries(atom.engine PUBLIC stb_image)
-target_link_libraries(atom.engine PUBLIC EnTT::EnTT)
+file(GLOB_RECURSE modules "source/*.cppm")
+target_sources(atom.engine PUBLIC "${sources}")
+target_sources(atom.engine PUBLIC FILE_SET CXX_MODULES FILES "${modules}")
+target_include_directories(atom.engine PUBLIC "include" "source")
+target_link_libraries(
+    atom.engine
+    PUBLIC atom.core
+           atom.logging
+           glm
+           glfw
+           glad
+           imgui
+           stb_image
+           EnTT::EnTT)
 target_compile_definitions(atom.engine PUBLIC "GLFW_INCLUDE_NONE")
+
+# temporary fix for clang-scan-dep not finding std headers in nix.
+target_compile_options(
+    atom.engine
+    PUBLIC "-I/nix/store/p0siwwr4pfh6d9026ygvagvp43gyck69-libcxx-18.1.3-dev/include/c++/v1"
+           "-I/nix/store/ij144ma6vs8acil8r9hgr8xkb1dp9azg-glibc-2.39-5-dev/include"
+           "-I${GLFW_INCLUDE_DIR}")
 
 # --------------------------------------------------------------------------------------------------
 # atom.editor
@@ -107,9 +129,9 @@ target_compile_definitions(atom.engine PUBLIC "GLFW_INCLUDE_NONE")
 
 file(GLOB_RECURSE editor_sources "editor/*.cpp")
 add_executable(atom.editor)
-target_sources(atom.editor PRIVATE ${editor_sources})
-target_include_directories(atom.editor PRIVATE "editor")
-target_link_libraries(atom.editor PRIVATE atom.engine)
+target_sources(atom.editor PUBLIC ${editor_sources})
+target_include_directories(atom.editor PUBLIC "editor")
+target_link_libraries(atom.editor PUBLIC atom.engine)
 
 # --------------------------------------------------------------------------------------------------
 # atom.engine.sandbox
@@ -117,5 +139,5 @@ target_link_libraries(atom.editor PRIVATE atom.engine)
 
 file(GLOB_RECURSE sandbox_sources "sandbox/*.cpp")
 add_executable(atom.engine.sandbox)
-target_sources(atom.engine.sandbox PRIVATE ${sandbox_sources})
-target_link_libraries(atom.engine.sandbox PRIVATE atom.engine)
+target_sources(atom.engine.sandbox PUBLIC ${sandbox_sources})
+target_link_libraries(atom.engine.sandbox PUBLIC atom.engine)

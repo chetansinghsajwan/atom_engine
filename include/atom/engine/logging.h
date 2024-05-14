@@ -1,5 +1,5 @@
 #pragma once
-#include "atom/logging/logger_manager.h"
+// #include "atom/logging/logger_manager.h"
 
 namespace atom::engine
 {

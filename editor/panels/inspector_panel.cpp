@@ -1,3 +1,6 @@
+import atom.core;
+import atom.logging;
+
 #include "panels/inspector_panel.h"
 #include "atom/engine/ecs/camera_component.h"
 #include "atom/engine/ecs/sprite_component.h"

@@ -1,3 +1,6 @@
+import atom.core;
+import atom.logging;
+
 #include "opengl_vertex_buffer.h"
 #include "engine/rendering/buffer_layout.h"
 #include "glad/glad.h"

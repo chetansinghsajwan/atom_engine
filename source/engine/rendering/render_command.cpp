@@ -1,3 +1,6 @@
+import atom.core;
+import atom.logging;
+
 #include "render_command.h"
 #include "engine/opengl/opengl_renderer_api.h"
 

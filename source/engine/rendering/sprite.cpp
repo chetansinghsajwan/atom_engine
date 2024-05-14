@@ -1,3 +1,6 @@
+import atom.core;
+import atom.logging;
+
 #include "atom/engine/rendering/sprite.h"
 
 namespace atom::engine

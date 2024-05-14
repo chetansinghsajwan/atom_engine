@@ -26,16 +26,6 @@ namespace atom::engine
             }
         };
 
-        struct sprite_draw_data
-        {
-            class sprite* sprite;
-            vec3 position;
-            vec2 size;
-            float rotation;
-            float tiling_factor = 1;
-            vec4 tint = vec4(1);
-        };
-
     public:
         static auto initialize() -> void;
         static auto finalize() -> void;

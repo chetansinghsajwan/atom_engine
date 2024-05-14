@@ -13,14 +13,12 @@
         pkgs_glfw3 = nixpkgs_glfw3.legacyPackages.${system};
     in
     {
-        devShells.${system}.default = pkgs.mkShell {
-
-            packages = with pkgs; [
-                clang_18
-                clang-tools_18
+        devShells.${system}.clang = pkgs.llvmPackages_18.libcxxStdenv.mkDerivation {
+            
+            name = "devenv";
+            buildInputs = with pkgs; [
                 cmake
                 cmake-format
-                gnumake
                 ninja
                 pkgs_glfw3.glfw
             ];
