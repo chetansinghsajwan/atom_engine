@@ -39,7 +39,7 @@ namespace atom::engine
     {
         ATOM_ENGINE_LOG_INFO("initializing renderer_2d...");
 
-        shader_factory::set_root_path("/home/chetan/projects/atom.engine/sandbox");
+        shader_factory::set_root_path("/home/chetan/projects/atom-workspace/atom.engine/sandbox");
 
         _quad_vertex_array = vertex_array::create();
 

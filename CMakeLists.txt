@@ -124,16 +124,6 @@ target_compile_options(
            "-I${GLFW_INCLUDE_DIR}")
 
 # --------------------------------------------------------------------------------------------------
-# atom.editor
-# --------------------------------------------------------------------------------------------------
-
-file(GLOB_RECURSE editor_sources "editor/*.cpp")
-add_executable(atom.editor)
-target_sources(atom.editor PUBLIC ${editor_sources})
-target_include_directories(atom.editor PUBLIC "editor")
-target_link_libraries(atom.editor PUBLIC atom.engine)
-
-# --------------------------------------------------------------------------------------------------
 # atom.engine.sandbox
 # --------------------------------------------------------------------------------------------------
 
