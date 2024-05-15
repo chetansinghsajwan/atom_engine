@@ -11,3 +11,4 @@ export import :math;
 export import :rendering;
 export import :time;
 export import :windows;
+export import :gui;
