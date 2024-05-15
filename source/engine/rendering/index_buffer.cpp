@@ -1,9 +1,9 @@
-import atom.core;
-import atom.logging;
+module atom.engine:rendering.index_buffer.impl;
+import :rendering.index_buffer;
 
-#include "index_buffer.h"
-#include "engine/opengl/opengl_index_buffer.h"
-#include "engine/rendering/renderer.h"
+import atom.core;
+import :rendering.renderer_api;
+import :opengl.index_buffer;
 
 namespace atom::engine
 {
@@ -12,8 +12,10 @@ namespace atom::engine
         switch (renderer_api::get_api())
         {
             case renderer_api::api::opengl: return new opengl_index_buffer(indices, count);
-            case renderer_api::api::none:   ATOM_PANIC("renderer_api::api::none is not supported."); break;
-            default:                   ATOM_PANIC("invalid renderer_api type."); break;
+            case renderer_api::api::none:
+                ATOM_PANIC("renderer_api::api::none is not supported.");
+                break;
+            default: ATOM_PANIC("invalid renderer_api type."); break;
         }
 
         return nullptr;

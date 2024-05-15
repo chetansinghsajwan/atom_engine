@@ -1,9 +1,9 @@
-import atom.core;
-import atom.logging;
+module atom.engine:rendering.vertex_buffer.impl;
+import :rendering.vertex_buffer;
 
-#include "vertex_buffer.h"
-#include "engine/opengl/opengl_vertex_buffer.h"
-#include "engine/rendering/renderer.h"
+import atom.core;
+import :rendering.renderer_api;
+import :opengl.vertex_buffer;
 
 namespace atom::engine
 {

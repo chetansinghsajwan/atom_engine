@@ -1,9 +1,9 @@
-import atom.core;
-import atom.logging;
+module atom.engine:rendering.texture2d.impl;
+import :rendering.texture2d;
 
-#include "atom/engine/rendering/texture2d.h"
-#include "engine/rendering/renderer_api.h"
-#include "engine/opengl/opengl_texture2d.h"
+import atom.core;
+import :rendering.renderer_api;
+import :opengl.texture2d;
 
 namespace atom::engine
 {
@@ -12,8 +12,10 @@ namespace atom::engine
         switch (renderer_api::get_api())
         {
             case renderer_api::api::opengl: return new opengl_texture2d(width, height);
-            case renderer_api::api::none:   ATOM_PANIC("renderer_api::api::none is not supported."); break;
-            default:                   ATOM_PANIC("invalid renderer_api type."); break;
+            case renderer_api::api::none:
+                ATOM_PANIC("renderer_api::api::none is not supported.");
+                break;
+            default: ATOM_PANIC("invalid renderer_api type."); break;
         }
 
         return nullptr;
@@ -24,8 +26,10 @@ namespace atom::engine
         switch (renderer_api::get_api())
         {
             case renderer_api::api::opengl: return new opengl_texture2d(file_path);
-            case renderer_api::api::none:   ATOM_PANIC("renderer_api::api::none is not supported."); break;
-            default:                   ATOM_PANIC("invalid renderer_api type."); break;
+            case renderer_api::api::none:
+                ATOM_PANIC("renderer_api::api::none is not supported.");
+                break;
+            default: ATOM_PANIC("invalid renderer_api type."); break;
         }
 
         return nullptr;
