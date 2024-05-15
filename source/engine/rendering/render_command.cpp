@@ -1,8 +1,7 @@
-import atom.core;
-import atom.logging;
+module atom.engine:rendering.render_command.impl;
+import :rendering.render_command;
 
-#include "render_command.h"
-#include "engine/opengl/opengl_renderer_api.h"
+import :opengl.renderer_api;
 
 namespace atom::engine
 {

@@ -1,8 +1,7 @@
-import atom.core;
-import atom.logging;
+module atom.engine:inputs.input_manager.impl;
+import :inputs.input_manager;
 
-#include "atom/engine/inputs/input_manager.h"
-#include "engine/glfw/glfw_input_manager.h"
+import :glfw;
 
 namespace atom::engine
 {

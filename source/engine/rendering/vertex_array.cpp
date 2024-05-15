@@ -1,9 +1,9 @@
-import atom.core;
-import atom.logging;
+module atom.engine:rendering.vertex_array.impl;
+import :rendering.vertex_array;
 
-#include "vertex_array.h"
-#include "engine/rendering/renderer.h"
-#include "engine/opengl/opengl_vertex_array.h"
+import atom.core;
+import :rendering.renderer_api;
+import :opengl.vertex_array;
 
 namespace atom::engine
 {

@@ -16,14 +16,14 @@ enable_testing()
 FetchContent_Declare(
     atom_core
     GIT_REPOSITORY "https://github.com/shifu-dev/atom.core.git"
-    GIT_TAG "dev"
+    GIT_TAG "main"
     GIT_SHALLOW true
     EXCLUDE_FROM_ALL)
 
 FetchContent_Declare(
     atom_logging
     GIT_REPOSITORY "https://github.com/shifu-dev/atom.logging.git"
-    GIT_TAG "dev"
+    GIT_TAG "main"
     GIT_SHALLOW true
     EXCLUDE_FROM_ALL)
 
@@ -99,11 +99,10 @@ target_compile_options(
 
 add_library(atom.engine STATIC)
 
-file(GLOB_RECURSE sources "source/*.cpp")
-file(GLOB_RECURSE modules "source/*.cppm")
+file(GLOB_RECURSE sources "source/*.cxx")
+file(GLOB_RECURSE modules "source/*.cppm" "source/*.cpp")
 target_sources(atom.engine PUBLIC "${sources}")
 target_sources(atom.engine PUBLIC FILE_SET CXX_MODULES FILES "${modules}")
-target_include_directories(atom.engine PUBLIC "include" "source")
 target_link_libraries(
     atom.engine
     PUBLIC atom.core
@@ -127,7 +126,10 @@ target_compile_options(
 # atom.engine.sandbox
 # --------------------------------------------------------------------------------------------------
 
-file(GLOB_RECURSE sandbox_sources "sandbox/*.cpp")
 add_executable(atom.engine.sandbox)
+
+file(GLOB_RECURSE sandbox_modules "sandbox/*.cppm")
+file(GLOB_RECURSE sandbox_sources "sandbox/*.cpp")
+target_sources(atom.engine.sandbox PUBLIC FILE_SET CXX_MODULES FILES ${sandbox_modules})
 target_sources(atom.engine.sandbox PUBLIC ${sandbox_sources})
 target_link_libraries(atom.engine.sandbox PUBLIC atom.engine)

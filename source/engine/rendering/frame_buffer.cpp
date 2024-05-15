@@ -1,9 +1,9 @@
-import atom.core;
-import atom.logging;
+module atom.engine:rendering.frame_buffer.impl;
+import :rendering.frame_buffer;
 
-#include "engine/rendering/frame_buffer.h"
-#include "engine/opengl/opengl_frame_buffer.h"
-#include "engine/rendering/renderer.h"
+import atom.core;
+import :opengl.frame_buffer;
+import :rendering.renderer_api;
 
 namespace atom::engine
 {
