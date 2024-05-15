@@ -99,8 +99,8 @@ target_compile_options(
 
 add_library(atom.engine STATIC)
 
-file(GLOB_RECURSE sources "source/*.cxx")
-file(GLOB_RECURSE modules "source/*.cppm" "source/*.cpp")
+file(GLOB_RECURSE sources "source/*.cpp")
+file(GLOB_RECURSE modules "source/*.cppm")
 target_sources(atom.engine PUBLIC "${sources}")
 target_sources(atom.engine PUBLIC FILE_SET CXX_MODULES FILES "${modules}")
 target_link_libraries(
