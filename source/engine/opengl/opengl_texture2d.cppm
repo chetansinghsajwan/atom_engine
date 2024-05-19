@@ -1,6 +1,6 @@
 module;
 #include "glad/glad.h"
-#include "stb_image.h"
+#include "stb/stb_image.h"
 
 export module atom.engine:opengl.texture2d;
 

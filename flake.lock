@@ -1,12 +1,72 @@
 {
   "nodes": {
+    "atom_core": {
+      "inputs": {
+        "cpptrace": "cpptrace",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1716125445,
+        "narHash": "sha256-AHGXKIjt/5GDCXYUkPtftXcdByN08CxAdqRwbL3oN48=",
+        "owner": "shifu-dev",
+        "repo": "atom.core",
+        "rev": "509d1492537bf80ff22eba16de999996495d6f98",
+        "type": "github"
+      },
+      "original": {
+        "owner": "shifu-dev",
+        "repo": "atom.core",
+        "type": "github"
+      }
+    },
+    "atom_logging": {
+      "inputs": {
+        "atom_core": [
+          "atom_core"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1716114378,
+        "narHash": "sha256-38dExgjPPTiuNIpuR9/eVvPk8owCktTa0VEGnXaLWs8=",
+        "owner": "shifu-dev",
+        "repo": "atom.logging",
+        "rev": "c10785b520f9ed37c4af583c49400f28ce969579",
+        "type": "github"
+      },
+      "original": {
+        "owner": "shifu-dev",
+        "repo": "atom.logging",
+        "type": "github"
+      }
+    },
+    "cpptrace": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1715568998,
+        "narHash": "sha256-A74SLDo9eGws0z9RmLwT+2al0qC3/5BnG+uDjFxeSAU=",
+        "owner": "jeremy-rifkin",
+        "repo": "cpptrace",
+        "rev": "a70cf7935adbc1522d2793dfc64a4ff0dfb19a9a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jeremy-rifkin",
+        "repo": "cpptrace",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1714253743,
-        "narHash": "sha256-mdTQw2XlariysyScCv2tTE45QSU9v/ezLcHJ22f0Nxc=",
+        "lastModified": 1715961556,
+        "narHash": "sha256-+NpbZRCRisUHKQJZF3CT+xn14ZZQO+KjxIIanH3Pvn4=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "58a1abdbae3217ca6b702f03d3b35125d88a2994",
+        "rev": "4a6b83b05df1a8bd7d99095ec4b4d271f2956b64",
         "type": "github"
       },
       "original": {
@@ -34,6 +94,8 @@
     },
     "root": {
       "inputs": {
+        "atom_core": "atom_core",
+        "atom_logging": "atom_logging",
         "nixpkgs": "nixpkgs",
         "nixpkgs_glfw3": "nixpkgs_glfw3"
       }
