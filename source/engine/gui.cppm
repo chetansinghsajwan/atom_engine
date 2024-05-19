@@ -10,6 +10,7 @@ export namespace atom::engine
     using ::ImGuiIO;
     using ::ImGuiStyle;
     using ::ImGuiStyleVar;
+    using ::ImGuiStyleVar_;
     using ::ImGuiTreeNodeFlags;
     using ::ImGuiDockNodeFlags;
     using ::ImGuiWindowFlags;

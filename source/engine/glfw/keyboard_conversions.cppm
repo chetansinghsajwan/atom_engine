@@ -138,7 +138,7 @@ namespace atom::engine
             case keyboard_key_code::menu:          return GLFW_KEY_MENU;
             default:
             {
-                ATOM_PANIC("invalid key.", key);
+                contract_panic("invalid key.");
             }
         }
     }
@@ -270,7 +270,7 @@ namespace atom::engine
             case GLFW_KEY_MENU:          return keyboard_key_code::menu;
             default:
             {
-                ATOM_PANIC("invalid key.", key);
+                contract_panic("invalid key.");
             }
         }
     }
@@ -285,7 +285,7 @@ namespace atom::engine
             case keyboard_key_state::released: return GLFW_RELEASE;
             default:
             {
-                ATOM_PANIC("invalid state.", state);
+                contract_panic("invalid state.");
             }
         }
     }
@@ -299,7 +299,7 @@ namespace atom::engine
             case GLFW_REPEAT:  return keyboard_key_state::pressed;
             default:
             {
-                ATOM_PANIC("invalid state.", state);
+                contract_panic("invalid state.");
             }
         }
     }

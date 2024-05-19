@@ -87,7 +87,7 @@ namespace atom::engine
 
         static auto has_shader(class shader* shader) -> bool
         {
-            ATOM_DEBUG_EXPECTS(shader != nullptr);
+            contract_debug_expects(shader != nullptr);
 
             for (auto entry : _register)
             {

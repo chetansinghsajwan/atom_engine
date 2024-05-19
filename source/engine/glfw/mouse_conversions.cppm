@@ -25,7 +25,7 @@ namespace atom::engine
             case mouse_button_code::n7: return GLFW_MOUSE_BUTTON_8;
             default:
             {
-                ATOM_PANIC("invalid button.", button);
+                contract_panic("invalid button.");
             }
         }
     }
@@ -44,7 +44,7 @@ namespace atom::engine
             case GLFW_MOUSE_BUTTON_8: return mouse_button_code::n7;
             default:
             {
-                ATOM_PANIC("invalid button.", button);
+                contract_panic("invalid button.");
             }
         }
     }
@@ -59,7 +59,7 @@ namespace atom::engine
             case mouse_button_state::released: return GLFW_RELEASE;
             default:
             {
-                ATOM_PANIC("invalid state.", state);
+                contract_panic("invalid state.");
             }
         }
     }
@@ -72,7 +72,7 @@ namespace atom::engine
             case GLFW_RELEASE: return mouse_button_state::released;
             default:
             {
-                ATOM_PANIC("invalid state.", state);
+                contract_panic("invalid state.");
             }
         }
     }

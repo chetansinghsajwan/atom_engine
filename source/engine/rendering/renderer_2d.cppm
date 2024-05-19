@@ -232,7 +232,7 @@ namespace atom::engine
         static auto _draw(const mat4& transform, texture2d* texture, const vec2* texture_coords,
             float tiling_factor, vec4 tint) -> void
         {
-            ATOM_DEBUG_EXPECTS(texture != nullptr);
+            contract_debug_expects(texture != nullptr);
 
             if (_quad_index_count >= _max_indices)
             {
@@ -277,7 +277,7 @@ namespace atom::engine
         static auto _draw(const vec3& position, vec2 size, float rotation, texture2d* texture,
             const vec2* texture_coords, float tiling_factor, vec4 tint) -> void
         {
-            ATOM_DEBUG_EXPECTS(texture != nullptr);
+            contract_debug_expects(texture != nullptr);
 
             mat4 transform =
                 math::translate(mat4(1), position) * math::scale(mat4(1), vec3(size.x, size.y, 1));

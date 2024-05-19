@@ -18,7 +18,7 @@ namespace atom::engine
     public:
         auto push_layer(layer* layer) -> void
         {
-            ATOM_DEBUG_EXPECTS(layer != nullptr);
+            contract_debug_expects(layer != nullptr);
 
             _layers.emplace_at(_normal_layer_count, layer);
             _normal_layer_count++;
@@ -27,7 +27,7 @@ namespace atom::engine
 
         auto pop_layer(layer* layer) -> void
         {
-            ATOM_DEBUG_EXPECTS(layer != nullptr);
+            contract_debug_expects(layer != nullptr);
 
             if (_layers.remove_one_find(layer))
             {
@@ -42,7 +42,7 @@ namespace atom::engine
 
         auto push_overlay_layer(layer* layer) -> void
         {
-            ATOM_DEBUG_EXPECTS(layer != nullptr);
+            contract_debug_expects(layer != nullptr);
 
             _layers.emplace_back(layer);
             layer->on_attach();
@@ -50,7 +50,7 @@ namespace atom::engine
 
         auto pop_overlay_layer(layer* layer) -> void
         {
-            ATOM_DEBUG_EXPECTS(layer != nullptr);
+            contract_debug_expects(layer != nullptr);
 
             if (_layers.remove_one_find(layer))
             {

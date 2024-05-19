@@ -63,6 +63,6 @@ namespace atom::engine
     constexpr auto ATOM_ENGINE_LOG_PANIC(auto&&... args) -> void
     {
         ATOM_ENGINE_LOG_FATAL(forward<decltype(args)>(args)...);
-        ATOM_PANIC();
+        contract_panic();
     }
 }

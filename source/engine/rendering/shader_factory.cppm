@@ -14,7 +14,7 @@ namespace atom::engine
     public:
         static auto initialize() -> void
         {
-            ATOM_DEBUG_EXPECTS(_impl == nullptr, "shader_factory is already initialized.");
+            contract_debug_expects(_impl == nullptr, "shader_factory is already initialized.");
 
             _logger =
                 logging::logger_manager::create_logger({ .name = "shader_factory" }).get_value();
@@ -23,7 +23,7 @@ namespace atom::engine
 
         static auto finalize() -> void
         {
-            ATOM_DEBUG_EXPECTS(_impl != nullptr, "shader_factory is not initialized.");
+            contract_debug_expects(_impl != nullptr, "shader_factory is not initialized.");
 
             delete _impl;
             delete _logger;
@@ -53,7 +53,7 @@ namespace atom::engine
 
         static auto create_from_file(string_view path) -> shader*
         {
-            ATOM_DEBUG_EXPECTS(_impl != nullptr, "shader_factory is not initialized.");
+            contract_debug_expects(_impl != nullptr, "shader_factory is not initialized.");
 
             string abs_path = _get_absolute_path(path);
 
@@ -77,14 +77,14 @@ namespace atom::engine
         static auto create_from_source(
             string_view vertex_source, string_view fragment_source) -> shader*
         {
-            ATOM_DEBUG_EXPECTS(_impl != nullptr, "shader_factory is not initialized.");
+            contract_debug_expects(_impl != nullptr, "shader_factory is not initialized.");
 
             return _impl->create(vertex_source, fragment_source);
         }
 
         static auto destroy(class shader* shader) -> void
         {
-            ATOM_DEBUG_EXPECTS(_impl != nullptr, "shader_factory is not initialized.");
+            contract_debug_expects(_impl != nullptr, "shader_factory is not initialized.");
 
             return _impl->destroy(shader);
         }
@@ -92,7 +92,7 @@ namespace atom::engine
     private:
         static auto _get_absolute_path(string_view path) -> string
         {
-            ATOM_DEBUG_EXPECTS(not path.is_empty());
+            contract_debug_expects(not path.is_empty());
 
             // path is already an absolute path
             if (path.get_front() == '/')
@@ -162,7 +162,7 @@ namespace atom::engine
                     }
                     else
                     {
-                        ATOM_PANIC("unknown shader type.", last_type);
+                        contract_panic("unknown shader type.");
                     }
                 }
 

@@ -41,14 +41,14 @@ namespace atom::engine
     public:
         auto subscribe(listener_type* listener) -> void
         {
-            ATOM_DEBUG_EXPECTS(listener != nullptr);
+            contract_debug_expects(listener != nullptr);
 
             _listeners.emplace_back(listener);
         }
 
         auto unsubscribe(listener_type* listener) -> void
         {
-            ATOM_DEBUG_EXPECTS(listener != nullptr);
+            contract_debug_expects(listener != nullptr);
 
             _listeners.remove_one_find(listener);
         }

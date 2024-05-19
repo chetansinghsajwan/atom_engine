@@ -63,9 +63,8 @@ namespace atom::engine
             }
             else
             {
-                ATOM_PANIC(
-                    "atom.engine only supports rgb and rgba texture formats for now. channels: {}",
-                    channels);
+                contract_panic(
+                    "atom.engine only supports rgb and rgba texture formats for now. channels: {}");
             }
 
             glCreateTextures(GL_TEXTURE_2D, 1, &_renderer_id);
@@ -110,7 +109,7 @@ namespace atom::engine
         virtual auto set_data(const void* data, u32 size) -> void override
         {
             u32 bytes_per_pixel = _gl_data_format == GL_RGBA ? 4 : 3;
-            ATOM_DEBUG_EXPECTS(
+            contract_debug_expects(
                 size == _width * _height * bytes_per_pixel, "data must be entire texture.");
 
             glTextureSubImage2D(

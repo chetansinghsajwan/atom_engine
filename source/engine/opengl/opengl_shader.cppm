@@ -62,7 +62,7 @@ namespace atom::engine
         auto upload_uniform_int(string_view name, GLint value) -> void
         {
             GLint location = glGetUniformLocation(_program, name.get_data());
-            ATOM_DEBUG_EXPECTS(location != -1, name.to_std());
+            contract_debug_expects(location != -1, name.to_std());
 
             glUniform1i(location, value);
         }
@@ -70,7 +70,7 @@ namespace atom::engine
         auto upload_uniform_float(string_view name, float value) -> void
         {
             GLint location = glGetUniformLocation(_program, name.get_data());
-            ATOM_DEBUG_EXPECTS(location != -1);
+            contract_debug_expects(location != -1);
 
             glUniform1f(location, value);
         }
@@ -78,7 +78,7 @@ namespace atom::engine
         auto upload_uniform_float4(string_view name, const vec4& vec) -> void
         {
             GLint location = glGetUniformLocation(_program, name.get_data());
-            ATOM_DEBUG_EXPECTS(location != -1);
+            contract_debug_expects(location != -1);
 
             glUniform4f(location, vec.x, vec.y, vec.z, vec.w);
         }
@@ -86,7 +86,7 @@ namespace atom::engine
         auto upload_uniform_mat4(string_view name, const mat4& mat) -> void
         {
             GLint location = glGetUniformLocation(_program, name.get_data());
-            ATOM_DEBUG_EXPECTS(location != -1);
+            contract_debug_expects(location != -1);
 
             glUniformMatrix4fv(location, 1, GL_FALSE, math::value_ptr(mat));
         }
@@ -94,7 +94,7 @@ namespace atom::engine
         auto upload_uniform_int_array(string_view name, const int* array, usize count) -> void
         {
             GLint location = glGetUniformLocation(_program, name.get_data());
-            ATOM_DEBUG_EXPECTS(location != -1);
+            contract_debug_expects(location != -1);
 
             glUniform1iv(location, count, array);
         }

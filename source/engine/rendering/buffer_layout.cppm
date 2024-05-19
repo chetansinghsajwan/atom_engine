@@ -39,7 +39,7 @@ namespace atom::engine
             case shader_data_type::mat4:    return 4 * 4 * 4;
             default:
             {
-                ATOM_PANIC("invalid shader_data_type.", type);
+                contract_panic("invalid shader_data_type.");
                 return 0;
             }
         }
@@ -74,7 +74,7 @@ namespace atom::engine
                 case shader_data_type::mat4:    return 4 * 4;
                 default:
                 {
-                    ATOM_PANIC("invalid shader_data_type.");
+                    contract_panic("invalid shader_data_type.");
                     return 0;
                 }
             }

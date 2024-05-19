@@ -21,7 +21,7 @@ namespace atom::engine
         {
             glfwMakeContextCurrent(_window);
             int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-            ATOM_ASSERTS(status != 0, "failed to initialize glad.");
+            contract_asserts(status != 0, "failed to initialize glad.");
         }
 
         virtual auto finalize() -> void override {}

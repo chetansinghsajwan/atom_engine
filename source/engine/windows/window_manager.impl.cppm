@@ -17,7 +17,7 @@ namespace atom::engine
 
         glfwSetErrorCallback(
             [](int error_code, const char* description) -> void {
-                ATOM_PANIC("glfw error: error_code: {}, description: {}", error_code, description);
+                contract_panic("glfw error: error_code: {}, description: {}");
             });
 
         _logger->log_info("initializing glfw...");
@@ -26,7 +26,7 @@ namespace atom::engine
         if (success == GLFW_FALSE)
         {
             _logger->log_info("glfw initialization failed.");
-            ATOM_PANIC("glfw initialization failed.");
+            contract_panic("glfw initialization failed.");
         }
 
         _logger->log_info("initialized glfw successfully.");
