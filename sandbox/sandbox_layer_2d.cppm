@@ -1,6 +1,3 @@
-module;
-#include "imgui.h"
-
 export module atom.engine.sandbox:layer2d;
 
 import atom.core;
@@ -30,7 +27,7 @@ namespace sandbox
             _window = engine::window_manager::get_windows().get_mut_front();
             _logger->log_info("using window '{}'.", _window->get_name());
 
-            ATOM_DEBUG_ASSERTS(_window != nullptr);
+            contract_debug_asserts(_window != nullptr);
 
             for (engine::input_device* device : engine::input_manager::get_devices())
             {
@@ -42,7 +39,7 @@ namespace sandbox
                 }
             }
 
-            ATOM_DEBUG_ASSERTS(_keyboard != nullptr);
+            contract_debug_asserts(_keyboard != nullptr);
 
             for (engine::input_device* device : engine::input_manager::get_devices())
             {
@@ -54,7 +51,7 @@ namespace sandbox
                 }
             }
 
-            ATOM_DEBUG_ASSERTS(_mouse != nullptr);
+            contract_debug_asserts(_mouse != nullptr);
 
             _frame_buffer = engine::frame_buffer::create({
                 .width = 1280,
@@ -111,19 +108,20 @@ namespace sandbox
 
         virtual auto on_imgui_render() -> void override
         {
-            ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
-            ImGui::Begin("viewport");
+            engine::ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, engine::ImVec2{ 0, 0 });
+            engine::ImGui::Begin("viewport");
 
-            ImVec2 imgui_screen_size = ImGui::GetContentRegionAvail();
+            engine::ImVec2 imgui_screen_size = engine::ImGui::GetContentRegionAvail();
             _screen_size = engine::vec2{ imgui_screen_size.x, imgui_screen_size.y };
 
             void* imgui_texture_renderer_id =
                 reinterpret_cast<void*>(_frame_buffer->get_color_attachment_renderer_id());
-            ImGui::Image(imgui_texture_renderer_id, ImVec2(_screen_size.x, _screen_size.y),
-                ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+            engine::ImGui::Image(imgui_texture_renderer_id,
+                engine::ImVec2(_screen_size.x, _screen_size.y), engine::ImVec2{ 0, 1 },
+                engine::ImVec2{ 1, 0 });
 
-            ImGui::End();
-            ImGui::PopStyleVar();
+            engine::ImGui::End();
+            engine::ImGui::PopStyleVar();
         }
 
     private:

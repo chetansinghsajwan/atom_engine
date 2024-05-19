@@ -22,7 +22,7 @@ namespace atom::engine
             , _prev_char_callback(nullptr)
             , _chain_prev_callbacks(true)
         {
-            ATOM_DEBUG_EXPECTS(window != nullptr);
+            contract_debug_expects(window != nullptr);
 
             glfw_window_user_data* user_data =
                 (glfw_window_user_data*)glfwGetWindowUserPointer(window->get_native_glfw());

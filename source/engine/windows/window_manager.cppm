@@ -19,7 +19,7 @@ namespace atom::engine
 
         static auto destroy_window(window* window) -> void
         {
-            ATOM_EXPECTS(window != nullptr, "cannot close null window.");
+            contract_expects(window != nullptr, "cannot close null window.");
 
             _logger->log_info("destroying window '{}'.", window->get_name());
             if (not _windows.remove_one_find(window))

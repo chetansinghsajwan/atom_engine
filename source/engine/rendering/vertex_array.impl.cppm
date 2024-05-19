@@ -12,8 +12,8 @@ namespace atom::engine
         switch (renderer_api::get_api())
         {
             case renderer_api::api::opengl: return new opengl_vertex_array();
-            case renderer_api::api::none:   ATOM_PANIC("renderer_api::api::none is not supported."); break;
-            default:                   ATOM_PANIC("invalid renderer_api type."); break;
+            case renderer_api::api::none:   contract_panic("renderer_api::api::none is not supported."); break;
+            default:                   contract_panic("invalid renderer_api type."); break;
         }
 
         return nullptr;

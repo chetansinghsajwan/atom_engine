@@ -13,9 +13,9 @@ namespace atom::engine
         {
             case renderer_api::api::opengl: return new opengl_frame_buffer(specs);
             case renderer_api::api::none:
-                ATOM_PANIC("renderer_api::api::none is not supported.");
+                contract_panic("renderer_api::api::none is not supported.");
                 break;
-            default: ATOM_PANIC("invalid renderer_api type."); break;
+            default: contract_panic("invalid renderer_api type."); break;
         }
 
         return nullptr;

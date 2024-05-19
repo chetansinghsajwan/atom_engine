@@ -60,7 +60,7 @@ namespace atom::engine
             glfwSetWindowUserPointer(_glfw_window, &_user_data);
 
             int glad_load_status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-            ATOM_ASSERTS(glad_load_status != 0, "glad inititliazation failed.");
+            contract_asserts(glad_load_status != 0, "glad inititliazation failed.");
 
             glfwSetWindowPosCallback(_glfw_window,
                 [](GLFWwindow* native_window, int xpos, int ypos)

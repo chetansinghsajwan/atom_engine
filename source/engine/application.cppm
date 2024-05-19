@@ -22,7 +22,7 @@ namespace atom::engine
             , _last_frame_time(0)
             , _should_run(true)
         {
-            ATOM_DEBUG_EXPECTS(get() == nullptr, "an appication instance already exists.");
+            contract_debug_expects(get() == nullptr, "an appication instance already exists.");
             _s_app = this;
 
             // window setup
@@ -32,7 +32,7 @@ namespace atom::engine
             };
 
             _window = window_manager::create_window(window_props);
-            ATOM_DEBUG_EXPECTS(_window != nullptr);
+            contract_debug_expects(_window != nullptr);
 
             _window->subscribe_event(this);
 
