@@ -72,3 +72,31 @@ target_sources(
     PRIVATE FILE_SET CXX_MODULES FILES ${sandbox_modules}
     PRIVATE ${sandbox_sources})
 target_link_libraries(atom.engine.sandbox PRIVATE atom.engine)
+
+# --------------------------------------------------------------------------------------------------
+# install phase
+# --------------------------------------------------------------------------------------------------
+
+install(
+    TARGETS atom.engine imgui stb glad
+    EXPORT atom_engine-targets
+    FILE_SET CXX_MODULES
+    DESTINATION "lib")
+
+install(DIRECTORY "vendor/glad/include/" DESTINATION "include/")
+
+install(
+    EXPORT atom_engine-targets
+    DESTINATION "cmake"
+    FILE "atom_engine-targets.cmake"
+    NAMESPACE "atom::")
+
+include(CMakePackageConfigHelpers)
+
+write_basic_package_version_file(
+    "atom_engine-config-version.cmake"
+    VERSION ${PACKAGE_VERSION}
+    COMPATIBILITY AnyNewerVersion)
+
+install(FILES "cmake/atom_engine-config.cmake"
+              "${CMAKE_CURRENT_BINARY_DIR}/atom_engine-config-version.cmake" DESTINATION "cmake/")
