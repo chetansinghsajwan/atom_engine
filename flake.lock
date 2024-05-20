@@ -112,7 +112,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_glfw3": {
+    "nixpkgs_glfw": {
       "locked": {
         "lastModified": 1706220439,
         "narHash": "sha256-JMPlh3WoVVOSFSGdetBDKKkKkLNwnTqewFn+g1v2n/A=",
@@ -134,7 +134,7 @@
         "atom_logging": "atom_logging",
         "imgui": "imgui",
         "nixpkgs": "nixpkgs",
-        "nixpkgs_glfw3": "nixpkgs_glfw3"
+        "nixpkgs_glfw": "nixpkgs_glfw"
       }
     },
     "zstd": {
