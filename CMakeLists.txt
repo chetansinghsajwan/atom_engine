@@ -8,7 +8,15 @@ cmake_policy(SET CMP0155 NEW)
 
 find_package(atom_core REQUIRED)
 find_package(atom_logging REQUIRED)
+
+set(_CMAKE_WARN_DEPRECATED_TMP ${CMAKE_WARN_DEPRECATED})
+set(CMAKE_WARN_DEPRECATED OFF)
+
+# glm has cmake_minimum_required(VERSION 3.2) which triggers a deprecation warning.
 find_package(glm REQUIRED)
+
+set(CMAKE_WARN_DEPRECATED ${_CMAKE_WARN_DEPRECATED_TMP})
+
 find_package(EnTT REQUIRED)
 find_package(glfw3 REQUIRED)
 
