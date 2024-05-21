@@ -1,6 +1,7 @@
 export module atom.engine:ecs.sprite_component;
 
 import :math;
+import :colors;
 import :ecs.entity_component;
 
 namespace atom::engine
@@ -8,24 +9,24 @@ namespace atom::engine
     export class sprite_component: public entity_component
     {
     public:
-        sprite_component(vec4 color = vec4(1))
+        sprite_component(class color color = colors::white)
             : _color{ color }
         {}
 
         ~sprite_component() {}
 
     public:
-        auto get_color() const -> vec4
+        auto get_color() const -> color
         {
             return _color;
         }
 
-        auto set_color(vec4 color) -> void
+        auto set_color(const class color& color) -> void
         {
             _color = color;
         }
 
     private:
-        vec4 _color;
+        color _color;
     };
 }

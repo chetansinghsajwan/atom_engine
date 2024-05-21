@@ -2,6 +2,7 @@ export module atom.engine:rendering.renderer_2d;
 
 import atom.core;
 import :math;
+import :colors;
 import :logging;
 import :rendering.orthographic_camera;
 import :rendering.shader_factory;
@@ -43,7 +44,7 @@ namespace atom::engine
         struct _quad_vertex
         {
             vec3 position;
-            vec4 color;
+            class color color;
             vec2 texture_coord;
             float texture_index;
             float tiling_factor;
@@ -173,7 +174,7 @@ namespace atom::engine
             _stats.draw_calls += 1;
         }
 
-        static auto draw_quad(const mat4& transform, const vec4& color) -> void
+        static auto draw_quad(const mat4& transform, const class color& color) -> void
         {
             constexpr vec2 texture_coords[4] = { vec2(0, 0), vec2(1, 0), vec2(1, 1), vec2(0, 1) };
 
@@ -181,15 +182,15 @@ namespace atom::engine
         }
 
         static auto draw_quad(
-            const vec3& position, vec2 size, float rotation, const vec4& color) -> void
+            const vec3& position, vec2 size, float rotation, const class color& color) -> void
         {
             constexpr vec2 texture_coords[4] = { vec2(0, 0), vec2(1, 0), vec2(1, 1), vec2(0, 1) };
 
             _draw(position, size, rotation, _white_texture, texture_coords, 1, color);
         }
 
-        static auto draw_texture(
-            const mat4& transform, texture2d* texture, float tiling_factor, vec4 tint) -> void
+        static auto draw_texture(const mat4& transform, texture2d* texture, float tiling_factor,
+            const class color& tint) -> void
         {
             constexpr vec2 texture_coords[4] = { vec2(0, 0), vec2(1, 0), vec2(1, 1), vec2(0, 1) };
 
@@ -197,7 +198,7 @@ namespace atom::engine
         }
 
         static auto draw_texture(const vec3& position, vec2 size, float rotation,
-            texture2d* texture, float tiling_factor, vec4 tint) -> void
+            texture2d* texture, float tiling_factor, const class color& tint) -> void
         {
             constexpr vec2 texture_coords[4] = { vec2(0, 0), vec2(1, 0), vec2(1, 1), vec2(0, 1) };
 
@@ -205,14 +206,14 @@ namespace atom::engine
         }
 
         static auto draw_sprite(const vec3& position, vec2 size, float rotation,
-            class sprite* sprite, float tiling_factor, vec4 tint) -> void
+            class sprite* sprite, float tiling_factor, const class color& tint) -> void
         {
             _draw(position, size, rotation, sprite->get_texture(),
                 sprite->get_texture_coords().get_data(), tiling_factor, tint);
         }
 
-        static auto draw_sprite(
-            const mat4& transform, class sprite* sprite, float tiling_factor, vec4 tint) -> void
+        static auto draw_sprite(const mat4& transform, class sprite* sprite, float tiling_factor,
+            const class color& tint) -> void
         {
             _draw(transform, sprite->get_texture(), sprite->get_texture_coords().get_data(),
                 tiling_factor, tint);
@@ -230,7 +231,7 @@ namespace atom::engine
 
     private:
         static auto _draw(const mat4& transform, texture2d* texture, const vec2* texture_coords,
-            float tiling_factor, vec4 tint) -> void
+            float tiling_factor, const class color& tint) -> void
         {
             contract_debug_expects(texture != nullptr);
 
@@ -275,7 +276,7 @@ namespace atom::engine
         }
 
         static auto _draw(const vec3& position, vec2 size, float rotation, texture2d* texture,
-            const vec2* texture_coords, float tiling_factor, vec4 tint) -> void
+            const vec2* texture_coords, float tiling_factor, const class color& tint) -> void
         {
             contract_debug_expects(texture != nullptr);
 

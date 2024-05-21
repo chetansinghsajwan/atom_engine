@@ -66,14 +66,14 @@ namespace sandbox
 
             _box1_entity = _entity_manager->create_entity("box1");
             _box1_entity->get_component<engine::transform_component>()->set_position({ -2, 1, 0 });
-            _box1_entity->emplace_component<engine::sprite_component>()->set_color({ 1, 1, 0, 1 });
+            _box1_entity->emplace_component<engine::sprite_component>()->set_color(engine::colors::green);
             _box1_entity->emplace_component<engine::rigidbody_component>()->set_type(
                 engine::rigidbody_component::body_type::dynamic);
             _box1_entity->emplace_component<engine::box_collider2d_component>();
 
             _box2_entity = _entity_manager->create_entity("box2");
             _box2_entity->get_component<engine::transform_component>()->set_position({ 2.1, 0, 0 });
-            _box2_entity->emplace_component<engine::sprite_component>()->set_color({ 0, 1, 0, 1 });
+            _box2_entity->emplace_component<engine::sprite_component>()->set_color(engine::colors::red);
         }
 
         virtual auto on_deattach() -> void override
@@ -86,7 +86,7 @@ namespace sandbox
             delete _logger;
         }
 
-        virtual auto on_update(engine::time_step delta_time) -> void override
+        virtual auto on_update(engine::time_step time) -> void override
         {
             const engine::frame_buffer_specs& specs = _frame_buffer->get_specs();
             if (_screen_size.x > 0.0f && _screen_size.y > 0.0f
@@ -102,7 +102,7 @@ namespace sandbox
             engine::render_command::set_clear_color({ 0.1f, 0.1f, 0.1f, 1 });
             engine::render_command::clear_color();
 
-            _scene->on_update(delta_time);
+            _scene->on_update(time);
 
             _frame_buffer->unbind();
         }
