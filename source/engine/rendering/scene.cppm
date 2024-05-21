@@ -1,7 +1,8 @@
 export module atom.engine:rendering.scene;
 
-import entt;
 import atom.core;
+import entt;
+import :box2d;
 import :ecs;
 import :time;
 import :math;
@@ -14,15 +15,19 @@ namespace atom::engine
     public:
         scene()
         {
-            _entity_manager = new entity_manager();
+            _physics_world = new b2World({ 0, -9.8 });
+            _entity_manager = new entity_manager(this, _physics_world);
         }
 
         ~scene()
         {
+            delete _physics_world;
             delete _entity_manager;
         }
 
     public:
+        auto on_start() -> void {}
+
         auto on_update(time_step time) -> void
         {
             class camera* camera = nullptr;
@@ -39,6 +44,8 @@ namespace atom::engine
                 camera_transform = transform.get_matrix();
                 break;
             }
+
+            _entity_manager->update_entities(time);
 
             if (camera != nullptr)
             {
@@ -57,16 +64,18 @@ namespace atom::engine
             }
         }
 
+        auto on_stop() -> void {}
+
         auto on_viewport_resize(vec2 size) -> void
         {
-            _width = size.x;
-            _height = size.y;
+            _viewport_width = size.x;
+            _viewport_height = size.y;
 
             auto view = _entity_manager->get_internal()->view<camera_component>();
             for (auto entity : view)
             {
                 auto& camera_comp = view.get<camera_component>(entity);
-                camera_comp.get_camera().set_viewport_size(_width, _height);
+                camera_comp.get_camera().set_viewport_size(_viewport_width, _viewport_height);
             }
         }
 
@@ -75,9 +84,16 @@ namespace atom::engine
             return _entity_manager;
         }
 
-    public:
+        auto _get_physics_world() -> b2World*
+        {
+            return _physics_world;
+        }
+
+    private:
         entity_manager* _entity_manager;
-        u32 _width;
-        u32 _height;
+        b2World* _physics_world;
+
+        u32 _viewport_width;
+        u32 _viewport_height;
     };
 }

@@ -77,6 +77,7 @@
                 glm
                 entt
                 stb
+                box2d
             ];
 
             nativeBuildInputs = with pkgs; [
@@ -87,7 +88,11 @@
             ];
 
             configurePhase = ''
-                cmake -S . -B build;
+                cmake -S . -B build \
+                    -D box2d_DIR=${pkgs.box2d} \
+                    -D EnTT_DIR=${pkgs.entt} \
+                    -D glm_DIR=${pkgs.glm} \
+                    -D glfw3_DIR=${glfw_pkg};
             '';
 
             buildPhase = ''

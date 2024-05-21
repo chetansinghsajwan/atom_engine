@@ -20,6 +20,11 @@ namespace atom::engine
             return _color;
         }
 
+        auto set_color(vec4 color) -> void
+        {
+            _color = color;
+        }
+
     private:
         vec4 _color;
     };
