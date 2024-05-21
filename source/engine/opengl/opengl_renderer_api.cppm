@@ -31,7 +31,7 @@ namespace atom::engine
             ATOM_ENGINE_LOG_INFO("finalizing opengl_renderer done.");
         }
 
-        virtual auto set_clear_color(vec4 color) -> void override
+        virtual auto set_clear_color(const class color& color) -> void override
         {
             glClearColor(color.r, color.g, color.b, color.a);
         }

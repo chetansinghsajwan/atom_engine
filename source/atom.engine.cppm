@@ -12,3 +12,4 @@ export import :rendering;
 export import :time;
 export import :windows;
 export import :gui;
+export import :colors;

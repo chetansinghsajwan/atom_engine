@@ -57,7 +57,7 @@ namespace atom::engine
         {
             return _fixed_rotation;
         }
-    
+
         virtual auto on_attach(class entity* entity) -> void override
         {
             base_type::on_attach(entity);
@@ -84,14 +84,10 @@ namespace atom::engine
             constexpr i32 velocity_iterations = 6;
             constexpr i32 position_iterations = 2;
 
-            std::cout << "physics step: " << time.get_seconds() << std::endl;
             _physics_world->Step(time.get_seconds(), velocity_iterations, position_iterations);
 
             const b2Vec2& physics_position = _physics_body->GetPosition();
             float physics_rotation = _physics_body->GetAngle();
-
-            std::cout << "physics_position: " << physics_position.x << ", " << physics_position.y << std::endl;
-            std::cout << "physics_rotation: " << physics_rotation << std::endl;
 
             vec3 position = _transform_component->get_position();
             vec3 rotation = _transform_component->get_rotation();
