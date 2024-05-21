@@ -19,6 +19,7 @@ set(CMAKE_WARN_DEPRECATED ${_CMAKE_WARN_DEPRECATED_TMP})
 
 find_package(EnTT REQUIRED)
 find_package(glfw3 REQUIRED)
+find_package(box2d REQUIRED)
 
 # --------------------------------------------------------------------------------------------------
 # glad
@@ -63,7 +64,8 @@ target_link_libraries(
             glad
             imgui
             stb
-            EnTT::EnTT)
+            EnTT::EnTT
+            box2d::box2d)
 target_compile_definitions(atom.engine PUBLIC "GLFW_INCLUDE_NONE")
 target_compile_features(atom.engine PUBLIC "cxx_std_23")
 

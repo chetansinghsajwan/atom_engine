@@ -64,22 +64,23 @@ namespace sandbox
             _camera_entity = _entity_manager->create_entity("camera");
             _camera_entity->emplace_component<engine::camera_component>();
 
-            _stairs_entity = _entity_manager->create_entity("stairs");
-            _stairs_entity->emplace_component<engine::sprite_component>();
+            _box1_entity = _entity_manager->create_entity("box1");
+            _box1_entity->get_component<engine::transform_component>()->set_position({ -2, 1, 0 });
+            _box1_entity->emplace_component<engine::sprite_component>()->set_color({ 1, 1, 0, 1 });
+            _box1_entity->emplace_component<engine::rigidbody_component>()->set_type(
+                engine::rigidbody_component::body_type::dynamic);
+            _box1_entity->emplace_component<engine::box_collider2d_component>();
 
-            _barrel_entity = _entity_manager->create_entity("barrel");
-            _barrel_entity->emplace_component<engine::sprite_component>();
-
-            _tree_entity = _entity_manager->create_entity("tree");
-            _tree_entity->emplace_component<engine::sprite_component>();
+            _box2_entity = _entity_manager->create_entity("box2");
+            _box2_entity->get_component<engine::transform_component>()->set_position({ 2.1, 0, 0 });
+            _box2_entity->emplace_component<engine::sprite_component>()->set_color({ 0, 1, 0, 1 });
         }
 
         virtual auto on_deattach() -> void override
         {
             delete _camera_entity;
-            delete _stairs_entity;
-            delete _barrel_entity;
-            delete _tree_entity;
+            delete _box1_entity;
+            delete _box2_entity;
             delete _scene;
             delete _frame_buffer;
             delete _logger;
@@ -135,8 +136,7 @@ namespace sandbox
         engine::scene* _scene;
         engine::entity_manager* _entity_manager;
         engine::entity* _camera_entity;
-        engine::entity* _stairs_entity;
-        engine::entity* _barrel_entity;
-        engine::entity* _tree_entity;
+        engine::entity* _box1_entity;
+        engine::entity* _box2_entity;
     };
 }
