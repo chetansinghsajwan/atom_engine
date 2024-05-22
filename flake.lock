@@ -10,11 +10,11 @@
         "zstd": "zstd"
       },
       "locked": {
-        "lastModified": 1716203144,
-        "narHash": "sha256-FAeHvmbLevm/j6EDn4hGh8L4yKCM0yBz08vi038PTV8=",
+        "lastModified": 1716398958,
+        "narHash": "sha256-JX4YSXNvEj5rdLg5YAtXuhehkHMKP/JwM3zKiagc1Sw=",
         "owner": "shifu-dev",
         "repo": "atom.core",
-        "rev": "83b64e9388cd9ac569e187bda39f61269b47722a",
+        "rev": "f9bb222d02f9166c88be0b9f01d8c491836cdc95",
         "type": "github"
       },
       "original": {
@@ -33,11 +33,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1716214814,
-        "narHash": "sha256-RdDractv0QwsblwM2Cz2S2HpQ18OvdFNOjYFGH8SNlM=",
+        "lastModified": 1716399039,
+        "narHash": "sha256-CkMAlk+mpfqMdZCzkt5YB/ugRFVEq8ijhelWwDUXx8o=",
         "owner": "shifu-dev",
         "repo": "atom.logging",
-        "rev": "75d13f95e463a646d055c80e4e36bb42f10edb32",
+        "rev": "3a9094d3e29486ec796e057e06110332b3ef3487",
         "type": "github"
       },
       "original": {
@@ -49,11 +49,11 @@
     "cpptrace": {
       "flake": false,
       "locked": {
-        "lastModified": 1715568998,
-        "narHash": "sha256-A74SLDo9eGws0z9RmLwT+2al0qC3/5BnG+uDjFxeSAU=",
+        "lastModified": 1716352602,
+        "narHash": "sha256-DljRNYnf90qbFRhQPA8ZXrw7VipWLUlshr8Jmuq7mXg=",
         "owner": "jeremy-rifkin",
         "repo": "cpptrace",
-        "rev": "a70cf7935adbc1522d2793dfc64a4ff0dfb19a9a",
+        "rev": "040d131cefa96c2c5f77f51be37e8b4481bc4b82",
         "type": "github"
       },
       "original": {

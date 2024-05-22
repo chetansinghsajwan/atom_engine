@@ -50,6 +50,7 @@ target_compile_definitions(imgui PUBLIC "GLFW_INCLUDE_NONE")
 # --------------------------------------------------------------------------------------------------
 
 add_library(atom.engine STATIC)
+add_library(atom::atom.engine ALIAS atom.engine)
 
 file(GLOB_RECURSE modules "source/*.cppm")
 file(GLOB_RECURSE sources "source/*.cpp")
