@@ -149,7 +149,7 @@ namespace atom::engine
 
         auto _on_mouse_scroll_event(mouse_scroll_event& event) -> void
         {
-            _zoom_level -= event.yoffset.to_unwrapped<float>() * _zoom_speed;
+            _zoom_level -= event.yoffset * _zoom_speed;
             _zoom_level = math::max_of(_zoom_level, 0.25f);
 
             _camera.set_projection(-_aspect_ratio * _zoom_level, _aspect_ratio * _zoom_level,
