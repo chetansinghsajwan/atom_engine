@@ -1,5 +1,5 @@
 {
-    description = "atom.engine";
+    description = "atom-engine";
 
     inputs = {
         nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -28,9 +28,11 @@
         pkgs = inputs.nixpkgs.legacyPackages.${system};
         lib = pkgs.lib;
         stdenv = pkgs.llvmPackages_18.libcxxStdenv;
-        atom_core_pkg = inputs.atom_core.packages.${system}.default;
-        atom_logging_pkg = inputs.atom_logging.packages.${system}.default;
         glfw_pkg = inputs.nixpkgs_glfw.legacyPackages.${system}.pkgs.glfw;
+        atom_core_env = inputs.atom_core.env.${system}.default;
+        atom_core_pkg = inputs.atom_core.packages.${system}.default;
+        atom_logging_env = inputs.atom_logging.env.${system}.default;
+        atom_logging_pkg = inputs.atom_logging.packages.${system}.default;
 
         imgui_pkg = stdenv.mkDerivation rec {
             pname = "imgui";
@@ -49,23 +51,11 @@
                 cp -a misc $out/include/imgui/
             '';
         };
+    in rec
+    {
+        env.${system}.default = rec {
 
-        stb_include_dir = "${pkgs.stb}/include";
-
-        clang_scan_deps_include_paths = 
-            inputs.atom_core.clang_scan_deps_include_paths + 
-            inputs.atom_logging.clang_scan_deps_include_paths +
-            lib.strings.concatStrings [
-                " -I ${glfw_pkg}/include"
-                " -I ${pkgs.glm}/include"
-                " -I ${pkgs.entt}/include"
-                " -I ${pkgs.box2d}/include"
-                " -I ${stb_include_dir}"
-            ];
-
-        derivation = stdenv.mkDerivation rec {
-
-            name = "atom.engine";
+            name = "atom-engine";
 
             src = ./.;
 
@@ -104,20 +94,43 @@
                 cmake --install build --prefix $out;
             '';
 
-            imgui_DIR = "${imgui_pkg}/include/imgui";
-            inherit stb_include_dir;
+            clang_scan_deps_include_paths = [
+                "${glfw_pkg}/include"
+                "${pkgs.glm}/include"
+                "${pkgs.entt}/include"
+                "${pkgs.box2d}/include"
+                "${pkgs.stb}/include"
+            ];
 
-            CXXFLAGS = clang_scan_deps_include_paths;
-            CMAKE_GENERATOR = "Ninja";
-            CMAKE_BUILD_TYPE = "Debug";
-            CMAKE_EXPORT_COMPILE_COMMANDS = "true";
+            envVars = {
+                CXXFLAGS = lib.strings.concatMapStrings (v: " -I " + v) (
+                    atom_core_env.clang_scan_deps_include_paths ++
+                    atom_logging_env.clang_scan_deps_include_paths ++
+                    clang_scan_deps_include_paths);
+                CMAKE_GENERATOR = "Ninja";
+                CMAKE_BUILD_TYPE = "Debug";
+                CMAKE_EXPORT_COMPILE_COMMANDS = "true";
+
+                imgui_DIR = "${imgui_pkg}/include/imgui";
+                stb_include_dir = "${pkgs.stb}/include";
+            };
         };
-    in
-    {
-        inherit clang_scan_deps_include_paths;
 
-        devShells.${system}.default = derivation;
+        devShells.${system}.default = with env.${system}.default; stdenv.mkDerivation ({
+            inherit name;
+            inherit src;
+            inherit propagatedBuildInputs;
+            inherit nativeBuildInputs;
+        } // envVars);
 
-        packages.${system}.default = derivation;
+        packages.${system}.default = with env.${system}.default; stdenv.mkDerivation ({
+            inherit name;
+            inherit src;
+            inherit propagatedBuildInputs;
+            inherit nativeBuildInputs;
+            inherit configurePhase;
+            inherit buildPhase;
+            inherit installPhase;
+        } // envVars);
     };
 }
