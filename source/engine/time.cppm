@@ -1,26 +1,28 @@
 export module atom.engine:time;
 
+import atom.core;
+
 namespace atom::engine
 {
     export class time_step
     {
     public:
-        time_step(float seconds)
+        time_step(f32 seconds)
             : _seconds(seconds)
         {}
 
     public:
-        auto get_seconds() const -> float
+        auto get_seconds() const -> f32
         {
             return _seconds;
         }
 
-        auto get_milliseconds() const -> float
+        auto get_milliseconds() const -> f32
         {
             return _seconds * 1000;
         }
 
     private:
-        float _seconds;
+        f32 _seconds;
     };
 }

@@ -1,5 +1,6 @@
 export module atom.engine:rendering.orthographic_camera;
 
+import atom.core;
 import :math;
 
 namespace atom::engine
@@ -7,7 +8,7 @@ namespace atom::engine
     class orthographic_camera
     {
     public:
-        orthographic_camera(float left, float right, float bottom, float top)
+        orthographic_camera(f32 left, f32 right, f32 bottom, f32 top)
             : _projection_matrix(math::ortho(left, right, bottom, top, -1.0f, 1.0f))
             , _view_matrix(1.0f)
             , _position(0, 0, 0)
@@ -28,18 +29,18 @@ namespace atom::engine
             return _position;
         }
 
-        auto set_rotation(float rotation) -> void
+        auto set_rotation(f32 rotation) -> void
         {
             _rotation = rotation;
             _recalculate_view_matrix();
         }
 
-        auto get_rotation() const -> float
+        auto get_rotation() const -> f32
         {
             return _rotation;
         }
 
-        auto set_projection(float left, float right, float bottom, float top) -> void
+        auto set_projection(f32 left, f32 right, f32 bottom, f32 top) -> void
         {
             _projection_matrix = math::ortho(left, right, bottom, top, -1.0f, 1.0f);
         }
@@ -75,6 +76,6 @@ namespace atom::engine
         mat4 _view_projection_matrix;
 
         vec3 _position;
-        float _rotation;
+        f32 _rotation;
     };
 }

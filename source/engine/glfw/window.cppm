@@ -136,7 +136,8 @@ namespace atom::engine
 
         virtual auto update_pos() -> window_coords
         {
-            int x, y;
+            int x;
+            int y;
             glfwGetWindowPos(_glfw_window, &x, &y);
 
             return glfw_window_coords_converter::from_glfw(glfw_window_coords{ x, y });

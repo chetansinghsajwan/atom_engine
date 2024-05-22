@@ -135,7 +135,7 @@ namespace atom::engine
         window* _window;
         layer_stack _layers;
         layer* _layer;
-        float _last_frame_time;
+        f32 _last_frame_time;
         bool _should_run;
 
     private:

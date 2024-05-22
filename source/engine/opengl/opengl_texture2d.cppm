@@ -39,7 +39,9 @@ namespace atom::engine
         {
             ATOM_ENGINE_LOG_INFO("loading texture '{}'", file_path);
 
-            int x, y, channels;
+            int x;
+            int y;
+            int channels;
             stbi_set_flip_vertically_on_load(1);
             stbi_uc* data = stbi_load(file_path.get_data(), &x, &y, &channels, 0);
             if (data == nullptr)

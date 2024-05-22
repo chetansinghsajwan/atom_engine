@@ -15,7 +15,7 @@ namespace atom::engine
         , mouse_event_listener
     {
     public:
-        orthographic_camera_controller(float aspect_ratio)
+        orthographic_camera_controller(f32 aspect_ratio)
             : _aspect_ratio(aspect_ratio)
             , _position(0, 0, 0)
             , _rotation(0)
@@ -101,12 +101,12 @@ namespace atom::engine
                 -_zoom_level, _zoom_level);
         }
 
-        auto set_zoom_level(float zoom) -> void
+        auto set_zoom_level(f32 zoom) -> void
         {
             _zoom_level = zoom;
         }
 
-        auto get_zoom_level() const -> float
+        auto get_zoom_level() const -> f32
         {
             return _zoom_level;
         }
@@ -157,13 +157,13 @@ namespace atom::engine
         }
 
     private:
-        float _aspect_ratio;
-        float _zoom_level;
-        float _zoom_speed;
-        float _move_speed;
-        float _rotation_speed;
+        f32 _aspect_ratio;
+        f32 _zoom_level;
+        f32 _zoom_speed;
+        f32 _move_speed;
+        f32 _rotation_speed;
         vec3 _position;
-        float _rotation;
+        f32 _rotation;
         window* _window;
         keyboard* _keyboard;
         mouse* _mouse;
