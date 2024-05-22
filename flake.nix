@@ -59,6 +59,7 @@
                 " -I ${glfw_pkg}/include"
                 " -I ${pkgs.glm}/include"
                 " -I ${pkgs.entt}/include"
+                " -I ${pkgs.box2d}/include"
                 " -I ${stb_include_dir}"
             ];
 
