@@ -11,10 +11,10 @@ namespace atom::engine
             return { (float)r / 255.f, (float)g / 255.f, (float)g / 255.f, 1 };
         }
 
-        float r;
-        float g;
-        float b;
-        float a;
+        f32 r;
+        f32 g;
+        f32 b;
+        f32 a;
     };
 
     export namespace colors

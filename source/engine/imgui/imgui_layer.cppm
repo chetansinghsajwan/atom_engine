@@ -7,6 +7,7 @@ module;
 
 export module atom.engine:imgui.layer;
 
+import atom.core;
 import :glfw;
 import :application;
 
@@ -162,6 +163,6 @@ namespace atom::engine
         }
 
     private:
-        double _time;
+        f64 _time;
     };
 }

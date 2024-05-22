@@ -2,8 +2,9 @@ module;
 #include "GLFW/glfw3.h"
 
 module atom.engine:application.impl;
-import :application;
 
+import atom.core;
+import :application;
 import :imgui;
 import :time;
 
@@ -19,8 +20,8 @@ namespace atom::engine
     {
         while (_should_run)
         {
-            float time = glfwGetTime();
-            float delta_time = time - _last_frame_time;
+            f32 time = glfwGetTime();
+            f32 delta_time = time - _last_frame_time;
             _last_frame_time = time;
 
             if (!_window->is_minimized())

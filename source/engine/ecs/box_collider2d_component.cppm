@@ -1,5 +1,6 @@
 export module atom.engine:ecs.box_collider2d_component;
 
+import atom.core;
 import :box2d;
 import :math;
 import :ecs.entity_component;
@@ -60,10 +61,10 @@ namespace atom::engine
         vec2 offset = { 0, 0 };
         vec2 size = { .5, .5 };
 
-        float density = 1;
-        float friction = .5;
-        float restitution = 0;
-        float restitution_threshold = .5;
+        f32 density = 1;
+        f32 friction = .5;
+        f32 restitution = 0;
+        f32 restitution_threshold = .5;
 
     private:
         transform_component* _transform_component = nullptr;

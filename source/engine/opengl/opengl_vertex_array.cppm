@@ -102,7 +102,7 @@ namespace atom::engine
         }
 
     private:
-        unsigned int _renderer_id;
+        GLuint _renderer_id;
         dynamic_array<vertex_buffer*> _vertex_buffers;
         index_buffer* _index_buffer;
     };
