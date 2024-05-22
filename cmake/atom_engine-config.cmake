@@ -4,6 +4,7 @@ find_dependency(atom_core REQUIRED)
 find_dependency(atom_logging REQUIRED)
 find_dependency(EnTT REQUIRED)
 find_dependency(glfw3 REQUIRED)
+find_dependency(box2d REQUIRED)
 
 set(_CMAKE_WARN_DEPRECATED_TMP ${CMAKE_WARN_DEPRECATED})
 set(CMAKE_WARN_DEPRECATED OFF)
