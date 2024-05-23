@@ -126,17 +126,17 @@ namespace sandbox
         }
 
     private:
-        logging::logger* _logger;
-        engine::window* _window;
-        engine::keyboard* _keyboard;
-        engine::mouse* _mouse;
+        logging::logger* _logger = nullptr;
+        engine::window* _window = nullptr;
+        engine::keyboard* _keyboard = nullptr;
+        engine::mouse* _mouse = nullptr;
 
-        engine::frame_buffer* _frame_buffer;
-        engine::vec2 _screen_size;
-        engine::scene* _scene;
-        engine::entity_manager* _entity_manager;
-        engine::entity* _camera_entity;
-        engine::entity* _box1_entity;
-        engine::entity* _box2_entity;
+        engine::vec2 _screen_size = { 0, 0 };
+        engine::frame_buffer* _frame_buffer = nullptr;
+        engine::scene* _scene = nullptr;
+        engine::entity_manager* _entity_manager = nullptr;
+        engine::entity* _camera_entity = nullptr;
+        engine::entity* _box1_entity = nullptr;
+        engine::entity* _box2_entity = nullptr;
     };
 }
