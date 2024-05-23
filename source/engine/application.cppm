@@ -57,14 +57,14 @@ namespace atom::engine
 
         virtual ~application()
         {
+            _layers.pop_layer(_layer);
+            delete _layer;
+
             if (_window != nullptr)
             {
                 _window->unsubscribe_event(this);
                 window_manager::destroy_window(_window);
             }
-
-            _layers.pop_layer(_layer);
-            delete _layer;
         }
 
     public:

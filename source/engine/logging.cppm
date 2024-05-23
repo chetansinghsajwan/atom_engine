@@ -24,45 +24,46 @@ namespace atom::engine
         }
     };
 
-    constexpr auto ATOM_ENGINE_LOG_TRACE(auto&&... args) -> void
+    template <typename... arg_types>
+    constexpr auto ATOM_ENGINE_LOG_TRACE(format_string<arg_types...> fmt, arg_types&&... args) -> void
     {
-        // log_manager::get_global_logger()->log_trace(
-        //     runtime_format_string(forward<decltype(args)>(args)...));
+        log_manager::get_global_logger()->log_trace(fmt, forward<arg_types>(args)...);
     }
 
-    constexpr auto ATOM_ENGINE_LOG_DEBUG(auto&&... args) -> void
+    template <typename... arg_types>
+    constexpr auto ATOM_ENGINE_LOG_DEBUG(format_string<arg_types...> fmt, arg_types&&... args) -> void
     {
-        // log_manager::get_global_logger()->log_debug(
-        //     runtime_format_string(forward<decltype(args)>(args)...));
+        log_manager::get_global_logger()->log_debug(fmt, forward<arg_types>(args)...);
     }
 
-    constexpr auto ATOM_ENGINE_LOG_INFO(auto&&... args) -> void
+    template <typename... arg_types>
+    constexpr auto ATOM_ENGINE_LOG_INFO(format_string<arg_types...> fmt, arg_types&&... args) -> void
     {
-        // log_manager::get_global_logger()->log_info(
-        //     runtime_format_string(forward<decltype(args)>(args)...));
+        log_manager::get_global_logger()->log_info(fmt, forward<arg_types>(args)...);
     }
 
-    constexpr auto ATOM_ENGINE_LOG_WARN(auto&&... args) -> void
+    template <typename... arg_types>
+    constexpr auto ATOM_ENGINE_LOG_WARN(format_string<arg_types...> fmt, arg_types&&... args) -> void
     {
-        // log_manager::get_global_logger()->log_warn(
-        //     runtime_format_string(forward<decltype(args)>(args)...));
+        log_manager::get_global_logger()->log_warn(fmt, forward<arg_types>(args)...);
     }
 
-    constexpr auto ATOM_ENGINE_LOG_ERROR(auto&&... args) -> void
+    template <typename... arg_types>
+    constexpr auto ATOM_ENGINE_LOG_ERROR(format_string<arg_types...> fmt, arg_types&&... args) -> void
     {
-        // log_manager::get_global_logger()->log_error(
-        //     runtime_format_string(forward<decltype(args)>(args)...));
+        log_manager::get_global_logger()->log_error(fmt, forward<arg_types>(args)...);
     }
 
-    constexpr auto ATOM_ENGINE_LOG_FATAL(auto&&... args) -> void
+    template <typename... arg_types>
+    constexpr auto ATOM_ENGINE_LOG_FATAL(format_string<arg_types...> fmt, arg_types&&... args) -> void
     {
-        // log_manager::get_global_logger()->log_fatal(
-        //     runtime_format_string(forward<decltype(args)>(args)...));
+        log_manager::get_global_logger()->log_fatal(fmt, forward<arg_types>(args)...);
     }
 
-    constexpr auto ATOM_ENGINE_LOG_PANIC(auto&&... args) -> void
+    template <typename... arg_types>
+    constexpr auto ATOM_ENGINE_LOG_PANIC(format_string<arg_types...> fmt, arg_types&&... args) -> void
     {
-        ATOM_ENGINE_LOG_FATAL(forward<decltype(args)>(args)...);
+        ATOM_ENGINE_LOG_FATAL(fmt, forward<arg_types>(args)...);
         contract_panic();
     }
 }
