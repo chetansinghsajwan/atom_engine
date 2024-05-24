@@ -5,7 +5,7 @@ import atom.logging;
 
 namespace atom::engine
 {
-    static inline logging::logger* global_logger = nullptr;
+    logging::logger* global_logger = nullptr;
 
     export class log_manager
     {

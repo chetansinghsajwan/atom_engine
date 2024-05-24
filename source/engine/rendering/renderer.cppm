@@ -17,6 +17,7 @@ namespace atom::engine
     public:
         static auto initialize() -> void
         {
+            _logger = logging::logger_manager::create_logger({ .name = "renderer" }).get_value();
             _logger->log_info("initializing renderer...");
 
             render_command::initialize();
