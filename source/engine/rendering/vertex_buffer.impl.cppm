@@ -21,7 +21,7 @@ namespace atom::engine
         return nullptr;
     }
     
-    auto vertex_buffer::create(float* vertices, u32 count) -> vertex_buffer*
+    auto vertex_buffer::create(f32* vertices, u32 count) -> vertex_buffer*
     {
         switch (renderer_api::get_api())
         {
