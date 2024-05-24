@@ -1,6 +1,7 @@
 export module atom.engine:windows.window;
 
 import atom.core;
+import :math;
 import :windows.window_events;
 
 namespace atom::engine
@@ -23,11 +24,11 @@ namespace atom::engine
         virtual auto update() -> void = 0;
 
         virtual auto is_minimized() const -> bool = 0;
-        virtual auto get_size() const -> window_coords = 0;
-        virtual auto set_size(window_coords size) -> void = 0;
+        virtual auto get_size() const -> i32vec2 = 0;
+        virtual auto set_size(i32vec2 size) -> void = 0;
 
-        virtual auto get_pos() const -> window_coords = 0;
-        virtual auto set_pos(window_coords pos) -> void = 0;
+        virtual auto get_pos() const -> i32vec2 = 0;
+        virtual auto set_pos(i32vec2 pos) -> void = 0;
 
         virtual auto get_native() const -> void* = 0;
 
