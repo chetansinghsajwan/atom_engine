@@ -34,8 +34,6 @@ namespace atom::engine
             case ImGuiMouseButton_Left:   return mouse_button_code::left;
             case ImGuiMouseButton_Right:  return mouse_button_code::right;
             case ImGuiMouseButton_Middle: return mouse_button_code::middle;
-            case ImGuiMouseButton_(3):    return mouse_button_code::n3;
-            case ImGuiMouseButton_(4):    return mouse_button_code::n4;
             default:                      return mouse_button_code::unknown;
         }
     }
