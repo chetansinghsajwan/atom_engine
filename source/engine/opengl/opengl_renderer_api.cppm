@@ -16,19 +16,19 @@ namespace atom::engine
     public:
         virtual auto initialize() -> void override
         {
-            ATOM_ENGINE_LOG_INFO("initializing opengl_renderer...");
+            global_logger->log_info("initializing opengl_renderer...");
 
             glEnable(GL_BLEND);
             glEnable(GL_DEPTH_TEST);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-            ATOM_ENGINE_LOG_INFO("initializing opengl_renderer done.");
+            global_logger->log_info("initializing opengl_renderer done.");
         }
 
         virtual auto finalize() -> void override
         {
-            ATOM_ENGINE_LOG_INFO("finalizing opengl_renderer...");
-            ATOM_ENGINE_LOG_INFO("finalizing opengl_renderer done.");
+            global_logger->log_info("finalizing opengl_renderer...");
+            global_logger->log_info("finalizing opengl_renderer done.");
         }
 
         virtual auto set_clear_color(const class color& color) -> void override

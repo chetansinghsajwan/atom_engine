@@ -4,6 +4,7 @@ module;
 export module atom.engine:opengl.shader_factory_impl;
 
 import atom.core;
+import atom.logging;
 import :rendering;
 import :opengl.shader;
 
@@ -11,6 +12,18 @@ namespace atom::engine
 {
     class opengl_shader_factory_impl: public shader_factory_impl
     {
+    public:
+        opengl_shader_factory_impl()
+        {
+            _logger = logging::logger_manager::create_logger({ .name = "opengl_shader_factory" })
+                          .get_value();
+        }
+
+        virtual ~opengl_shader_factory_impl()
+        {
+            delete _logger;
+        }
+
     public:
         virtual auto create(
             string_view vertex_source, string_view fragment_source) -> shader* override
@@ -23,7 +36,7 @@ namespace atom::engine
             GLint vertex_shader_source_length = vertex_source.get_count();
             glShaderSource(vertex_shader, 1, &vertex_shader_source, &vertex_shader_source_length);
 
-            ATOM_ENGINE_LOG_INFO("compiling vertex shader...");
+            _logger->log_info("compiling vertex shader...");
 
             // Compile the vertex shader
             glCompileShader(vertex_shader);
@@ -42,14 +55,14 @@ namespace atom::engine
                 // We don't need the shader anymore.
                 glDeleteShader(vertex_shader);
 
-                ATOM_ENGINE_LOG_PANIC(
+                _logger->log_fatal(
                     "compilation failed for vertex shader. info_log: {}", info_log.data());
 
-                return nullptr;
+                contract_panic();
             }
 
-            ATOM_ENGINE_LOG_INFO("compiled vertex shader.");
-            ATOM_ENGINE_LOG_INFO("compiling fragment shader...");
+            _logger->log_info("compiled vertex shader.");
+            _logger->log_info("compiling fragment shader...");
 
             // Create an empty fragment shader handle
             GLuint fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -78,12 +91,13 @@ namespace atom::engine
                 glDeleteShader(fragment_shader);
                 glDeleteShader(vertex_shader);
 
-                ATOM_ENGINE_LOG_PANIC(
+                _logger->log_fatal(
                     "compilation failed for fragment shader. info_log: {}", info_log.data());
-                return nullptr;
+
+                contract_panic();
             }
 
-            ATOM_ENGINE_LOG_INFO("compiled fragment shader.");
+            _logger->log_info("compiled fragment shader.");
 
             // Vertex and fragment shaders are successfully compiled.
             // Now time to link them together into a program.
@@ -94,7 +108,7 @@ namespace atom::engine
             glAttachShader(program, vertex_shader);
             glAttachShader(program, fragment_shader);
 
-            ATOM_ENGINE_LOG_INFO("linking program...");
+            _logger->log_info("linking program...");
 
             // Link our program
             glLinkProgram(program);
@@ -118,11 +132,11 @@ namespace atom::engine
                 glDeleteShader(vertex_shader);
                 glDeleteShader(fragment_shader);
 
-                ATOM_ENGINE_LOG_PANIC("linking failed for program. info_log: {}", info_log.data());
-                return nullptr;
+                _logger->log_fatal("linking failed for program. info_log: {}", info_log.data());
+                contract_panic();
             }
 
-            ATOM_ENGINE_LOG_INFO("linked program.");
+            _logger->log_info("linked program.");
 
             // Always detach shaders after a successful link.
             glDetachShader(program, vertex_shader);
@@ -136,5 +150,8 @@ namespace atom::engine
             opengl_shader* gl_shader = reinterpret_cast<opengl_shader*>(shader);
             glDeleteProgram(gl_shader->get_program_id());
         }
+
+    private:
+        logging::logger* _logger = nullptr;
     };
 }

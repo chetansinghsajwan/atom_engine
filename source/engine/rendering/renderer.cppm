@@ -1,6 +1,7 @@
 export module atom.engine:rendering.renderer;
 
 import atom.core;
+import atom.logging;
 import :math;
 import :rendering.render_command;
 import :rendering.renderer_api;
@@ -16,22 +17,22 @@ namespace atom::engine
     public:
         static auto initialize() -> void
         {
-            ATOM_ENGINE_LOG_INFO("initializing renderer...");
+            _logger->log_info("initializing renderer...");
 
             render_command::initialize();
             renderer_2d::initialize();
 
-            ATOM_ENGINE_LOG_INFO("initializing renderer done.");
+            _logger->log_info("initializing renderer done.");
         }
 
         static auto finalize() -> void
         {
-            ATOM_ENGINE_LOG_INFO("finalizing renderer...");
+            _logger->log_info("finalizing renderer...");
 
             renderer_2d::finalize();
             render_command::finalize();
 
-            ATOM_ENGINE_LOG_INFO("finalizing renderer done.");
+            _logger->log_info("finalizing renderer done.");
         }
 
         static auto get_api() -> renderer_api::api
@@ -69,5 +70,6 @@ namespace atom::engine
         };
 
         static inline scene_data* _data = new scene_data();
+        static inline logging::logger* _logger = nullptr;
     };
 }

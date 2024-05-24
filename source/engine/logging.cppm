@@ -5,12 +5,15 @@ import atom.logging;
 
 namespace atom::engine
 {
+    static inline logging::logger* global_logger = nullptr;
+
     export class log_manager
     {
     public:
         static auto initialize() -> void
         {
             logging::logger_manager::initialize();
+            global_logger = logging::logger_manager::get_default_logger();
         }
 
         static auto finalize() -> void
@@ -23,47 +26,4 @@ namespace atom::engine
             return logging::logger_manager::get_default_logger();
         }
     };
-
-    template <typename... arg_types>
-    constexpr auto ATOM_ENGINE_LOG_TRACE(format_string<arg_types...> fmt, arg_types&&... args) -> void
-    {
-        log_manager::get_global_logger()->log_trace(fmt, forward<arg_types>(args)...);
-    }
-
-    template <typename... arg_types>
-    constexpr auto ATOM_ENGINE_LOG_DEBUG(format_string<arg_types...> fmt, arg_types&&... args) -> void
-    {
-        log_manager::get_global_logger()->log_debug(fmt, forward<arg_types>(args)...);
-    }
-
-    template <typename... arg_types>
-    constexpr auto ATOM_ENGINE_LOG_INFO(format_string<arg_types...> fmt, arg_types&&... args) -> void
-    {
-        log_manager::get_global_logger()->log_info(fmt, forward<arg_types>(args)...);
-    }
-
-    template <typename... arg_types>
-    constexpr auto ATOM_ENGINE_LOG_WARN(format_string<arg_types...> fmt, arg_types&&... args) -> void
-    {
-        log_manager::get_global_logger()->log_warn(fmt, forward<arg_types>(args)...);
-    }
-
-    template <typename... arg_types>
-    constexpr auto ATOM_ENGINE_LOG_ERROR(format_string<arg_types...> fmt, arg_types&&... args) -> void
-    {
-        log_manager::get_global_logger()->log_error(fmt, forward<arg_types>(args)...);
-    }
-
-    template <typename... arg_types>
-    constexpr auto ATOM_ENGINE_LOG_FATAL(format_string<arg_types...> fmt, arg_types&&... args) -> void
-    {
-        log_manager::get_global_logger()->log_fatal(fmt, forward<arg_types>(args)...);
-    }
-
-    template <typename... arg_types>
-    constexpr auto ATOM_ENGINE_LOG_PANIC(format_string<arg_types...> fmt, arg_types&&... args) -> void
-    {
-        ATOM_ENGINE_LOG_FATAL(fmt, forward<arg_types>(args)...);
-        contract_panic();
-    }
 }
