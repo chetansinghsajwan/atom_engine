@@ -18,7 +18,7 @@ namespace atom::engine
         float3,
         float4,
         mat3,
-        mat4,
+        f32mat4,
     };
 
     constexpr auto get_shader_data_type_size(shader_data_type type) -> usize
@@ -36,7 +36,7 @@ namespace atom::engine
             case shader_data_type::float3:  return 4 * 3;
             case shader_data_type::float4:  return 4 * 4;
             case shader_data_type::mat3:    return 4 * 3 * 3;
-            case shader_data_type::mat4:    return 4 * 4 * 4;
+            case shader_data_type::f32mat4:    return 4 * 4 * 4;
             default:
             {
                 contract_panic("invalid shader_data_type.");
@@ -52,7 +52,7 @@ namespace atom::engine
             : name(name)
             , type(type)
             , size(get_shader_data_type_size(type))
-            , offset(0)
+            , offset( 0 )
             , is_normalized(is_normalized)
         {}
 
@@ -71,7 +71,7 @@ namespace atom::engine
                 case shader_data_type::float3:  return 3;
                 case shader_data_type::float4:  return 4;
                 case shader_data_type::mat3:    return 3 * 3;
-                case shader_data_type::mat4:    return 4 * 4;
+                case shader_data_type::f32mat4:    return 4 * 4;
                 default:
                 {
                     contract_panic("invalid shader_data_type.");
@@ -93,7 +93,7 @@ namespace atom::engine
     public:
         buffer_layout()
             : _elements()
-            , _stride(0)
+            , _stride( 0 )
         {}
 
         buffer_layout(std::initializer_list<buffer_element> layout)

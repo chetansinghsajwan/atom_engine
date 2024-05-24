@@ -47,7 +47,7 @@ namespace atom::engine
         static auto end_scene() -> void {}
 
         static auto submit(
-            class shader* shader, vertex_array* arr, const mat4& transform) -> void
+            class shader* shader, vertex_array* arr, const f32mat4& transform) -> void
         {
             shader->bind();
             shader->set_uniform_mat4("u_view_projection", _data->view_projection_matrix);
@@ -65,7 +65,7 @@ namespace atom::engine
     private:
         struct scene_data
         {
-            mat4 view_projection_matrix;
+            f32mat4 view_projection_matrix;
         };
 
         static inline scene_data* _data = new scene_data();

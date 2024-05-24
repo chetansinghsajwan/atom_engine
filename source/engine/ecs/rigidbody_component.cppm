@@ -64,8 +64,8 @@ namespace atom::engine
 
             _transform_component = get_entity()->get_or_emplace_component<transform_component>();
 
-            vec3 position = _transform_component->get_position();
-            vec3 rotation = _transform_component->get_rotation();
+            f32vec3 position = _transform_component->get_position();
+            f32vec3 rotation = _transform_component->get_rotation();
 
             b2BodyDef body_def;
             body_def.type = _convert_atom_rigibody_type_to_box2d(_body_type);
@@ -87,10 +87,10 @@ namespace atom::engine
             _physics_world->Step(time.get_seconds(), velocity_iterations, position_iterations);
 
             const b2Vec2& physics_position = _physics_body->GetPosition();
-            float physics_rotation = _physics_body->GetAngle();
+            f32 physics_rotation = _physics_body->GetAngle();
 
-            vec3 position = _transform_component->get_position();
-            vec3 rotation = _transform_component->get_rotation();
+            f32vec3 position = _transform_component->get_position();
+            f32vec3 rotation = _transform_component->get_rotation();
 
             position.x = physics_position.x;
             position.y = physics_position.y;

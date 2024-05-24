@@ -37,7 +37,7 @@ namespace atom::engine
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
         }
 
-        virtual auto resize(vec2 size) -> void override
+        virtual auto resize(f32vec2 size) -> void override
         {
             _specs.width = size.x;
             _specs.height = size.y;

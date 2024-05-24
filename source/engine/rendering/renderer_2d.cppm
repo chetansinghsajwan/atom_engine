@@ -43,9 +43,9 @@ namespace atom::engine
     private:
         struct _quad_vertex
         {
-            vec3 position;
+            f32vec3 position;
             class color color;
-            vec2 texture_coord;
+            f32vec2 texture_coord;
             float texture_index;
             float tiling_factor;
         };
@@ -107,10 +107,10 @@ namespace atom::engine
             _texture_slots = new texture2d*[_max_texture_slots];
             _texture_slots[0] = _white_texture;
 
-            _quad_vertex_positions[0] = vec4(-.5f, -.5f, 0, 1);
-            _quad_vertex_positions[1] = vec4(.5f, -.5f, 0, 1);
-            _quad_vertex_positions[2] = vec4(.5f, .5f, 0, 1);
-            _quad_vertex_positions[3] = vec4(-.5f, .5f, 0, 1);
+            _quad_vertex_positions[0] = f32vec4(-.5f, -.5f, 0, 1);
+            _quad_vertex_positions[1] = f32vec4(.5f, -.5f, 0, 1);
+            _quad_vertex_positions[2] = f32vec4(.5f, .5f, 0, 1);
+            _quad_vertex_positions[3] = f32vec4(-.5f, .5f, 0, 1);
 
             ATOM_ENGINE_LOG_INFO("initializing renderer_2d done.");
         }
@@ -142,9 +142,9 @@ namespace atom::engine
             _texture_slot_index = 1;
         }
 
-        static auto begin_scene(class camera* camera, const mat4& transform) -> void
+        static auto begin_scene(class camera* camera, const f32mat4& transform) -> void
         {
-            mat4 view_projection = camera->get_projection() * math::inverse(transform);
+            f32mat4 view_projection = camera->get_projection() * math::inverse(transform);
 
             _texture_shader->bind();
             _texture_shader->set_uniform_mat4("u_view_projection", view_projection);
@@ -174,45 +174,65 @@ namespace atom::engine
             _stats.draw_calls += 1;
         }
 
-        static auto draw_quad(const mat4& transform, const class color& color) -> void
+        static auto draw_quad(const f32mat4& transform, const class color& color) -> void
         {
-            constexpr vec2 texture_coords[4] = { vec2(0, 0), vec2(1, 0), vec2(1, 1), vec2(0, 1) };
+            constexpr f32vec2 texture_coords[4] = {
+                f32vec2{ 0, 0 },
+                f32vec2{ 1, 0 },
+                f32vec2{ 1, 1 },
+                f32vec2{ 0, 1 },
+            };
 
             _draw(transform, _white_texture, texture_coords, 1, color);
         }
 
         static auto draw_quad(
-            const vec3& position, vec2 size, f32 rotation, const class color& color) -> void
+            const f32vec3& position, f32vec2 size, float rotation, const class color& color) -> void
         {
-            constexpr vec2 texture_coords[4] = { vec2(0, 0), vec2(1, 0), vec2(1, 1), vec2(0, 1) };
+            constexpr f32vec2 texture_coords[4] = {
+                f32vec2{ 0, 0 },
+                f32vec2{ 1, 0 },
+                f32vec2{ 1, 1 },
+                f32vec2{ 0, 1 },
+            };
 
             _draw(position, size, rotation, _white_texture, texture_coords, 1, color);
         }
 
-        static auto draw_texture(const mat4& transform, texture2d* texture, f32 tiling_factor,
+        static auto draw_texture(const f32mat4& transform, texture2d* texture, float tiling_factor,
             const class color& tint) -> void
         {
-            constexpr vec2 texture_coords[4] = { vec2(0, 0), vec2(1, 0), vec2(1, 1), vec2(0, 1) };
+            constexpr f32vec2 texture_coords[4] = {
+                f32vec2{ 0, 0 },
+                f32vec2{ 1, 0 },
+                f32vec2{ 1, 1 },
+                f32vec2{ 0, 1 },
+            };
 
             _draw(transform, texture, texture_coords, tiling_factor, tint);
         }
 
-        static auto draw_texture(const vec3& position, vec2 size, f32 rotation, texture2d* texture,
-            f32 tiling_factor, const class color& tint) -> void
+        static auto draw_texture(const f32vec3& position, f32vec2 size, float rotation,
+            texture2d* texture, float tiling_factor, const class color& tint) -> void
         {
-            constexpr vec2 texture_coords[4] = { vec2(0, 0), vec2(1, 0), vec2(1, 1), vec2(0, 1) };
+            constexpr f32vec2 texture_coords[4] = {
+                f32vec2{ 0, 0 },
+                f32vec2{ 1, 0 },
+                f32vec2{ 1, 1 },
+                f32vec2{ 0, 1 },
+            };
 
             _draw(position, size, rotation, texture, texture_coords, tiling_factor, tint);
         }
 
-        static auto draw_sprite(const vec3& position, vec2 size, f32 rotation, class sprite* sprite,
-            f32 tiling_factor, const class color& tint) -> void
+        static auto draw_sprite(const f32vec3& position, f32vec2 size, float rotation,
+            class sprite* sprite, float tiling_factor, const class color& tint) -> void
         {
             _draw(position, size, rotation, sprite->get_texture(),
                 sprite->get_texture_coords().get_data(), tiling_factor, tint);
         }
 
-        static auto draw_sprite(const mat4& transform, class sprite* sprite, f32 tiling_factor,
+        static auto draw_sprite(const f32mat4& transform, class sprite* sprite, float tiling_factor,
             const class color& tint) -> void
         {
             _draw(transform, sprite->get_texture(), sprite->get_texture_coords().get_data(),
@@ -230,8 +250,8 @@ namespace atom::engine
         }
 
     private:
-        static auto _draw(const mat4& transform, texture2d* texture, const vec2* texture_coords,
-            f32 tiling_factor, const class color& tint) -> void
+        static auto _draw(const f32mat4& transform, texture2d* texture,
+            const f32vec2* texture_coords, float tiling_factor, const class color& tint) -> void
         {
             contract_debug_expects(texture != nullptr);
 
@@ -275,17 +295,18 @@ namespace atom::engine
             _stats.quad_count += 1;
         }
 
-        static auto _draw(const vec3& position, vec2 size, f32 rotation, texture2d* texture,
-            const vec2* texture_coords, f32 tiling_factor, const class color& tint) -> void
+        static auto _draw(const f32vec3& position, f32vec2 size, float rotation, texture2d* texture,
+            const f32vec2* texture_coords, float tiling_factor, const class color& tint) -> void
         {
             contract_debug_expects(texture != nullptr);
 
-            mat4 transform =
-                math::translate(mat4(1), position) * math::scale(mat4(1), vec3(size.x, size.y, 1));
+            f32mat4 transform = math::translate(f32mat4{ 1 }, position)
+                                * math::scale(f32mat4{ 1 }, f32vec3{ size.x, size.y, 1 });
 
             if (rotation != 0.)
             {
-                transform *= math::rotate(mat4(1.0f), math::radians(rotation), vec3(0, 0, 1));
+                transform *=
+                    math::rotate(f32mat4{ 1 }, math::radians(rotation), f32vec3{ 0, 0, 1 });
             }
 
             _draw(transform, texture, texture_coords, tiling_factor, tint);
@@ -320,7 +341,7 @@ namespace atom::engine
         static constexpr u32 _max_texture_slots = 32;
         static inline vertex_array* _quad_vertex_array = nullptr;
         static inline vertex_buffer* _quad_vertex_buffer = nullptr;
-        static inline vec4 _quad_vertex_positions[4];
+        static inline f32vec4 _quad_vertex_positions[4];
         static inline u32 _quad_index_count = 0;
         static inline shader* _texture_shader = nullptr;
         static inline _quad_vertex* _quad_vertex_buffer_base = nullptr;

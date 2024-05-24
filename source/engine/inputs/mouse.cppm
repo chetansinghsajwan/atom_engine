@@ -43,19 +43,19 @@ namespace atom::engine
             return get_button_state(button) == mouse_button_state::released;
         }
 
-        auto get_pos() const -> vec2
+        auto get_pos() const -> f32vec2
         {
-            return vec2{ _pos_x, _pos_y };
+            return f32vec2{ _pos_x, _pos_y };
         }
 
-        auto get_last_pos() const -> vec2
+        auto get_last_pos() const -> f32vec2
         {
-            return vec2{ _last_pos_x, _last_pos_y };
+            return f32vec2{ _last_pos_x, _last_pos_y };
         }
 
-        auto get_delta_pos() const -> vec2
+        auto get_delta_pos() const -> f32vec2
         {
-            return vec2{ _pos_x - _last_pos_x, _pos_y - _last_pos_y };
+            return f32vec2{ _pos_x - _last_pos_x, _pos_y - _last_pos_y };
         }
 
         auto is_raw_move_supported() const -> bool
@@ -73,19 +73,19 @@ namespace atom::engine
             return _set_raw_move(enable);
         }
 
-        auto get_scroll_pos() const -> vec2
+        auto get_scroll_pos() const -> f32vec2
         {
-            return vec2{ _scroll_pos_x, _scroll_pos_y };
+            return f32vec2{ _scroll_pos_x, _scroll_pos_y };
         }
 
-        auto get_last_scroll_pos() const -> vec2
+        auto get_last_scroll_pos() const -> f32vec2
         {
-            return vec2{ _last_scroll_pos_x, _last_scroll_pos_y };
+            return f32vec2{ _last_scroll_pos_x, _last_scroll_pos_y };
         }
 
-        auto get_delta_scroll_pos() const -> vec2
+        auto get_delta_scroll_pos() const -> f32vec2
         {
-            return vec2{ _scroll_pos_x - _last_scroll_pos_x, _scroll_pos_y - _last_scroll_pos_y };
+            return f32vec2{ _scroll_pos_x - _last_scroll_pos_x, _scroll_pos_y - _last_scroll_pos_y };
         }
 
         virtual auto subscribe_event(mouse_event_listener* listener) -> void = 0;

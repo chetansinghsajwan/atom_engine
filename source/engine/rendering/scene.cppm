@@ -31,7 +31,7 @@ namespace atom::engine
         auto on_update(time_step time) -> void
         {
             class camera* camera = nullptr;
-            mat4 camera_transform;
+            f32mat4 camera_transform;
 
             auto view =
                 _entity_manager->get_internal()->view<transform_component, camera_component>();
@@ -66,7 +66,7 @@ namespace atom::engine
 
         auto on_stop() -> void {}
 
-        auto on_viewport_resize(vec2 size) -> void
+        auto on_viewport_resize(f32vec2 size) -> void
         {
             _viewport_width = size.x;
             _viewport_height = size.y;

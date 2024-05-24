@@ -12,8 +12,8 @@ namespace atom::engine
     {
     public:
         opengl_index_buffer(uint32_t* indices, u32 count)
-            : _renderer_id(0)
-            , _count(count)
+            : _renderer_id{ 0 }
+            , _count{ count }
         {
             glCreateBuffers(1, &_renderer_id);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _renderer_id);
