@@ -9,7 +9,7 @@ namespace atom::engine::filesystem
         std::ifstream in(path.get_data(), std::ios::in | std::ios::binary);
         in.seekg(0, std::ios::end);
         size_t count = in.tellg();
-        in.seekg(0);
+        in.seekg( 0 );
 
         string content = string::with_capacity(count);
         in.read(content.get_mut_data(), count);

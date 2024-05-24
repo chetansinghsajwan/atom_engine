@@ -12,12 +12,12 @@ namespace atom::engine
         virtual ~camera() = default;
 
     public:
-        auto get_projection() const -> const mat4&
+        auto get_projection() const -> const f32mat4&
         {
             return _projection;
         }
 
     protected:
-        mat4 _projection = mat4{ 1 };
+        f32mat4 _projection = f32mat4{ 1 };
     };
 }

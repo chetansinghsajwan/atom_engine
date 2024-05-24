@@ -15,16 +15,16 @@ namespace atom::engine
         , mouse_event_listener
     {
     public:
-        orthographic_camera_controller(f32 aspect_ratio)
-            : _aspect_ratio(aspect_ratio)
-            , _position(0, 0, 0)
-            , _rotation(0)
-            , _zoom_speed(0.25f)
-            , _move_speed(3)
-            , _rotation_speed(140)
-            , _zoom_level(1)
-            , _camera(-_aspect_ratio * _zoom_level, _aspect_ratio * _zoom_level, -_zoom_level,
-                  _zoom_level)
+        orthographic_camera_controller(float aspect_ratio)
+            : _aspect_ratio{ aspect_ratio }
+            , _position{ 0 }
+            , _rotation{ 0 }
+            , _zoom_speed{ .25 }
+            , _move_speed{ 3 }
+            , _rotation_speed{ 140 }
+            , _zoom_level{ 1 }
+            , _camera{ -_aspect_ratio * _zoom_level, _aspect_ratio * _zoom_level, -_zoom_level,
+                _zoom_level }
         {}
 
     public:
@@ -94,7 +94,7 @@ namespace atom::engine
             _mouse->subscribe_event(this);
         }
 
-        auto on_resize(vec2 size) -> void
+        auto on_resize(f32vec2 size) -> void
         {
             _aspect_ratio = size.x / size.y;
             _camera.set_projection(-_aspect_ratio * _zoom_level, _aspect_ratio * _zoom_level,
@@ -150,20 +150,20 @@ namespace atom::engine
         auto _on_mouse_scroll_event(mouse_scroll_event& event) -> void
         {
             _zoom_level -= event.yoffset * _zoom_speed;
-            _zoom_level = math::max_of(_zoom_level, 0.25f);
+            _zoom_level = math::max_of(_zoom_level, .25f);
 
             _camera.set_projection(-_aspect_ratio * _zoom_level, _aspect_ratio * _zoom_level,
                 -_zoom_level, _zoom_level);
         }
 
     private:
-        f32 _aspect_ratio;
-        f32 _zoom_level;
-        f32 _zoom_speed;
-        f32 _move_speed;
-        f32 _rotation_speed;
-        vec3 _position;
-        f32 _rotation;
+        float _aspect_ratio;
+        float _zoom_level;
+        float _zoom_speed;
+        float _move_speed;
+        float _rotation_speed;
+        f32vec3 _position;
+        float _rotation;
         window* _window;
         keyboard* _keyboard;
         mouse* _mouse;

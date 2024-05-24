@@ -113,7 +113,7 @@ namespace sandbox
             engine::ImGui::Begin("viewport");
 
             engine::ImVec2 imgui_screen_size = engine::ImGui::GetContentRegionAvail();
-            _screen_size = engine::vec2{ imgui_screen_size.x, imgui_screen_size.y };
+            _screen_size = engine::f32vec2{ imgui_screen_size.x, imgui_screen_size.y };
 
             void* imgui_texture_renderer_id =
                 reinterpret_cast<void*>(_frame_buffer->get_color_attachment_renderer_id());
@@ -131,7 +131,7 @@ namespace sandbox
         engine::keyboard* _keyboard = nullptr;
         engine::mouse* _mouse = nullptr;
 
-        engine::vec2 _screen_size = { 0, 0 };
+        engine::f32vec2 _screen_size = engine::f32vec2{ 0 };
         engine::frame_buffer* _frame_buffer = nullptr;
         engine::scene* _scene = nullptr;
         engine::entity_manager* _entity_manager = nullptr;

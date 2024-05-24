@@ -32,8 +32,8 @@ namespace atom::engine
 
             _transform_component = get_entity()->get_or_emplace_component<transform_component>();
             _rigidbody_component = get_entity()->get_or_emplace_component<rigidbody_component>();
-            vec3 scale = _transform_component->get_scale();
-            vec3 rotation = _transform_component->get_rotation();
+            f32vec3 scale = _transform_component->get_scale();
+            f32vec3 rotation = _transform_component->get_rotation();
             b2Body* body = _rigidbody_component->_get_body();
 
             b2PolygonShape box_shape;
@@ -58,8 +58,8 @@ namespace atom::engine
         }
 
     public:
-        vec2 offset = { 0, 0 };
-        vec2 size = { .5, .5 };
+        f32vec2 offset = f32vec2{ 0 };
+        f32vec2 size = f32vec2{ .5 };
 
         f32 density = 1;
         f32 friction = .5;

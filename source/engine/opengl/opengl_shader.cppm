@@ -26,7 +26,7 @@ namespace atom::engine
 
         virtual auto unbind() -> void override
         {
-            glUseProgram(0);
+            glUseProgram( 0 );
         }
 
         virtual auto set_uniform_int(string_view name, i32 value) -> void override
@@ -39,12 +39,12 @@ namespace atom::engine
             upload_uniform_float(name, value);
         }
 
-        virtual auto set_uniform_float4(string_view name, const vec4& value) -> void override
+        virtual auto set_uniform_float4(string_view name, const f32vec4& value) -> void override
         {
             upload_uniform_float4(name, value);
         }
 
-        virtual auto set_uniform_mat4(string_view name, const mat4& value) -> void override
+        virtual auto set_uniform_mat4(string_view name, const f32mat4& value) -> void override
         {
             upload_uniform_mat4(name, value);
         }
@@ -75,7 +75,7 @@ namespace atom::engine
             glUniform1f(location, value);
         }
 
-        auto upload_uniform_float4(string_view name, const vec4& vec) -> void
+        auto upload_uniform_float4(string_view name, const f32vec4& vec) -> void
         {
             GLint location = glGetUniformLocation(_program, name.get_data());
             contract_debug_expects(location != -1);
@@ -83,7 +83,7 @@ namespace atom::engine
             glUniform4f(location, vec.x, vec.y, vec.z, vec.w);
         }
 
-        auto upload_uniform_mat4(string_view name, const mat4& mat) -> void
+        auto upload_uniform_mat4(string_view name, const f32mat4& mat) -> void
         {
             GLint location = glGetUniformLocation(_program, name.get_data());
             contract_debug_expects(location != -1);

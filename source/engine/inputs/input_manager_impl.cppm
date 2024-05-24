@@ -10,7 +10,7 @@ namespace atom::engine
     public:
         input_manager_impl()
             : _devices()
-            , _last_id(0)
+            , _last_id( 0 )
         {}
 
         virtual ~input_manager_impl() = default;
