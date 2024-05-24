@@ -37,7 +37,7 @@ namespace atom::engine
             , _gl_format( 0 )
             , _gl_data_format( 0 )
         {
-            ATOM_ENGINE_LOG_INFO("loading texture '{}'", file_path);
+            global_logger->log_info("loading texture '{}'", file_path);
 
             int x;
             int y;
@@ -46,7 +46,7 @@ namespace atom::engine
             stbi_uc* data = stbi_load(file_path.get_data(), &x, &y, &channels, 0);
             if (data == nullptr)
             {
-                ATOM_ENGINE_LOG_ERROR("loading texture failed.");
+                global_logger->log_error("loading texture failed.");
                 return;
             }
 
@@ -79,7 +79,7 @@ namespace atom::engine
                 _renderer_id, 0, 0, 0, _width, _height, _gl_data_format, GL_UNSIGNED_BYTE, data);
 
             stbi_image_free(data);
-            ATOM_ENGINE_LOG_INFO("loading texture completed.");
+            global_logger->log_info("loading texture completed.");
         }
 
         virtual ~opengl_texture2d()

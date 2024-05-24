@@ -1,6 +1,7 @@
 export module atom.engine:rendering.renderer_2d;
 
 import atom.core;
+import atom.logging;
 import :math;
 import :colors;
 import :logging;
@@ -53,7 +54,9 @@ namespace atom::engine
     public:
         static auto initialize() -> void
         {
-            ATOM_ENGINE_LOG_INFO("initializing renderer_2d...");
+            _logger = logging::logger_manager::create_logger({ .name = "renderer2d" }).get_value();
+
+            _logger->log_info("initializing renderer_2d...");
 
             shader_factory::set_root_path(
                 "/home/chetan/projects/atom-workspace/atom.engine/sandbox");
@@ -112,12 +115,12 @@ namespace atom::engine
             _quad_vertex_positions[2] = f32vec4(.5f, .5f, 0, 1);
             _quad_vertex_positions[3] = f32vec4(-.5f, .5f, 0, 1);
 
-            ATOM_ENGINE_LOG_INFO("initializing renderer_2d done.");
+            _logger->log_info("initializing renderer_2d done.");
         }
 
         static auto finalize() -> void
         {
-            ATOM_ENGINE_LOG_INFO("finalizing renderer_2d...");
+            _logger->log_info("finalizing renderer_2d...");
 
             render_command::finalize();
 
@@ -127,7 +130,7 @@ namespace atom::engine
             delete _texture_shader;
             delete _texture_slots;
 
-            ATOM_ENGINE_LOG_INFO("finalizing renderer_2d done.");
+            _logger->log_info("finalizing renderer_2d done.");
         }
 
         static auto begin_scene(orthographic_camera* camera) -> void
@@ -335,6 +338,8 @@ namespace atom::engine
         }
 
     private:
+        static inline logging::logger* _logger = nullptr;
+
         static constexpr u32 _max_quads = 10000;
         static constexpr u32 _max_vertices = _max_quads * 4;
         static constexpr u32 _max_indices = _max_quads * 6;
