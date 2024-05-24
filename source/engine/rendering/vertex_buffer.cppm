@@ -9,7 +9,7 @@ namespace atom::engine
     {
     public:
         static auto create_with_size(u32 size) -> vertex_buffer*;
-        static auto create(float* vertices, u32 count) -> vertex_buffer*;
+        static auto create(f32* vertices, u32 count) -> vertex_buffer*;
 
     public:
         virtual ~vertex_buffer() {}

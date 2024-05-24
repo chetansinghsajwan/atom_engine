@@ -75,6 +75,6 @@ namespace atom::engine
         f32mat4 _view_matrix;
         f32mat4 _view_projection_matrix;
         f32vec3 _position;
-        float _rotation;
+        f32 _rotation;
     };
 }

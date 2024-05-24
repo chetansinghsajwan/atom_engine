@@ -8,7 +8,7 @@ namespace atom::engine
     {
         static constexpr auto from_rgb(u8 r, u8 g, u8 b) -> color
         {
-            return { (float)r / 255.f, (float)g / 255.f, (float)g / 255.f, 1 };
+            return color{ f32(r) / f32{ 255 }, f32(g) / f32{ 255 }, f32(g) / f32{ 255 }, 1 };
         }
 
         f32 r;

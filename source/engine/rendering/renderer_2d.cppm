@@ -46,8 +46,8 @@ namespace atom::engine
             f32vec3 position;
             class color color;
             f32vec2 texture_coord;
-            float texture_index;
-            float tiling_factor;
+            f32 texture_index;
+            f32 tiling_factor;
         };
 
     public:
@@ -187,7 +187,7 @@ namespace atom::engine
         }
 
         static auto draw_quad(
-            const f32vec3& position, f32vec2 size, float rotation, const class color& color) -> void
+            const f32vec3& position, f32vec2 size, f32 rotation, const class color& color) -> void
         {
             constexpr f32vec2 texture_coords[4] = {
                 f32vec2{ 0, 0 },
@@ -199,7 +199,7 @@ namespace atom::engine
             _draw(position, size, rotation, _white_texture, texture_coords, 1, color);
         }
 
-        static auto draw_texture(const f32mat4& transform, texture2d* texture, float tiling_factor,
+        static auto draw_texture(const f32mat4& transform, texture2d* texture, f32 tiling_factor,
             const class color& tint) -> void
         {
             constexpr f32vec2 texture_coords[4] = {
@@ -212,8 +212,8 @@ namespace atom::engine
             _draw(transform, texture, texture_coords, tiling_factor, tint);
         }
 
-        static auto draw_texture(const f32vec3& position, f32vec2 size, float rotation,
-            texture2d* texture, float tiling_factor, const class color& tint) -> void
+        static auto draw_texture(const f32vec3& position, f32vec2 size, f32 rotation,
+            texture2d* texture, f32 tiling_factor, const class color& tint) -> void
         {
             constexpr f32vec2 texture_coords[4] = {
                 f32vec2{ 0, 0 },
@@ -225,14 +225,14 @@ namespace atom::engine
             _draw(position, size, rotation, texture, texture_coords, tiling_factor, tint);
         }
 
-        static auto draw_sprite(const f32vec3& position, f32vec2 size, float rotation,
-            class sprite* sprite, float tiling_factor, const class color& tint) -> void
+        static auto draw_sprite(const f32vec3& position, f32vec2 size, f32 rotation,
+            class sprite* sprite, f32 tiling_factor, const class color& tint) -> void
         {
             _draw(position, size, rotation, sprite->get_texture(),
                 sprite->get_texture_coords().get_data(), tiling_factor, tint);
         }
 
-        static auto draw_sprite(const f32mat4& transform, class sprite* sprite, float tiling_factor,
+        static auto draw_sprite(const f32mat4& transform, class sprite* sprite, f32 tiling_factor,
             const class color& tint) -> void
         {
             _draw(transform, sprite->get_texture(), sprite->get_texture_coords().get_data(),
@@ -251,7 +251,7 @@ namespace atom::engine
 
     private:
         static auto _draw(const f32mat4& transform, texture2d* texture,
-            const f32vec2* texture_coords, float tiling_factor, const class color& tint) -> void
+            const f32vec2* texture_coords, f32 tiling_factor, const class color& tint) -> void
         {
             contract_debug_expects(texture != nullptr);
 
@@ -295,8 +295,8 @@ namespace atom::engine
             _stats.quad_count += 1;
         }
 
-        static auto _draw(const f32vec3& position, f32vec2 size, float rotation, texture2d* texture,
-            const f32vec2* texture_coords, float tiling_factor, const class color& tint) -> void
+        static auto _draw(const f32vec3& position, f32vec2 size, f32 rotation, texture2d* texture,
+            const f32vec2* texture_coords, f32 tiling_factor, const class color& tint) -> void
         {
             contract_debug_expects(texture != nullptr);
 
