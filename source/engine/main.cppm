@@ -1,5 +1,7 @@
 export module atom.engine:main;
 
+#include "config.h"
+
 import :logging;
 import :windows;
 import :inputs;
@@ -15,6 +17,8 @@ namespace atom::engine
 
 auto main(int argc, char** args) -> int
 {
+    renderer_2d::assets_path = ATOM_ENGINE_ASSETS_DIR;
+
     log_manager::initialize();
     window_manager::initialize();
     input_manager::initialize();

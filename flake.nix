@@ -80,6 +80,7 @@
 
             configurePhase = ''
                 cmake -S . -B build \
+                    -D CMAKE_INSTALL_PREFIX=$out \
                     -D box2d_DIR=${pkgs.box2d} \
                     -D EnTT_DIR=${pkgs.entt} \
                     -D glm_DIR=${pkgs.glm} \
@@ -91,7 +92,7 @@
             '';
 
             installPhase = ''
-                cmake --install build --prefix $out;
+                cmake --install build;
             '';
 
             clang_scan_deps_include_paths = [

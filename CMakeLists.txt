@@ -44,6 +44,9 @@ target_compile_definitions(imgui PUBLIC "GLFW_INCLUDE_NONE")
 # atom.engine
 # --------------------------------------------------------------------------------------------------
 
+set(ATOM_ENGINE_ASSETS_DIR "${CMAKE_CURRENT_LIST_DIR}/assets")
+configure_file("include/config.h.in" "include/config.h")
+
 add_library(atom.engine STATIC)
 add_library(atom::atom.engine ALIAS atom.engine)
 
@@ -64,6 +67,8 @@ target_link_libraries(
             box2d::box2d)
 target_compile_definitions(atom.engine PUBLIC "GLFW_INCLUDE_NONE")
 target_compile_features(atom.engine PUBLIC "cxx_std_23")
+target_include_directories(atom.engine
+                           PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>)
 
 # --------------------------------------------------------------------------------------------------
 # atom.engine.sandbox
@@ -86,10 +91,15 @@ target_link_libraries(atom.engine.sandbox PRIVATE atom.engine)
 install(
     TARGETS atom.engine imgui stb glad
     EXPORT atom_engine-targets
-    FILE_SET CXX_MODULES
-    DESTINATION "lib")
+    FILE_SET CXX_MODULES DESTINATION "lib"
+    INCLUDES DESTINATION "include/")
 
+set(ATOM_ENGINE_ASSETS_DIR "${CMAKE_INSTALL_PREFIX}/assets")
+configure_file("include/config.h.in" "install/include/config.h")
+
+install(DIRECTORY "${CMAKE_BINARY_DIR}/install/include/" DESTINATION "include/")
 install(DIRECTORY "vendor/glad/include/" DESTINATION "include/")
+install(DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/assets/" DESTINATION "assets/")
 
 install(
     EXPORT atom_engine-targets

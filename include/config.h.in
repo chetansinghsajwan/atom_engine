@@ -1,0 +1,3 @@
+#pragma once
+
+#define ATOM_ENGINE_ASSETS_DIR "${ATOM_ENGINE_ASSETS_DIR}"

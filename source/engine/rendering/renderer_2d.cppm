@@ -58,8 +58,7 @@ namespace atom::engine
 
             _logger->log_info("initializing renderer_2d...");
 
-            shader_factory::set_root_path(
-                "/home/chetan/projects/atom-workspace/atom.engine/sandbox");
+            shader_factory::set_root_path(assets_path);
 
             _quad_vertex_array = vertex_array::create();
 
@@ -99,7 +98,7 @@ namespace atom::engine
             for (usize i = 0; i < _max_texture_slots; i++)
                 samplers[i] = i;
 
-            _texture_shader = shader_factory::create_from_file("assets/shaders/texture.glsl");
+            _texture_shader = shader_factory::create_from_file("shaders/texture.glsl");
             _texture_shader->bind();
             _texture_shader->set_int_array("u_textures", samplers, _max_texture_slots);
 
@@ -336,6 +335,9 @@ namespace atom::engine
             _texture_slots[_texture_slot_index] = texture;
             return _texture_slot_index++;
         }
+
+    public:
+        static inline string_view assets_path = "";
 
     private:
         static inline logging::logger* _logger = nullptr;
