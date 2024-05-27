@@ -44,7 +44,9 @@ target_compile_definitions(imgui PUBLIC "GLFW_INCLUDE_NONE")
 # atom.engine
 # --------------------------------------------------------------------------------------------------
 
-set(ATOM_ENGINE_ASSETS_DIR "${CMAKE_CURRENT_LIST_DIR}/assets")
+if(NOT DEFINED ATOM_ENGINE_ASSETS_DIR)
+    set(ATOM_ENGINE_ASSETS_DIR "${CMAKE_CURRENT_LIST_DIR}/assets")
+endif()
 configure_file("include/config.h.in" "include/config.h")
 
 add_library(atom.engine STATIC)
@@ -52,8 +54,10 @@ add_library(atom::atom.engine ALIAS atom.engine)
 
 file(GLOB_RECURSE modules "source/*.cppm")
 file(GLOB_RECURSE sources "source/*.cpp")
-target_sources(atom.engine PUBLIC FILE_SET CXX_MODULES FILES "${modules}")
-target_sources(atom.engine PRIVATE "${sources}")
+target_sources(
+    atom.engine
+    PUBLIC FILE_SET CXX_MODULES FILES "${modules}"
+    PRIVATE "${sources}")
 target_link_libraries(
     atom.engine
     PRIVATE atom::atom.core
@@ -91,15 +95,13 @@ target_link_libraries(atom.engine.sandbox PRIVATE atom.engine)
 install(
     TARGETS atom.engine imgui stb glad
     EXPORT atom_engine-targets
-    FILE_SET CXX_MODULES DESTINATION "lib"
-    INCLUDES DESTINATION "include/")
+    FILE_SET CXX_MODULES
+    DESTINATION "lib"
+    INCLUDES
+    DESTINATION "include/")
 
-set(ATOM_ENGINE_ASSETS_DIR "${CMAKE_INSTALL_PREFIX}/assets")
-configure_file("include/config.h.in" "install/include/config.h")
-
-install(DIRECTORY "${CMAKE_BINARY_DIR}/install/include/" DESTINATION "include/")
 install(DIRECTORY "vendor/glad/include/" DESTINATION "include/")
-install(DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/assets/" DESTINATION "assets/")
+install(DIRECTORY "assets/" DESTINATION "assets/")
 
 install(
     EXPORT atom_engine-targets

@@ -1,12 +1,6 @@
-export module atom.engine:main;
-
 #include "config.h"
 
-import :logging;
-import :windows;
-import :inputs;
-import :rendering;
-import :application;
+import atom.engine;
 
 using namespace atom::engine;
 

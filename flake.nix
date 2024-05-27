@@ -80,6 +80,7 @@
 
             configurePhase = ''
                 cmake -S . -B build \
+                    -D ATOM_ENGINE_ASSETS_DIR=$out/assets \
                     -D CMAKE_INSTALL_PREFIX=$out \
                     -D box2d_DIR=${pkgs.box2d} \
                     -D EnTT_DIR=${pkgs.entt} \
