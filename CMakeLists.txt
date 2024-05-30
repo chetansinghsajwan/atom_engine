@@ -7,14 +7,17 @@ project(
 cmake_policy(SET CMP0155 NEW)
 
 # glm has cmake_minimum_required(VERSION 3.2) which triggers a deprecation warning.
-set(CMAKE_WARN_DEPRECATED OFF CACHE BOOL "" FORCE)
+set(CMAKE_WARN_DEPRECATED
+    OFF
+    CACHE BOOL "" FORCE)
 
-find_package(atom_core REQUIRED)
-find_package(atom_logging REQUIRED)
-find_package(glm REQUIRED)
-find_package(EnTT REQUIRED)
-find_package(glfw3 REQUIRED)
-find_package(box2d REQUIRED)
+find_package("atom_core" REQUIRED)
+find_package("atom_logging" REQUIRED)
+find_package("glm" REQUIRED)
+find_package("EnTT" REQUIRED)
+find_package("glfw3" REQUIRED)
+find_package("box2d" REQUIRED)
+find_package("glslang" REQUIRED)
 
 # --------------------------------------------------------------------------------------------------
 # glad
@@ -60,15 +63,16 @@ target_sources(
     PRIVATE "${sources}")
 target_link_libraries(
     atom.engine
-    PRIVATE atom::atom.core
-            atom::atom.logging
-            glm::glm
-            glfw
-            glad
-            imgui
-            stb
-            EnTT::EnTT
-            box2d::box2d)
+    PRIVATE "atom::atom.core"
+            "atom::atom.logging"
+            "glm::glm"
+            "glfw"
+            "glad"
+            "imgui"
+            "stb"
+            "EnTT::EnTT"
+            "box2d::box2d"
+            "glslang::glslang")
 target_compile_definitions(atom.engine PUBLIC "GLFW_INCLUDE_NONE")
 target_compile_features(atom.engine PUBLIC "cxx_std_23")
 target_include_directories(atom.engine
@@ -93,7 +97,7 @@ target_link_libraries(atom.engine.sandbox PRIVATE atom.engine)
 # --------------------------------------------------------------------------------------------------
 
 install(
-    TARGETS atom.engine imgui stb glad
+    TARGETS "atom.engine" "imgui" "stb" "glad"
     EXPORT atom_engine-targets
     FILE_SET CXX_MODULES
     DESTINATION "lib"
