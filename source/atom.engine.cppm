@@ -13,3 +13,4 @@ export import :time;
 export import :windows;
 export import :gui;
 export import :colors;
+export import :shaders;

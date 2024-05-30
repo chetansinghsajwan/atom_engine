@@ -64,11 +64,12 @@
                 atom_logging_pkg
                 glfw_pkg
                 imgui_pkg
-
                 glm
                 entt
                 stb
                 box2d
+                glslang
+                spirv-cross
             ];
 
             nativeBuildInputs = with pkgs; [
@@ -102,6 +103,7 @@
                 "${pkgs.entt}/include"
                 "${pkgs.box2d}/include"
                 "${pkgs.stb}/include"
+                "${pkgs.glslang}/include"
             ];
 
             envVars = {

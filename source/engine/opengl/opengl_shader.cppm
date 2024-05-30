@@ -26,7 +26,7 @@ namespace atom::engine
 
         virtual auto unbind() -> void override
         {
-            glUseProgram( 0 );
+            glUseProgram(0);
         }
 
         virtual auto set_uniform_int(string_view name, i32 value) -> void override
@@ -101,5 +101,6 @@ namespace atom::engine
 
     private:
         GLuint _program;
+        string _name;
     };
 }
