@@ -51,6 +51,50 @@
                 cp -a misc $out/include/imgui/
             '';
         };
+
+        glslang_pkg = stdenv.mkDerivation rec {
+            pname = "glslang";
+            version = "14.2.0";
+
+            src = pkgs.fetchFromGitHub {
+                owner = "KhronosGroup";
+                repo = "glslang";
+                rev = version;
+                hash = "sha256-B6jVCeoFjd2H6+7tIses+Kj8DgHS6E2dkVzQAIzDHEc=";
+            };
+
+            # These get set at all-packages, keep onto them for child drvs
+            passthru = {
+                spirv-tools = pkgs.spirv-tools;
+                spirv-headers = pkgs.spirv-headers;
+            };
+
+            nativeBuildInputs = with pkgs; [
+                cmake
+                python3
+                bison
+                jq
+            ];
+
+            postPatch = ''
+                cp --no-preserve=mode -r "${pkgs.spirv-tools.src}" External/spirv-tools
+                ln -s "${pkgs.spirv-headers.src}" External/spirv-tools/external/spirv-headers
+            '';
+
+            # This is a dirty fix for lib/cmake/SPIRVTargets.cmake:51 which includes this directory
+            postInstall = ''
+                mkdir $out/include/External
+            '';
+
+            # Fix the paths in .pc, even though it's unclear if these .pc are really useful.
+            postFixup = ''
+                substituteInPlace $out/lib/pkgconfig/*.pc \
+                --replace '=''${prefix}//' '=/'
+
+                # add a symlink for backwards compatibility
+                ln -s $out/bin/glslang $out/bin/glslangValidator
+            '';
+        };
     in rec
     {
         env.${system}.default = rec {
@@ -68,7 +112,7 @@
                 entt
                 stb
                 box2d
-                glslang
+                glslang_pkg
                 spirv-cross
             ];
 
@@ -86,6 +130,7 @@
                     -D box2d_DIR=${pkgs.box2d} \
                     -D EnTT_DIR=${pkgs.entt} \
                     -D glm_DIR=${pkgs.glm} \
+                    -D glslang_DIR=${glslang_pkg} \
                     -D glfw3_DIR=${glfw_pkg};
             '';
 
@@ -103,7 +148,7 @@
                 "${pkgs.entt}/include"
                 "${pkgs.box2d}/include"
                 "${pkgs.stb}/include"
-                "${pkgs.glslang}/include"
+                "${glslang_pkg}/include"
             ];
 
             envVars = {
