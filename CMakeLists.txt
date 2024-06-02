@@ -61,6 +61,7 @@ target_sources(
     atom.engine
     PUBLIC FILE_SET CXX_MODULES FILES "${modules}"
     PRIVATE "${sources}")
+
 target_link_libraries(
     atom.engine
     PRIVATE "atom::atom.core"
@@ -72,7 +73,14 @@ target_link_libraries(
             "stb"
             "EnTT::EnTT"
             "box2d::box2d"
-            "glslang::glslang")
+            "glslang::glslang"
+            "glslang::glslang-default-resource-limits"
+            "glslang::OSDependent"
+            "glslang::MachineIndependent"
+            "glslang::GenericCodeGen"
+            "glslang::SPVRemapper"
+            "glslang::SPIRV")
+
 target_compile_definitions(atom.engine PUBLIC "GLFW_INCLUDE_NONE")
 target_compile_features(atom.engine PUBLIC "cxx_std_23")
 target_include_directories(atom.engine
