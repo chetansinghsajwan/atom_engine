@@ -11,7 +11,7 @@ namespace atom::engine
         u32 width;
         u32 height;
         u32 samples = 1;
-        bool swap_chain_target = false;
+        bool swap_chain_typearget = false;
     };
 
     // @todo: remove this export.

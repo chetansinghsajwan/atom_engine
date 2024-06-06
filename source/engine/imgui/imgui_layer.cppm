@@ -41,7 +41,7 @@ namespace atom::engine
             ImGui_ImplGlfw_InitForOpenGL(window->get_native_glfw(), true);
             ImGui_ImplOpenGL3_Init("#version 410");
 
-            setup_imgui_theme();
+            setup_imgui_typeheme();
         }
 
         virtual auto on_deattach() -> void override
@@ -76,7 +76,7 @@ namespace atom::engine
             }
         }
 
-        auto setup_imgui_theme() -> void
+        auto setup_imgui_typeheme() -> void
         {
             // theme name: embrace the darkness
 

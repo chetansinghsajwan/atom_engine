@@ -6,14 +6,14 @@ namespace atom::engine
 {
     export class transform_component: public entity_component
     {
-        using this_t = transform_component;
+        using this_type = transform_component;
 
     public:
-        transform_component(const this_t&) = default;
-        transform_component& operator=(const this_t&) = default;
+        transform_component(const this_type&) = default;
+        transform_component& operator=(const this_type&) = default;
 
-        transform_component(this_t&&) = default;
-        transform_component& operator=(this_t&&) = default;
+        transform_component(this_type&&) = default;
+        transform_component& operator=(this_type&&) = default;
 
         transform_component(
             f32vec3 position = f32vec3{ 0 }, f32vec3 rotation = f32vec3{ 0 }, f32vec3 scale = f32vec3{ 1 })

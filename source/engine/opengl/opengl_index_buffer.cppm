@@ -11,14 +11,14 @@ namespace atom::engine
     class opengl_index_buffer: public index_buffer
     {
     public:
-        opengl_index_buffer(uint32_t* indices, u32 count)
+        opengl_index_buffer(u32* indices, u32 count)
             : _renderer_id{ 0 }
             , _count{ count }
         {
             glCreateBuffers(1, &_renderer_id);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _renderer_id);
             glBufferData(
-                GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
+                GL_ELEMENT_ARRAY_BUFFER, count * sizeof(u32), indices, GL_STATIC_DRAW);
         }
 
         virtual ~opengl_index_buffer()
@@ -43,7 +43,7 @@ namespace atom::engine
         }
 
     private:
-        uint32_t _renderer_id;
+        u32 _renderer_id;
         u32 _count;
     };
 }

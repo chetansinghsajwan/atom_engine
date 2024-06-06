@@ -15,6 +15,6 @@ namespace atom::engine::filesystem
         in.read(content.get_mut_data(), count);
 
         // @todo: fix this, we need to call `string::with_count()` instead.
-        return string(range_from(content.get_data(), content.get_capacity()));
+        return string(ranges::from(content.get_data(), content.get_capacity()));
     }
 }

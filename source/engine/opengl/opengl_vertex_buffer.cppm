@@ -67,7 +67,7 @@ namespace atom::engine
         }
 
     private:
-        uint32_t _renderer_id;
+        u32 _renderer_id;
         u32 _count;
         buffer_layout _layout;
     };

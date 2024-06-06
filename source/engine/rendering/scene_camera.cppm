@@ -25,7 +25,7 @@ namespace atom::engine
             _recalculate_projection();
         }
 
-        auto set_viewport_size(uint32_t width, uint32_t height) -> void
+        auto set_viewport_size(u32 width, u32 height) -> void
         {
             _aspect_ratio = (f32)width / (f32)height;
             _recalculate_projection();

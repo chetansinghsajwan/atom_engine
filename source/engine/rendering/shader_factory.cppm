@@ -57,19 +57,19 @@ namespace atom::engine
 
             string abs_path = _get_absolute_path(path);
 
-            _logger->log_trace("loading shader from file '{}'", abs_path);
-            _logger->log_trace("reading file...");
+            _logger->log_typerace("loading shader from file '{}'", abs_path);
+            _logger->log_typerace("reading file...");
 
             string source = filesystem::read_file(abs_path).get_value();
 
-            _logger->log_trace("reading file done.");
-            _logger->log_trace("parsing file content...");
+            _logger->log_typerace("reading file done.");
+            _logger->log_typerace("parsing file content...");
 
             string_view vertex_source;
             string_view fragement_source;
             _parse_sources_from_file(source, &vertex_source, &fragement_source);
 
-            _logger->log_trace("parsing file content done.");
+            _logger->log_typerace("parsing file content done.");
 
             return create_from_source(vertex_source, fragement_source);
         }
@@ -134,14 +134,14 @@ namespace atom::engine
                     {
                         if (vertex_source != nullptr)
                         {
-                            _logger->log_trace("parsed vertex shader.");
+                            _logger->log_typerace("parsed vertex shader.");
 
                             *vertex_source =
-                                string_view(range_from(last_source_begin, last_source_end));
+                                string_view(ranges::from(last_source_begin, last_source_end));
                         }
                         else
                         {
-                            _logger->log_trace(
+                            _logger->log_typerace(
                                 "parsed vertex shader, but was not requested, so skipping.");
                         }
                     }
@@ -149,14 +149,14 @@ namespace atom::engine
                     {
                         if (fragement_source != nullptr)
                         {
-                            _logger->log_trace("parsed fragement shader.");
+                            _logger->log_typerace("parsed fragement shader.");
 
                             *fragement_source =
-                                string_view(range_from(last_source_begin, last_source_end));
+                                string_view(ranges::from(last_source_begin, last_source_end));
                         }
                         else
                         {
-                            _logger->log_trace(
+                            _logger->log_typerace(
                                 "parsed fragement shader, but was not requested, so skipping.");
                         }
                     }
