@@ -7,7 +7,7 @@ import :opengl.index_buffer;
 
 namespace atom::engine
 {
-    auto index_buffer::create(uint32_t* indices, u32 count) -> index_buffer*
+    auto index_buffer::create(u32* indices, u32 count) -> index_buffer*
     {
         switch (renderer_api::get_api())
         {

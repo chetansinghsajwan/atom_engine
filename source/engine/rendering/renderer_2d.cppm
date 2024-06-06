@@ -65,17 +65,17 @@ namespace atom::engine
             _quad_vertex_buffer =
                 vertex_buffer::create_with_size(_max_vertices * sizeof(_quad_vertex));
             _quad_vertex_buffer->set_layout({
-                { shader_data_type::float3, "a_position"      },
-                { shader_data_type::float4, "a_color"         },
+                { shader_data_type::float3, "a_position"         },
+                { shader_data_type::float4, "a_color"            },
                 { shader_data_type::float2, "a_texture_coord" },
                 { shader_data_type::float1, "a_texture_index" },
-                { shader_data_type::float1, "a_tiling_factor" },
+                { shader_data_type::float1, "a_typeiling_factor" },
             });
             _quad_vertex_array->add_vertex_buffer(_quad_vertex_buffer);
 
             _quad_vertex_buffer_base = new _quad_vertex[_max_vertices];
 
-            uint32_t* quad_indices = new uint32_t[_max_indices];
+            u32* quad_indices = new u32[_max_indices];
             u32 offset = 0;
             for (u32 i = 0; i < _max_indices; i += 6)
             {
@@ -159,7 +159,7 @@ namespace atom::engine
 
         static auto end_scene() -> void
         {
-            u32 data_size = (uint8_t*)_quad_vertex_buffer_ptr - (uint8_t*)_quad_vertex_buffer_base;
+            u32 data_size = (u8*)_quad_vertex_buffer_ptr - (u8*)_quad_vertex_buffer_base;
             _quad_vertex_buffer->set_data(_quad_vertex_buffer_base, data_size);
 
             flush();

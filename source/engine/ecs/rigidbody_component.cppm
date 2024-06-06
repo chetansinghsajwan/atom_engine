@@ -39,7 +39,7 @@ namespace atom::engine
         auto set_type(body_type type) -> void
         {
             _body_type = type;
-            _physics_body->SetType(_convert_atom_rigibody_type_to_box2d(type));
+            _physics_body->SetType(_convert_atom_rigibody_to_box2d(type));
         }
 
         auto get_type() const -> body_type
@@ -68,7 +68,7 @@ namespace atom::engine
             f32vec3 rotation = _transform_component->get_rotation();
 
             b2BodyDef body_def;
-            body_def.type = _convert_atom_rigibody_type_to_box2d(_body_type);
+            body_def.type = _convert_atom_rigibody_to_box2d(_body_type);
             body_def.position.Set(position.x, position.y);
             body_def.angle = rotation.z;
 
@@ -113,7 +113,7 @@ namespace atom::engine
         }
 
     private:
-        constexpr auto _convert_atom_rigibody_type_to_box2d(body_type type) -> b2BodyType
+        constexpr auto _convert_atom_rigibody_to_box2d(body_type type) -> b2BodyType
         {
             switch (type)
             {

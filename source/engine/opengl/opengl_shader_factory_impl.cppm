@@ -34,7 +34,7 @@ namespace atom::engine
             string_view vertex_source, string_view fragment_source) -> void;
         auto _compile_or_get_opengl_binaries() -> void;
         auto _create_program() -> void;
-        auto _reflect(int stage, const std::vector<uint32_t>& shaderData) -> void;
+        auto _reflect(int stage, const std::vector<u32>& shaderData) -> void;
 
     private:
         logging::logger* _logger = nullptr;

@@ -44,7 +44,7 @@ namespace atom::engine
             fixtureDef.density = this->density;
             fixtureDef.friction = this->friction;
             fixtureDef.restitution = this->restitution;
-            fixtureDef.restitutionThreshold = this->restitution_threshold;
+            fixtureDef.restitutionThreshold = this->restitution_typehreshold;
 
             _fixture = body->CreateFixture(&fixtureDef);
         }
@@ -64,7 +64,7 @@ namespace atom::engine
         f32 density = 1;
         f32 friction = .5;
         f32 restitution = 0;
-        f32 restitution_threshold = .5;
+        f32 restitution_typehreshold = .5;
 
     private:
         transform_component* _transform_component = nullptr;

@@ -48,7 +48,7 @@ namespace atom::engine
             //     index_count = arr->get_index_buffer()->get_count();
             // }
 
-            uint32_t count = index_count ? arr->get_index_buffer()->get_count() : index_count;
+            u32 count = index_count ? arr->get_index_buffer()->get_count() : index_count;
             glDrawElements(GL_TRIANGLES, index_count, GL_UNSIGNED_INT, nullptr);
             glBindTexture(GL_TEXTURE_2D, 0);
         }
