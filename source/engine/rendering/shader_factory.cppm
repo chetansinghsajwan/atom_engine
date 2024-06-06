@@ -92,14 +92,14 @@ namespace atom::engine
     private:
         static auto _get_absolute_path(string_view path) -> string
         {
-            contract_debug_expects(not path.is_empty());
+            contract_debug_expects(path | ranges::is_not_empty());
 
             // path is already an absolute path
-            if (path.get_front() == '/')
+            if ((path | ranges::get_front()) == '/')
                 return path;
 
             string_view root_path = string_view::from_std(_root_path);
-            string result = string::with_capacity(root_path.get_count() + path.get_count());
+            string result{ _with_capacity, root_path.get_count() + path.get_count() };
             result.insert_range_back(root_path);
             result.insert_range_back(path);
             return result;

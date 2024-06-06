@@ -24,7 +24,7 @@ namespace sandbox
         {
             _logger->log_info("sandbox_layer_2d attached.");
 
-            _window = engine::window_manager::get_windows().get_mut_front();
+            _window = engine::window_manager::get_windows() | ranges::get_mut_front();
             _logger->log_info("using window '{}'.", _window->get_name());
 
             contract_debug_asserts(_window != nullptr);
@@ -66,14 +66,16 @@ namespace sandbox
 
             _box1_entity = _entity_manager->create_entity("box1");
             _box1_entity->get_component<engine::transform_component>()->set_position({ -2, 1, 0 });
-            _box1_entity->emplace_component<engine::sprite_component>()->set_color(engine::colors::green);
+            _box1_entity->emplace_component<engine::sprite_component>()->set_color(
+                engine::colors::green);
             _box1_entity->emplace_component<engine::rigidbody_component>()->set_type(
                 engine::rigidbody_component::body_type::dynamic);
             _box1_entity->emplace_component<engine::box_collider2d_component>();
 
             _box2_entity = _entity_manager->create_entity("box2");
             _box2_entity->get_component<engine::transform_component>()->set_position({ 2.1, 0, 0 });
-            _box2_entity->emplace_component<engine::sprite_component>()->set_color(engine::colors::red);
+            _box2_entity->emplace_component<engine::sprite_component>()->set_color(
+                engine::colors::red);
         }
 
         virtual auto on_deattach() -> void override

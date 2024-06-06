@@ -22,7 +22,7 @@ namespace atom::engine
             case shader_data_type::float3:  return GL_FLOAT;
             case shader_data_type::float4:  return GL_FLOAT;
             case shader_data_type::mat3:    return GL_FLOAT;
-            case shader_data_type::f32mat4:    return GL_FLOAT;
+            case shader_data_type::f32mat4: return GL_FLOAT;
             default:
             {
                 contract_panic("invalid shader_data_type.");
@@ -52,14 +52,14 @@ namespace atom::engine
 
         virtual auto unbind() -> void override
         {
-            glBindVertexArray( 0 );
+            glBindVertexArray(0);
         }
 
         virtual auto add_vertex_buffer(vertex_buffer* buffer) -> void override
         {
             contract_debug_expects(buffer != nullptr);
-            contract_expects(
-                not buffer->get_layout().get_elements().is_empty(), "vertex_buffer has no layout.");
+            contract_expects(buffer->get_layout().get_elements() | ranges::is_not_empty(),
+                "vertex_buffer has no layout.");
 
             glBindVertexArray(_renderer_id);
             buffer->bind();
