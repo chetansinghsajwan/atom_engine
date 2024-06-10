@@ -899,8 +899,6 @@ export namespace atom::engine
 
     namespace math
     {
-        using namespace atom::math;
-
         using glm::degrees;
         using glm::inverse;
         using glm::ortho;
