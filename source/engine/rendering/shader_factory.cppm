@@ -4,7 +4,7 @@ import atom.core;
 import atom.logging;
 import :rendering.shader;
 import :rendering.shader_factory_impl;
-import :shaders.shader_compiler;
+import :shaders.spirv_compiler;
 
 namespace atom::engine
 {

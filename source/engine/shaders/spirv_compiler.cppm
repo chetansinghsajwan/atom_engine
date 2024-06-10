@@ -1,4 +1,4 @@
-export module atom.engine:shaders.shader_compiler;
+export module atom.engine:shaders.spirv_compiler;
 
 import atom.core;
 import :shaders.shader_utils;
@@ -47,30 +47,22 @@ namespace atom::engine
     /// --------------------------------------------------------------------------------------------
     ///
     /// --------------------------------------------------------------------------------------------
-    export struct shader_compilation_inputs
-    {
-        string_view sources[shader_utils::get_stage_count()];
-    };
-
-    /// --------------------------------------------------------------------------------------------
-    ///
-    /// --------------------------------------------------------------------------------------------
-    export using shader_compilation_result =
+    export using spirv_compilation_result =
         result<dynamic_buffer, shader_compilation_error, shader_linking_error>;
 
     /// --------------------------------------------------------------------------------------------
     ///
     /// --------------------------------------------------------------------------------------------
-    export class shader_compiler
+    export class spirv_compiler
     {
     public:
         /// ----------------------------------------------------------------------------------------
-        /// initializes `shader_compiler`. this is needed before any other operation.
+        /// initializes `spirv_compiler`. this is needed before any other operation.
         /// ----------------------------------------------------------------------------------------
         static auto initialize() -> void;
 
         /// ----------------------------------------------------------------------------------------
-        /// finalizes `shader_compiler`. `initialize()` must be called again to reuse this class.
+        /// finalizes `spirv_compiler`. `initialize()` must be called again to reuse this class.
         /// ----------------------------------------------------------------------------------------
         static auto finalize() -> void;
 
@@ -82,7 +74,7 @@ namespace atom::engine
         /// ----------------------------------------------------------------------------------------
         /// compiles shader modules from `inputs` into shader program.
         /// ----------------------------------------------------------------------------------------
-        static auto compile(shader_stage stage, string_view source) -> shader_compilation_result;
+        static auto compile(shader_stage stage, string_view source) -> spirv_compilation_result;
 
     private:
         static bool _is_initialized;

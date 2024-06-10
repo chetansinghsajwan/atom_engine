@@ -6,7 +6,7 @@ module atom.engine:opengl.shader_factory_impl.impl;
 import atom.core;
 import atom.logging;
 import :opengl.shader_factory_impl;
-import :shaders.shader_compiler;
+import :shaders.spirv_compiler;
 
 namespace atom::engine
 {

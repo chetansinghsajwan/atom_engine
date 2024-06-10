@@ -3,15 +3,15 @@ module;
 #include "glslang/Public/ResourceLimits.h"
 #include "glslang/SPIRV/GlslangToSpv.h"
 
-module atom.engine:shaders.shader_compiler.impl;
+module atom.engine:shaders.spirv_compiler.impl;
 
 import atom.core;
-import :shaders.shader_compiler;
+import :shaders.spirv_compiler;
 import :shaders.shader_utils;
 
 namespace atom::engine
 {
-    auto shader_compiler::initialize() -> void
+    auto spirv_compiler::initialize() -> void
     {
         contract_expects(not is_initialized(), "already initialized.");
 
@@ -19,7 +19,7 @@ namespace atom::engine
         glslang::InitializeProcess();
     }
 
-    auto shader_compiler::finalize() -> void
+    auto spirv_compiler::finalize() -> void
     {
         contract_expects(is_initialized(), "not initialized yet.");
 
@@ -27,7 +27,7 @@ namespace atom::engine
         glslang::FinalizeProcess();
     }
 
-    auto shader_compiler::is_initialized() -> bool
+    auto spirv_compiler::is_initialized() -> bool
     {
         return _is_initialized;
     }
@@ -90,13 +90,13 @@ namespace atom::engine
         return dynamic_buffer{ create_from_std_vector, spirv };
     }
 
-    auto shader_compiler::compile(
-        shader_stage stage, string_view source) -> shader_compilation_result
+    auto spirv_compiler::compile(
+        shader_stage stage, string_view source) -> spirv_compilation_result
     {
         contract_debug_expects(is_initialized(), "not initialized yet.");
 
         return _compile_shader(stage, source);
     }
 
-    bool shader_compiler::_is_initialized = false;
+    bool spirv_compiler::_is_initialized = false;
 }
