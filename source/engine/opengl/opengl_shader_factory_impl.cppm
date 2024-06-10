@@ -28,13 +28,6 @@ namespace atom::engine
     private:
         auto _create_from_source(string_view vertex_source, string_view fragment_source) -> shader*;
         auto _destroy(shader* shader) -> void;
-        auto _compile(string_view source, int type) -> bool;
-
-        auto _compile_or_get_vulkan_binaries(
-            string_view vertex_source, string_view fragment_source) -> void;
-        auto _compile_or_get_opengl_binaries() -> void;
-        auto _create_program() -> void;
-        auto _reflect(int stage, const std::vector<u32>& shaderData) -> void;
 
     private:
         logging::logger* _logger = nullptr;

@@ -48,17 +48,6 @@ namespace atom::engine
 
         static auto end_scene() -> void {}
 
-        static auto submit(
-            class shader* shader, vertex_array* arr, const f32mat4& transform) -> void
-        {
-            shader->bind();
-            shader->set_uniform_mat4("u_view_projection", _data->view_projection_matrix);
-            shader->set_uniform_mat4("u_transform", transform);
-
-            arr->bind();
-            render_command::draw_indexed(arr);
-        }
-
         static auto on_window_resize(u32 width, u32 height) -> void
         {
             render_command::set_viewport(0, 0, width, height);

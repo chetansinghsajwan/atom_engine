@@ -30,12 +30,12 @@ namespace atom::engine
         }
 
         opengl_texture2d(string_view file_path)
-            : _file_path(file_path)
-            , _width( 0 )
-            , _height( 0 )
-            , _renderer_id( 0 )
-            , _gl_format( 0 )
-            , _gl_data_format( 0 )
+            : _file_path{ file_path }
+            , _width{ 0 }
+            , _height{ 0 }
+            , _renderer_id{ 0 }
+            , _gl_format{ 0 }
+            , _gl_data_format{ 0 }
         {
             global_logger->log_info("loading texture '{}'", file_path);
 

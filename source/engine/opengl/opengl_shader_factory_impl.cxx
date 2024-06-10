@@ -6,6 +6,7 @@ module atom.engine:opengl.shader_factory_impl.impl;
 import atom.core;
 import atom.logging;
 import :opengl.shader_factory_impl;
+import :rendering.shader;
 import :shaders.spirv_compiler;
 
 namespace atom::engine
@@ -22,11 +23,6 @@ namespace atom::engine
     opengl_shader_factory_impl::~opengl_shader_factory_impl()
     {
         delete _logger;
-    }
-
-    auto opengl_shader_factory_impl::_compile(string_view source, int shader_type) -> bool
-    {
-        return true;
     }
 
     auto opengl_shader_factory_impl::_create_from_source(

@@ -69,7 +69,7 @@ namespace atom::engine
                 { shader_data_type::float4, "a_color"            },
                 { shader_data_type::float2, "a_texture_coord" },
                 { shader_data_type::float1, "a_texture_index" },
-                { shader_data_type::float1, "a_typeiling_factor" },
+                { shader_data_type::float1, "a_tiling_factor" },
             });
             _quad_vertex_array->add_vertex_buffer(_quad_vertex_buffer);
 

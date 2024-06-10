@@ -13,7 +13,7 @@ namespace atom::engine
     {
     public:
         opengl_shader(GLuint program)
-            : _program(program)
+            : _program{ program }
         {}
 
         virtual ~opengl_shader() {}
