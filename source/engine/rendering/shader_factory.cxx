@@ -11,7 +11,7 @@ import :opengl.shader_factory_impl;
 import :rendering.shader;
 import :rendering.shader_factory_impl;
 import :shaders.shader_utils;
-import :shaders.shader_compiler;
+import :shaders.spirv_compiler;
 
 namespace atom::engine
 {
@@ -22,14 +22,14 @@ namespace atom::engine
         _logger = logging::logger_manager::create_logger({ .name = "shader_factory" }).get_value();
         _impl = _create_impl();
 
-        shader_compiler::initialize();
+        spirv_compiler::initialize();
     }
 
     auto shader_factory::finalize() -> void
     {
         contract_debug_expects(_impl != nullptr, "shader_factory is not initialized.");
 
-        shader_compiler::finalize();
+        spirv_compiler::finalize();
 
         delete _impl;
         delete _logger;
@@ -131,13 +131,14 @@ namespace atom::engine
 
             _logger->log_info("compiling and linking shader...");
 
-            shader_compilation_result compilation_result =
-                shader_compiler::compile(stage, shader_source);
+            spirv_compilation_result compilation_result =
+                spirv_compiler::compile(stage, shader_source);
 
             if (compilation_result.is_error<shader_compilation_error>())
             {
                 // todo: log error details as well
-                shader_compilation_error& error = compilation_result.get_error<shader_compilation_error>();
+                shader_compilation_error& error =
+                    compilation_result.get_error<shader_compilation_error>();
                 _logger->log_error("shader compilation failed, error: {}", error.msg);
 
                 is_error = true;
