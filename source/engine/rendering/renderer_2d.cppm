@@ -98,7 +98,7 @@ namespace atom::engine
             for (usize i = 0; i < _max_texture_slots; i++)
                 samplers[i] = i;
 
-            _texture_shader = shader_factory::create_from_file("shaders/texture.glsl");
+            _texture_shader = shader_factory::create_from_files("shaders/basic").get_value();
             _texture_shader->bind();
             _texture_shader->set_int_array("u_textures", samplers, _max_texture_slots);
 

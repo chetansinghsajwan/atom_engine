@@ -6,6 +6,7 @@ module atom.engine:opengl.shader_factory_impl.impl;
 import atom.core;
 import atom.logging;
 import :opengl.shader_factory_impl;
+import :shaders.shader_compiler;
 
 namespace atom::engine
 {
@@ -16,30 +17,12 @@ namespace atom::engine
         });
 
         _logger = logger_result.get_value_checked();
-
-        // glslang::InitializeProcess();
     }
 
     opengl_shader_factory_impl::~opengl_shader_factory_impl()
     {
-        // glslang::FinalizeProcess();
-
         delete _logger;
     }
-
-    enum class shader_stage
-    {
-        vertex_shader,
-        fragement_shader,
-        compute_shader,
-    };
-
-    struct shader_compilation_context
-    {
-        string_view vertex_shader;
-        string_view fragement_shader;
-        string_view compute_shader;
-    };
 
     auto opengl_shader_factory_impl::_compile(string_view source, int shader_type) -> bool
     {
@@ -49,9 +32,6 @@ namespace atom::engine
     auto opengl_shader_factory_impl::_create_from_source(
         string_view vertex_source, string_view fragment_source) -> shader*
     {
-        // _compile(vertex_source, EShLangVertex);
-        // _compile(fragment_source, EShLangFragment);
-
         GLuint program = 0;
         return new opengl_shader(program);
     }

@@ -64,22 +64,24 @@ target_sources(
 
 target_link_libraries(
     atom.engine
-    PRIVATE "atom::atom.core"
-            "atom::atom.logging"
-            "glm::glm"
-            "glfw"
-            "glad"
-            "imgui"
-            "stb"
-            "EnTT::EnTT"
-            "box2d::box2d"
-            "glslang::glslang"
-            "glslang::glslang-default-resource-limits"
-            "glslang::OSDependent"
-            "glslang::MachineIndependent"
-            "glslang::GenericCodeGen"
-            "glslang::SPVRemapper"
-            "glslang::SPIRV")
+    PUBLIC
+        "atom::atom.core"
+        "atom::atom.logging"
+    PRIVATE 
+         "glm::glm"
+         "glfw"
+         "glad"
+         "imgui"
+         "stb"
+         "EnTT::EnTT"
+         "box2d::box2d"
+         "glslang::glslang"
+         "glslang::glslang-default-resource-limits"
+         "glslang::OSDependent"
+         "glslang::MachineIndependent"
+         "glslang::GenericCodeGen"
+         "glslang::SPVRemapper"
+         "glslang::SPIRV")
 
 target_compile_definitions(atom.engine PUBLIC "GLFW_INCLUDE_NONE")
 target_compile_features(atom.engine PUBLIC "cxx_std_23")
