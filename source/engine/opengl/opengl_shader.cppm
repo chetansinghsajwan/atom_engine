@@ -61,7 +61,7 @@ namespace atom::engine
 
         auto upload_uniform_int(string_view name, GLint value) -> void
         {
-            GLint location = glGetUniformLocation(_program, name.get_data());
+            GLint location = get_uniform_location(name);
             contract_debug_expects(location != -1, name.to_std());
 
             glUniform1i(location, value);
@@ -69,7 +69,7 @@ namespace atom::engine
 
         auto upload_uniform_float(string_view name, float value) -> void
         {
-            GLint location = glGetUniformLocation(_program, name.get_data());
+            GLint location = get_uniform_location(name);
             contract_debug_expects(location != -1);
 
             glUniform1f(location, value);
@@ -77,7 +77,7 @@ namespace atom::engine
 
         auto upload_uniform_float4(string_view name, const f32vec4& vec) -> void
         {
-            GLint location = glGetUniformLocation(_program, name.get_data());
+            GLint location = get_uniform_location(name);
             contract_debug_expects(location != -1);
 
             glUniform4f(location, vec.x, vec.y, vec.z, vec.w);
@@ -85,7 +85,7 @@ namespace atom::engine
 
         auto upload_uniform_mat4(string_view name, const f32mat4& mat) -> void
         {
-            GLint location = glGetUniformLocation(_program, name.get_data());
+            GLint location = get_uniform_location(name);
             contract_debug_expects(location != -1);
 
             glUniformMatrix4fv(location, 1, GL_FALSE, math::value_ptr(mat));
@@ -93,10 +93,21 @@ namespace atom::engine
 
         auto upload_uniform_int_array(string_view name, const int* array, usize count) -> void
         {
-            GLint location = glGetUniformLocation(_program, name.get_data());
+            GLint location = get_uniform_location(name);
             contract_debug_expects(location != -1);
 
             glUniform1iv(location, count, array);
+        }
+
+        auto get_uniform_location(string_view name) -> GLint
+        {
+            if (name == "u_view_projection")
+                return 5;
+
+            if (name == "u_textures")
+                return 1;
+
+            return glGetUniformLocation(_program, name.get_data());
         }
 
     private:

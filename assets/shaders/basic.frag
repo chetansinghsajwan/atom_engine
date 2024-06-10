@@ -7,7 +7,7 @@ in vec2 v_texture_coord;
 in float v_texture_index;
 in float v_tiling_factor;
 
-uniform sampler2D u_textures[32];
+layout(location = 1) uniform sampler2D u_textures[32];
 
 void main()
 {
