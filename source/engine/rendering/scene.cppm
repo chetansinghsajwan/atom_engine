@@ -57,6 +57,7 @@ namespace atom::engine
                 {
                     const auto& [transform, sprite] =
                         group.get<transform_component, sprite_component>(entity);
+
                     renderer_2d::draw_quad(transform.get_matrix(), sprite.get_color());
                 }
 
