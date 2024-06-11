@@ -47,6 +47,12 @@ namespace atom::engine
 
         static auto _create_impl() -> shader_factory_impl*;
 
+        static auto _create_from_files_spirv(
+            string_view path) -> result<shader*, shader_compilation_error, shader_linking_error>;
+
+        static auto _create_from_files_opengl(
+            string_view path) -> result<shader*, shader_compilation_error, shader_linking_error>;
+
     private:
         static inline shader_factory_impl* _impl = nullptr;
         static inline logging::logger* _logger = nullptr;
