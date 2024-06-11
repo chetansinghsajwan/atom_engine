@@ -65,8 +65,8 @@ namespace atom::engine
             _quad_vertex_buffer =
                 vertex_buffer::create_with_size(_max_vertices * sizeof(_quad_vertex));
             _quad_vertex_buffer->set_layout({
-                { shader_data_type::float3, "a_position"         },
-                { shader_data_type::float4, "a_color"            },
+                { shader_data_type::float3, "a_position"      },
+                { shader_data_type::float4, "a_color"         },
                 { shader_data_type::float2, "a_texture_coord" },
                 { shader_data_type::float1, "a_texture_index" },
                 { shader_data_type::float1, "a_tiling_factor" },
