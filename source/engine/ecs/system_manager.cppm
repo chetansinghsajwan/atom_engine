@@ -3,22 +3,25 @@ export module atom.engine:ecs.system_manager;
 import atom.core;
 import atom.logging;
 import :ecs.system;
+import :time;
 
 namespace atom::engine
 {
     export class system_manager
     {
     public:
-        static auto initialize() -> void;
+        auto initialize() -> void;
 
-        static auto finalize() -> void;
+        auto finalize() -> void;
 
-        static auto add_system(class system* system) -> result<void, entry_exists_error>;
+        auto add_system(class system* system) -> result<void, entry_exists_error>;
 
-        static auto remove_system(class system* system) -> result<void, no_entry_error>;
+        auto remove_system(class system* system) -> result<void, no_entry_error>;
+
+        auto update_systems(time_step time) -> void;
 
     private:
-        static dynamic_array<system*> _systems;
-        static logging::logger* _logger;
+        dynamic_array<system*> _systems;
+        logging::logger* _logger;
     };
 }

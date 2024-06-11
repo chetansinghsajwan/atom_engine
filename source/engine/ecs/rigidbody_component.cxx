@@ -58,7 +58,8 @@ namespace atom::engine
         body_def.position.Set(position.x, position.y);
         body_def.angle = rotation.z;
 
-        _physics_world = get_entity()->get_manager()->_get_physics_world();
+        // _physics_world = get_entity()->get_manager()->_get_physics_world();
+        _physics_world = nullptr;
         _physics_body = _physics_world->CreateBody(&body_def);
         _physics_body->SetFixedRotation(_fixed_rotation);
     }
