@@ -1,5 +1,7 @@
 export module atom.engine:ecs;
 
+export import :ecs.system;
+export import :ecs.system_manager;
 export import :ecs.entity;
 export import :ecs.entity_manager;
 export import :ecs.entity_component;
