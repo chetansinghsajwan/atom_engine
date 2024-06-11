@@ -83,21 +83,9 @@ namespace atom::engine
         }
     }
 
-    /// ----------------------------------------------------------------------------------------
-    /// creates shaders from each shader file with different extensions. this will search and
-    /// read files for each type of shader.
-    ///
-    /// # example
-    ///
-    /// if path is "assets/shaders/glow", then it will search for files like
-    /// - "assets/shaders/glow.vert"
-    /// - "assets/shaders/glow.frag"
-    /// ----------------------------------------------------------------------------------------
-    auto shader_factory::create_from_files(
+    auto shader_factory::_create_from_files_spirv(
         string_view path) -> result<shader*, shader_compilation_error, shader_linking_error>
     {
-        contract_debug_expects(_impl != nullptr, "shader_factory is not initialized.");
-
         // get absolute path
         string abs_path = _get_absolute_path(path);
         _logger->log_info("reading shader files at '{}'", abs_path);
@@ -258,6 +246,163 @@ namespace atom::engine
         _logger->log_trace("deleting allocated shader resources done.");
 
         return new opengl_shader{ gl_program };
+    }
+
+    auto shader_factory::_create_from_files_opengl(
+        string_view path) -> result<shader*, shader_compilation_error, shader_linking_error>
+    {
+        // get absolute path
+        string abs_path = _get_absolute_path(path);
+        _logger->log_info("reading shader files at '{}'", abs_path);
+
+        bool is_error = false;
+
+        result<shader*, shader_compilation_error, shader_linking_error> result_{ nullptr };
+
+        GLuint gl_shaders[shader_utils::get_stage_count()] = { 0 };
+        for (shader_stage stage : shader_utils::get_stages())
+        {
+            string final_path = _add_shader_extension(abs_path, stage);
+
+            _logger->log_info("reading shader file '{}'...", final_path);
+            auto shader_source_result = filesystem::read_file_str(final_path);
+
+            if (shader_source_result.is_error<filesystem::noentry_error>())
+            {
+                _logger->log_info("reading shader file done, file not found, skipping.");
+                continue;
+            }
+
+            if (shader_source_result.is_error())
+            {
+                _logger->log_error("could not read shader file '{}', skipping", final_path);
+                continue;
+            }
+
+            string shader_source = move(shader_source_result).get_value();
+            _logger->log_info("reading shader file done.", final_path);
+
+            _logger->log_info("compiling shader...");
+
+            const char* shader_source_raw = shader_source.get_data();
+            GLint shader_source_length = shader_source.get_count();
+
+            GLuint gl_shader_stage = _convert_shader_stage_to_opengl(stage);
+            GLuint gl_shader = glCreateShader(gl_shader_stage);
+            glShaderSource(gl_shader, 1, &shader_source_raw, &shader_source_length);
+
+            glCompileShader(gl_shader);
+
+            GLint is_compiled = 0;
+            glGetShaderiv(gl_shader, GL_COMPILE_STATUS, &is_compiled);
+            if (is_compiled == GL_FALSE)
+            {
+                GLint max_length = 0;
+                glGetShaderiv(gl_shader, GL_INFO_LOG_LENGTH, &max_length);
+
+                dynamic_array<GLchar> info_log{ _with_capacity, (usize)max_length };
+                glGetShaderInfoLog(gl_shader, max_length, &max_length, info_log.get_mut_data());
+
+                // cleanup up the allocated resources
+                glDeleteShader(gl_shader);
+
+                _logger->log_fatal("shader compilation failed. info_log: {}", info_log.get_data());
+
+                is_error = true;
+                result_.emplace_error<shader_compilation_error>("");
+                break;
+            }
+
+            gl_shaders[(usize)stage] = gl_shader;
+
+            _logger->log_info("compiling shader done.");
+        }
+
+        // error occcurred, so cleanup and return
+        if (is_error)
+        {
+            _logger->log_trace("deleting allocated shader resources...");
+
+            for (GLuint gl_shader : gl_shaders)
+            {
+                if (gl_shader == 0)
+                {
+                    continue;
+                }
+
+                glDeleteShader(gl_shader);
+            }
+
+            _logger->log_trace("deleting allocated shader resources done.");
+
+            return result_;
+        }
+
+        _logger->log_trace("creating opengl shader program...");
+
+        // create opengl program
+        GLuint gl_program = glCreateProgram();
+        for (GLuint gl_shader : gl_shaders)
+        {
+            if (gl_shader == 0)
+            {
+                continue;
+            }
+
+            glAttachShader(gl_program, gl_shader);
+        }
+
+        _logger->log_trace("creating opengl shader program done.");
+
+        _logger->log_trace("linking opengl shader program...");
+        glLinkProgram(gl_program);
+
+        int success;
+        glGetProgramiv(gl_program, GL_LINK_STATUS, &success);
+        if (not success)
+        {
+            char info_log[512];
+            glGetProgramInfoLog(gl_program, 512, nullptr, info_log);
+
+            _logger->log_trace("linking opengl shader program failed, msg: {}", info_log);
+            return shader_linking_error{
+                string{ create_from_raw, info_log }
+            };
+        }
+
+        _logger->log_trace("linking opengl shader program done.");
+        _logger->log_trace("deleting allocated shader resources...");
+
+        for (GLuint gl_shader : gl_shaders)
+        {
+            if (gl_shader == 0)
+            {
+                continue;
+            }
+
+            glDeleteShader(gl_shader);
+        }
+        _logger->log_trace("deleting allocated shader resources done.");
+
+        return new opengl_shader{ gl_program };
+    }
+
+    /// ----------------------------------------------------------------------------------------
+    /// creates shaders from each shader file with different extensions. this will search and
+    /// read files for each type of shader.
+    ///
+    /// # example
+    ///
+    /// if path is "assets/shaders/glow", then it will search for files like
+    /// - "assets/shaders/glow.vert"
+    /// - "assets/shaders/glow.frag"
+    /// ----------------------------------------------------------------------------------------
+    auto shader_factory::create_from_files(
+        string_view path) -> result<shader*, shader_compilation_error, shader_linking_error>
+    {
+        contract_debug_expects(_impl != nullptr, "shader_factory is not initialized.");
+
+        return _create_from_files_opengl(path);
     }
 
     auto shader_factory::create_from_file(string_view path) -> shader*

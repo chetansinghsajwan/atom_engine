@@ -101,12 +101,6 @@ namespace atom::engine
 
         auto get_uniform_location(string_view name) -> GLint
         {
-            if (name == "u_view_projection")
-                return 5;
-
-            if (name == "u_textures")
-                return 1;
-
             return glGetUniformLocation(_program, name.get_data());
         }
 
