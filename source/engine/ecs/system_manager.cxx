@@ -2,6 +2,7 @@ module atom.engine:ecs.system_manager.impl;
 
 import atom.core;
 import atom.logging;
+import :time;
 import :ecs.system_manager;
 
 namespace atom::engine
@@ -17,8 +18,7 @@ namespace atom::engine
         delete _logger;
     }
 
-    auto system_manager::add_system(
-        class system* system) -> result<void, entry_exists_error>
+    auto system_manager::add_system(class system* system) -> result<void, entry_exists_error>
     {
         _logger->log_info("adding system '{}'.", system->get_name());
 
@@ -44,5 +44,13 @@ namespace atom::engine
 
         _logger->log_error("removing system failed, not found.");
         return no_entry_error{ "system not found." };
+    }
+
+    auto system_manager::update_systems(time_step time) -> void
+    {
+        for (class system* system : _systems)
+        {
+            system->on_update(time);
+        }
     }
 }

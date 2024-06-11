@@ -16,7 +16,7 @@ namespace atom::engine
         scene()
         {
             _physics_world = new b2World({ 0, -9.8 });
-            _entity_manager = new entity_manager(this, _physics_world);
+            _entity_manager = new entity_manager{};
         }
 
         ~scene()
@@ -91,9 +91,6 @@ namespace atom::engine
         }
 
     private:
-        entity_manager* _entity_manager;
-        b2World* _physics_world;
-
         u32 _viewport_width;
         u32 _viewport_height;
     };
