@@ -8,32 +8,19 @@ import :ecs.entity_component;
 namespace atom::engine
 {
     export class entity_manager;
-    
+
     export class entity
     {
     public:
-        entity(entt::entity id, entt::registry* registry, entity_manager* manager, string_view name)
-            : _id{ id }
-            , _registry{ registry }
-            , _manager{ manager }
-            , _name{ name }
-        {}
+        entity(entt::entity id, entt::registry* registry, entity_manager* manager, string_view name);
+        ~entity();
 
     public:
-        auto get_id() const -> entt::entity
-        {
-            return _id;
-        }
+        auto get_id() const -> entt::entity;
 
-        auto set_name(string name) -> void
-        {
-            _name = name;
-        }
+        auto set_name(string name) -> void;
 
-        auto get_name() const -> string_view
-        {
-            return _name;
-        }
+        auto get_name() const -> string_view;
 
         template <typename component_type, typename... arg_types>
         auto emplace_component(arg_types&&... args) -> component_type*
@@ -50,10 +37,7 @@ namespace atom::engine
             return component;
         }
 
-        auto remove_component(entity_component* component) -> void
-        {
-            std::cout << "remove component" << std::endl;
-        }
+        auto remove_component(entity_component* component) -> void;
 
         template <typename component_type>
         auto get_component() -> component_type*
@@ -77,10 +61,7 @@ namespace atom::engine
             return component;
         }
 
-        auto get_all_components() -> array_slice<entity_component*>
-        {
-            return _components;
-        }
+        auto get_all_components() -> array_slice<entity_component*>;
 
         template <typename component_type>
         auto has_component() -> bool
@@ -90,23 +71,11 @@ namespace atom::engine
             return _registry->try_get<component_type>(_id) != nullptr;
         }
 
-        virtual auto on_update(time_step time) -> void
-        {
-            update_components(time);
-        }
+        virtual auto on_update(time_step time) -> void;
 
-        auto update_components(time_step time) -> void
-        {
-            for (entity_component* component : _components)
-            {
-                component->on_update(time);
-            }
-        }
+        auto update_components(time_step time) -> void;
 
-        auto get_manager() -> entity_manager*
-        {
-            return _manager;
-        }
+        auto get_manager() -> entity_manager*;
 
     public:
         entt::entity _id;

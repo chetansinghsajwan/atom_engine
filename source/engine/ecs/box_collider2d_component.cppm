@@ -15,47 +15,20 @@ namespace atom::engine
         using this_type = box_collider2d_component;
 
     public:
-        box_collider2d_component() = default;
+        box_collider2d_component();
 
-        box_collider2d_component(const this_type&) = default;
-        box_collider2d_component& operator=(const this_type&) = default;
+        box_collider2d_component(const this_type&);
+        box_collider2d_component& operator=(const this_type&);
 
-        box_collider2d_component(this_type&&) = default;
-        box_collider2d_component& operator=(this_type&&) = default;
+        box_collider2d_component(this_type&&);
+        box_collider2d_component& operator=(this_type&&);
 
-        ~box_collider2d_component() {}
+        ~box_collider2d_component();
 
     protected:
-        virtual auto on_attach(class entity* entity) -> void override
-        {
-            base_type::on_attach(entity);
+        virtual auto on_attach(entity* entity) -> void override;
 
-            _transform_component = get_entity()->get_or_emplace_component<transform_component>();
-            _rigidbody_component = get_entity()->get_or_emplace_component<rigidbody_component>();
-            f32vec3 scale = _transform_component->get_scale();
-            f32vec3 rotation = _transform_component->get_rotation();
-            b2Body* body = _rigidbody_component->_get_body();
-
-            b2PolygonShape box_shape;
-            box_shape.SetAsBox(this->size.x * scale.x, this->size.y * scale.y);
-
-            b2FixtureDef fixtureDef;
-            fixtureDef.shape = &box_shape;
-            fixtureDef.density = this->density;
-            fixtureDef.friction = this->friction;
-            fixtureDef.restitution = this->restitution;
-            fixtureDef.restitutionThreshold = this->restitution_typehreshold;
-
-            _fixture = body->CreateFixture(&fixtureDef);
-        }
-
-        virtual auto on_deattach() -> void override
-        {
-            base_type::on_deattach();
-
-            b2Body* body = _fixture->GetBody();
-            body->DestroyFixture(_fixture);
-        }
+        virtual auto on_deattach() -> void override;
 
     public:
         f32vec2 offset = f32vec2{ 0 };

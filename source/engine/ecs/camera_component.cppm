@@ -8,17 +8,12 @@ namespace atom::engine
     export class camera_component: public entity_component
     {
     public:
-        camera_component()
-            : _camera{}
-        {}
+        camera_component();
 
-        ~camera_component() {}
+        ~camera_component();
 
     public:
-        auto get_camera() -> scene_camera&
-        {
-            return _camera;
-        }
+        auto get_camera() -> scene_camera&;
 
     private:
         scene_camera _camera;
