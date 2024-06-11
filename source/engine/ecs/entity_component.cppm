@@ -9,28 +9,19 @@ namespace atom::engine
     export class entity_component
     {
     public:
-        entity_component() {}
+        entity_component();
 
-        virtual ~entity_component() {}
-
-    public:
-        auto get_entity() const -> entity*
-        {
-            return _entity;
-        }
+        virtual ~entity_component();
 
     public:
-        virtual auto on_attach(class entity* entity) -> void
-        {
-            _entity = entity;
-        }
+        auto get_entity() const -> entity*;
 
-        virtual auto on_update(time_step time) -> void {}
+    public:
+        virtual auto on_attach(class entity* entity) -> void;
 
-        virtual auto on_deattach() -> void
-        {
-            _entity = nullptr;
-        }
+        virtual auto on_update(time_step time) -> void;
+
+        virtual auto on_deattach() -> void;
 
     private:
         entity* _entity;

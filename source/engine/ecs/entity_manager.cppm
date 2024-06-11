@@ -11,65 +11,57 @@ namespace atom::engine
 {
     export class scene;
 
+    /// --------------------------------------------------------------------------------------------
+    /// 
+    /// --------------------------------------------------------------------------------------------
     export class entity_manager
     {
     public:
-        entity_manager(class scene* scene, b2World* physics_world)
-            : _scene{ scene }
-            , _physics_world{ physics_world }
-        {}
+        /// ----------------------------------------------------------------------------------------
+        ///
+        /// ----------------------------------------------------------------------------------------
+        entity_manager(class scene* scene, b2World* physics_world);
 
-        ~entity_manager() {}
+        /// ----------------------------------------------------------------------------------------
+        ///
+        /// ----------------------------------------------------------------------------------------
+        ~entity_manager();
 
     public:
-        auto create_entity(string_view name) -> entity*
-        {
-            entt::entity entt_id = _registry.create();
-            class entity* entity =
-                &_registry.emplace<class entity>(entt_id, entt_id, &_registry, this, name);
+        /// ----------------------------------------------------------------------------------------
+        ///
+        /// ----------------------------------------------------------------------------------------
+        auto create_entity(string_view name) -> entity*;
 
-            entity->emplace_component<transform_component>();
-            return entity;
-        }
+        /// ----------------------------------------------------------------------------------------
+        ///
+        /// ----------------------------------------------------------------------------------------
+        auto destroy_entity(class entity* entity) -> void;
 
-        auto destroy_entity(class entity* entity) -> void
-        {
-            if (entity == nullptr)
-            {
-                return;
-            }
+        /// ----------------------------------------------------------------------------------------
+        ///
+        /// ----------------------------------------------------------------------------------------
+        auto update_entities(time_step time) -> void;
 
-            _registry.destroy(entity->get_id());
-        }
+        /// ----------------------------------------------------------------------------------------
+        ///
+        /// ----------------------------------------------------------------------------------------
+        auto view_all() -> decltype(auto);
 
-        auto update_entities(time_step time) -> void
-        {
-            auto view = _registry.view<entity>().each();
-            for (auto [id, entity] : view)
-            {
-                entity.on_update(time);
-            }
-        }
+        /// ----------------------------------------------------------------------------------------
+        ///
+        /// ----------------------------------------------------------------------------------------
+        auto get_internal() -> entt::registry*;
 
-        auto view_all() -> decltype(auto)
-        {
-            return _registry.view<entity>().each();
-        }
+        /// ----------------------------------------------------------------------------------------
+        ///
+        /// ----------------------------------------------------------------------------------------
+        auto get_scene() -> scene*;
 
-        auto get_internal() -> entt::registry*
-        {
-            return &_registry;
-        }
-
-        auto get_scene() -> scene*
-        {
-            return _scene;
-        }
-
-        auto _get_physics_world() -> b2World*
-        {
-            return _physics_world;
-        }
+        /// ----------------------------------------------------------------------------------------
+        ///
+        /// ----------------------------------------------------------------------------------------
+        auto _get_physics_world() -> b2World*;
 
     private:
         entt::registry _registry;
