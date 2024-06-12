@@ -4,6 +4,7 @@ import atom.core;
 import atom.logging;
 import :time;
 import :ecs.system_manager;
+import :ecs.system;
 
 namespace atom::engine
 {
@@ -18,39 +19,82 @@ namespace atom::engine
         delete _logger;
     }
 
-    auto system_manager::add_system(class system* system) -> result<void, entry_exists_error>
+    auto system_manager::add_system(type_id id, system* system) -> result<void, entry_exists_error>
     {
-        _logger->log_info("adding system '{}'.", system->get_name());
+        _logger->log_info("adding system '{}' with id '{}'...", system->get_name(), id);
 
-        if (_systems | ranges::contains(system))
+        if (_has_system(id))
         {
             _logger->log_error("adding system failed, system already exists.");
             return entry_exists_error{ "system already exists." };
         }
 
-        _systems.emplace_back(system);
+        _systems.emplace_back(id, system);
+        _logger->log_info("adding system done.");
+
         return result_void{};
     }
 
-    auto system_manager::remove_system(class system* system) -> result<void, no_entry_error>
+    auto system_manager::remove_system(type_id id) -> result<void, no_entry_error>
+    {
+        _logger->log_info("removing system with id '{}", id);
+
+        bool removed = _systems.remove_one_if([&](const auto& entry) { return entry.first == id; });
+        if (not removed)
+        {
+            _logger->log_error("removing system failed, not found.");
+            return no_entry_error{ "system not found." };
+        }
+
+        _logger->log_info("removing system done.");
+        return result_void{};
+    }
+
+    auto system_manager::remove_system(system* system) -> result<void, no_entry_error>
     {
         _logger->log_info("removing system '{}'", system->get_name());
 
-        if (_systems.remove_one_find(system))
+        bool removed =
+            _systems.remove_one_if([&](const auto& entry) { return entry.second == system; });
+
+        if (not removed)
         {
-            _logger->log_info("removing system done.");
-            return result_void{};
+            _logger->log_error("removing system failed, not found.");
+            return no_entry_error{ "system not found." };
         }
 
-        _logger->log_error("removing system failed, not found.");
-        return no_entry_error{ "system not found." };
+        _logger->log_info("removing system done.");
+        return result_void{};
+    }
+
+    auto system_manager::get_system(type_id id) -> system*
+    {
+        auto it = _systems | ranges::find_if([&](const auto& entry) { return entry.first == id; });
+
+        if (it == _systems.get_iterator_end())
+        {
+            return nullptr;
+        }
+
+        return it->second;
+    }
+
+    auto system_manager::has_system(type_id id) -> bool
+    {
+        return _has_system(id);
     }
 
     auto system_manager::update_systems(time_step time) -> void
     {
-        for (class system* system : _systems)
+        for (const auto& entry : _systems)
         {
+            system* system = entry.second;
             system->on_update(time);
         }
+    }
+
+    auto system_manager::_has_system(type_id id) -> bool
+    {
+        return _systems | ranges::contains_if([&](const auto& entry) { return entry.first == id; });
     }
 }
