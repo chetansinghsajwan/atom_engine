@@ -27,16 +27,16 @@ namespace atom::engine
 
     private:
         auto _initialize_body(
-            entt::entity entity, transform_component* transform, rigidbody_component* body) -> void;
+            entity_id entity, transform_component* transform, rigidbody_component* body) -> void;
 
         auto _finalize_body(
-            entt::entity entity, transform_component* transform, rigidbody_component* body) -> void;
+            entity_id entity, transform_component* transform, rigidbody_component* body) -> void;
 
         auto _process_body_before_step(
-            entt::entity entity, transform_component* transform, rigidbody_component* body) -> void;
+            entity_id entity, transform_component* transform, rigidbody_component* body) -> void;
 
         auto _process_body_after_step(
-            entt::entity entity, transform_component* transform, rigidbody_component* body) -> void;
+            entity_id entity, transform_component* transform, rigidbody_component* body) -> void;
 
     public:
         logging::logger* _logger;
