@@ -77,7 +77,7 @@ namespace atom::engine
         }
     }
 
-    auto render_system::handle(entity_event& event) -> void
+    auto render_system::on_event(entity_event& event) -> void
     {
         switch (event.event_type)
         {

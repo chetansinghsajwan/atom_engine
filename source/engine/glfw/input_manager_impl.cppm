@@ -45,7 +45,7 @@ namespace atom::engine
         }
 
     private:
-        virtual auto handle(window_event& event) -> void override
+        virtual auto on_event(window_event& event) -> void override
         {
             _create_devices_for_window(
                 reinterpret_cast<glfw_window*>(const_cast<window*>(event.window)));
