@@ -54,7 +54,11 @@ namespace atom::engine
             system_type* system = new system_type{ forward<arg_types>(args)... };
             _systems.emplace_back(id, system);
 
-            _logger->log_info("emplacing system done.");
+            _logger->log_info("emplacing system done, name '{}'.", system->get_name());
+
+            system->on_initialize();
+
+            return system;
         }
 
         template <typename system_type, typename... arg_types>

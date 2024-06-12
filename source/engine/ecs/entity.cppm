@@ -12,7 +12,8 @@ namespace atom::engine
     export class entity
     {
     public:
-        entity(entt::entity id, entt::registry* registry, entity_manager* manager, string_view name);
+        entity(
+            entt::entity id, entt::registry* registry, entity_manager* manager, string_view name);
         ~entity();
 
     public:
@@ -86,4 +87,5 @@ namespace atom::engine
     };
 
     export using entity_id = entt::entity;
+    export constexpr entity_id null_entity = entt::null;
 }

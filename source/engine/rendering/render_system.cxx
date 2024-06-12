@@ -1,0 +1,165 @@
+module atom.engine:rendering.render_system.impl;
+
+import atom.core;
+import atom.logging;
+import :math;
+import :rendering.render_system;
+import :rendering.renderer_2d;
+import :rendering.scene_camera;
+import :ecs;
+import :world;
+import :time;
+
+namespace atom::engine
+{
+    render_system::render_system(world* world)
+        : base_type{ "render_system", world }
+    {}
+
+    render_system::~render_system() {}
+
+    auto render_system::on_initialize() -> void
+    {
+        _logger =
+            logging::logger_manager::create_logger({ .name = "render_system" }).get_value_checked();
+
+        _logger->log_info("initializing...");
+
+        _entity_manager = get_world()->get_entity_manager();
+        _entity_manager->subscribe_events(this);
+
+        _find_camera_component();
+
+        _logger->log_info("initialization done.");
+    }
+
+    auto render_system::on_finalize() -> void
+    {
+        _logger->log_info("finalizing...");
+
+        _entity_manager->unsubscribe_events(this);
+
+        _logger->log_info("finalization done.");
+    }
+
+    auto _render_spirte(
+        entity_id entity, transform_component* transform, sprite_component* sprite) -> void
+    {
+        renderer_2d::draw_quad(transform->get_matrix(), sprite->get_color());
+    }
+
+    auto render_system::on_update(time_step time) -> void
+    {
+        if (_camera_entity == null_entity)
+        {
+            return;
+        }
+
+        scene_camera& camera = _camera_component->get_camera();
+        const f32mat4& camera_transform = _camera_transform_component->get_matrix();
+
+        renderer_2d::begin_scene(&camera, camera_transform);
+
+        _entity_manager->for_each_with_components<transform_component, sprite_component>(
+            [&](entity_id entity, transform_component& transform, sprite_component& sprite)
+            { _render_spirte(entity, &transform, &sprite); });
+
+        renderer_2d::end_scene();
+    }
+
+    auto render_system::handle(entity_event& event) -> void
+    {
+        switch (event.event_type)
+        {
+            case entity_event_type::component_add:
+            {
+                _handle(reinterpret_cast<entity_component_add_event&>(event));
+                break;
+            }
+            case entity_event_type::component_remove:
+            {
+                _handle(reinterpret_cast<entity_component_remove_event&>(event));
+                break;
+            }
+            default: break;
+        }
+    }
+
+    auto render_system::_handle(entity_component_add_event& event) -> void
+    {
+        if (event.component_type_id == typeinfo<camera_component>::get_id())
+        {
+            _on_camera_component_add(
+                event.entity, reinterpret_cast<camera_component*>(event.component));
+        }
+    }
+
+    auto render_system::_handle(entity_component_remove_event& event) -> void
+    {
+        if (event.component_type_id == typeinfo<camera_component>::get_id())
+        {
+            _on_camera_component_remove(
+                event.entity, reinterpret_cast<camera_component*>(event.component));
+        }
+    }
+
+    auto render_system::_on_camera_component_add(
+        entity_id entity, camera_component* component) -> void
+    {
+        _logger->log_info("new camera component found with entity_id '{}'.", entity);
+
+        if (_camera_entity != null_entity)
+        {
+            return;
+        }
+
+        _logger->log_info("selecting new camera component with entity_id '{}'.", entity);
+
+        _camera_entity = entity;
+        _camera_component = component;
+        _camera_transform_component = _entity_manager->get_component<transform_component>(entity);
+    }
+
+    auto render_system::_on_camera_component_remove(
+        entity_id entity, camera_component* component) -> void
+    {
+        if (_camera_entity == entity)
+        {
+            _logger->log_info(
+                "currently selected camera component removed with entity_id '{}'.", entity);
+
+            _find_camera_component();
+        }
+    }
+
+    auto render_system::_find_camera_component() -> void
+    {
+        _logger->log_info("searching for camera...");
+
+        bool found =
+            _entity_manager->find_one_with_components<transform_component, camera_component>(
+                &_camera_entity, &_camera_transform_component, &_camera_component);
+
+        if (found)
+        {
+            _logger->log_info(
+                "searching for camera done, selected with entity_id '{}'", _camera_entity);
+        }
+        else
+        {
+            _logger->log_info("searching for camera done, no camera found.");
+
+            _camera_entity = null_entity;
+            _camera_component = nullptr;
+            _camera_transform_component = nullptr;
+        }
+    }
+
+    // auto render_system::on_viewport_resize(f32vec2 size) -> void
+    // {
+    //     if (_camera_component != nullptr)
+    //     {
+    //         _camera_component->get_camera().set_viewport_size(size.x, size.y);
+    //     }
+    // }
+}

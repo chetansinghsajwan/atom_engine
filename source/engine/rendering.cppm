@@ -8,6 +8,7 @@ export import :rendering.texture;
 export import :rendering.texture2d;
 export import :rendering.sprite;
 
+export import :rendering.render_system;
 export import :rendering.graphics_context;
 export import :rendering.vertex_array;
 export import :rendering.vertex_buffer;

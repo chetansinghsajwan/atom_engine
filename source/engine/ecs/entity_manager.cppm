@@ -102,6 +102,31 @@ namespace atom::engine
         auto view_all() -> decltype(auto);
 
         /// ----------------------------------------------------------------------------------------
+        /// @todo make this count independent.
+        /// ----------------------------------------------------------------------------------------
+        template <typename component_type0, typename component_type1>
+        auto find_one_with_components(
+            entity_id* out_entity, component_type0** out_comp0, component_type1** out_comp1) -> bool
+        {
+            auto view = _registry.view<component_type0, component_type1>().each();
+            for (auto [id, comp0, comp1] : view)
+            {
+                if (out_entity != nullptr)
+                    *out_entity = id;
+
+                if (out_comp0 != nullptr)
+                    *out_comp0 = &comp0;
+
+                if (out_comp1 != nullptr)
+                    *out_comp1 = &comp1;
+
+                return true;
+            }
+
+            return false;
+        }
+
+        /// ----------------------------------------------------------------------------------------
         ///
         /// ----------------------------------------------------------------------------------------
         template <typename... component_types, typename function_type>
