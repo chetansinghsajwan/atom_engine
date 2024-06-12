@@ -4,6 +4,9 @@ import atom.core;
 import atom.logging;
 import :ecs;
 import :time;
+import :math;
+import :colors;
+import :rendering.frame_buffer;
 
 namespace atom::engine
 {
@@ -32,6 +35,7 @@ namespace atom::engine
         auto _on_camera_component_add(entity_id id, camera_component* comp) -> void;
         auto _on_camera_component_remove(entity_id id, camera_component* comp) -> void;
         auto _find_camera_component() -> void;
+        auto _display_screen() -> void;
 
     public:
         logging::logger* _logger;
@@ -39,5 +43,6 @@ namespace atom::engine
         entity_id _camera_entity = null_entity;
         transform_component* _camera_transform_component;
         camera_component* _camera_component;
+        color _screen_clear_color = { 0.1f, 0.1f, 0.1f, 1 };
     };
 }
