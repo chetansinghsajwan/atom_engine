@@ -3,6 +3,7 @@ module atom.engine:ecs.box_collider2d_component.impl;
 import atom.core;
 import :box2d;
 import :math;
+import :ecs.entity;
 import :ecs.box_collider2d_component;
 import :ecs.transform_component;
 import :ecs.rigidbody_component;

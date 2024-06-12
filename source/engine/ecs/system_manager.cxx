@@ -32,6 +32,8 @@ namespace atom::engine
         _systems.emplace_back(id, system);
         _logger->log_info("adding system done.");
 
+        system->on_initialize();
+
         return result_void{};
     }
 

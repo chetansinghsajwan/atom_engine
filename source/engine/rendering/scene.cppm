@@ -13,17 +13,11 @@ namespace atom::engine
     export class scene
     {
     public:
-        scene()
-        {
-            _physics_world = new b2World({ 0, -9.8 });
-            _entity_manager = new entity_manager{};
-        }
+        scene(entity_manager* manager)
+            : _entity_manager{ manager }
+        {}
 
-        ~scene()
-        {
-            delete _physics_world;
-            delete _entity_manager;
-        }
+        ~scene() {}
 
     public:
         auto on_start() -> void {}
@@ -44,8 +38,6 @@ namespace atom::engine
                 camera_transform = transform.get_matrix();
                 break;
             }
-
-            _entity_manager->update_entities(time);
 
             if (camera != nullptr)
             {
@@ -85,12 +77,8 @@ namespace atom::engine
             return _entity_manager;
         }
 
-        auto _get_physics_world() -> b2World*
-        {
-            return _physics_world;
-        }
-
     private:
+        entity_manager* _entity_manager;
         u32 _viewport_width;
         u32 _viewport_height;
     };

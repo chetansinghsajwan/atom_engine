@@ -13,6 +13,9 @@ namespace atom::engine
 {
     export class rigidbody_component: public entity_component
     {
+        friend class physics2d_system;
+
+    private:
         using base_type = entity_component;
         using this_type = rigidbody_component;
 
@@ -44,24 +47,15 @@ namespace atom::engine
 
         auto get_fixed_rotation() const -> bool;
 
-        virtual auto on_attach(class entity* entity) -> void override;
-
-        virtual auto on_update(time_step time) -> void override;
-
-        virtual auto on_deattach() -> void override;
-
         auto _get_body() -> b2Body*;
 
-    private:
-        constexpr auto _convert_atom_rigibody_to_box2d(body_type type) -> b2BodyType;
-
-    private:
+    public:
         transform_component* _transform_component = nullptr;
 
         body_type _body_type = body_type::static_;
         bool _fixed_rotation = false;
 
-        b2World* _physics_world = nullptr;
-        b2Body* _physics_body = nullptr;
+        b2World* _b2_world = nullptr;
+        b2Body* _b2_body = nullptr;
     };
 }

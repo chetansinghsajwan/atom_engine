@@ -1,19 +1,26 @@
 module atom.engine:world.impl;
 
+import atom.core;
 import :ecs;
 import :world;
 import :time;
+import :physics;
 
 namespace atom::engine
 {
     world::world()
     {
         _system_manager = new system_manager{};
-        _entity_manager = new entity_manager{};
+        _entity_manager = new entity_manager{ this };
+
+        _system_manager->initialize();
+        _system_manager->add_system(new physics2d_system{ this });
     }
 
     world::~world()
     {
+        _system_manager->finalize();
+
         delete _system_manager;
         delete _entity_manager;
     }
