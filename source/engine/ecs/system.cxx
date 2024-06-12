@@ -6,8 +6,9 @@ import :ecs.system;
 
 namespace atom::engine
 {
-    system::system(string name)
+    system::system(string name, class world* world)
         : _name{ move(name) }
+        , _world{ world }
     {}
 
     system::~system() {}
@@ -17,9 +18,18 @@ namespace atom::engine
         return _name;
     }
 
+    auto system::get_world() -> world*
+    {
+        return _world;
+    }
+
+    auto system::on_initialize() -> void {}
+
+    auto system::on_finalize() -> void {}
+
     auto system::on_start() -> void {}
 
-    auto system::on_update(time_step time) -> void {}
-
     auto system::on_stop() -> void {}
+
+    auto system::on_update(time_step time) -> void {}
 }
