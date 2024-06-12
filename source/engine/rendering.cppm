@@ -1,6 +1,5 @@
 export module atom.engine:rendering;
 
-export import :rendering.scene;
 export import :rendering.shader;
 export import :rendering.shader_factory;
 export import :rendering.shader_registry;
