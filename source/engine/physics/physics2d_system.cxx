@@ -56,8 +56,6 @@ namespace atom::engine
         f32vec3 rotation = transform->get_rotation();
         f32vec3 scale = transform->get_scale();
 
-        io::println("_initialize_body(): position: {}, {}", position.y, body->_body_type);
-
         b2BodyDef body_def;
         body_def.type = _convert_atom_rigibody_to_box2d(body->_body_type);
         body_def.position.Set(position.x, position.y);
@@ -99,8 +97,6 @@ namespace atom::engine
         f32vec3 position = transform->get_position();
         f32vec3 rotation = transform->get_rotation();
 
-        io::println("_process_body_before_step(): position: {}", position.y);
-
         b2Vec2 b2_position = { position.x, position.y };
         float b2_rotation = rotation.z;
 
@@ -120,8 +116,6 @@ namespace atom::engine
         position.y = b2_position.y;
         rotation.z = b2_rotation;
 
-        io::println("_process_body_after_step(): position: {}", position.y);
-
         transform->set_position(position);
         transform->set_rotation(rotation);
     }
@@ -129,8 +123,6 @@ namespace atom::engine
     auto physics2d_system::on_update(time_step time) -> void
     {
         base_type::on_update(time);
-
-        io::println("----------------------------------------------------------------------------");
 
         // sync other values into box2d.
         _entity_manager->for_each_with_components<transform_component, rigidbody_component>(
