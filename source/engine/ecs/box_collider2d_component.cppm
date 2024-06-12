@@ -25,11 +25,6 @@ namespace atom::engine
 
         ~box_collider2d_component();
 
-    protected:
-        virtual auto on_attach(entity* entity) -> void override;
-
-        virtual auto on_deattach() -> void override;
-
     public:
         f32vec2 offset = f32vec2{ 0 };
         f32vec2 size = f32vec2{ .5 };

@@ -11,41 +11,43 @@ import :ecs.entity_events;
 
 namespace atom::engine
 {
+    struct entity_data
+    {
+        string name;
+    };
+
     entity_manager::entity_manager(class world* world)
         : _world{ world }
     {}
 
     entity_manager::~entity_manager() {}
 
-    auto entity_manager::create_entity(string_view name) -> entity*
+    auto entity_manager::create_entity(string name) -> entity_id
     {
         entt::entity id = _registry.create();
-        class entity* entity = &_registry.emplace<class entity>(id, id, &_registry, this, name);
+        _registry.emplace<entity_data>(id, move(name));
 
         entity_create_event event{ id };
         _event_source.dispatch(event);
 
         emplace_component<transform_component>(id);
 
-        return entity;
+        return id;
     }
 
-    auto entity_manager::destroy_entity(class entity* entity) -> void
+    auto entity_manager::destroy_entity(entity_id entity) -> void
     {
-        if (entity == nullptr)
-        {
-            return;
-        }
+        contract_debug_expects(entity != null_entity);
 
-        entity_destroy_event event{ entity->get_id() };
+        entity_destroy_event event{ entity };
         _event_source.dispatch(event);
 
-        _registry.destroy(entity->get_id());
+        _registry.destroy(entity);
     }
 
-    auto entity_manager::view_all() -> decltype(auto)
+    auto entity_manager::get_name(entity_id entity) -> string_view
     {
-        return _registry.view<entity>().each();
+        return _registry.get<entity_data>(entity).name;
     }
 
     auto entity_manager::get_world() -> world*

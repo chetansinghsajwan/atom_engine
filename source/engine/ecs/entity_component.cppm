@@ -10,20 +10,6 @@ namespace atom::engine
     {
     public:
         entity_component();
-
-        virtual ~entity_component();
-
-    public:
-        auto get_entity() const -> entity*;
-
-    public:
-        virtual auto on_attach(class entity* entity) -> void;
-
-        virtual auto on_update(time_step time) -> void;
-
-        virtual auto on_deattach() -> void;
-
-    private:
-        entity* _entity;
+        ~entity_component();
     };
 }
