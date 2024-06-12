@@ -94,7 +94,7 @@ target_include_directories(atom.engine
 
 add_executable(atom.engine.sandbox)
 
-file(GLOB_RECURSE sandbox_modules "sandbox/*.cppm")
+file(GLOB_RECURSE sandbox_modules "sandbox/*.cppm" "sandbox/*.cxx")
 file(GLOB_RECURSE sandbox_sources "sandbox/*.cpp")
 target_sources(
     atom.engine.sandbox
