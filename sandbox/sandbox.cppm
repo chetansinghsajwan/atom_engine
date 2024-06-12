@@ -2,34 +2,31 @@ export module atom.engine.sandbox;
 
 import atom.core;
 import atom.engine;
-import :layer2d;
+import :sandbox2d_layer;
 
-namespace sandbox
+class sandbox_application: public engine::application
 {
-    class sandbox_application: public engine::application
+public:
+    sandbox_application()
+        : engine::application{ "sandbox" }
     {
-    public:
-        sandbox_application()
-            : engine::application("sandbox")
-        {
-            _layer = new sandbox_layer_2d();
-            push_layer(_layer);
-        }
+        _layer = new sandbox2d_layer();
+        push_layer(_layer);
+    }
 
-        ~sandbox_application()
-        {
-            delete _layer;
-        }
+    ~sandbox_application()
+    {
+        delete _layer;
+    }
 
-    private:
-        sandbox_layer_2d* _layer;
-    };
-}
+private:
+    sandbox2d_layer* _layer;
+};
 
 namespace atom::engine
 {
     extern "C++" application* create_application()
     {
-        return new sandbox::sandbox_application();
+        return new sandbox_application();
     }
 }
