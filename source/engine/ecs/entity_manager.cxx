@@ -10,7 +10,9 @@ import :ecs.entity_manager;
 
 namespace atom::engine
 {
-    entity_manager::entity_manager() {}
+    entity_manager::entity_manager(class world* world)
+        : _world{ world }
+    {}
 
     entity_manager::~entity_manager() {}
 
@@ -34,18 +36,14 @@ namespace atom::engine
         _registry.destroy(entity->get_id());
     }
 
-    auto entity_manager::update_entities(time_step time) -> void
-    {
-        auto view = _registry.view<entity>().each();
-        for (auto [id, entity] : view)
-        {
-            entity.on_update(time);
-        }
-    }
-
     auto entity_manager::view_all() -> decltype(auto)
     {
         return _registry.view<entity>().each();
+    }
+
+    auto entity_manager::get_world() -> world*
+    {
+        return _world;
     }
 
     auto entity_manager::get_internal() -> entt::registry*
