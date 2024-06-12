@@ -19,7 +19,7 @@ namespace atom::engine
     class event_listener
     {
     public:
-        virtual auto handle(event_type& event) -> void = 0;
+        virtual auto on_event(event_type& event) -> void = 0;
     };
 
     export template <typename event_type>
@@ -57,7 +57,7 @@ namespace atom::engine
         {
             for (listener_type* listener : _listeners)
             {
-                listener->handle(event);
+                listener->on_event(event);
 
                 if (event.handled)
                     break;

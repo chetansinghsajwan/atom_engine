@@ -27,7 +27,7 @@ namespace atom::engine
         virtual auto on_finalize() -> void override;
         virtual auto on_update(time_step time) -> void override;
 
-        virtual auto handle(entity_event& event) -> void override;
+        virtual auto on_event(entity_event& event) -> void override;
 
     private:
         auto _handle(entity_component_add_event& event) -> void;

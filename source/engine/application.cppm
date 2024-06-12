@@ -94,7 +94,7 @@ namespace atom::engine
         }
 
     private:
-        virtual auto handle(window_event& event) -> void override
+        virtual auto on_event(window_event& event) -> void override
         {
             switch (event.event_type)
             {
@@ -122,9 +122,9 @@ namespace atom::engine
             renderer::on_window_resize(event.size.x, event.size.y);
         }
 
-        virtual auto handle(keyboard_event& event) -> void override {}
+        virtual auto on_event(keyboard_event& event) -> void override {}
 
-        virtual auto handle(mouse_event& event) -> void override {}
+        virtual auto on_event(mouse_event& event) -> void override {}
 
         auto _setup_layer() -> void;
 
