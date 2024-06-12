@@ -5,6 +5,7 @@ import :ecs;
 import :world;
 import :time;
 import :physics;
+import :rendering;
 
 namespace atom::engine
 {
@@ -14,7 +15,8 @@ namespace atom::engine
         _entity_manager = new entity_manager{ this };
 
         _system_manager->initialize();
-        _system_manager->add_system(new physics2d_system{ this });
+        _system_manager->emplace_system<physics2d_system>(this);
+        _system_manager->emplace_system<render_system>(this);
     }
 
     world::~world()

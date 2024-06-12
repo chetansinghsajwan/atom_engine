@@ -8,6 +8,7 @@ export namespace entt
     using entt::get;
     using entt::entity;
     using entt::registry;
+    using entt::null;
 
     using entt::operator==;
     using entt::operator!=;
