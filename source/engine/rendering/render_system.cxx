@@ -3,12 +3,16 @@ module atom.engine:rendering.render_system.impl;
 import atom.core;
 import atom.logging;
 import :math;
-import :rendering.render_system;
-import :rendering.renderer_2d;
-import :rendering.scene_camera;
 import :ecs;
 import :world;
 import :time;
+import :gui;
+import :colors;
+import :rendering.render_system;
+import :rendering.renderer_2d;
+import :rendering.scene_camera;
+import :rendering.frame_buffer;
+import :rendering.render_command;
 
 namespace atom::engine
 {
@@ -30,6 +34,8 @@ namespace atom::engine
 
         _find_camera_component();
 
+        render_command::set_clear_color(_screen_clear_color);
+
         _logger->log_info("initialization done.");
     }
 
@@ -50,21 +56,25 @@ namespace atom::engine
 
     auto render_system::on_update(time_step time) -> void
     {
-        if (_camera_entity == null_entity)
+        renderer_2d::reset_stats();
+
+        render_command::clear_color();
+
+        _camera_component->get_camera().set_viewport_size(1920, 1080);
+
+        if (_camera_entity != null_entity)
         {
-            return;
+            scene_camera& camera = _camera_component->get_camera();
+            const f32mat4& camera_transform = _camera_transform_component->get_matrix();
+
+            renderer_2d::begin_scene(&camera, camera_transform);
+
+            _entity_manager->for_each_with_components<transform_component, sprite_component>(
+                [&](entity_id entity, transform_component& transform, sprite_component& sprite)
+                { _render_spirte(entity, &transform, &sprite); });
+
+            renderer_2d::end_scene();
         }
-
-        scene_camera& camera = _camera_component->get_camera();
-        const f32mat4& camera_transform = _camera_transform_component->get_matrix();
-
-        renderer_2d::begin_scene(&camera, camera_transform);
-
-        _entity_manager->for_each_with_components<transform_component, sprite_component>(
-            [&](entity_id entity, transform_component& transform, sprite_component& sprite)
-            { _render_spirte(entity, &transform, &sprite); });
-
-        renderer_2d::end_scene();
     }
 
     auto render_system::handle(entity_event& event) -> void
@@ -154,12 +164,4 @@ namespace atom::engine
             _camera_transform_component = nullptr;
         }
     }
-
-    // auto render_system::on_viewport_resize(f32vec2 size) -> void
-    // {
-    //     if (_camera_component != nullptr)
-    //     {
-    //         _camera_component->get_camera().set_viewport_size(size.x, size.y);
-    //     }
-    // }
 }
