@@ -24,23 +24,23 @@ namespace atom::engine
     {
         base_type::on_attach(entity);
 
-        _transform_component = get_entity()->get_or_emplace_component<transform_component>();
-        _rigidbody_component = get_entity()->get_or_emplace_component<rigidbody_component>();
-        f32vec3 scale = _transform_component->get_scale();
-        f32vec3 rotation = _transform_component->get_rotation();
-        b2Body* body = _rigidbody_component->_get_body();
+        // _transform_component = get_entity()->get_or_emplace_component<transform_component>();
+        // _rigidbody_component = get_entity()->get_or_emplace_component<rigidbody_component>();
+        // f32vec3 scale = _transform_component->get_scale();
+        // f32vec3 rotation = _transform_component->get_rotation();
+        // b2Body* body = _rigidbody_component->_get_body();
 
-        b2PolygonShape box_shape;
-        box_shape.SetAsBox(this->size.x * scale.x, this->size.y * scale.y);
+        // b2PolygonShape box_shape;
+        // box_shape.SetAsBox(this->size.x * scale.x, this->size.y * scale.y);
 
-        b2FixtureDef fixtureDef;
-        fixtureDef.shape = &box_shape;
-        fixtureDef.density = this->density;
-        fixtureDef.friction = this->friction;
-        fixtureDef.restitution = this->restitution;
-        fixtureDef.restitutionThreshold = this->restitution_typehreshold;
+        // b2FixtureDef fixtureDef;
+        // fixtureDef.shape = &box_shape;
+        // fixtureDef.density = this->density;
+        // fixtureDef.friction = this->friction;
+        // fixtureDef.restitution = this->restitution;
+        // fixtureDef.restitutionThreshold = this->restitution_typehreshold;
 
-        _fixture = body->CreateFixture(&fixtureDef);
+        // _fixture = body->CreateFixture(&fixtureDef);
     }
 
     auto box_collider2d_component::on_deattach() -> void

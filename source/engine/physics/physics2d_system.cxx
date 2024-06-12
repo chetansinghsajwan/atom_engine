@@ -50,7 +50,7 @@ namespace atom::engine
     }
 
     auto physics2d_system::_initialize_body(
-        entt::entity entity, transform_component* transform, rigidbody_component* body) -> void
+        entity_id entity, transform_component* transform, rigidbody_component* body) -> void
     {
         f32vec3 position = transform->get_position();
         f32vec3 rotation = transform->get_rotation();
@@ -82,13 +82,13 @@ namespace atom::engine
     }
 
     auto physics2d_system::_finalize_body(
-        entt::entity entity, transform_component* transform, rigidbody_component* body) -> void
+        entity_id entity, transform_component* transform, rigidbody_component* body) -> void
     {
         _b2_world->DestroyBody(body->_b2_body);
     }
 
     auto physics2d_system::_process_body_before_step(
-        entt::entity entity, transform_component* transform, rigidbody_component* body) -> void
+        entity_id entity, transform_component* transform, rigidbody_component* body) -> void
     {
         if (body->_b2_body == nullptr)
         {
@@ -108,7 +108,7 @@ namespace atom::engine
     }
 
     auto physics2d_system::_process_body_after_step(
-        entt::entity entity, transform_component* transform, rigidbody_component* body) -> void
+        entity_id entity, transform_component* transform, rigidbody_component* body) -> void
     {
         const b2Vec2& b2_position = body->_b2_body->GetPosition();
         f32 b2_rotation = body->_b2_body->GetAngle();
@@ -134,7 +134,7 @@ namespace atom::engine
 
         // sync other values into box2d.
         _entity_manager->for_each_with_components<transform_component, rigidbody_component>(
-            [&](entt::entity entity, transform_component& transform, rigidbody_component& body)
+            [&](entity_id entity, transform_component& transform, rigidbody_component& body)
             { _process_body_before_step(entity, &transform, &body); });
 
         // step box2d.
@@ -142,7 +142,7 @@ namespace atom::engine
 
         // write box2d values into others.
         _entity_manager->for_each_with_components<transform_component, rigidbody_component>(
-            [&](entt::entity entity, transform_component& transform, rigidbody_component& body)
+            [&](entity_id entity, transform_component& transform, rigidbody_component& body)
             { _process_body_after_step(entity, &transform, &body); });
     }
 

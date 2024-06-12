@@ -4,7 +4,9 @@ import entt;
 import :box2d;
 import atom.core;
 import :time;
+import :events;
 import :ecs.entity;
+import :ecs.entity_events;
 import :ecs.transform_component;
 
 namespace atom::engine
@@ -41,6 +43,62 @@ namespace atom::engine
         /// ----------------------------------------------------------------------------------------
         ///
         /// ----------------------------------------------------------------------------------------
+        template <typename component_type, typename... arg_types>
+        auto emplace_component(entity_id id, arg_types&&... args) -> component_type*
+        {
+            component_type& comp =
+                _registry.emplace<component_type>(id, forward<arg_types>(args)...);
+
+            entity_component_add_event event{ id, &comp };
+            _event_source.dispatch(event);
+
+            return &comp;
+        }
+
+        /// ----------------------------------------------------------------------------------------
+        ///
+        /// ----------------------------------------------------------------------------------------
+        template <typename component_type, typename... arg_types>
+        auto get_or_emplace_component(entity_id id, arg_types&&... args) -> component_type*
+        {
+            component_type* comp = get_component<component_type>();
+
+            if (comp == nullptr)
+            {
+                comp = emplace_component<component_type>(id, forward<arg_types>(args)...);
+            }
+
+            return comp;
+        }
+
+        /// ----------------------------------------------------------------------------------------
+        ///
+        /// ----------------------------------------------------------------------------------------
+        template <typename component_type>
+        auto remove_component(entity_id id) -> void
+        {
+            component_type* comp = _registry.try_get<component_type>(id);
+            if (comp != nullptr)
+            {
+                entity_component_remove_event event{ id, comp };
+                _event_source.dispatch(event);
+            }
+
+            _registry.remove<component_type>();
+        }
+
+        /// ----------------------------------------------------------------------------------------
+        ///
+        /// ----------------------------------------------------------------------------------------
+        template <typename component_type>
+        auto get_component(entity_id id) -> component_type*
+        {
+            return _registry.try_get<component_type>(id);
+        }
+
+        /// ----------------------------------------------------------------------------------------
+        ///
+        /// ----------------------------------------------------------------------------------------
         auto view_all() -> decltype(auto);
 
         /// ----------------------------------------------------------------------------------------
@@ -57,23 +115,19 @@ namespace atom::engine
         /// ----------------------------------------------------------------------------------------
         auto get_world() -> world*;
 
-        // /// ----------------------------------------------------------------------------------------
-        // /// 
-        // /// ----------------------------------------------------------------------------------------
-        // auto subscribe_events(entity_event_listener* listener) -> void;
-
-        // /// ----------------------------------------------------------------------------------------
-        // /// 
-        // /// ----------------------------------------------------------------------------------------
-        // auto unsubscribe_events(entity_event_listener* listener) -> void;
+        /// ----------------------------------------------------------------------------------------
+        ///
+        /// ----------------------------------------------------------------------------------------
+        auto subscribe_events(entity_event_listener* listener) -> void;
 
         /// ----------------------------------------------------------------------------------------
         ///
         /// ----------------------------------------------------------------------------------------
-        auto get_internal() -> entt::registry*;
+        auto unsubscribe_events(entity_event_listener* listener) -> void;
 
     private:
         entt::registry _registry;
         world* _world;
+        event_source<entity_event> _event_source;
     };
 }

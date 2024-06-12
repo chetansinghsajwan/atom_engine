@@ -33,28 +33,28 @@ namespace atom::engine
         return _name;
     }
 
-    auto entity::remove_component(entity_component* component) -> void
-    {
-        std::cout << "remove component" << std::endl;
-    }
+    // auto entity::remove_component(entity_component* component) -> void
+    // {
+    //     std::cout << "remove component" << std::endl;
+    // }
 
-    auto entity::get_all_components() -> array_slice<entity_component*>
-    {
-        return _components;
-    }
+    // auto entity::get_all_components() -> array_slice<entity_component*>
+    // {
+    //     return _components;
+    // }
 
-    auto entity::on_update(time_step time) -> void
-    {
-        update_components(time);
-    }
+    // auto entity::on_update(time_step time) -> void
+    // {
+    //     update_components(time);
+    // }
 
-    auto entity::update_components(time_step time) -> void
-    {
-        for (entity_component* component : _components)
-        {
-            component->on_update(time);
-        }
-    }
+    // auto entity::update_components(time_step time) -> void
+    // {
+    //     for (entity_component* component : _components)
+    //     {
+    //         component->on_update(time);
+    //     }
+    // }
 
     auto entity::get_manager() -> entity_manager*
     {
