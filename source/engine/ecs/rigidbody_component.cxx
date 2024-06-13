@@ -41,7 +41,7 @@ namespace atom::engine
     auto rigidbody_component::set_type(body_type type) -> void
     {
         _body_type = type;
-        // _b2_body->SetType(_convert_atom_rigibody_to_box2d(type));
+        _b2_body->SetType(_convert_atom_rigibody_to_box2d(type));
     }
 
     auto rigidbody_component::get_type() const -> body_type
@@ -51,17 +51,11 @@ namespace atom::engine
 
     auto rigidbody_component::set_fixed_rotation(bool flag) -> void
     {
-        _fixed_rotation = flag;
-        // _b2_body->SetFixedRotation(flag);
+        _b2_body->SetFixedRotation(flag);
     }
 
-    auto rigidbody_component::get_fixed_rotation() const -> bool
+    auto rigidbody_component::is_fixed_rotation() const -> bool
     {
-        return _fixed_rotation;
-    }
-
-    auto rigidbody_component::_get_body() -> b2Body*
-    {
-        return _b2_body;
+        return _b2_body->IsFixedRotation();
     }
 }

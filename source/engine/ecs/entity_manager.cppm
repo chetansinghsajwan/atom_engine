@@ -66,7 +66,7 @@ namespace atom::engine
         template <typename component_type, typename... arg_types>
         auto get_or_emplace_component(entity_id id, arg_types&&... args) -> component_type*
         {
-            component_type* comp = get_component<component_type>();
+            component_type* comp = get_component<component_type>(id, forward<arg_types>(args)...);
 
             if (comp == nullptr)
             {

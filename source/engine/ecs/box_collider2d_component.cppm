@@ -11,6 +11,8 @@ namespace atom::engine
 {
     export class box_collider2d_component: public entity_component
     {
+        friend class physics2d_system;
+
         using base_type = entity_component;
         using this_type = box_collider2d_component;
 
@@ -32,11 +34,9 @@ namespace atom::engine
         f32 density = 1;
         f32 friction = .5;
         f32 restitution = 0;
-        f32 restitution_typehreshold = .5;
+        f32 restitution_thresold = .5;
 
     private:
-        transform_component* _transform_component = nullptr;
-        rigidbody_component* _rigidbody_component = nullptr;
-        b2Fixture* _fixture = nullptr;
+        b2Fixture* _b2_fixture = nullptr;
     };
 }
