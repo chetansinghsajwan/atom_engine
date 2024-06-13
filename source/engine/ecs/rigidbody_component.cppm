@@ -45,17 +45,10 @@ namespace atom::engine
 
         auto set_fixed_rotation(bool flag) -> void;
 
-        auto get_fixed_rotation() const -> bool;
+        auto is_fixed_rotation() const -> bool;
 
-        auto _get_body() -> b2Body*;
-
-    public:
-        transform_component* _transform_component = nullptr;
-
+    private:
         body_type _body_type = body_type::static_;
-        bool _fixed_rotation = false;
-
-        b2World* _b2_world = nullptr;
         b2Body* _b2_body = nullptr;
     };
 }
