@@ -1,4 +1,4 @@
-export module atom.engine:rendering.renderer_2d;
+export module atom.engine:rendering.renderer2d;
 
 import atom.core;
 import atom.logging;
@@ -11,7 +11,7 @@ import :rendering.texture2d;
 namespace atom::engine
 {
     // @todo: remove this export.
-    export class renderer_2d
+    export class renderer2d
     {
     public:
         struct statistics
