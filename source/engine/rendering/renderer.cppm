@@ -5,7 +5,7 @@ import atom.logging;
 import :math;
 import :rendering.render_command;
 import :rendering.renderer_api;
-import :rendering.renderer_2d;
+import :rendering.renderer2d;
 import :rendering.vertex_array;
 import :rendering.shader;
 import :rendering.orthographic_camera;
@@ -21,7 +21,7 @@ namespace atom::engine
             _logger->log_info("initializing renderer...");
 
             render_command::initialize();
-            renderer_2d::initialize();
+            renderer2d::initialize();
 
             _logger->log_info("initializing renderer done.");
         }
@@ -30,7 +30,7 @@ namespace atom::engine
         {
             _logger->log_info("finalizing renderer...");
 
-            renderer_2d::finalize();
+            renderer2d::finalize();
             render_command::finalize();
 
             _logger->log_info("finalizing renderer done.");

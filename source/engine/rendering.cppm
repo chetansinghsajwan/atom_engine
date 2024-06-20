@@ -17,5 +17,5 @@ export import :rendering.render_command;
 export import :rendering.renderer;
 export import :rendering.renderer_api;
 export import :rendering.renderer;
-export import :rendering.renderer_2d;
+export import :rendering.renderer2d;
 export import :rendering.orthographic_camera_controller;

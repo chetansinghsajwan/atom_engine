@@ -1,6 +1,6 @@
-module atom.engine:rendering.renderer_2d.impl;
+module atom.engine:rendering.renderer2d.impl;
 
-import :rendering.renderer_2d;
+import :rendering.renderer2d;
 import atom.core;
 import atom.logging;
 import :math;
@@ -42,13 +42,13 @@ namespace atom::engine
     texture2d* _white_texture = nullptr;
     texture2d** _texture_slots;
     u32 _texture_slot_index = 1; // 0 is reserved for white
-    renderer_2d::statistics _stats;
+    renderer2d::statistics _stats;
 
-    auto renderer_2d::initialize() -> void
+    auto renderer2d::initialize() -> void
     {
-        _logger = logging::logger_manager::create_logger({ .name = "renderer_2d" }).get_value();
+        _logger = logging::logger_manager::create_logger({ .name = "renderer2d" }).get_value();
 
-        _logger->log_info("initializing renderer_2d...");
+        _logger->log_info("initializing renderer2d...");
 
         shader_factory::set_root_path(assets_path);
 
@@ -105,12 +105,12 @@ namespace atom::engine
         _quad_vertex_positions[2] = f32vec4(.5f, .5f, 0, 1);
         _quad_vertex_positions[3] = f32vec4(-.5f, .5f, 0, 1);
 
-        _logger->log_info("initializing renderer_2d done.");
+        _logger->log_info("initializing renderer2d done.");
     }
 
-    auto renderer_2d::finalize() -> void
+    auto renderer2d::finalize() -> void
     {
-        _logger->log_info("finalizing renderer_2d...");
+        _logger->log_info("finalizing renderer2d...");
 
         render_command::finalize();
 
@@ -120,10 +120,10 @@ namespace atom::engine
         delete _texture_shader;
         delete _texture_slots;
 
-        _logger->log_info("finalizing renderer_2d done.");
+        _logger->log_info("finalizing renderer2d done.");
     }
 
-    auto renderer_2d::begin_scene(orthographic_camera* camera) -> void
+    auto renderer2d::begin_scene(orthographic_camera* camera) -> void
     {
         _texture_shader->bind();
         _texture_shader->set_uniform_mat4(
@@ -135,7 +135,7 @@ namespace atom::engine
         _texture_slot_index = 1;
     }
 
-    auto renderer_2d::begin_scene(class camera* camera, const f32mat4& transform) -> void
+    auto renderer2d::begin_scene(class camera* camera, const f32mat4& transform) -> void
     {
         f32mat4 view_projection = camera->get_projection() * math::inverse(transform);
 
@@ -148,7 +148,7 @@ namespace atom::engine
         _texture_slot_index = 1;
     }
 
-    auto renderer_2d::end_scene() -> void
+    auto renderer2d::end_scene() -> void
     {
         u32 data_size = (u8*)_quad_vertex_buffer_ptr - (u8*)_quad_vertex_buffer_base;
         _quad_vertex_buffer->set_data(_quad_vertex_buffer_base, data_size);
@@ -156,7 +156,7 @@ namespace atom::engine
         flush();
     }
 
-    auto renderer_2d::flush() -> void
+    auto renderer2d::flush() -> void
     {
         for (usize i = 0; i < _texture_slot_index; i++)
         {
@@ -167,7 +167,7 @@ namespace atom::engine
         _stats.draw_calls += 1;
     }
 
-    auto renderer_2d::draw_quad(const f32mat4& transform, const class color& color) -> void
+    auto renderer2d::draw_quad(const f32mat4& transform, const class color& color) -> void
     {
         constexpr f32vec2 texture_coords[4] = {
             f32vec2{ 0, 0 },
@@ -179,7 +179,7 @@ namespace atom::engine
         _draw(transform, _white_texture, texture_coords, 1, color);
     }
 
-    auto renderer_2d::draw_quad(
+    auto renderer2d::draw_quad(
         const f32vec3& position, f32vec2 size, f32 rotation, const class color& color) -> void
     {
         constexpr f32vec2 texture_coords[4] = {
@@ -192,7 +192,7 @@ namespace atom::engine
         _draw(position, size, rotation, _white_texture, texture_coords, 1, color);
     }
 
-    auto renderer_2d::draw_texture(const f32mat4& transform, texture2d* texture, f32 tiling_factor,
+    auto renderer2d::draw_texture(const f32mat4& transform, texture2d* texture, f32 tiling_factor,
         const class color& tint) -> void
     {
         constexpr f32vec2 texture_coords[4] = {
@@ -205,7 +205,7 @@ namespace atom::engine
         _draw(transform, texture, texture_coords, tiling_factor, tint);
     }
 
-    auto renderer_2d::draw_texture(const f32vec3& position, f32vec2 size, f32 rotation,
+    auto renderer2d::draw_texture(const f32vec3& position, f32vec2 size, f32 rotation,
         texture2d* texture, f32 tiling_factor, const class color& tint) -> void
     {
         constexpr f32vec2 texture_coords[4] = {
@@ -218,31 +218,31 @@ namespace atom::engine
         _draw(position, size, rotation, texture, texture_coords, tiling_factor, tint);
     }
 
-    auto renderer_2d::draw_sprite(const f32vec3& position, f32vec2 size, f32 rotation,
+    auto renderer2d::draw_sprite(const f32vec3& position, f32vec2 size, f32 rotation,
         class sprite* sprite, f32 tiling_factor, const class color& tint) -> void
     {
         _draw(position, size, rotation, sprite->get_texture(),
             sprite->get_texture_coords().get_data(), tiling_factor, tint);
     }
 
-    auto renderer_2d::draw_sprite(const f32mat4& transform, class sprite* sprite, f32 tiling_factor,
+    auto renderer2d::draw_sprite(const f32mat4& transform, class sprite* sprite, f32 tiling_factor,
         const class color& tint) -> void
     {
         _draw(transform, sprite->get_texture(), sprite->get_texture_coords().get_data(),
             tiling_factor, tint);
     }
 
-    auto renderer_2d::reset_stats() -> void
+    auto renderer2d::reset_stats() -> void
     {
-        _stats = renderer_2d::statistics();
+        _stats = renderer2d::statistics();
     }
 
-    auto renderer_2d::get_stats() -> statistics
+    auto renderer2d::get_stats() -> statistics
     {
         return _stats;
     }
 
-    auto renderer_2d::_draw(const f32mat4& transform, texture2d* texture,
+    auto renderer2d::_draw(const f32mat4& transform, texture2d* texture,
         const f32vec2* texture_coords, f32 tiling_factor, const class color& tint) -> void
     {
         contract_debug_expects(texture != nullptr);
@@ -287,7 +287,7 @@ namespace atom::engine
         _stats.quad_count += 1;
     }
 
-    auto renderer_2d::_draw(const f32vec3& position, f32vec2 size, f32 rotation, texture2d* texture,
+    auto renderer2d::_draw(const f32vec3& position, f32vec2 size, f32 rotation, texture2d* texture,
         const f32vec2* texture_coords, f32 tiling_factor, const class color& tint) -> void
     {
         contract_debug_expects(texture != nullptr);
@@ -303,17 +303,17 @@ namespace atom::engine
         _draw(transform, texture, texture_coords, tiling_factor, tint);
     }
 
-    auto renderer_2d::_start_new_batch() -> void
+    auto renderer2d::_start_new_batch() -> void
     {
         _quad_vertex_buffer_ptr = _quad_vertex_buffer_base;
         _quad_index_count = 0;
 
         _texture_slot_index = 1;
 
-        renderer_2d::end_scene();
+        renderer2d::end_scene();
     }
 
-    auto renderer_2d::_get_texture_index(texture2d* texture) -> usize
+    auto renderer2d::_get_texture_index(texture2d* texture) -> usize
     {
         for (usize i = 0; i < _texture_slot_index; i++)
         {

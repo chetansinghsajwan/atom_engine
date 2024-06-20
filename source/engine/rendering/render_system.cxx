@@ -9,7 +9,7 @@ import :time;
 import :gui;
 import :colors;
 import :rendering.render_system;
-import :rendering.renderer_2d;
+import :rendering.renderer2d;
 import :rendering.scene_camera;
 import :rendering.frame_buffer;
 import :rendering.render_command;
@@ -51,12 +51,12 @@ namespace atom::engine
     auto _render_spirte(
         entity_id entity, transform_component* transform, sprite_component* sprite) -> void
     {
-        renderer_2d::draw_quad(transform->get_matrix(), sprite->get_color());
+        renderer2d::draw_quad(transform->get_matrix(), sprite->get_color());
     }
 
     auto render_system::on_update(time_step time) -> void
     {
-        renderer_2d::reset_stats();
+        renderer2d::reset_stats();
 
         render_command::clear_color();
 
@@ -67,13 +67,13 @@ namespace atom::engine
             scene_camera& camera = _camera_component->get_camera();
             const f32mat4& camera_transform = _camera_transform_component->get_matrix();
 
-            renderer_2d::begin_scene(&camera, camera_transform);
+            renderer2d::begin_scene(&camera, camera_transform);
 
             _entity_manager->for_each_with_components<transform_component, sprite_component>(
                 [&](entity_id entity, transform_component& transform, sprite_component& sprite)
                 { _render_spirte(entity, &transform, &sprite); });
 
-            renderer_2d::end_scene();
+            renderer2d::end_scene();
         }
     }
 

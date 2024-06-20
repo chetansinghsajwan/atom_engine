@@ -11,7 +11,7 @@ namespace atom::engine
 
 auto main(int argc, char** args) -> int
 {
-    renderer_2d::assets_path = ATOM_ENGINE_ASSETS_DIR;
+    renderer2d::assets_path = ATOM_ENGINE_ASSETS_DIR;
 
     log_manager::initialize();
     window_manager::initialize();
