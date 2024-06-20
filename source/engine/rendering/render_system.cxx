@@ -51,7 +51,15 @@ namespace atom::engine
     auto _render_spirte(
         entity_id entity, transform_component* transform, sprite_component* sprite) -> void
     {
-        renderer2d::draw_quad(transform->get_matrix(), sprite->get_color());
+        if (sprite->get_texture() == nullptr)
+        {
+            renderer2d::draw_quad(transform->get_matrix(), sprite->get_color());
+        }
+        else
+        {
+            renderer2d::draw_texture(
+                transform->get_matrix(), sprite->get_texture(), 1, sprite->get_color());
+        }
     }
 
     auto render_system::on_update(time_step time) -> void
