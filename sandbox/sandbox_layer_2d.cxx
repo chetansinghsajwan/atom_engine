@@ -13,7 +13,10 @@ sandbox2d_layer::sandbox2d_layer()
     _logger = logging::logger_manager::create_logger({ .name = "sandbox" }).get_value();
 }
 
-sandbox2d_layer::~sandbox2d_layer() {}
+sandbox2d_layer::~sandbox2d_layer()
+{
+    delete _cherno_texture;
+}
 
 auto sandbox2d_layer::on_attach() -> void
 {
@@ -48,6 +51,9 @@ auto sandbox2d_layer::on_attach() -> void
 
     contract_debug_asserts(_mouse != nullptr);
 
+    _cherno_texture = engine::texture2d::create(
+        "/home/chetan/projects/atom-workspace/atom.engine/assets/textures/cherno.png");
+
     _world = new engine::world{};
     _entity_manager = _world->get_entity_manager();
 
@@ -57,8 +63,12 @@ auto sandbox2d_layer::on_attach() -> void
     _box1_entity = _entity_manager->create_entity("box1");
     _entity_manager->get_component<engine::transform_component>(_box1_entity)
         ->set_position({ -2, 1, 0 });
-    _entity_manager->emplace_component<engine::sprite_component>(_box1_entity)
-        ->set_color(engine::colors::green);
+
+    engine::sprite_component* box1_sprite =
+        _entity_manager->emplace_component<engine::sprite_component>(_box1_entity);
+    box1_sprite->set_texture(_cherno_texture);
+    box1_sprite->set_color(engine::colors::white);
+
     _entity_manager->emplace_component<engine::rigidbody_component>(_box1_entity)
         ->set_type(engine::rigidbody_component::body_type::dynamic);
 
