@@ -17,6 +17,7 @@ find_package("glm" REQUIRED)
 find_package("EnTT" REQUIRED)
 find_package("glfw3" REQUIRED)
 find_package("box2d" REQUIRED)
+find_package("msdfgen" REQUIRED)
 find_package("glslang" REQUIRED)
 
 # --------------------------------------------------------------------------------------------------
@@ -67,7 +68,7 @@ target_link_libraries(
     PUBLIC
         "atom::atom.core"
         "atom::atom.logging"
-    PRIVATE 
+    PRIVATE
          "glm::glm"
          "glfw"
          "glad"
@@ -75,6 +76,7 @@ target_link_libraries(
          "stb"
          "EnTT::EnTT"
          "box2d::box2d"
+         "msdfgen::msdfgen"
          "glslang::glslang"
          "glslang::glslang-default-resource-limits"
          "glslang::OSDependent"
