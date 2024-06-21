@@ -96,7 +96,6 @@
         '';
       };
 
-
       msdfgen_pkg = stdenv.mkDerivation rec {
         pname = "msdfgen";
         version = "v1.12";
@@ -120,18 +119,53 @@
         ];
 
         configurePhase = ''
-          cmake -S . -B build -G Ninja \
+          cmake \
+            -S . \
+            -B . \
+            -G Ninja \
+            -D CMAKE_INSTALL_PREFIX=$out \
             -D MSDFGEN_USE_VCPKG=OFF \
             -D MSDFGEN_USE_SKIA=OFF \
             -D MSDFGEN_INSTALL=ON;
         '';
+      };
 
-        buildPhase = ''
-          cmake --build build --config Release;
-        '';
+      msdf-atlas-gen_pkg = stdenv.mkDerivation rec {
+        pname = "msdf-atlas-gen";
+        version = "v1.3";
 
-        installPhase = ''
-          cmake --install build --prefix $out;
+        src = pkgs.fetchFromGitHub {
+          owner = "Chlumsky";
+          repo = "msdf-atlas-gen";
+          rev = version;
+          hash = "sha256-SfzQ008aoYI8tkrHXsXVQq9Qq+NIqT1zvSIHK1LTbLU=";
+          fetchSubmodules = true;
+          leaveDotGit = true;
+        };
+
+        nativeBuildInputs = with pkgs; [
+          cmake
+          ninja
+        ];
+
+        propagatedBuildInputs = with pkgs; [
+          msdfgen_pkg
+          freetype
+          tinyxml-2
+          libpng
+        ];
+
+        configurePhase = ''
+          cmake \
+            -S . \
+            -B . \
+            -G Ninja \
+            -D CMAKE_INSTALL_PREFIX=$out \
+            -D MSDF_ATLAS_MSDFGEN_EXTERNAL=ON \
+            -D MSDF_ATLAS_NO_ARTERY_FONT=ON \
+            -D MSDF_ATLAS_USE_VCPKG=OFF \
+            -D MSDF_ATLAS_USE_SKIA=OFF \
+            -D MSDF_ATLAS_INSTALL=ON;
         '';
       };
 
@@ -155,7 +189,7 @@
           box2d
           glslang_pkg
           msdfgen_pkg
-          spirv-cross
+          msdf-atlas-gen_pkg
         ];
 
         nativeBuildInputs = with pkgs; [
@@ -166,15 +200,18 @@
         ];
 
         configurePhase = ''
-          cmake -S . -B build \
-              -D ATOM_ENGINE_ASSETS_DIR=$out/assets \
-              -D CMAKE_INSTALL_PREFIX=$out \
-              -D box2d_DIR=${pkgs.box2d} \
-              -D EnTT_DIR=${pkgs.entt} \
-              -D glm_DIR=${pkgs.glm} \
-              -D glslang_DIR=${glslang_pkg} \
-              -D glfw3_DIR=${glfw_pkg} \
-              -D msdfgen_DIR=${msdfgen_pkg};
+          cmake \
+            -S . \
+            -B build \
+            -D ATOM_ENGINE_ASSETS_DIR=$out/assets \
+            -D CMAKE_INSTALL_PREFIX=$out \
+            -D box2d_DIR=${pkgs.box2d} \
+            -D EnTT_DIR=${pkgs.entt} \
+            -D glm_DIR=${pkgs.glm} \
+            -D glslang_DIR=${glslang_pkg} \
+            -D glfw3_DIR=${glfw_pkg} \
+            -D msdfgen_DIR=${msdfgen_pkg};
+            -D msdf-atlas-gen_DIR=${msdf-atlas-gen_pkg};
         '';
 
         buildPhase = ''
@@ -193,6 +230,7 @@
           "${pkgs.stb}/include"
           "${glslang_pkg}/include"
           "${msdfgen_pkg}/include"
+          "${msdf-atlas-gen_pkg}/include"
         ];
 
         envVars = {
