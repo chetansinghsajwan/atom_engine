@@ -44,7 +44,7 @@ namespace atom::engine
         template <typename component_type>
         entity_component_event(entity_id entity, entity_event_type type, component_type* comp)
             : entity_event{ entity, type }
-            , component_type_id{ typeinfo<component_type>::get_id() }
+            , component_type_id{ type_info<component_type>::get_id() }
             , component{ comp }
         {}
 
