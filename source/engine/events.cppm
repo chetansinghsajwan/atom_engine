@@ -25,7 +25,7 @@ namespace atom::engine
     export template <typename event_type>
     class event_source
     {
-        static_assert(typeinfo<event_type>::template is_derived_from<event_base>,
+        static_assert(type_info<event_type>::template is_derived_from<event_base>,
             "event_type must be derived from `event_base`.");
 
     public:

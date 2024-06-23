@@ -11,7 +11,7 @@ namespace atom::engine
     {
     public:
         template <typename system_type>
-        static constexpr bool is_system = typeinfo<system_type>::template is_derived_from<system>;
+        static constexpr bool is_system = type_info<system_type>::template is_derived_from<system>;
 
     public:
         auto initialize() -> void;
@@ -22,7 +22,7 @@ namespace atom::engine
         auto add_system(system_type* system) -> result<void, entry_exists_error>
             requires is_system<system_type>
         {
-            return add_system(typeinfo<system_type>::get_id(), system);
+            return add_system(type_info<system_type>::get_id(), system);
         }
 
         auto add_system(type_id id, system* system) -> result<void, entry_exists_error>;
@@ -31,7 +31,7 @@ namespace atom::engine
         auto remove_system() -> result<void, no_entry_error>
             requires is_system<system_type>
         {
-            return remove_system(typeinfo<system_type>::get_id());
+            return remove_system(type_info<system_type>::get_id());
         }
 
         auto remove_system(type_id id) -> result<void, no_entry_error>;
@@ -42,7 +42,7 @@ namespace atom::engine
         auto emplace_system(arg_types&&... args) -> result<system_type*, entry_exists_error>
             requires is_system<system_type>
         {
-            type_id id = typeinfo<system_type>::get_id();
+            type_id id = type_info<system_type>::get_id();
             _logger->log_info("emplacing system with id '{}'...", id);
 
             if (_has_system(id))
@@ -79,7 +79,7 @@ namespace atom::engine
         auto get_system() -> system_type*
             requires is_system<system_type>
         {
-            type_id id = typeinfo<system_type>::get_id();
+            type_id id = type_info<system_type>::get_id();
             system* system = get_system(id);
             return reinterpret_cast<system_type*>(system);
         }
@@ -89,7 +89,7 @@ namespace atom::engine
         template <typename system_type>
         auto has_system() -> bool
         {
-            return has_system(typeinfo<system_type>::get_id());
+            return has_system(type_info<system_type>::get_id());
         }
 
         auto has_system(type_id id) -> bool;

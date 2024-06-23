@@ -118,14 +118,14 @@ namespace atom::engine
 
     auto physics2d_system::_on_component_add_event(entity_component_add_event& event) -> void
     {
-        if (event.component_type_id == typeinfo<rigidbody_component>::get_id())
+        if (event.component_type_id == type_info<rigidbody_component>::get_id())
         {
             rigidbody_component* comp = reinterpret_cast<rigidbody_component*>(event.component);
             _on_component_add(event.entity, comp);
             return;
         }
 
-        if (event.component_type_id == typeinfo<box_collider2d_component>::get_id())
+        if (event.component_type_id == type_info<box_collider2d_component>::get_id())
         {
             box_collider2d_component* comp =
                 reinterpret_cast<box_collider2d_component*>(event.component);
@@ -136,14 +136,14 @@ namespace atom::engine
 
     auto physics2d_system::_on_component_remove_event(entity_component_remove_event& event) -> void
     {
-        if (event.component_type_id == typeinfo<rigidbody_component>::get_id())
+        if (event.component_type_id == type_info<rigidbody_component>::get_id())
         {
             rigidbody_component* comp = reinterpret_cast<rigidbody_component*>(event.component);
             _on_component_remove(event.entity, comp);
             return;
         }
 
-        if (event.component_type_id == typeinfo<box_collider2d_component>::get_id())
+        if (event.component_type_id == type_info<box_collider2d_component>::get_id())
         {
             box_collider2d_component* comp =
                 reinterpret_cast<box_collider2d_component*>(event.component);

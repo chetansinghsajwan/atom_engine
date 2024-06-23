@@ -105,7 +105,7 @@ namespace atom::engine
 
     auto render_system::_handle(entity_component_add_event& event) -> void
     {
-        if (event.component_type_id == typeinfo<camera_component>::get_id())
+        if (event.component_type_id == type_info<camera_component>::get_id())
         {
             _on_camera_component_add(
                 event.entity, reinterpret_cast<camera_component*>(event.component));
@@ -114,7 +114,7 @@ namespace atom::engine
 
     auto render_system::_handle(entity_component_remove_event& event) -> void
     {
-        if (event.component_type_id == typeinfo<camera_component>::get_id())
+        if (event.component_type_id == type_info<camera_component>::get_id())
         {
             _on_camera_component_remove(
                 event.entity, reinterpret_cast<camera_component*>(event.component));
