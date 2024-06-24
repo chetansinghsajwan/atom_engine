@@ -10,11 +10,11 @@
         "zstd": "zstd"
       },
       "locked": {
-        "lastModified": 1718269150,
-        "narHash": "sha256-4uOFyz7HDfDPULvk+Ij2tiOS1bKU7nfwXwDGSGiz1dw=",
+        "lastModified": 1719158484,
+        "narHash": "sha256-hFrVlkTcq7vgvxUpRCGA5CrOaNKkAWK9kRg6ePhhXhk=",
         "owner": "shifu-dev",
         "repo": "atom.core",
-        "rev": "4ca1dd361a0f7fc83e59cc98bcbd1e67e39449fe",
+        "rev": "b565e9d51fe91fed127ec6f3f3976e0e7f8df003",
         "type": "github"
       },
       "original": {
@@ -33,11 +33,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1718269223,
-        "narHash": "sha256-w0hibK3z3tyPcVpzoRqNNsML7ZG1y1bJm9BptpVp/1M=",
+        "lastModified": 1719204477,
+        "narHash": "sha256-Oqc0j/++/PhvH8+YFo2jqJ8UCnSNYiN4UIbO6zbl/XU=",
         "owner": "shifu-dev",
         "repo": "atom.logging",
-        "rev": "f9c40956f0fbea93a85d86b235e1c3f9a79db4ac",
+        "rev": "00daae41f85d52fdfd78c1a4dd70cbf8316febea",
         "type": "github"
       },
       "original": {
