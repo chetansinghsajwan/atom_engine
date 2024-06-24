@@ -300,7 +300,7 @@ namespace atom::engine
                 GLint max_length = 0;
                 glGetShaderiv(gl_shader, GL_INFO_LOG_LENGTH, &max_length);
 
-                dynamic_array<GLchar> info_log{ _with_capacity, (usize)max_length };
+                dynamic_array<GLchar> info_log{ create_with_capacity, (usize)max_length };
                 glGetShaderInfoLog(gl_shader, max_length, &max_length, info_log.get_mut_data());
 
                 // cleanup up the allocated resources
@@ -452,7 +452,7 @@ namespace atom::engine
             return path;
 
         string_view root_path = string_view::from_std(_root_path);
-        string result{ _with_capacity, root_path.get_count() + path.get_count() };
+        string result{ create_with_capacity, root_path.get_count() + path.get_count() };
         result.insert_range_back(root_path);
         result.insert_range_back(path);
         return result;
