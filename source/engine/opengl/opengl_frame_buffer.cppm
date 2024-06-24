@@ -84,7 +84,8 @@ namespace atom::engine
             glFramebufferTexture2D(
                 GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, _depth_attatchment, 0);
 
-            contract_debug_asserts(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE,
+            contract_debug_asserts(
+                glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE,
                 "opengl_frame_buffer is incomplete.");
 
             glBindFramebuffer(GL_FRAMEBUFFER, 0);

@@ -12,7 +12,7 @@ namespace atom::engine
     {
     public:
         opengl_vertex_buffer(u32 size)
-            : _renderer_id( 0 )
+            : _renderer_id(0)
             , _count(size)
         {
             glCreateBuffers(1, &_renderer_id);
@@ -21,7 +21,7 @@ namespace atom::engine
         }
 
         opengl_vertex_buffer(float* vertices, u32 count)
-            : _renderer_id( 0 )
+            : _renderer_id(0)
             , _count(count)
         {
             glCreateBuffers(1, &_renderer_id);

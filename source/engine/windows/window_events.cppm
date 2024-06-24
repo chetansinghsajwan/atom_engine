@@ -14,8 +14,7 @@ namespace atom::engine
         i32vec2 window_size;
     };
 
-    export inline auto operator-(
-        const i32vec2& lhs, const i32vec2& rhs) -> i32vec2
+    export inline auto operator-(const i32vec2& lhs, const i32vec2& rhs) -> i32vec2
     {
         return { lhs.x - rhs.x, lhs.y - rhs.y };
     }

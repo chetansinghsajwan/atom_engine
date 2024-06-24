@@ -85,7 +85,8 @@ namespace atom::engine
 
         auto get_delta_scroll_pos() const -> f32vec2
         {
-            return f32vec2{ _scroll_pos_x - _last_scroll_pos_x, _scroll_pos_y - _last_scroll_pos_y };
+            return f32vec2{ _scroll_pos_x - _last_scroll_pos_x,
+                _scroll_pos_y - _last_scroll_pos_y };
         }
 
         virtual auto subscribe_event(mouse_event_listener* listener) -> void = 0;

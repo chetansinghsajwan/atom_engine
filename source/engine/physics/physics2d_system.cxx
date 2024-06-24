@@ -175,7 +175,7 @@ namespace atom::engine
 
     auto physics2d_system::_on_component_add(
         entity_id entity, box_collider2d_component* collider) -> void
-    {        
+    {
         rigidbody_component* body =
             _entity_manager->get_or_emplace_component<rigidbody_component>(entity);
 

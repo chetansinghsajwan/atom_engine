@@ -14,6 +14,6 @@ export
     using ::b2Fixture;
     using ::b2FixtureDef;
     using ::b2PolygonShape;
-    using ::b2World;
     using ::b2Vec2;
+    using ::b2World;
 }
