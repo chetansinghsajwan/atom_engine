@@ -5,10 +5,10 @@ export module entt;
 
 export namespace entt
 {
-    using entt::get;
     using entt::entity;
-    using entt::registry;
+    using entt::get;
     using entt::null;
+    using entt::registry;
 
     using entt::operator==;
     using entt::operator!=;

@@ -5,7 +5,7 @@ namespace atom::engine
     class glfw_window;
     class glfw_keyboard;
     class glfw_mouse;
-    
+
     struct glfw_window_user_data
     {
         glfw_window* window;

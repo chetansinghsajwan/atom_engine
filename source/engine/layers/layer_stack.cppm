@@ -12,7 +12,7 @@ namespace atom::engine
     public:
         layer_stack()
             : _layers()
-            , _normal_layer_count( 0 )
+            , _normal_layer_count(0)
         {}
 
     public:

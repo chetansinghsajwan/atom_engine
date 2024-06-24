@@ -12,7 +12,7 @@ namespace atom::engine
             : _projection_matrix(math::ortho(left, right, bottom, top, -1.0f, 1.0f))
             , _view_matrix(1.0f)
             , _position{ 0 }
-            , _rotation( 0 )
+            , _rotation(0)
         {
             _view_projection_matrix = _projection_matrix * _view_matrix;
         }
@@ -63,8 +63,9 @@ namespace atom::engine
     private:
         auto _recalculate_view_matrix() -> void
         {
-            f32mat4 transform = math::translate(f32mat4{ 1 }, _position)
-                             * math::rotate(f32mat4{ 1 }, math::radians(_rotation), f32vec3{ 0, 0, 1 });
+            f32mat4 transform =
+                math::translate(f32mat4{ 1 }, _position)
+                * math::rotate(f32mat4{ 1 }, math::radians(_rotation), f32vec3{ 0, 0, 1 });
 
             _view_matrix = math::inverse(transform);
             _view_projection_matrix = _projection_matrix * _view_matrix;

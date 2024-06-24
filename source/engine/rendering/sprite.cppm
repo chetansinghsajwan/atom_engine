@@ -19,8 +19,8 @@ namespace atom::engine
         }
 
     public:
-        static auto make_from_coords(
-            texture2d* texture, f32vec2 coords, f32vec2 cell_size, f32vec2 sprite_size = f32vec2{ 1 }) -> sprite*
+        static auto make_from_coords(texture2d* texture, f32vec2 coords, f32vec2 cell_size,
+            f32vec2 sprite_size = f32vec2{ 1 }) -> sprite*
         {
             u32 texture_width = texture->get_width();
             u32 texture_height = texture->get_height();

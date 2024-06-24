@@ -90,8 +90,7 @@ namespace atom::engine
         return dynamic_buffer{ create_from_std_vector, spirv };
     }
 
-    auto spirv_compiler::compile(
-        shader_stage stage, string_view source) -> spirv_compilation_result
+    auto spirv_compiler::compile(shader_stage stage, string_view source) -> spirv_compilation_result
     {
         contract_debug_expects(is_initialized(), "not initialized yet.");
 

@@ -69,10 +69,10 @@ namespace atom::engine
         constexpr color aqua = color::from_rgb(0, 255, 255);                      // #00FFFF
         constexpr color cyan = color::from_rgb(0, 255, 255);                      // #00FFFF
         constexpr color light_cyan = color::from_rgb(224, 255, 255);              // #E0FFFF
-        constexpr color dark_typeurquoise = color::from_rgb(0, 206, 209);            // #00CED1
+        constexpr color dark_turquoise = color::from_rgb(0, 206, 209);            // #00CED1
         constexpr color turquoise = color::from_rgb(64, 224, 208);                // #40E0D0
-        constexpr color medium_typeurquoise = color::from_rgb(72, 209, 204);         // #48D1CC
-        constexpr color pale_typeurquoise = color::from_rgb(175, 238, 238);          // #AFEEEE
+        constexpr color medium_turquoise = color::from_rgb(72, 209, 204);         // #48D1CC
+        constexpr color pale_turquoise = color::from_rgb(175, 238, 238);          // #AFEEEE
         constexpr color aqua_marine = color::from_rgb(127, 255, 212);             // #7FFFD4
         constexpr color powder_blue = color::from_rgb(176, 224, 230);             // #B0E0E6
         constexpr color cadet_blue = color::from_rgb(95, 158, 160);               // #5F9EA0

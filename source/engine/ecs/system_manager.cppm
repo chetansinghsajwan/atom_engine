@@ -11,7 +11,8 @@ namespace atom::engine
     {
     public:
         template <typename system_type>
-        static constexpr bool is_system = type_info<system_type>::template is_derived_from<system>();
+        static constexpr bool is_system =
+            type_info<system_type>::template is_derived_from<system>();
 
     public:
         auto initialize() -> void;

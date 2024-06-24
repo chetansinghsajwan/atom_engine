@@ -17,7 +17,6 @@ find_package("glm" REQUIRED)
 find_package("EnTT" REQUIRED)
 find_package("glfw3" REQUIRED)
 find_package("box2d" REQUIRED)
-# find_package("msdfgen" REQUIRED)
 find_package("msdf-atlas-gen" REQUIRED)
 find_package("glslang" REQUIRED)
 

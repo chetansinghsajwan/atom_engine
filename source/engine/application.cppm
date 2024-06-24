@@ -19,7 +19,7 @@ namespace atom::engine
             , _window(nullptr)
             , _layers()
             , _layer(nullptr)
-            , _last_frame_time( 0 )
+            , _last_frame_time(0)
             , _should_run(true)
         {
             contract_debug_expects(get() == nullptr, "an appication instance already exists.");
