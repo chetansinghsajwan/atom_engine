@@ -73,21 +73,20 @@ namespace atom::engine
         GLenum gl_data_format = gl_formats.second;
 
         GLuint gl_renderer_id = 0;
-        u32 height = stb_y;
-        u32 width = stb_x;
+        u32vec2 texture_size{ stb_x, stb_y };
 
         glCreateTextures(GL_TEXTURE_2D, 1, &gl_renderer_id);
-        glTextureStorage2D(gl_renderer_id, 1, gl_format, width, height);
+        glTextureStorage2D(gl_renderer_id, 1, gl_format, texture_size.x, texture_size.y);
         glTextureParameteri(gl_renderer_id, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTextureParameteri(gl_renderer_id, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         glTextureParameteri(gl_renderer_id, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTextureParameteri(gl_renderer_id, GL_TEXTURE_WRAP_T, GL_REPEAT);
         glTextureSubImage2D(
-            gl_renderer_id, 0, 0, 0, width, height, gl_data_format, GL_UNSIGNED_BYTE, stb_data);
+            gl_renderer_id, 0, 0, 0, texture_size.x, texture_size.y, gl_data_format, GL_UNSIGNED_BYTE, stb_data);
 
         stbi_image_free(stb_data);
 
-        return new opengl_texture2d{ gl_renderer_id, format, width, height };
+        return new opengl_texture2d{ gl_renderer_id, format, texture_size };
     }
 
     auto texture_factory::create_from_data(
@@ -108,6 +107,6 @@ namespace atom::engine
         glTextureSubImage2D(gl_renderer_id, 0, 0, 0, size.x, size.y, gl_data_format,
             GL_UNSIGNED_BYTE, data.get_data());
 
-        return new opengl_texture2d{ gl_renderer_id, format, size.x, size.y };
+        return new opengl_texture2d{ gl_renderer_id, format, size };
     }
 }
