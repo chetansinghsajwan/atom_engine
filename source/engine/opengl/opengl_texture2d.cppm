@@ -13,8 +13,9 @@ namespace atom::engine
     class opengl_texture2d: public texture2d
     {
     public:
-        opengl_texture2d(GLuint renderer_id, u32 width, u32 height)
-            : _gl_renderer_id{ renderer_id }
+        opengl_texture2d(GLuint renderer_id, texture_format format, u32 width, u32 height)
+            : texture2d{ format }
+            , _gl_renderer_id{ renderer_id }
             , _width{ width }
             , _height{ height }
         {}
