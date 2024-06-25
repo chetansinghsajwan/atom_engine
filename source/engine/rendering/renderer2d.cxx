@@ -14,6 +14,7 @@ import :rendering.sprite;
 import :rendering.texture2d;
 import :rendering.frame_buffer;
 import :rendering.vertex_array;
+import :rendering.texture_factory;
 
 namespace atom::engine
 {
@@ -93,9 +94,9 @@ namespace atom::engine
         _texture_shader->bind();
         _texture_shader->set_int_array("u_textures", samplers, _max_texture_slots);
 
-        _white_texture = texture2d::create(1, 1);
         u32 _white_texture_data = 0xffffffff;
-        _white_texture->set_data(&_white_texture_data, sizeof(_white_texture_data));
+        _white_texture = texture_factory::create_from_data(
+            { &_white_texture_data, sizeof(_white_texture_data) }, u32vec2{ 1, 1 });
 
         _texture_slots = new texture2d*[_max_texture_slots];
         _texture_slots[0] = _white_texture;
