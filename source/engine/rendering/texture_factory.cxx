@@ -12,20 +12,28 @@ import :math;
 
 namespace atom::engine
 {
-    auto texture_factory::create_from_file(string_view file_path)
-        -> result<texture2d*, filesystem::filesystem_error, filesystem::noentry_error>
+    auto texture_factory::create_from_file(
+        string_view file_path) -> result<texture2d*, runtime_error, filesystem::filesystem_error,
+                                   filesystem::noentry_error>
     {
-        // _logger->log_info("loading texture '{}'", file_path);
+        auto content_result = filesystem::read_file_bytes(file_path);
+        if (content_result.is_error())
+        {
+            return { create_from_result, move(content_result) };
+        }
+
+        dynamic_buffer content = move(content_result).get_value();
 
         int x;
         int y;
         int channels;
         stbi_set_flip_vertically_on_load(1);
-        stbi_uc* data = stbi_load(file_path.get_data(), &x, &y, &channels, 0);
-        if (data == nullptr)
+        stbi_uc* stb_data =
+            stbi_load_from_memory(content.get_data(), content.get_size(), &x, &y, &channels, 0);
+
+        if (stb_data == nullptr)
         {
-            // _logger->log_error("loading texture failed.");
-            return nullptr;
+            return runtime_error{ "failed to load image." };
         }
 
         u32 height = y;
@@ -46,8 +54,7 @@ namespace atom::engine
         }
         else
         {
-            contract_panic(
-                "atom.engine only supports rgb and rgba texture formats for now. channels: {}");
+            return runtime_error{ "we only support rgb8 and rgba currently." };
         }
 
         glCreateTextures(GL_TEXTURE_2D, 1, &gl_renderer_id);
@@ -57,10 +64,9 @@ namespace atom::engine
         glTextureParameteri(gl_renderer_id, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTextureParameteri(gl_renderer_id, GL_TEXTURE_WRAP_T, GL_REPEAT);
         glTextureSubImage2D(
-            gl_renderer_id, 0, 0, 0, width, height, gl_data_format, GL_UNSIGNED_BYTE, data);
+            gl_renderer_id, 0, 0, 0, width, height, gl_data_format, GL_UNSIGNED_BYTE, stb_data);
 
-        stbi_image_free(data);
-        // _logger->log_info("loading texture completed.");
+        stbi_image_free(stb_data);
 
         return new opengl_texture2d{ gl_renderer_id, width, height };
     }
