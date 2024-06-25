@@ -22,14 +22,13 @@ namespace atom::engine
         static auto make_from_coords(texture2d* texture, f32vec2 coords, f32vec2 cell_size,
             f32vec2 sprite_size = f32vec2{ 1 }) -> sprite*
         {
-            u32 texture_width = texture->get_width();
-            u32 texture_height = texture->get_height();
+            u32vec2 texture_size = texture->get_size();
 
-            f32vec2 min = { (coords.x * cell_size.x) / texture_width,
-                (coords.y * cell_size.y) / texture_height };
+            f32vec2 min = { (coords.x * cell_size.x) / texture_size.x,
+                (coords.y * cell_size.y) / texture_size.y };
 
-            f32vec2 max = { ((coords.x + sprite_size.x) * cell_size.x) / texture_width,
-                ((coords.y + sprite_size.y) * cell_size.y) / texture_height };
+            f32vec2 max = { ((coords.x + sprite_size.x) * cell_size.x) / texture_size.x,
+                ((coords.y + sprite_size.y) * cell_size.y) / texture_size.y };
 
             return new sprite{ texture, min, max };
         }

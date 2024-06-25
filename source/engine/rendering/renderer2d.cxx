@@ -1,3 +1,6 @@
+module;
+#include "glad/glad.h"
+
 module atom.engine:rendering.renderer2d.impl;
 
 import :rendering.renderer2d;
@@ -16,6 +19,7 @@ import :rendering.texture2d;
 import :rendering.frame_buffer;
 import :rendering.vertex_array;
 import :rendering.texture_factory;
+import :opengl;
 
 namespace atom::engine
 {
@@ -163,7 +167,10 @@ namespace atom::engine
     {
         for (usize i = 0; i < _texture_slot_index; i++)
         {
-            _texture_slots[i]->bind(i);
+            opengl_texture2d* gl_texture = reinterpret_cast<opengl_texture2d*>(_texture_slots[i]);
+            GLuint renderer_id = gl_texture->get_renderer_id();
+
+            glBindTextureUnit(i, renderer_id);
         }
 
         render_command::draw_indexed(_quad_vertex_array, _quad_index_count);
