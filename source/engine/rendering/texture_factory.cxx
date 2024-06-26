@@ -27,8 +27,8 @@ namespace atom::engine
     {
         switch (format)
         {
-            case texture_format::rgb8:  return { GL_RGB, GL_RGB8 };
-            case texture_format::rgba8: return { GL_RGBA, GL_RGBA8 };
+            case texture_format::rgb8:  return { GL_RGB8, GL_RGB };
+            case texture_format::rgba8: return { GL_RGBA8, GL_RGBA };
             default:
             {
                 contract_panic("invalid value.");
@@ -81,8 +81,8 @@ namespace atom::engine
         glTextureParameteri(gl_renderer_id, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         glTextureParameteri(gl_renderer_id, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTextureParameteri(gl_renderer_id, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        glTextureSubImage2D(
-            gl_renderer_id, 0, 0, 0, texture_size.x, texture_size.y, gl_data_format, GL_UNSIGNED_BYTE, stb_data);
+        glTextureSubImage2D(gl_renderer_id, 0, 0, 0, texture_size.x, texture_size.y, gl_data_format,
+            GL_UNSIGNED_BYTE, stb_data);
 
         stbi_image_free(stb_data);
 
