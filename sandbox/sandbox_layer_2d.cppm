@@ -32,4 +32,6 @@ private:
     engine::entity_id _box1_entity;
     engine::entity_id _box2_entity;
     engine::texture2d* _cherno_texture;
+
+    engine::font* _font;
 };
