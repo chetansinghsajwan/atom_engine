@@ -100,17 +100,17 @@ namespace atom::engine
         _texture_shader->set_int_array("u_textures", samplers, _max_texture_slots);
 
         u32 _white_texture_data = 0xffffffff;
-        _white_texture =
-            texture_factory::create_from_data({ &_white_texture_data, sizeof(_white_texture_data) },
-                texture_format::rgb8, u32vec2{ 1, 1 });
+        _white_texture = texture_factory::create_from_data(
+            memory_view{ &_white_texture_data, sizeof(_white_texture_data) }, texture_format::rgb8,
+            u32vec2{ 1, 1 });
 
         _texture_slots = new texture2d*[_max_texture_slots];
         _texture_slots[0] = _white_texture;
 
-        _quad_vertex_positions[0] = f32vec4(-.5f, -.5f, 0, 1);
-        _quad_vertex_positions[1] = f32vec4(.5f, -.5f, 0, 1);
-        _quad_vertex_positions[2] = f32vec4(.5f, .5f, 0, 1);
-        _quad_vertex_positions[3] = f32vec4(-.5f, .5f, 0, 1);
+        _quad_vertex_positions[0] = f32vec4{ -.5f, -.5f, 0, 1 };
+        _quad_vertex_positions[1] = f32vec4{ .5f, -.5f, 0, 1 };
+        _quad_vertex_positions[2] = f32vec4{ .5f, .5f, 0, 1 };
+        _quad_vertex_positions[3] = f32vec4{ -.5f, .5f, 0, 1 };
 
         _logger->log_info("initializing renderer2d done.");
     }
