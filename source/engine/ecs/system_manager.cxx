@@ -34,7 +34,7 @@ namespace atom::engine
 
         system->on_initialize();
 
-        return result_void{};
+        return { create_from_void };
     }
 
     auto system_manager::remove_system(type_id id) -> result<void, no_entry_error>
@@ -49,7 +49,7 @@ namespace atom::engine
         }
 
         _logger->log_info("removing system done.");
-        return result_void{};
+        return { create_from_void };
     }
 
     auto system_manager::remove_system(system* system) -> result<void, no_entry_error>
@@ -66,7 +66,7 @@ namespace atom::engine
         }
 
         _logger->log_info("removing system done.");
-        return result_void{};
+        return { create_from_void };
     }
 
     auto system_manager::get_system(type_id id) -> system*
