@@ -33,7 +33,7 @@ namespace atom::engine
             if (result.second)
             {
                 _logger->log_info("registring shader done.");
-                return result_void();
+                return { create_from_void };
             }
             else
             {
