@@ -81,6 +81,8 @@ namespace atom::engine
                 [&](entity_id entity, transform_component& transform, sprite_component& sprite)
                 { _render_spirte(entity, &transform, &sprite); });
 
+            renderer2d::draw_text("hello", f32mat4{ 2 });
+
             renderer2d::end_scene();
         }
     }

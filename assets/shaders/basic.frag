@@ -1,6 +1,6 @@
 #version 450
 
-layout(location = 0) out vec4 color;
+layout(location = 0) out vec4 o_color;
 
 in vec4 v_color;
 in vec2 v_texture_coord;
@@ -11,5 +11,5 @@ layout(location = 1) uniform sampler2D u_textures[32];
 
 void main()
 {
-    color = texture(u_textures[int(v_texture_index)], v_texture_coord * v_tiling_factor) * v_color;
+    o_color = texture(u_textures[int(v_texture_index)], v_texture_coord * v_tiling_factor) * v_color;
 }
