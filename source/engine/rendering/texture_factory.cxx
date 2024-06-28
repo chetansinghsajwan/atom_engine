@@ -19,7 +19,7 @@ namespace atom::engine
         {
             case 3:  return texture_format::rgb8;
             case 4:  return texture_format::rgba8;
-            default: return nullopt();
+            default: return { create_from_null };
         }
     }
 
