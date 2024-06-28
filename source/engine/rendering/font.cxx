@@ -102,6 +102,46 @@ namespace atom::engine
         int height = 0;
         packer.getDimensions(width, height);
 
+        constexpr bool is_msdf = true;
+        constexpr bool is_mtsdf = false;
+
+        if (is_msdf or is_mtsdf)
+        {
+            constexpr f32 default_angle_thresold = 3.0;
+            constexpr usize lcg_multiplier = 6364136223846793005ull;
+            constexpr usize lcg_increment = 1442695040888963407ull;
+            constexpr u32 thread_count = 8;
+            constexpr u64 coloring_seed = 0;
+            constexpr bool expensive_coloring = false;
+
+            if (expensive_coloring)
+            {
+                auto worker = [&](int i, int thread_num) -> bool
+                {
+                    u64 glyph_seed =
+                        (lcg_multiplier * (coloring_seed ^ i) + lcg_increment) * !!coloring_seed;
+
+                    glyphs[i].edgeColoring(
+                        msdfgen::edgeColoringInkTrap, default_angle_thresold, glyph_seed);
+
+                    return true;
+                };
+
+                auto workload = msdf_atlas::Workload(worker, glyphs.size());
+                workload.finish(thread_count);
+            }
+            else
+            {
+                u64 glyph_seed = coloring_seed;
+                for (msdf_atlas::GlyphGeometry& glyph : glyphs)
+                {
+                    glyph_seed *= lcg_multiplier;
+                    glyph.edgeColoring(
+                        msdfgen::edgeColoringInkTrap, default_angle_thresold, glyph_seed);
+                }
+            }
+        }
+
         // create atlas
 
         msdf_atlas::GeneratorAttributes attributes;
