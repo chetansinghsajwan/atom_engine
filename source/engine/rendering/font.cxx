@@ -40,8 +40,10 @@ namespace atom::engine
 
     msdfgen::FreetypeHandle* _msdfgen_handle = nullptr;
 
-    font::font(texture2d* atlas)
-        : _atlas_texture{ atlas }
+    font::font()
+        : _atlas{ nullptr }
+        , _msdf_font_geometry{ &_msdf_glyphs }
+        , _msdf_glyphs{}
     {}
 
     font::~font() {}
@@ -77,9 +79,11 @@ namespace atom::engine
 
         const msdf_atlas::Charset& charset_to_load = msdf_atlas::Charset::ASCII;
 
-        std::vector<msdf_atlas::GlyphGeometry> glyphs;
-        msdf_atlas::FontGeometry font_geometry = msdf_atlas::FontGeometry(&glyphs);
-        i32 glyphs_loaded = font_geometry.loadCharset(msdfgen_font_handle, 1, charset_to_load);
+        class font* font = new class font
+        {};
+
+        i32 glyphs_loaded =
+            font->_msdf_font_geometry.loadCharset(msdfgen_font_handle, 1, charset_to_load);
         u32 glyphs_loaded_expected = charset_to_load.size();
 
         if (glyphs_loaded != glyphs_loaded_expected)
@@ -91,8 +95,8 @@ namespace atom::engine
         packer.setPixelRange(2.0);
         packer.setMiterLimit(1.0);
         packer.setScale(40);
-        i32 pack_result = packer.pack(glyphs.data(), (int)glyphs.size());
 
+        i32 pack_result = packer.pack(font->_msdf_glyphs.data(), (int)font->_msdf_glyphs.size());
         if (pack_result != 0)
         {
             return runtime_error{ "failed to pack texture atlas." };
@@ -121,19 +125,19 @@ namespace atom::engine
                     u64 glyph_seed =
                         (lcg_multiplier * (coloring_seed ^ i) + lcg_increment) * !!coloring_seed;
 
-                    glyphs[i].edgeColoring(
+                    font->_msdf_glyphs[i].edgeColoring(
                         msdfgen::edgeColoringInkTrap, default_angle_thresold, glyph_seed);
 
                     return true;
                 };
 
-                auto workload = msdf_atlas::Workload(worker, glyphs.size());
+                auto workload = msdf_atlas::Workload(worker, font->_msdf_glyphs.size());
                 workload.finish(thread_count);
             }
             else
             {
                 u64 glyph_seed = coloring_seed;
-                for (msdf_atlas::GlyphGeometry& glyph : glyphs)
+                for (msdf_atlas::GlyphGeometry& glyph : font->_msdf_glyphs)
                 {
                     glyph_seed *= lcg_multiplier;
                     glyph.edgeColoring(
@@ -156,24 +160,34 @@ namespace atom::engine
         msdf_atlas_generator_type generator{ width, height };
         generator.setAttributes(attributes);
         generator.setThreadCount(8);
-        generator.generate(glyphs.data(), glyphs.size());
+        generator.generate(font->_msdf_glyphs.data(), font->_msdf_glyphs.size());
 
         msdf_bitmap_const_ref_type bitmap = generator.atlasStorage();
         memory_view data{ bitmap.pixels, (usize)bitmap.width * (usize)bitmap.height * 3 };
 
-        texture2d* texture_atlas = texture_factory::create_from_data(
+        font->_atlas = texture_factory::create_from_data(
             data, texture_format::rgb8, u32vec2{ bitmap.width, bitmap.height });
 
-        return new font{ texture_atlas };
+        return font;
     }
 
-    auto font::get_atlas_texture() -> texture2d*
+    auto font::get_atlas() -> texture2d*
     {
-        return _atlas_texture;
+        return _atlas;
     }
 
-    auto font::get_char(u32 ch) -> texture_slice
+    auto font::get_glyphs() -> msdf_atlas::FontGeometry::GlyphRange
     {
-        return {};
+        return _msdf_font_geometry.getGlyphs();
+    }
+
+    auto font::get_glyph(char ch) -> const GlyphGeometry*
+    {
+        return _msdf_font_geometry.getGlyph(ch);
+    }
+
+    auto font::get_metrics() -> const FontMetrics&
+    {
+        return _msdf_font_geometry.getMetrics();
     }
 }

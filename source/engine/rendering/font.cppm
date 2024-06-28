@@ -1,17 +1,23 @@
+module;
+#include "msdfgen/msdfgen.h"
+#include "msdf-atlas-gen/FontGeometry.h"
+#include "msdf-atlas-gen/GlyphGeometry.h"
+
 export module atom.engine:rendering.font;
 
+import std;
 import atom.core;
 import :rendering.texture2d;
 
 namespace atom::engine
 {
-    export class texture_slice
-    {};
+    export using msdfgen::FontMetrics;
+    export using msdf_atlas::GlyphGeometry;
 
     export class font
     {
     public:
-        font(texture2d* atlas);
+        font();
         ~font();
 
     public:
@@ -20,11 +26,14 @@ namespace atom::engine
                                   filesystem::noentry_error>;
 
     public:
-        auto get_atlas_texture() -> texture2d*;
-
-        auto get_char(u32 ch) -> texture_slice;
+        auto get_atlas() -> texture2d*;
+        auto get_glyphs() -> msdf_atlas::FontGeometry::GlyphRange;
+        auto get_glyph(char ch) -> const GlyphGeometry*;
+        auto get_metrics() -> const FontMetrics&;
 
     private:
-        texture2d* _atlas_texture;
+        texture2d* _atlas;
+        msdf_atlas::FontGeometry _msdf_font_geometry;
+        std::vector<msdf_atlas::GlyphGeometry> _msdf_glyphs;
     };
 }

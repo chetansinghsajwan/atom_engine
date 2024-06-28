@@ -51,14 +51,6 @@ auto sandbox2d_layer::on_attach() -> void
 
     contract_debug_asserts(_mouse != nullptr);
 
-    string_view font_path =
-        "/home/chetan/projects/atom-workspace/atom.engine/assets/fonts/roboto/roboto-bold.ttf";
-    _logger->log_info("loading font '{}'.", font_path);
-
-    _font = engine::font::load_from_file(font_path).get_value_checked();
-
-    _logger->log_info("loading font done.");
-
     _cherno_texture = engine::texture_factory::create_from_file(
         "/home/chetan/projects/atom-workspace/atom.engine/assets/textures/cherno.png")
                           .get_value_checked();
@@ -75,7 +67,7 @@ auto sandbox2d_layer::on_attach() -> void
 
     engine::sprite_component* box1_sprite =
         _entity_manager->emplace_component<engine::sprite_component>(_box1_entity);
-    box1_sprite->set_texture(_font->get_atlas_texture());
+    box1_sprite->set_texture(_cherno_texture);
     box1_sprite->set_color(engine::colors::white);
 
     _entity_manager->emplace_component<engine::rigidbody_component>(_box1_entity)

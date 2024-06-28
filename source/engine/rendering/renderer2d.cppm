@@ -7,6 +7,7 @@ import :colors;
 import :logging;
 import :rendering.orthographic_camera;
 import :rendering.texture2d;
+import :rendering.font;
 
 namespace atom::engine
 {
@@ -48,6 +49,11 @@ namespace atom::engine
 
         static auto flush() -> void;
 
+        static auto draw_text(string_view text, const f32mat4& transform) -> void;
+
+        static auto draw_text(string_view text, class font* font, const f32mat4& transform,
+            const class color& color) -> void;
+
         static auto draw_quad(const f32mat4& transform, const class color& color) -> void;
 
         static auto draw_quad(
@@ -70,11 +76,12 @@ namespace atom::engine
         static auto get_stats() -> statistics;
 
     private:
-        static auto _draw(const f32mat4& transform, texture2d* texture,
+        static auto _draw_quad(const f32mat4& transform, texture2d* texture,
             const f32vec2* texture_coords, f32 tiling_factor, const class color& tint) -> void;
 
-        static auto _draw(const f32vec3& position, f32vec2 size, f32 rotation, texture2d* texture,
-            const f32vec2* texture_coords, f32 tiling_factor, const class color& tint) -> void;
+        static auto _draw_quad(const f32vec3& position, f32vec2 size, f32 rotation,
+            texture2d* texture, const f32vec2* texture_coords, f32 tiling_factor,
+            const class color& tint) -> void;
 
         static auto _start_new_batch() -> void;
 
