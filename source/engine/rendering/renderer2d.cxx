@@ -11,7 +11,6 @@ import :colors;
 import :logging;
 import :rendering.orthographic_camera;
 import :rendering.shader_factory;
-import :rendering.render_command;
 import :rendering.camera;
 import :rendering.sprite;
 import :rendering.texture;
@@ -42,6 +41,7 @@ namespace atom::engine
     };
 
     logging::logger* _logger = nullptr;
+    opengl_renderer_api* _renderer_api;
     renderer2d::statistics _stats;
 
     // texture data
@@ -81,6 +81,8 @@ namespace atom::engine
     {
         _logger = logging::logger_manager::create_logger({ .name = "renderer2d" }).get_value();
         _logger->log_info("initializing renderer2d...");
+
+        _renderer_api = new opengl_renderer_api();
 
         shader_factory::set_root_path(assets_path);
 
@@ -181,7 +183,8 @@ namespace atom::engine
     {
         _logger->log_info("finalizing renderer2d...");
 
-        render_command::finalize();
+        _renderer_api->finalize();
+        delete _renderer_api;
 
         delete _quad_vertex_array;
         delete _quad_vertex_buffer;
@@ -253,7 +256,7 @@ namespace atom::engine
             _quad_vertex_buffer->set_data(_quad_vertex_buffer_base, quad_vertex_data_size);
             _quad_shader->bind();
 
-            render_command::draw_indexed(_quad_vertex_array, _quad_index_count);
+            _renderer_api->draw_indexed(_quad_vertex_array, _quad_index_count);
             _stats.draw_calls += 1;
         }
 
@@ -270,40 +273,19 @@ namespace atom::engine
             GLuint renderer_id = font_atlas->get_renderer_id();
             glBindTextureUnit(2, renderer_id);
 
-            render_command::draw_indexed(_text_vertex_array, _text_index_count);
+            _renderer_api->draw_indexed(_text_vertex_array, _text_index_count);
             _stats.draw_calls += 1;
         }
     }
 
-    auto _draw_char(char ch, const f32mat4& transform, const class color& color, f32vec2 quad_min,
-        f32vec2 quad_max, f32vec2 texture_coord_min, f32vec2 texture_coord_max,
-        f32 texture_index) -> void
+    auto renderer2d::set_clear_color(const class color& color) -> void
     {
-        _text_vertex_buffer_ptr->position = transform * vec4(quad_min, 0.0f, 1.0f);
-        _text_vertex_buffer_ptr->color = color;
-        _text_vertex_buffer_ptr->texture_coord = texture_coord_min;
-        _text_vertex_buffer_ptr->texture_index = texture_index;
-        _text_vertex_buffer_ptr++;
+        _renderer_api->set_clear_color(color);
+    }
 
-        _text_vertex_buffer_ptr->position = transform * vec4(quad_min.x, quad_max.y, 0.0f, 1.0f);
-        _text_vertex_buffer_ptr->color = color;
-        _text_vertex_buffer_ptr->texture_coord = { texture_coord_min.x, texture_coord_max.y };
-        _text_vertex_buffer_ptr->texture_index = texture_index;
-        _text_vertex_buffer_ptr++;
-
-        _text_vertex_buffer_ptr->position = transform * vec4(quad_max, 0.0f, 1.0f);
-        _text_vertex_buffer_ptr->color = color;
-        _text_vertex_buffer_ptr->texture_coord = texture_coord_max;
-        _text_vertex_buffer_ptr->texture_index = texture_index;
-        _text_vertex_buffer_ptr++;
-
-        _text_vertex_buffer_ptr->position = transform * vec4(quad_max.x, quad_min.y, 0.0f, 1.0f);
-        _text_vertex_buffer_ptr->color = color;
-        _text_vertex_buffer_ptr->texture_coord = { texture_coord_max.x, texture_coord_min.y };
-        _text_vertex_buffer_ptr->texture_index = texture_index;
-        _text_vertex_buffer_ptr++;
-
-        _text_index_count += 6;
+    auto renderer2d::clear_color() -> void
+    {
+        _renderer_api->clear_color();
     }
 
     auto renderer2d::draw_text(string_view text, const f32mat4& transform) -> void
@@ -456,7 +438,7 @@ namespace atom::engine
 
     auto renderer2d::on_window_resize(u32vec2 size) -> void
     {
-        render_command::set_viewport(0, 0, size.x, size.y);
+        _renderer_api->set_viewport(0, 0, size.x, size.y);
     }
 
     auto renderer2d::_draw_quad(const f32mat4& transform, texture2d* texture,
@@ -519,6 +501,37 @@ namespace atom::engine
         }
 
         _draw_quad(transform, texture, texture_coords, tiling_factor, tint);
+    }
+
+    auto renderer2d::_draw_char(char ch, const f32mat4& transform, const class color& color, f32vec2 quad_min,
+        f32vec2 quad_max, f32vec2 texture_coord_min, f32vec2 texture_coord_max,
+        f32 texture_index) -> void
+    {
+        _text_vertex_buffer_ptr->position = transform * vec4(quad_min, 0.0f, 1.0f);
+        _text_vertex_buffer_ptr->color = color;
+        _text_vertex_buffer_ptr->texture_coord = texture_coord_min;
+        _text_vertex_buffer_ptr->texture_index = texture_index;
+        _text_vertex_buffer_ptr++;
+
+        _text_vertex_buffer_ptr->position = transform * vec4(quad_min.x, quad_max.y, 0.0f, 1.0f);
+        _text_vertex_buffer_ptr->color = color;
+        _text_vertex_buffer_ptr->texture_coord = { texture_coord_min.x, texture_coord_max.y };
+        _text_vertex_buffer_ptr->texture_index = texture_index;
+        _text_vertex_buffer_ptr++;
+
+        _text_vertex_buffer_ptr->position = transform * vec4(quad_max, 0.0f, 1.0f);
+        _text_vertex_buffer_ptr->color = color;
+        _text_vertex_buffer_ptr->texture_coord = texture_coord_max;
+        _text_vertex_buffer_ptr->texture_index = texture_index;
+        _text_vertex_buffer_ptr++;
+
+        _text_vertex_buffer_ptr->position = transform * vec4(quad_max.x, quad_min.y, 0.0f, 1.0f);
+        _text_vertex_buffer_ptr->color = color;
+        _text_vertex_buffer_ptr->texture_coord = { texture_coord_max.x, texture_coord_min.y };
+        _text_vertex_buffer_ptr->texture_index = texture_index;
+        _text_vertex_buffer_ptr++;
+
+        _text_index_count += 6;
     }
 
     auto renderer2d::_start_new_batch() -> void

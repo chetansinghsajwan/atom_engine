@@ -12,7 +12,6 @@ import :rendering.render_system;
 import :rendering.renderer2d;
 import :rendering.scene_camera;
 import :rendering.frame_buffer;
-import :rendering.render_command;
 
 namespace atom::engine
 {
@@ -34,7 +33,7 @@ namespace atom::engine
 
         _find_camera_component();
 
-        render_command::set_clear_color(_screen_clear_color);
+        renderer2d::set_clear_color(_screen_clear_color);
 
         _logger->log_info("initializing done.");
     }
@@ -65,8 +64,7 @@ namespace atom::engine
     auto render_system::on_update(time_step time) -> void
     {
         renderer2d::reset_stats();
-
-        render_command::clear_color();
+        renderer2d::clear_color();
 
         _camera_component->get_camera().set_viewport_size(1920, 1080);
 
