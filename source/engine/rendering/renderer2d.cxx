@@ -454,6 +454,11 @@ namespace atom::engine
         return _stats;
     }
 
+    auto renderer2d::on_window_resize(u32vec2 size) -> void
+    {
+        render_command::set_viewport(0, 0, size.x, size.y);
+    }
+
     auto renderer2d::_draw_quad(const f32mat4& transform, texture2d* texture,
         const f32vec2* texture_coords, f32 tiling_factor, const class color& tint) -> void
     {
