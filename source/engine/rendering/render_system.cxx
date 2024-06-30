@@ -36,7 +36,7 @@ namespace atom::engine
 
         render_command::set_clear_color(_screen_clear_color);
 
-        _logger->log_info("initialization done.");
+        _logger->log_info("initializing done.");
     }
 
     auto render_system::on_finalize() -> void
@@ -45,7 +45,7 @@ namespace atom::engine
 
         _entity_manager->unsubscribe_events(this);
 
-        _logger->log_info("finalization done.");
+        _logger->log_info("finalizing done.");
     }
 
     auto _render_spirte(

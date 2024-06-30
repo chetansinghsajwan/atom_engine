@@ -75,6 +75,8 @@ namespace atom::engine
 
         static auto get_stats() -> statistics;
 
+        static auto on_window_resize(u32vec2 size) -> void;
+
     private:
         static auto _draw_quad(const f32mat4& transform, texture2d* texture,
             const f32vec2* texture_coords, f32 tiling_factor, const class color& tint) -> void;
