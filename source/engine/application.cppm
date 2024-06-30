@@ -119,7 +119,7 @@ namespace atom::engine
             if (_window->is_minimized())
                 return;
 
-            renderer2d::on_window_resize(event.size.x, event.size.y);
+            renderer2d::on_window_resize(event.size);
         }
 
         virtual auto on_event(keyboard_event& event) -> void override {}

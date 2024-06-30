@@ -15,7 +15,6 @@ export import :rendering.vertex_array;
 export import :rendering.vertex_buffer;
 export import :rendering.index_buffer;
 export import :rendering.frame_buffer;
-export import :rendering.render_command;
-export import :rendering.renderer_api;
 export import :rendering.renderer2d;
+export import :rendering.renderer_api;
 export import :rendering.orthographic_camera_controller;
