@@ -33,6 +33,7 @@ namespace atom::engine
 
         _find_camera_component();
 
+        renderer2d::initialize();
         renderer2d::set_clear_color(_screen_clear_color);
 
         _logger->log_info("initializing done.");
