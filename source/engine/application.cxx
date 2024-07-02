@@ -3,7 +3,7 @@ module;
 
 module atom.engine:application.impl;
 
-import atom.core;
+import atom_core;
 import :application;
 import :imgui;
 import :time;

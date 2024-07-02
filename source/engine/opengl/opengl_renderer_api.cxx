@@ -4,7 +4,7 @@ module;
 
 module atom.engine:opengl.renderer_api.impl;
 
-import atom.core;
+import atom_core;
 import :opengl.renderer_api;
 import :logging;
 import :math;

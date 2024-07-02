@@ -3,8 +3,8 @@ module;
 
 module atom.engine:opengl.shader_factory_impl.impl;
 
-import atom.core;
-import atom.logging;
+import atom_core;
+import atom_logging;
 import :opengl.shader_factory_impl;
 import :rendering.shader;
 import :shaders.spirv_compiler;

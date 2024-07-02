@@ -6,7 +6,7 @@ module;
 
 export module atom.engine:math;
 
-import atom.core;
+import atom_core;
 
 export namespace atom::engine
 {

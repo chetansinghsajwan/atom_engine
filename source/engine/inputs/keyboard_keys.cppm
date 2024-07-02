@@ -1,6 +1,6 @@
 export module atom.engine:inputs.keyboard_keys;
 
-import atom.core;
+import atom_core;
 
 namespace atom::engine
 {

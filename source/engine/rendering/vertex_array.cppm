@@ -1,6 +1,6 @@
 export module atom.engine:rendering.vertex_array;
 
-import atom.core;
+import atom_core;
 import :rendering.vertex_buffer;
 import :rendering.index_buffer;
 

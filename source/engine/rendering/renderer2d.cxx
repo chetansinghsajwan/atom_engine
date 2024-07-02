@@ -4,8 +4,8 @@ module;
 module atom.engine:rendering.renderer2d.impl;
 
 import :rendering.renderer2d;
-import atom.core;
-import atom.logging;
+import atom_core;
+import atom_logging;
 import :math;
 import :colors;
 import :logging;

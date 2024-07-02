@@ -1,6 +1,6 @@
 export module atom.engine:rendering.vertex_buffer;
 
-import atom.core;
+import atom_core;
 import :rendering.buffer_layout;
 
 namespace atom::engine

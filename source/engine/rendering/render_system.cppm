@@ -1,7 +1,7 @@
 export module atom.engine:rendering.render_system;
 
-import atom.core;
-import atom.logging;
+import atom_core;
+import atom_logging;
 import :ecs;
 import :time;
 import :math;

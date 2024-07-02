@@ -1,7 +1,7 @@
 module atom.engine:rendering.vertex_array.impl;
 import :rendering.vertex_array;
 
-import atom.core;
+import atom_core;
 import :rendering.renderer_api;
 import :opengl.vertex_array;
 

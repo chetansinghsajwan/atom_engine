@@ -4,7 +4,7 @@ module;
 
 export module atom.engine:glfw.window;
 
-import atom.core;
+import atom_core;
 import :math;
 import :windows;
 import :events;

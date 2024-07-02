@@ -1,6 +1,6 @@
 export module atom.engine:rendering.texture;
 
-import atom.core;
+import atom_core;
 import :math;
 
 namespace atom::engine

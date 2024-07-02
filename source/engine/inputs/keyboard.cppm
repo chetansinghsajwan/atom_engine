@@ -1,6 +1,6 @@
 export module atom.engine:inputs.keyboard;
 
-import atom.core;
+import atom_core;
 import :inputs.input_device;
 import :inputs.keyboard_keys;
 import :inputs.keyboard_events;

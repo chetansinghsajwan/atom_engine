@@ -7,7 +7,7 @@ module;
 
 module atom.engine:imgui.layer.impl;
 
-import atom.core;
+import atom_core;
 import :glfw;
 import :application;
 import :imgui.layer;

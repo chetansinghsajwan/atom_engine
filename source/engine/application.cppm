@@ -1,6 +1,6 @@
 export module atom.engine:application;
 
-import atom.core;
+import atom_core;
 import :layers;
 import :windows;
 import :inputs;

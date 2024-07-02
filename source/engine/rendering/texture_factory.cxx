@@ -4,7 +4,7 @@ module;
 
 module atom.engine:rendering.texture_factory.impl;
 
-import atom.core;
+import atom_core;
 import :rendering.texture_factory;
 import :rendering.texture;
 import :rendering.texture2d;

@@ -1,6 +1,6 @@
 export module atom.engine:layers.layer;
 
-import atom.core;
+import atom_core;
 import :windows;
 import :inputs;
 import :time;

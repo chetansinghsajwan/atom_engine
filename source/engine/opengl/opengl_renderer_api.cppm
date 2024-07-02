@@ -1,6 +1,6 @@
 export module atom.engine:opengl.renderer_api;
 
-import atom.core;
+import atom_core;
 import :math;
 import :rendering;
 

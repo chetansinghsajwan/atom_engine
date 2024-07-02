@@ -1,7 +1,7 @@
 module atom.engine:ecs.entity_manager.impl;
 
 import entt;
-import atom.core;
+import atom_core;
 import :box2d;
 import :time;
 import :ecs.entity;

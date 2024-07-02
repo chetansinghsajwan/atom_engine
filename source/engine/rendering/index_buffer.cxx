@@ -1,7 +1,7 @@
 module atom.engine:rendering.index_buffer.impl;
 import :rendering.index_buffer;
 
-import atom.core;
+import atom_core;
 import :rendering.renderer_api;
 import :opengl.index_buffer;
 

@@ -1,6 +1,6 @@
 export module atom.engine:time;
 
-import atom.core;
+import atom_core;
 
 namespace atom::engine
 {

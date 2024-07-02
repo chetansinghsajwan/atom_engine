@@ -3,7 +3,7 @@ module;
 
 export module atom.engine:opengl.frame_buffer;
 
-import atom.core;
+import atom_core;
 import :math;
 import :rendering.frame_buffer;
 

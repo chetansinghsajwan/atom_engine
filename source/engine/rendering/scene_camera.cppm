@@ -1,6 +1,6 @@
 export module atom.engine:rendering.scene_camera;
 
-import atom.core;
+import atom_core;
 import :math;
 import :rendering.camera;
 

@@ -1,6 +1,6 @@
 export module atom.engine:layers.layer_stack;
 
-import atom.core;
+import atom_core;
 import :time;
 import :windows;
 import :layers.layer;

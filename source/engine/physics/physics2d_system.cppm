@@ -1,7 +1,7 @@
 export module atom.engine:physics.physics2d_system;
 
-import atom.core;
-import atom.logging;
+import atom_core;
+import atom_logging;
 import :box2d;
 import :ecs;
 import :time;

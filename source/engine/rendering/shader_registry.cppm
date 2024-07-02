@@ -1,7 +1,7 @@
 export module atom.engine:rendering.shader_registry;
 
-import atom.core;
-import atom.logging;
+import atom_core;
+import atom_logging;
 import :rendering.shader;
 
 namespace atom::engine

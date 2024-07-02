@@ -12,7 +12,7 @@ module;
 
 module atom.engine:rendering.font.impl;
 
-import atom.core;
+import atom_core;
 import :math;
 import :rendering.font;
 import :rendering.texture;

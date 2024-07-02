@@ -1,6 +1,6 @@
 export module atom.engine:inputs.mouse;
 
-import atom.core;
+import atom_core;
 import :math;
 import :inputs.input_device;
 import :inputs.mouse_buttons;

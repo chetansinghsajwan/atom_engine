@@ -1,6 +1,6 @@
 module atom.engine:world.impl;
 
-import atom.core;
+import atom_core;
 import :ecs;
 import :world;
 import :time;

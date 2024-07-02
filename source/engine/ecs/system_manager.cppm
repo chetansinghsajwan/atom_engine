@@ -1,7 +1,7 @@
 export module atom.engine:ecs.system_manager;
 
-import atom.core;
-import atom.logging;
+import atom_core;
+import atom_logging;
 import :ecs.system;
 import :time;
 

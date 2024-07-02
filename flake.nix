@@ -6,12 +6,12 @@
     nixpkgs_glfw.url = "github:nixos/nixpkgs/7a339d87931bba829f68e94621536cad9132971a";
 
     atom_core = {
-      url = "github:shifu-dev/atom.core";
+      url = "github:shifu-dev/atom_core";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     atom_logging = {
-      url = "github:shifu-dev/atom.logging";
+      url = "github:shifu-dev/atom_logging";
       inputs.atom_core.follows = "atom_core";
       inputs.nixpkgs.follows = "nixpkgs";
     };

@@ -1,6 +1,6 @@
 module atom.engine:ecs.system.impl;
 
-import atom.core;
+import atom_core;
 import :time;
 import :ecs.system;
 

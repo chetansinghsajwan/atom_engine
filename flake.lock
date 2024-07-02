@@ -13,13 +13,13 @@
         "lastModified": 1719415221,
         "narHash": "sha256-CNnYad5IUHdw9iHU5QdtUsDeqjjINvMjQUHr2EVEXXg=",
         "owner": "shifu-dev",
-        "repo": "atom.core",
+        "repo": "atom_core",
         "rev": "807319bdabee9b88b32e555f585d2385e8f51e30",
         "type": "github"
       },
       "original": {
         "owner": "shifu-dev",
-        "repo": "atom.core",
+        "repo": "atom_core",
         "type": "github"
       }
     },
@@ -36,13 +36,13 @@
         "lastModified": 1719415265,
         "narHash": "sha256-eZW9EFTRG/y+YYwS0tXIoZNNS7QFkriApEOI+BCz+Wk=",
         "owner": "shifu-dev",
-        "repo": "atom.logging",
+        "repo": "atom_logging",
         "rev": "b977cc53479be4c2a389bd6b42d0a3c513e3b267",
         "type": "github"
       },
       "original": {
         "owner": "shifu-dev",
-        "repo": "atom.logging",
+        "repo": "atom_logging",
         "type": "github"
       }
     },
