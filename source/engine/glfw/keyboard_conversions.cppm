@@ -3,7 +3,7 @@ module;
 
 export module atom.engine:glfw.keyboard_conversions;
 
-import atom.core;
+import atom_core;
 import :inputs.keyboard_keys;
 
 /// ------------------------------------------------------------------------------------------------

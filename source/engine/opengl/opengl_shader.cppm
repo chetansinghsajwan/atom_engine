@@ -3,7 +3,7 @@ module;
 
 export module atom.engine:opengl.shader;
 
-import atom.core;
+import atom_core;
 import :math;
 import :rendering.shader;
 

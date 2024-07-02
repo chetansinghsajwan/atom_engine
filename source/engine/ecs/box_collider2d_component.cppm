@@ -1,6 +1,6 @@
 export module atom.engine:ecs.box_collider2d_component;
 
-import atom.core;
+import atom_core;
 import :box2d;
 import :math;
 import :ecs.entity_component;

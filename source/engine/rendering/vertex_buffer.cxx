@@ -1,7 +1,7 @@
 module atom.engine:rendering.vertex_buffer.impl;
 import :rendering.vertex_buffer;
 
-import atom.core;
+import atom_core;
 import :rendering.renderer_api;
 import :opengl.vertex_buffer;
 

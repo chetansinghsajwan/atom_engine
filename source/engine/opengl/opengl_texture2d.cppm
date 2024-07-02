@@ -3,7 +3,7 @@ module;
 
 export module atom.engine:opengl.texture2d;
 
-import atom.core;
+import atom_core;
 import :math;
 import :rendering;
 

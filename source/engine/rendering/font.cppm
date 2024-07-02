@@ -6,7 +6,7 @@ module;
 export module atom.engine:rendering.font;
 
 import std;
-import atom.core;
+import atom_core;
 import :rendering.texture2d;
 
 namespace atom::engine

@@ -3,7 +3,7 @@ module;
 
 export module atom.engine:opengl.vertex_array;
 
-import atom.core;
+import atom_core;
 import :rendering.vertex_array;
 
 namespace atom::engine

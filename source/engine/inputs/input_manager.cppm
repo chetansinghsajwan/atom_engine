@@ -1,6 +1,6 @@
 export module atom.engine:inputs.input_manager;
 
-import atom.core;
+import atom_core;
 import :inputs.input_device;
 import :inputs.input_manager_impl;
 

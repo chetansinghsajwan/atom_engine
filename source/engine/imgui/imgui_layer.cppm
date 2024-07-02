@@ -1,6 +1,6 @@
 export module atom.engine:imgui.layer;
 
-import atom.core;
+import atom_core;
 import :glfw;
 import :application;
 

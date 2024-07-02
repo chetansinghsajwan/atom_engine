@@ -4,7 +4,7 @@ module;
 
 export module atom.engine:gui;
 
-import atom.core;
+import atom_core;
 import :math;
 
 export namespace atom::engine

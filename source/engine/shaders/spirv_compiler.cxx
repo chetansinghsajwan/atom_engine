@@ -5,7 +5,7 @@ module;
 
 module atom.engine:shaders.spirv_compiler.impl;
 
-import atom.core;
+import atom_core;
 import :shaders.spirv_compiler;
 import :shaders.shader_utils;
 

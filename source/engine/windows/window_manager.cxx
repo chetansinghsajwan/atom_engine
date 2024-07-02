@@ -4,8 +4,8 @@ module;
 module atom.engine:windows.window_manager.impl;
 import :windows.window_manager;
 
-import atom.core;
-import atom.logging;
+import atom_core;
+import atom_logging;
 import :glfw;
 import :windows.window_events;
 

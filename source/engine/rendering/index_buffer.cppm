@@ -1,6 +1,6 @@
 export module atom.engine:rendering.index_buffer;
 
-import atom.core;
+import atom_core;
 
 namespace atom::engine
 {

@@ -1,7 +1,7 @@
 export module atom.engine:windows.window_manager;
 
-import atom.core;
-import atom.logging;
+import atom_core;
+import atom_logging;
 import :events;
 import :windows.window;
 import :windows.window_events;

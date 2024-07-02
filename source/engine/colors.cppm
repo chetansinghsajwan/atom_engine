@@ -1,6 +1,6 @@
 export module atom.engine:colors;
 
-import atom.core;
+import atom_core;
 
 namespace atom::engine
 {

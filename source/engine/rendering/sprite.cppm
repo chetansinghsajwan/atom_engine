@@ -1,6 +1,6 @@
 export module atom.engine:rendering.sprite;
 
-import atom.core;
+import atom_core;
 import :math;
 import :rendering.texture2d;
 

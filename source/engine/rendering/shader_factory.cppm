@@ -1,7 +1,7 @@
 export module atom.engine:rendering.shader_factory;
 
-import atom.core;
-import atom.logging;
+import atom_core;
+import atom_logging;
 import :rendering.shader;
 import :rendering.shader_factory_impl;
 import :shaders.spirv_compiler;

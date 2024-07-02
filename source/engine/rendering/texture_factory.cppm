@@ -1,6 +1,6 @@
 export module atom.engine:rendering.texture_factory;
 
-import atom.core;
+import atom_core;
 import :rendering.texture;
 import :rendering.texture2d;
 import :math;

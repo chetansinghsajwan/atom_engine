@@ -3,7 +3,7 @@ module;
 
 export module atom.engine:opengl.index_buffer;
 
-import atom.core;
+import atom_core;
 import :rendering;
 
 namespace atom::engine

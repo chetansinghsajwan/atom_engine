@@ -1,6 +1,6 @@
 export module atom.engine:inputs.input_device;
 
-import atom.core;
+import atom_core;
 
 namespace atom::engine
 {

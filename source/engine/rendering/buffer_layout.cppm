@@ -1,6 +1,6 @@
 export module atom.engine:rendering.buffer_layout;
 
-import atom.core;
+import atom_core;
 import std;
 
 namespace atom::engine

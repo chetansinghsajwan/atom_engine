@@ -1,6 +1,6 @@
 export module atom.engine:windows.window_events;
 
-import atom.core;
+import atom_core;
 import :math;
 import :events;
 

@@ -3,7 +3,7 @@ module;
 
 export module atom.engine:glfw.keyboard;
 
-import atom.core;
+import atom_core;
 import :inputs;
 import :events;
 import :glfw.window;

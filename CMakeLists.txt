@@ -66,8 +66,8 @@ target_sources(
 target_link_libraries(
     atom.engine
     PUBLIC
-        "atom::atom.core"
-        "atom::atom.logging"
+        "atom_core"
+        "atom::atom_logging"
     PRIVATE
          "glm::glm"
          "glfw"

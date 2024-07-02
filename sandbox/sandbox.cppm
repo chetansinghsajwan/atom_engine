@@ -1,6 +1,6 @@
 export module atom.engine.sandbox;
 
-import atom.core;
+import atom_core;
 import atom.engine;
 import :sandbox2d_layer;
 

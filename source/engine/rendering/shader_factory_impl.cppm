@@ -1,6 +1,6 @@
 export module atom.engine:rendering.shader_factory_impl;
 
-import atom.core;
+import atom_core;
 import :rendering.shader;
 
 namespace atom::engine

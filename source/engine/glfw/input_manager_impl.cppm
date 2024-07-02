@@ -3,7 +3,7 @@ module;
 
 export module atom.engine:glfw.input_manager_impl;
 
-import atom.core;
+import atom_core;
 import :inputs;
 import :windows;
 import :glfw.mouse;

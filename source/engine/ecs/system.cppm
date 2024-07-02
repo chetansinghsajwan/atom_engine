@@ -1,6 +1,6 @@
 export module atom.engine:ecs.system;
 
-import atom.core;
+import atom_core;
 import :time;
 
 namespace atom::engine

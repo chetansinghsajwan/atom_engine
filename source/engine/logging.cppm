@@ -1,7 +1,7 @@
 export module atom.engine:logging;
 
-import atom.core;
-import atom.logging;
+import atom_core;
+import atom_logging;
 
 namespace atom::engine
 {

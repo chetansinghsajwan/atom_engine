@@ -1,7 +1,7 @@
 module atom.engine:rendering.frame_buffer.impl;
 import :rendering.frame_buffer;
 
-import atom.core;
+import atom_core;
 import :opengl.frame_buffer;
 import :rendering.renderer_api;
 
