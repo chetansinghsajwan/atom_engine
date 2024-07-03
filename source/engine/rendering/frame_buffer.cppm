@@ -1,4 +1,4 @@
-export module atom.engine:rendering.frame_buffer;
+export module atom_engine:rendering.frame_buffer;
 
 import atom_core;
 import :math;

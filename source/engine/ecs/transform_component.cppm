@@ -1,4 +1,4 @@
-export module atom.engine:ecs.transform_component;
+export module atom_engine:ecs.transform_component;
 
 import :math;
 import :ecs.entity_component;

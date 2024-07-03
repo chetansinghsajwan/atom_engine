@@ -1,4 +1,4 @@
-export module atom.engine:application;
+export module atom_engine:application;
 
 import atom_core;
 import :layers;

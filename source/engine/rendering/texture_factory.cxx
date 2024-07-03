@@ -2,7 +2,7 @@ module;
 #include "glad/glad.h"
 #include "stb/stb_image.h"
 
-module atom.engine:rendering.texture_factory.impl;
+module atom_engine:rendering.texture_factory.impl;
 
 import atom_core;
 import :rendering.texture_factory;

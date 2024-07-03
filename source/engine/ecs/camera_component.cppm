@@ -1,4 +1,4 @@
-export module atom.engine:ecs.camera_component;
+export module atom_engine:ecs.camera_component;
 
 import :ecs.entity_component;
 import :rendering.scene_camera;

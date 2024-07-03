@@ -1,4 +1,4 @@
-export module atom.engine:glfw.window_user_data;
+export module atom_engine:glfw.window_user_data;
 
 namespace atom::engine
 {

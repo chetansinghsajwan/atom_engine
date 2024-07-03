@@ -1,4 +1,4 @@
-export module atom.engine:ecs.entity_manager;
+export module atom_engine:ecs.entity_manager;
 
 import entt;
 import box2d;

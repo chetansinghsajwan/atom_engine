@@ -1,4 +1,4 @@
-export module atom.engine:windows.window_manager;
+export module atom_engine:windows.window_manager;
 
 import atom_core;
 import atom_logging;

@@ -1,4 +1,4 @@
-export module atom.engine:logging;
+export module atom_engine:logging;
 
 import atom_core;
 import atom_logging;

@@ -1,7 +1,7 @@
 module;
 #include "glad/glad.h"
 
-export module atom.engine:opengl.vertex_array;
+export module atom_engine:opengl.vertex_array;
 
 import atom_core;
 import :rendering.vertex_array;

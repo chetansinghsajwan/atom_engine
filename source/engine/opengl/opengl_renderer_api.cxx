@@ -2,7 +2,7 @@ module;
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
-module atom.engine:opengl.renderer_api.impl;
+module atom_engine:opengl.renderer_api.impl;
 
 import atom_core;
 import :opengl.renderer_api;

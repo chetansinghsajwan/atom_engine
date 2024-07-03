@@ -1,4 +1,4 @@
-module atom.engine:rendering.render_system.impl;
+module atom_engine:rendering.render_system.impl;
 
 import atom_core;
 import atom_logging;

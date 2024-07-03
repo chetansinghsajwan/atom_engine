@@ -1,4 +1,4 @@
-module atom.engine:rendering.frame_buffer.impl;
+module atom_engine:rendering.frame_buffer.impl;
 import :rendering.frame_buffer;
 
 import atom_core;

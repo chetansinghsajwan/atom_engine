@@ -1,4 +1,4 @@
-export module atom.engine:layers.layer_stack;
+export module atom_engine:layers.layer_stack;
 
 import atom_core;
 import :time;

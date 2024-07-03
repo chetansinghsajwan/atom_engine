@@ -1,7 +1,7 @@
 module;
 #include "imgui.h"
 
-module atom.engine:imgui.mouse_conversions.impl;
+module atom_engine:imgui.mouse_conversions.impl;
 
 import :inputs;
 

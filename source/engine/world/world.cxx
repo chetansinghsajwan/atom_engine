@@ -1,4 +1,4 @@
-module atom.engine:world.impl;
+module atom_engine:world.impl;
 
 import atom_core;
 import :ecs;

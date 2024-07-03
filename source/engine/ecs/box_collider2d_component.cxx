@@ -1,4 +1,4 @@
-module atom.engine:ecs.box_collider2d_component.impl;
+module atom_engine:ecs.box_collider2d_component.impl;
 
 import atom_core;
 import box2d;

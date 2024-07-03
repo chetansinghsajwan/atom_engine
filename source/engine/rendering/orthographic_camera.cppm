@@ -1,4 +1,4 @@
-export module atom.engine:rendering.orthographic_camera;
+export module atom_engine:rendering.orthographic_camera;
 
 import atom_core;
 import :math;

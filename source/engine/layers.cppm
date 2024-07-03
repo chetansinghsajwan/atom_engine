@@ -1,4 +1,4 @@
-export module atom.engine:layers;
+export module atom_engine:layers;
 
 export import :layers.layer_stack;
 export import :layers.layer;

@@ -1,7 +1,7 @@
 module;
 #include "glad/glad.h"
 
-export module atom.engine:opengl.frame_buffer;
+export module atom_engine:opengl.frame_buffer;
 
 import atom_core;
 import :math;

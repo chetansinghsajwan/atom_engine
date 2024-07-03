@@ -1,4 +1,4 @@
-export module atom.engine:events;
+export module atom_engine:events;
 
 import atom_core;
 

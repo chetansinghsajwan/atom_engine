@@ -1,7 +1,7 @@
 module;
 #include "GLFW/glfw3.h"
 
-export module atom.engine:glfw.keyboard;
+export module atom_engine:glfw.keyboard;
 
 import atom_core;
 import :inputs;

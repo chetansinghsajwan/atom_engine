@@ -1,4 +1,4 @@
-export module atom.engine:ecs.system_manager;
+export module atom_engine:ecs.system_manager;
 
 import atom_core;
 import atom_logging;

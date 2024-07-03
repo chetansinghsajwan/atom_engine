@@ -1,4 +1,4 @@
-export module atom.engine:rendering.scene_camera;
+export module atom_engine:rendering.scene_camera;
 
 import atom_core;
 import :math;

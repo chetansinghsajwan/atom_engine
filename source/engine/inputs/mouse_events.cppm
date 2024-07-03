@@ -1,4 +1,4 @@
-export module atom.engine:inputs.mouse_events;
+export module atom_engine:inputs.mouse_events;
 
 import atom_core;
 import :events;

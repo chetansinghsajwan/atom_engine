@@ -1,4 +1,4 @@
-export module atom.engine:inputs.keyboard_events;
+export module atom_engine:inputs.keyboard_events;
 
 import atom_core;
 import :events;

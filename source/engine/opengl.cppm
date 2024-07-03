@@ -1,4 +1,4 @@
-export module atom.engine:opengl;
+export module atom_engine:opengl;
 
 export import :opengl.context;
 export import :opengl.renderer_api;

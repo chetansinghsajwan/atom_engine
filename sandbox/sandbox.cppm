@@ -1,7 +1,7 @@
-export module atom.engine.sandbox;
+export module atom_engine.sandbox;
 
 import atom_core;
-import atom.engine;
+import atom_engine;
 import :sandbox2d_layer;
 
 class sandbox_application: public engine::application

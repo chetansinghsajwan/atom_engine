@@ -1,4 +1,4 @@
-module atom.engine:ecs.system_manager.impl;
+module atom_engine:ecs.system_manager.impl;
 
 import atom_core;
 import atom_logging;

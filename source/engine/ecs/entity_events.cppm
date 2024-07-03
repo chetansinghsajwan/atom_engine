@@ -1,4 +1,4 @@
-export module atom.engine:ecs.entity_events;
+export module atom_engine:ecs.entity_events;
 
 import atom_core;
 import :events;

@@ -1,7 +1,7 @@
 module;
 #include "GLFW/glfw3.h"
 
-export module atom.engine:glfw.input_manager_impl;
+export module atom_engine:glfw.input_manager_impl;
 
 import atom_core;
 import :inputs;

@@ -4,7 +4,7 @@ module;
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
-export module atom.engine:math;
+export module atom_engine:math;
 
 import atom_core;
 

@@ -1,4 +1,4 @@
-export module atom.engine:physics.physics2d_system;
+export module atom_engine:physics.physics2d_system;
 
 import atom_core;
 import atom_logging;

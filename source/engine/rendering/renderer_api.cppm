@@ -1,4 +1,4 @@
-export module atom.engine:rendering.renderer_api;
+export module atom_engine:rendering.renderer_api;
 
 import atom_core;
 import :math;

@@ -1,0 +1,13 @@
+@INCLUDE_PATH = "$(ATOM_DOC_DOXYFILE_DIR)"
+@INCLUDE = "Doxyfile"
+
+PROJECT_NAME           = "atom_engine"
+PROJECT_NUMBER         = "0.1.0"
+PROJECT_BRIEF          = ""
+PROJECT_LOGO           = ""
+PROJECT_ICON           = ""
+OUTPUT_DIRECTORY       = "build/docs"
+
+INPUT                  = "source/"
+FILE_PATTERNS          = "*.cppm" "*.cxx" "*.cpp"
+RECURSIVE              = "TRUE"

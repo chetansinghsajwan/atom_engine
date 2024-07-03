@@ -1,4 +1,4 @@
-export module atom.engine:windows.window;
+export module atom_engine:windows.window;
 
 import atom_core;
 import :math;

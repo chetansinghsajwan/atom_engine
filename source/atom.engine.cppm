@@ -1,4 +1,4 @@
-export module atom.engine;
+export module atom_engine;
 
 export import :application;
 export import :ecs;

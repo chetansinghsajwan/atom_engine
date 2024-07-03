@@ -1,4 +1,4 @@
-module atom.engine:ecs.sprite_component.final;
+module atom_engine:ecs.sprite_component.final;
 
 import :math;
 import :colors;

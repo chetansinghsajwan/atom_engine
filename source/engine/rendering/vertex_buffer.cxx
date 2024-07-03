@@ -1,4 +1,4 @@
-module atom.engine:rendering.vertex_buffer.impl;
+module atom_engine:rendering.vertex_buffer.impl;
 import :rendering.vertex_buffer;
 
 import atom_core;

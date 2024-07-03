@@ -1,4 +1,4 @@
-export module atom.engine:windows;
+export module atom_engine:windows;
 
 export import :windows.window;
 export import :windows.window_events;

@@ -1,4 +1,4 @@
-module atom.engine:rendering.index_buffer.impl;
+module atom_engine:rendering.index_buffer.impl;
 import :rendering.index_buffer;
 
 import atom_core;

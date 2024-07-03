@@ -1,8 +1,8 @@
-export module atom.engine.sandbox:sandbox2d_layer;
+export module atom_engine.sandbox:sandbox2d_layer;
 
 import atom_core;
 import atom_logging;
-import atom.engine;
+import atom_engine;
 
 using namespace atom;
 

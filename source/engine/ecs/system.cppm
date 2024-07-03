@@ -1,4 +1,4 @@
-export module atom.engine:ecs.system;
+export module atom_engine:ecs.system;
 
 import atom_core;
 import :time;

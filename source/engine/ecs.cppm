@@ -1,4 +1,4 @@
-export module atom.engine:ecs;
+export module atom_engine:ecs;
 
 export import :ecs.system;
 export import :ecs.system_manager;
