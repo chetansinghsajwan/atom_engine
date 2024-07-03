@@ -2,7 +2,9 @@
   "nodes": {
     "atom_core": {
       "inputs": {
+        "atom_doc": "atom_doc",
         "cpptrace": "cpptrace",
+        "fmt": "fmt",
         "libdwarf-lite": "libdwarf-lite",
         "nixpkgs": [
           "nixpkgs"
@@ -10,11 +12,11 @@
         "zstd": "zstd"
       },
       "locked": {
-        "lastModified": 1719415221,
-        "narHash": "sha256-CNnYad5IUHdw9iHU5QdtUsDeqjjINvMjQUHr2EVEXXg=",
+        "lastModified": 1719988258,
+        "narHash": "sha256-+EPAS4mMjnW5MboXq8pbHEP2mgJnFCscWmE2zAVi8s4=",
         "owner": "shifu-dev",
         "repo": "atom_core",
-        "rev": "807319bdabee9b88b32e555f585d2385e8f51e30",
+        "rev": "7514c412f6d75cde25603ae04a9290e5d7e40c3d",
         "type": "github"
       },
       "original": {
@@ -23,21 +25,64 @@
         "type": "github"
       }
     },
+    "atom_doc": {
+      "inputs": {
+        "nixpkgs": [
+          "atom_core",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1719939226,
+        "narHash": "sha256-8fiuN2FyiKn5bfLaAOvKhzr9tKjc7zrRBd+1Exza/3s=",
+        "owner": "shifu-dev",
+        "repo": "atom-doc",
+        "rev": "f1b869bf23cc5725107f3d01f17b0889b6ff755a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "shifu-dev",
+        "repo": "atom-doc",
+        "type": "github"
+      }
+    },
+    "atom_doc_2": {
+      "inputs": {
+        "nixpkgs": [
+          "atom_logging",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1719939226,
+        "narHash": "sha256-8fiuN2FyiKn5bfLaAOvKhzr9tKjc7zrRBd+1Exza/3s=",
+        "owner": "shifu-dev",
+        "repo": "atom-doc",
+        "rev": "f1b869bf23cc5725107f3d01f17b0889b6ff755a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "shifu-dev",
+        "repo": "atom-doc",
+        "type": "github"
+      }
+    },
     "atom_logging": {
       "inputs": {
         "atom_core": [
           "atom_core"
         ],
+        "atom_doc": "atom_doc_2",
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1719415265,
-        "narHash": "sha256-eZW9EFTRG/y+YYwS0tXIoZNNS7QFkriApEOI+BCz+Wk=",
+        "lastModified": 1719950626,
+        "narHash": "sha256-swWq9QWv0XzaPCt0uyJGUVKkNdQRPMuUesu3qIzockQ=",
         "owner": "shifu-dev",
         "repo": "atom_logging",
-        "rev": "b977cc53479be4c2a389bd6b42d0a3c513e3b267",
+        "rev": "5e12e69605895ab7b8e4953a9070ed73d7e1c788",
         "type": "github"
       },
       "original": {
@@ -49,11 +94,11 @@
     "cpptrace": {
       "flake": false,
       "locked": {
-        "lastModified": 1716352602,
-        "narHash": "sha256-DljRNYnf90qbFRhQPA8ZXrw7VipWLUlshr8Jmuq7mXg=",
+        "lastModified": 1718847694,
+        "narHash": "sha256-zjPxPtq+OQ104sJoeBD3jpMV9gV57FSHEJS4W6SF8GM=",
         "owner": "jeremy-rifkin",
         "repo": "cpptrace",
-        "rev": "040d131cefa96c2c5f77f51be37e8b4481bc4b82",
+        "rev": "ea566778fcb2f96074a717e5f2f010d82177accd",
         "type": "github"
       },
       "original": {
@@ -62,14 +107,30 @@
         "type": "github"
       }
     },
+    "fmt": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1719870232,
+        "narHash": "sha256-2+p8Ye1Tr3prLrPeZJEkJBTr2b0JiIQ304aidXKncYU=",
+        "owner": "fmtlib",
+        "repo": "fmt",
+        "rev": "c4f6fa71357b223b0ab8ac29577c6228fde8853d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "fmtlib",
+        "repo": "fmt",
+        "type": "github"
+      }
+    },
     "imgui": {
       "flake": false,
       "locked": {
-        "lastModified": 1716310866,
-        "narHash": "sha256-1NnCXgBOARLSCkOZ0T5kNTkzMdZAHsIGAQd0g53+dPo=",
+        "lastModified": 1719939936,
+        "narHash": "sha256-ULg+UpR7kldeAsKVP6MflFlUoLr3uDDzSc/vr8w3UNU=",
         "owner": "ocornut",
         "repo": "imgui",
-        "rev": "36ffdd69d304659388ad3d3be487a467de65eaf6",
+        "rev": "527b2c45af2f8964f95826bd16ab7c7ed372ae41",
         "type": "github"
       },
       "original": {
@@ -91,18 +152,49 @@
       },
       "original": {
         "owner": "jeremy-rifkin",
-        "ref": "v0.9.2",
         "repo": "libdwarf-lite",
+        "type": "github"
+      }
+    },
+    "msdf_atlas_gen": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1717276379,
+        "narHash": "sha256-SfzQ008aoYI8tkrHXsXVQq9Qq+NIqT1zvSIHK1LTbLU=",
+        "owner": "Chlumsky",
+        "repo": "msdf-atlas-gen",
+        "rev": "c27de5988d7ecfbc9936ee5f936429e2dbc077b9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Chlumsky",
+        "repo": "msdf-atlas-gen",
+        "type": "github"
+      }
+    },
+    "msdfgen": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1717320655,
+        "narHash": "sha256-0xXI0NaTELOPFGoITF78vpHgSWxanU9dQhV4/Bv31M8=",
+        "owner": "Chlumsky",
+        "repo": "msdfgen",
+        "rev": "755c45b4445baa12bfead90fa7d4d2259f2a14c4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Chlumsky",
+        "repo": "msdfgen",
         "type": "github"
       }
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1716293225,
-        "narHash": "sha256-pU9ViBVE3XYb70xZx+jK6SEVphvt7xMTbm6yDIF4xPs=",
+        "lastModified": 1719848872,
+        "narHash": "sha256-H3+EC5cYuq+gQW8y0lSrrDZfH71LB4DAf+TDFyvwCNA=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "3eaeaeb6b1e08a016380c279f8846e0bd8808916",
+        "rev": "00d80d13810dbfea8ab4ed1009b09100cca86ba8",
         "type": "github"
       },
       "original": {
@@ -133,6 +225,8 @@
         "atom_core": "atom_core",
         "atom_logging": "atom_logging",
         "imgui": "imgui",
+        "msdf_atlas_gen": "msdf_atlas_gen",
+        "msdfgen": "msdfgen",
         "nixpkgs": "nixpkgs",
         "nixpkgs_glfw": "nixpkgs_glfw"
       }
@@ -140,16 +234,15 @@
     "zstd": {
       "flake": false,
       "locked": {
-        "lastModified": 1680639232,
-        "narHash": "sha256-tHHHIsQU7vJySrVhJuMKUSq11MzkmC+Pcsj00uFJdnQ=",
+        "lastModified": 1719789423,
+        "narHash": "sha256-hP2wdFLXIgP8Gj8jQnMy5FdiL/pblJQbwFxw3TOuDzs=",
         "owner": "facebook",
         "repo": "zstd",
-        "rev": "63779c798237346c2b245c546c40b72a5a5913fe",
+        "rev": "3de0541aef8da51f144ef47fb86dcc38b21afb00",
         "type": "github"
       },
       "original": {
         "owner": "facebook",
-        "ref": "v1.5.5",
         "repo": "zstd",
         "type": "github"
       }

@@ -20,6 +20,16 @@
       url = "github:ocornut/imgui/docking";
       flake = false;
     };
+
+    msdfgen = {
+      url = "github:Chlumsky/msdfgen";
+      flake = false;
+    };
+
+    msdf_atlas_gen = {
+      url = "github:Chlumsky/msdf-atlas-gen";
+      flake = false;
+    };
   };
 
   outputs = inputs:
@@ -28,84 +38,26 @@
       pkgs = inputs.nixpkgs.legacyPackages.${system};
       lib = pkgs.lib;
       stdenv = pkgs.llvmPackages_18.libcxxStdenv;
-      glfw_pkg = inputs.nixpkgs_glfw.legacyPackages.${system}.pkgs.glfw;
+
       atom_core_env = inputs.atom_core.env.${system}.default;
       atom_core_pkg = inputs.atom_core.packages.${system}.default;
       atom_logging_env = inputs.atom_logging.env.${system}.default;
       atom_logging_pkg = inputs.atom_logging.packages.${system}.default;
 
-      imgui_pkg = stdenv.mkDerivation rec {
-        pname = "imgui";
-        version = "docking";
+      glfw_pkg = inputs.nixpkgs_glfw.legacyPackages.${system}.pkgs.glfw;
+      glslang_pkg = pkgs.glslang.override { inherit stdenv; };
 
+      imgui_pkg = (pkgs.imgui.override {
+        glfw = glfw_pkg;
+        IMGUI_BUILD_GLFW_BINDING = true;
+        IMGUI_BUILD_OPENGL3_BINDING = true;
+      }).overrideAttrs (old: {
         src = inputs.imgui;
-
-        dontBuild = true;
-
-        installPhase = ''
-          mkdir -p $out/include/imgui
-
-          cp *.h $out/include/imgui
-          cp *.cpp $out/include/imgui
-          cp -a backends $out/include/imgui/
-          cp -a misc $out/include/imgui/
-        '';
-      };
-
-      glslang_pkg = stdenv.mkDerivation rec {
-        pname = "glslang";
-        version = "14.2.0";
-
-        src = pkgs.fetchFromGitHub {
-          owner = "KhronosGroup";
-          repo = "glslang";
-          rev = version;
-          hash = "sha256-B6jVCeoFjd2H6+7tIses+Kj8DgHS6E2dkVzQAIzDHEc=";
-        };
-
-        # These get set at all-packages, keep onto them for child drvs
-        passthru = {
-          spirv-tools = pkgs.spirv-tools;
-          spirv-headers = pkgs.spirv-headers;
-        };
-
-        nativeBuildInputs = with pkgs; [
-          cmake
-          python3
-          bison
-          jq
-        ];
-
-        postPatch = ''
-          cp --no-preserve=mode -r "${pkgs.spirv-tools.src}" External/spirv-tools
-          ln -s "${pkgs.spirv-headers.src}" External/spirv-tools/external/spirv-headers
-        '';
-
-        # This is a dirty fix for lib/cmake/SPIRVTargets.cmake:51 which includes this directory
-        postInstall = ''
-          mkdir $out/include/External
-        '';
-
-        # Fix the paths in .pc, even though it's unclear if these .pc are really useful.
-        postFixup = ''
-          substituteInPlace $out/lib/pkgconfig/*.pc \
-          --replace '=''${prefix}//' '=/'
-
-          # add a symlink for backwards compatibility
-          ln -s $out/bin/glslang $out/bin/glslangValidator
-        '';
-      };
+      });
 
       msdfgen_pkg = stdenv.mkDerivation rec {
-        pname = "msdfgen";
-        version = "v1.12";
-
-        src = pkgs.fetchFromGitHub {
-          owner = "Chlumsky";
-          repo = "msdfgen";
-          rev = version;
-          hash = "sha256-QLzfZP9Xsc5HBvF+riamqVY0pYN5umyEsiJV7W8JNyI=";
-        };
+        name = "msdfgen";
+        src = inputs.msdfgen;
 
         nativeBuildInputs = with pkgs; [
           cmake
@@ -119,10 +71,7 @@
         ];
 
         configurePhase = ''
-          cmake \
-            -S . \
-            -B . \
-            -G Ninja \
+          cmake -S . -B . -G Ninja \
             -D CMAKE_INSTALL_PREFIX=$out \
             -D MSDFGEN_USE_VCPKG=OFF \
             -D MSDFGEN_USE_SKIA=OFF \
@@ -130,18 +79,9 @@
         '';
       };
 
-      msdf-atlas-gen_pkg = stdenv.mkDerivation rec {
-        pname = "msdf-atlas-gen";
-        version = "v1.3";
-
-        src = pkgs.fetchFromGitHub {
-          owner = "Chlumsky";
-          repo = "msdf-atlas-gen";
-          rev = version;
-          hash = "sha256-SfzQ008aoYI8tkrHXsXVQq9Qq+NIqT1zvSIHK1LTbLU=";
-          fetchSubmodules = true;
-          leaveDotGit = true;
-        };
+      msdf_atlas_gen_pkg = stdenv.mkDerivation rec {
+        name = "msdf-atlas-gen";
+        src = inputs.msdf_atlas_gen;
 
         nativeBuildInputs = with pkgs; [
           cmake
@@ -156,10 +96,7 @@
         ];
 
         configurePhase = ''
-          cmake \
-            -S . \
-            -B . \
-            -G Ninja \
+          cmake -S . -B . -G Ninja \
             -D CMAKE_INSTALL_PREFIX=$out \
             -D MSDF_ATLAS_MSDFGEN_EXTERNAL=ON \
             -D MSDF_ATLAS_NO_ARTERY_FONT=ON \
@@ -168,14 +105,10 @@
             -D MSDF_ATLAS_INSTALL=ON;
         '';
       };
-
-    in
-    rec
+    in rec
     {
       env.${system}.default = rec {
-
         name = "atom-engine";
-
         src = ./.;
 
         propagatedBuildInputs = with pkgs; [
@@ -183,13 +116,14 @@
           atom_logging_pkg
           glfw_pkg
           imgui_pkg
+          glslang_pkg
+          msdfgen_pkg
+          msdf_atlas_gen_pkg
+
           glm
           entt
           stb
           box2d
-          glslang_pkg
-          msdfgen_pkg
-          msdf-atlas-gen_pkg
         ];
 
         nativeBuildInputs = with pkgs; [
@@ -200,18 +134,9 @@
         ];
 
         configurePhase = ''
-          cmake \
-            -S . \
-            -B build \
+          cmake -S . -B build \
             -D ATOM_ENGINE_ASSETS_DIR=$out/assets \
-            -D CMAKE_INSTALL_PREFIX=$out \
-            -D box2d_DIR=${pkgs.box2d} \
-            -D EnTT_DIR=${pkgs.entt} \
-            -D glm_DIR=${pkgs.glm} \
-            -D glslang_DIR=${glslang_pkg} \
-            -D glfw3_DIR=${glfw_pkg} \
-            -D msdfgen_DIR=${msdfgen_pkg};
-            -D msdf-atlas-gen_DIR=${msdf-atlas-gen_pkg};
+            -D CMAKE_INSTALL_PREFIX=$out;
         '';
 
         buildPhase = ''
@@ -223,25 +148,29 @@
         '';
 
         clang_scan_deps_include_paths = [
+          "${atom_core_pkg}/include"
+          "${atom_logging_pkg}/include"
           "${glfw_pkg}/include"
-          "${pkgs.glm}/include"
-          "${pkgs.entt}/include"
-          "${pkgs.box2d}/include"
-          "${pkgs.stb}/include"
+          "${imgui_pkg}/include"
           "${glslang_pkg}/include"
           "${msdfgen_pkg}/include"
-          "${msdf-atlas-gen_pkg}/include"
+          "${msdf_atlas_gen_pkg}/include"
+          "${pkgs.glm}/include"
+          "${pkgs.entt}/include"
+          "${pkgs.stb}/include"
+          "${pkgs.box2d}/include"
         ];
 
         envVars = {
+          CMAKE_GENERATOR = "Ninja";
+          CMAKE_BUILD_TYPE = "Debug";
+          CMAKE_EXPORT_COMPILE_COMMANDS = "true";
+
           CXXFLAGS = lib.strings.concatMapStrings (v: " -I " + v) (
             atom_core_env.clang_scan_deps_include_paths ++
             atom_logging_env.clang_scan_deps_include_paths ++
             clang_scan_deps_include_paths
           );
-          CMAKE_GENERATOR = "Ninja";
-          CMAKE_BUILD_TYPE = "Debug";
-          CMAKE_EXPORT_COMPILE_COMMANDS = "true";
 
           imgui_DIR = "${imgui_pkg}/include/imgui";
           stb_include_dir = "${pkgs.stb}/include";
