@@ -1,13 +1,14 @@
 module;
 
 #include "imgui.h"
-#include "backends/imgui_impl_glfw.h"
-#include "backends/imgui_impl_opengl3.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
 #include "GLFW/glfw3.h"
 
 module atom.engine:imgui.layer.impl;
 
 import atom_core;
+import atom_logging;
 import :glfw;
 import :application;
 import :imgui.layer;
@@ -23,6 +24,9 @@ namespace atom::engine
 
     auto imgui_layer::on_attach() -> void
     {
+        _logger =
+            logging::logger_manager::create_logger({ .name = "imgui_layer" }).get_value_checked();
+
         glfw_window* window = (glfw_window*)application::get()->get_window();
 
         IMGUI_CHECKVERSION();
@@ -37,8 +41,17 @@ namespace atom::engine
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
         io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
-        ImGui_ImplGlfw_InitForOpenGL(window->get_native_glfw(), true);
-        ImGui_ImplOpenGL3_Init("#version 410");
+        if (!ImGui_ImplGlfw_InitForOpenGL(window->get_native_glfw(), true))
+        {
+            _logger->log_error("imgui glfw init failed.");
+            contract_panic();
+        }
+
+        if (!ImGui_ImplOpenGL3_Init())
+        {
+            _logger->log_error("imgui opengl init failed.");
+            contract_panic();
+        }
 
         setup_imgui_theme();
     }

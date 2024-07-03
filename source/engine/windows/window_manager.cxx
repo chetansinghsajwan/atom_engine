@@ -15,10 +15,16 @@ namespace atom::engine
     {
         _logger = logging::logger_manager::create_logger({ .name = "window_manager" }).get_value();
 
-        glfwSetErrorCallback([](int error_code, const char* description) -> void
-            { contract_panic("glfw error: error_code: {}, description: {}"); });
+        glfwSetErrorCallback(
+            [](int error_code, const char* description) -> void
+            {
+                io::println("glfw_error: {}, description: {}.", error_code, description);
+                contract_panic("glfw error");
+            });
 
         _logger->log_info("initializing glfw...");
+
+        glfwInitHint(GLFW_PLATFORM, GLFW_PLATFORM_WAYLAND);
         int success = glfwInit();
 
         if (success == GLFW_FALSE)

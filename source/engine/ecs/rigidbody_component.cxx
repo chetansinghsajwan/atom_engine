@@ -1,7 +1,7 @@
 module atom.engine:ecs.rigidbody_component.impl;
 
 import atom_core;
-import :box2d;
+import box2d;
 import :math;
 import :time;
 import :world;
