@@ -24,7 +24,6 @@ namespace atom::engine
 
         _logger->log_info("initializing glfw...");
 
-        glfwInitHint(GLFW_PLATFORM, GLFW_PLATFORM_WAYLAND);
         int success = glfwInit();
 
         if (success == GLFW_FALSE)
