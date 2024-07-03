@@ -1,6 +1,7 @@
 export module atom.engine:imgui.layer;
 
 import atom_core;
+import atom_logging;
 import :glfw;
 import :application;
 
@@ -15,18 +16,16 @@ namespace atom::engine
 
     public:
         virtual auto on_attach() -> void override;
-
         virtual auto on_deattach() -> void override;
-
         virtual auto on_imgui_render() -> void override;
 
         auto begin_render() -> void;
-
         auto end_render() -> void;
 
         auto setup_imgui_theme() -> void;
 
     private:
         f64 _time;
+        logging::logger* _logger;
     };
 }

@@ -15,12 +15,12 @@ namespace atom::engine
     {
     public:
         application(string_view name)
-            : _name(name)
-            , _window(nullptr)
-            , _layers()
-            , _layer(nullptr)
-            , _last_frame_time(0)
-            , _should_run(true)
+            : _name{ name }
+            , _window{ nullptr }
+            , _layers{}
+            , _layer{ nullptr }
+            , _last_frame_time{ 0 }
+            , _should_run{ true }
         {
             contract_debug_expects(get() == nullptr, "an appication instance already exists.");
             _s_app = this;

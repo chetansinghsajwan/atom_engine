@@ -52,7 +52,7 @@ auto sandbox2d_layer::on_attach() -> void
     contract_debug_asserts(_mouse != nullptr);
 
     _cherno_texture = engine::texture_factory::create_from_file(
-        "/home/chetan/projects/atom-workspace/atom.engine/assets/textures/cherno.png")
+        "/home/chetan/projects/atom_workspace/atom_engine/assets/textures/cherno.png")
                           .get_value_checked();
 
     _world = new engine::world{};

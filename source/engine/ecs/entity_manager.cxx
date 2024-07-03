@@ -2,7 +2,7 @@ module atom.engine:ecs.entity_manager.impl;
 
 import entt;
 import atom_core;
-import :box2d;
+import box2d;
 import :time;
 import :ecs.entity;
 import :ecs.transform_component;
@@ -24,15 +24,16 @@ namespace atom::engine
 
     auto entity_manager::create_entity(string name) -> entity_id
     {
-        entt::entity id = _registry.create();
-        _registry.emplace<entity_data>(id, move(name));
+        entt::entity entt_entity = _registry.create();
+        _registry.emplace<entity_data>(entt_entity, move(name));
 
-        entity_create_event event{ id };
+        entity_id entity = convert_entt_entity_id_to_atom_id(entt_entity);
+        entity_create_event event{ entity };
         _event_source.dispatch(event);
 
-        emplace_component<transform_component>(id);
+        emplace_component<transform_component>(entity);
 
-        return id;
+        return entity;
     }
 
     auto entity_manager::destroy_entity(entity_id entity) -> void
@@ -42,12 +43,14 @@ namespace atom::engine
         entity_destroy_event event{ entity };
         _event_source.dispatch(event);
 
-        _registry.destroy(entity);
+        entt::entity entt_entity = convert_atom_entity_id_to_entt_id(entity);
+        _registry.destroy(entt_entity);
     }
 
     auto entity_manager::get_name(entity_id entity) -> string_view
     {
-        return _registry.get<entity_data>(entity).name;
+        entt::entity entt_entity = convert_atom_entity_id_to_entt_id(entity);
+        return _registry.get<entity_data>(entt_entity).name;
     }
 
     auto entity_manager::get_world() -> world*

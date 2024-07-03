@@ -1,7 +1,7 @@
 export module atom.engine:ecs.entity_manager;
 
 import entt;
-import :box2d;
+import box2d;
 import atom_core;
 import :time;
 import :events;
@@ -11,6 +11,16 @@ import :ecs.transform_component;
 
 namespace atom::engine
 {
+    constexpr auto convert_atom_entity_id_to_entt_id(entity_id entity) -> entt::entity
+    {
+        return (entt::entity)entity;
+    }
+
+    constexpr auto convert_entt_entity_id_to_atom_id(entt::entity entity) -> entity_id
+    {
+        return (entity_id)entity;
+    }
+
     export class world;
 
     /// --------------------------------------------------------------------------------------------
@@ -49,56 +59,61 @@ namespace atom::engine
         ///
         /// ----------------------------------------------------------------------------------------
         template <typename component_type, typename... arg_types>
-        auto emplace_component(entity_id id, arg_types&&... args) -> component_type*
+        auto emplace_component(entity_id entity, arg_types&&... args) -> component_type*
         {
-            component_type& comp =
-                _registry.emplace<component_type>(id, forward<arg_types>(args)...);
+            entt::entity entt_entity = convert_atom_entity_id_to_entt_id(entity);
+            component_type& component =
+                _registry.emplace<component_type>(entt_entity, forward<arg_types>(args)...);
 
-            entity_component_add_event event{ id, &comp };
+            entity_component_add_event event{ entity, &component };
             _event_source.dispatch(event);
 
-            return &comp;
+            return &component;
         }
 
         /// ----------------------------------------------------------------------------------------
         ///
         /// ----------------------------------------------------------------------------------------
         template <typename component_type, typename... arg_types>
-        auto get_or_emplace_component(entity_id id, arg_types&&... args) -> component_type*
+        auto get_or_emplace_component(entity_id entity, arg_types&&... args) -> component_type*
         {
-            component_type* comp = get_component<component_type>(id, forward<arg_types>(args)...);
+            component_type* component =
+                get_component<component_type>(entity, forward<arg_types>(args)...);
 
-            if (comp == nullptr)
+            if (component == nullptr)
             {
-                comp = emplace_component<component_type>(id, forward<arg_types>(args)...);
+                component = emplace_component<component_type>(entity, forward<arg_types>(args)...);
             }
 
-            return comp;
+            return component;
         }
 
         /// ----------------------------------------------------------------------------------------
         ///
         /// ----------------------------------------------------------------------------------------
         template <typename component_type>
-        auto remove_component(entity_id id) -> void
+        auto remove_component(entity_id entity) -> void
         {
-            component_type* comp = _registry.try_get<component_type>(id);
-            if (comp != nullptr)
+            entt::entity entt_entity = convert_atom_entity_id_to_entt_id(entity);
+
+            component_type* component = _registry.try_get<component_type>(entt_entity);
+            if (component != nullptr)
             {
-                entity_component_remove_event event{ id, comp };
+                entity_component_remove_event event{ entity, component };
                 _event_source.dispatch(event);
             }
 
-            _registry.remove<component_type>();
+            _registry.remove<component_type>(entt_entity);
         }
 
         /// ----------------------------------------------------------------------------------------
         ///
         /// ----------------------------------------------------------------------------------------
         template <typename component_type>
-        auto get_component(entity_id id) -> component_type*
+        auto get_component(entity_id entity) -> component_type*
         {
-            return _registry.try_get<component_type>(id);
+            entt::entity entt_entity = convert_atom_entity_id_to_entt_id(entity);
+            return _registry.try_get<component_type>(entt_entity);
         }
 
         /// ----------------------------------------------------------------------------------------
@@ -109,10 +124,10 @@ namespace atom::engine
             entity_id* out_entity, component_type0** out_comp0, component_type1** out_comp1) -> bool
         {
             auto view = _registry.view<component_type0, component_type1>().each();
-            for (auto [id, comp0, comp1] : view)
+            for (auto [entt_entity, comp0, comp1] : view)
             {
                 if (out_entity != nullptr)
-                    *out_entity = id;
+                    *out_entity = convert_entt_entity_id_to_atom_id(entt_entity);
 
                 if (out_comp0 != nullptr)
                     *out_comp0 = &comp0;
@@ -132,7 +147,12 @@ namespace atom::engine
         template <typename... component_types, typename function_type>
         auto for_each_with_components(function_type&& func) -> void
         {
-            return _registry.view<component_types...>().each(forward<function_type>(func));
+            return _registry.view<component_types...>().each(
+                [&](entt::entity entt_entity, component_types&... components)
+                {
+                    entity_id entity = convert_entt_entity_id_to_atom_id(entt_entity);
+                    func(entity, components...);
+                });
         }
 
         /// ----------------------------------------------------------------------------------------

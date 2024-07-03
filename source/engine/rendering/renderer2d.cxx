@@ -87,7 +87,7 @@ namespace atom::engine
         shader_factory::set_root_path(assets_path);
 
         string_view font_path =
-            "/home/chetan/projects/atom-workspace/atom.engine/assets/fonts/roboto/roboto-bold.ttf";
+            "/home/chetan/projects/atom_workspace/atom_engine/assets/fonts/roboto/roboto-bold.ttf";
 
         _logger->log_info("loading font '{}'.", font_path);
 
