@@ -1,4 +1,4 @@
-export module atom.engine:rendering.shader;
+export module atom_engine:rendering.shader;
 
 import atom_core;
 import :math;

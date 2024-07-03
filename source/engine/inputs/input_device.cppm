@@ -1,4 +1,4 @@
-export module atom.engine:inputs.input_device;
+export module atom_engine:inputs.input_device;
 
 import atom_core;
 

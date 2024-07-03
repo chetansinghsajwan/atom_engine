@@ -1,4 +1,4 @@
-export module atom.engine:layers.layer;
+export module atom_engine:layers.layer;
 
 import atom_core;
 import :windows;

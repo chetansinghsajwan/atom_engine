@@ -1,4 +1,4 @@
-export module atom.engine:inputs.keyboard;
+export module atom_engine:inputs.keyboard;
 
 import atom_core;
 import :inputs.input_device;

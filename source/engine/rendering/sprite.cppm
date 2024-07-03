@@ -1,4 +1,4 @@
-export module atom.engine:rendering.sprite;
+export module atom_engine:rendering.sprite;
 
 import atom_core;
 import :math;

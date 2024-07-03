@@ -1,7 +1,7 @@
 module;
 #include "imgui.h"
 
-export module atom.engine:imgui.keyboard_conversions;
+export module atom_engine:imgui.keyboard_conversions;
 
 import :inputs;
 

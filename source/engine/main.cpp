@@ -1,6 +1,6 @@
 #include "config.h"
 
-import atom.engine;
+import atom_engine;
 
 using namespace atom::engine;
 

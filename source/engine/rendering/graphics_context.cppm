@@ -1,4 +1,4 @@
-export module atom.engine:rendering.graphics_context;
+export module atom_engine:rendering.graphics_context;
 
 namespace atom::engine
 {

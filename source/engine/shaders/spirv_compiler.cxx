@@ -3,7 +3,7 @@ module;
 #include "glslang/Public/ResourceLimits.h"
 #include "glslang/SPIRV/GlslangToSpv.h"
 
-module atom.engine:shaders.spirv_compiler.impl;
+module atom_engine:shaders.spirv_compiler.impl;
 
 import atom_core;
 import :shaders.spirv_compiler;

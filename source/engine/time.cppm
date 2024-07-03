@@ -1,4 +1,4 @@
-export module atom.engine:time;
+export module atom_engine:time;
 
 import atom_core;
 

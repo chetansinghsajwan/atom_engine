@@ -1,4 +1,4 @@
-export module atom.engine:rendering.orthographic_camera_controller;
+export module atom_engine:rendering.orthographic_camera_controller;
 
 import atom_core;
 import :windows;

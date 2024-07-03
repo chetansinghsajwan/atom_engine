@@ -1,7 +1,7 @@
 module;
 #include "glad/glad.h"
 
-export module atom.engine:opengl.shader;
+export module atom_engine:opengl.shader;
 
 import atom_core;
 import :math;

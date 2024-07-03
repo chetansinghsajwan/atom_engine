@@ -1,4 +1,4 @@
-export module atom.engine:glfw;
+export module atom_engine:glfw;
 
 export import :glfw.input_manager_impl;
 export import :glfw.keyboard;

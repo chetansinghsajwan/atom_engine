@@ -2,7 +2,7 @@ module;
 #include "GLFW/glfw3.h"
 #include "glad/glad.h"
 
-export module atom.engine:glfw.window;
+export module atom_engine:glfw.window;
 
 import atom_core;
 import :math;

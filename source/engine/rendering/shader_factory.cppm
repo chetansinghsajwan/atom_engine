@@ -1,4 +1,4 @@
-export module atom.engine:rendering.shader_factory;
+export module atom_engine:rendering.shader_factory;
 
 import atom_core;
 import atom_logging;

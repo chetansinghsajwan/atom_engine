@@ -1,4 +1,4 @@
-export module atom.engine:rendering.camera;
+export module atom_engine:rendering.camera;
 
 import :math;
 

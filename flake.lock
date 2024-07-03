@@ -2,7 +2,9 @@
   "nodes": {
     "atom_core": {
       "inputs": {
-        "atom_doc": "atom_doc",
+        "atom_doc": [
+          "atom_doc"
+        ],
         "cpptrace": "cpptrace",
         "fmt": "fmt",
         "libdwarf-lite": "libdwarf-lite",
@@ -28,28 +30,6 @@
     "atom_doc": {
       "inputs": {
         "nixpkgs": [
-          "atom_core",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1719939226,
-        "narHash": "sha256-8fiuN2FyiKn5bfLaAOvKhzr9tKjc7zrRBd+1Exza/3s=",
-        "owner": "shifu-dev",
-        "repo": "atom-doc",
-        "rev": "f1b869bf23cc5725107f3d01f17b0889b6ff755a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "shifu-dev",
-        "repo": "atom-doc",
-        "type": "github"
-      }
-    },
-    "atom_doc_2": {
-      "inputs": {
-        "nixpkgs": [
-          "atom_logging",
           "nixpkgs"
         ]
       },
@@ -72,7 +52,9 @@
         "atom_core": [
           "atom_core"
         ],
-        "atom_doc": "atom_doc_2",
+        "atom_doc": [
+          "atom_doc"
+        ],
         "nixpkgs": [
           "nixpkgs"
         ]
@@ -223,6 +205,7 @@
     "root": {
       "inputs": {
         "atom_core": "atom_core",
+        "atom_doc": "atom_doc",
         "atom_logging": "atom_logging",
         "imgui": "imgui",
         "msdf_atlas_gen": "msdf_atlas_gen",

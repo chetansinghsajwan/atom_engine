@@ -1,4 +1,4 @@
-export module atom.engine:rendering.texture_factory;
+export module atom_engine:rendering.texture_factory;
 
 import atom_core;
 import :rendering.texture;

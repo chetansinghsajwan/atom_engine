@@ -1,7 +1,7 @@
 module;
 #include "glad/glad.h"
 
-module atom.engine:rendering.renderer2d.impl;
+module atom_engine:rendering.renderer2d.impl;
 
 import :rendering.renderer2d;
 import atom_core;

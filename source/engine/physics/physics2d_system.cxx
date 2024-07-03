@@ -1,4 +1,4 @@
-module atom.engine:physics.physics2d_system.impl;
+module atom_engine:physics.physics2d_system.impl;
 
 import atom_core;
 import atom_logging;

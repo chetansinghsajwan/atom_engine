@@ -1,4 +1,4 @@
-export module atom.engine:imgui.layer;
+export module atom_engine:imgui.layer;
 
 import atom_core;
 import atom_logging;

@@ -2,7 +2,7 @@ module;
 #include "GLFW/glfw3.h"
 #include "glad/glad.h"
 
-export module atom.engine:opengl.context;
+export module atom_engine:opengl.context;
 
 import atom_core;
 import :rendering;

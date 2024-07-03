@@ -1,4 +1,4 @@
-export module atom.engine:colors;
+export module atom_engine:colors;
 
 import atom_core;
 

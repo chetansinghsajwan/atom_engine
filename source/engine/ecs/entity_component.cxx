@@ -1,4 +1,4 @@
-module atom.engine:ecs.entity_component.impl;
+module atom_engine:ecs.entity_component.impl;
 
 import :time;
 import :ecs.entity_component;

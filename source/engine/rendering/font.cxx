@@ -10,7 +10,7 @@ module;
 #include "msdf-atlas-gen/BitmapAtlasStorage.h"
 #include "msdf-atlas-gen/glyph-generators.h"
 
-module atom.engine:rendering.font.impl;
+module atom_engine:rendering.font.impl;
 
 import atom_core;
 import :math;

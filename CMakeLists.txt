@@ -1,10 +1,17 @@
 cmake_minimum_required(VERSION 3.28)
-project(
-    atom.engine
-    VERSION 0.1.0
-    LANGUAGES CXX C)
+project("atom_engine" VERSION "0.1.0")
+enable_language(CXX)
 
 cmake_policy(SET CMP0155 NEW)
+
+# --------------------------------------------------------------------------------------------------
+# options
+# --------------------------------------------------------------------------------------------------
+option(atom_core_build_docs "Enable this to build docs." OFF)
+
+# --------------------------------------------------------------------------------------------------
+# atom_engine
+# --------------------------------------------------------------------------------------------------
 
 # glm has cmake_minimum_required(VERSION 3.2) which triggers a deprecation warning.
 set(CMAKE_WARN_DEPRECATED OFF CACHE BOOL "" FORCE)
@@ -22,87 +29,94 @@ find_package("glslang" REQUIRED)
 add_subdirectory("vendor/glad")
 add_subdirectory("vendor/stb")
 
-# --------------------------------------------------------------------------------------------------
-# atom.engine
-# --------------------------------------------------------------------------------------------------
-
 if(NOT DEFINED ATOM_ENGINE_ASSETS_DIR)
     set(ATOM_ENGINE_ASSETS_DIR "${CMAKE_CURRENT_LIST_DIR}/assets")
 endif()
 configure_file("include/config.h.in" "include/config.h")
 
-add_library(atom.engine STATIC)
-add_library(atom::atom.engine ALIAS atom.engine)
+add_library(atom_engine STATIC)
 
-file(GLOB_RECURSE modules "source/*.cppm" "source/*.cxx")
-file(GLOB_RECURSE sources "source/*.cpp")
+file(GLOB_RECURSE atom_engine_modules "source/*.cppm" "source/*.cxx")
+file(GLOB_RECURSE atom_engine_sources "source/*.cpp")
 target_sources(
-    atom.engine
-    PUBLIC FILE_SET CXX_MODULES FILES "${modules}"
-    PRIVATE "${sources}")
+    atom_engine
+    PUBLIC FILE_SET CXX_MODULES FILES "${atom_engine_modules}"
+    PRIVATE "${atom_engine_sources}")
 
 target_link_libraries(
-    atom.engine
+    atom_engine
     PUBLIC
         "atom_core"
         "atom_logging"
     PRIVATE
-         "glm::glm"
-         "glfw"
-         "glad"
-         "imgui::imgui"
-         "stb"
-         "EnTT::EnTT"
-         "box2d::box2d"
-         "msdfgen::msdfgen"
-         "msdf-atlas-gen::msdf-atlas-gen"
-         "glslang::glslang"
-         "glslang::glslang-default-resource-limits"
-         "glslang::OSDependent"
-         "glslang::MachineIndependent"
-         "glslang::GenericCodeGen"
-         "glslang::SPVRemapper"
-         "glslang::SPIRV")
+        "glfw"
+        "glad"
+        "stb"
+        "glm::glm"
+        "imgui::imgui"
+        "EnTT::EnTT"
+        "box2d::box2d"
+        "msdfgen::msdfgen"
+        "msdf-atlas-gen::msdf-atlas-gen"
+        "glslang::glslang"
+        "glslang::glslang-default-resource-limits"
+        "glslang::OSDependent"
+        "glslang::MachineIndependent"
+        "glslang::GenericCodeGen"
+        "glslang::SPVRemapper"
+        "glslang::SPIRV")
 
-target_compile_definitions(atom.engine PUBLIC "GLFW_INCLUDE_NONE")
-target_compile_features(atom.engine PUBLIC "cxx_std_23")
-target_include_directories(atom.engine
+target_compile_definitions(atom_engine PUBLIC "GLFW_INCLUDE_NONE")
+target_compile_features(atom_engine PUBLIC "cxx_std_23")
+target_include_directories(atom_engine
                            PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>)
 
 # --------------------------------------------------------------------------------------------------
-# atom.engine.sandbox
+# sandbox
 # --------------------------------------------------------------------------------------------------
 
-add_executable(atom.engine.sandbox)
+add_executable(atom_engine_sandbox)
 
-file(GLOB_RECURSE sandbox_modules "sandbox/*.cppm" "sandbox/*.cxx")
-file(GLOB_RECURSE sandbox_sources "sandbox/*.cpp")
+file(GLOB_RECURSE atom_engine_sandbox_modules "sandbox/*.cppm" "sandbox/*.cxx")
+file(GLOB_RECURSE atom_engine_sandbox_sources "sandbox/*.cpp")
 target_sources(
-    atom.engine.sandbox
-    PRIVATE FILE_SET CXX_MODULES FILES ${sandbox_modules}
-    PRIVATE ${sandbox_sources})
-target_link_libraries(atom.engine.sandbox PRIVATE atom.engine)
+    atom_engine_sandbox
+    PRIVATE FILE_SET CXX_MODULES FILES "${atom_engine_sandbox_modules}"
+    PRIVATE "${atom_engine_sandbox_sources}")
+target_link_libraries(atom_engine_sandbox PRIVATE "atom_engine")
 
 # --------------------------------------------------------------------------------------------------
-# install phase
+# docs
+# --------------------------------------------------------------------------------------------------
+
+if(atom_engine_build_docs)
+    find_package("Doxygen" REQUIRED)
+
+    doxygen_add_docs(atom_engine_docs
+        "${atom_engine_modules}" "${atom_engine_sources}"
+        CONFIG_FILE "${CMAKE_CURRENT_LIST_DIR}/Doxyfile"
+        USE_STAMP_FILE)
+endif()
+
+# --------------------------------------------------------------------------------------------------
+# install
 # --------------------------------------------------------------------------------------------------
 
 install(
-    TARGETS "atom.engine" "stb" "glad"
+    TARGETS "atom_engine" "stb" "glad"
     EXPORT atom_engine-targets
     FILE_SET CXX_MODULES
     DESTINATION "lib"
-    INCLUDES
-    DESTINATION "include/")
-
-install(DIRECTORY "vendor/glad/include/" DESTINATION "include/")
-install(DIRECTORY "assets/" DESTINATION "assets/")
+    INCLUDES DESTINATION "include/")
 
 install(
     EXPORT atom_engine-targets
     DESTINATION "cmake"
     FILE "atom_engine-targets.cmake"
     NAMESPACE "atom::")
+
+install(DIRECTORY "vendor/glad/include/" DESTINATION "include/")
+install(DIRECTORY "assets/" DESTINATION "assets/")
 
 include(CMakePackageConfigHelpers)
 

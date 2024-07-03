@@ -1,4 +1,4 @@
-module atom.engine:rendering.vertex_array.impl;
+module atom_engine:rendering.vertex_array.impl;
 import :rendering.vertex_array;
 
 import atom_core;

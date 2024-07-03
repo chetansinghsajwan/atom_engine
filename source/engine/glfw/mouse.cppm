@@ -1,7 +1,7 @@
 module;
 #include "GLFW/glfw3.h"
 
-export module atom.engine:glfw.mouse;
+export module atom_engine:glfw.mouse;
 
 import atom_core;
 import :inputs;

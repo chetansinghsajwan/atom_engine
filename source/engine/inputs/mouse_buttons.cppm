@@ -1,4 +1,4 @@
-export module atom.engine:inputs.mouse_buttons;
+export module atom_engine:inputs.mouse_buttons;
 
 namespace atom::engine
 {

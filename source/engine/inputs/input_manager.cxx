@@ -1,4 +1,4 @@
-module atom.engine:inputs.input_manager.impl;
+module atom_engine:inputs.input_manager.impl;
 import :inputs.input_manager;
 
 import :glfw;

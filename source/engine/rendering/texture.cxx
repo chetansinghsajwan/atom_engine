@@ -1,4 +1,4 @@
-module atom.engine:rendering.texture.impl;
+module atom_engine:rendering.texture.impl;
 
 import atom_core;
 import :math;

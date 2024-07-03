@@ -1,7 +1,7 @@
 module;
 #include "glad/glad.h"
 
-export module atom.engine:opengl.vertex_buffer;
+export module atom_engine:opengl.vertex_buffer;
 import atom_core;
 import :rendering.vertex_buffer;
 import :rendering.buffer_layout;

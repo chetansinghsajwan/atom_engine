@@ -1,7 +1,7 @@
 module;
 #include "GLFW/glfw3.h"
 
-module atom.engine:windows.window_manager.impl;
+module atom_engine:windows.window_manager.impl;
 import :windows.window_manager;
 
 import atom_core;

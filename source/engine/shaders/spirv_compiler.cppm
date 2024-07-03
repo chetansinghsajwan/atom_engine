@@ -1,4 +1,4 @@
-export module atom.engine:shaders.spirv_compiler;
+export module atom_engine:shaders.spirv_compiler;
 
 import atom_core;
 import :shaders.shader_utils;

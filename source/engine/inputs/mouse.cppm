@@ -1,4 +1,4 @@
-export module atom.engine:inputs.mouse;
+export module atom_engine:inputs.mouse;
 
 import atom_core;
 import :math;

@@ -5,7 +5,7 @@ module;
 #include "imgui_impl_opengl3.h"
 #include "GLFW/glfw3.h"
 
-module atom.engine:imgui.layer.impl;
+module atom_engine:imgui.layer.impl;
 
 import atom_core;
 import atom_logging;

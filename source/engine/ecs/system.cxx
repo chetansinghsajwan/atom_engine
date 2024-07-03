@@ -1,4 +1,4 @@
-module atom.engine:ecs.system.impl;
+module atom_engine:ecs.system.impl;
 
 import atom_core;
 import :time;

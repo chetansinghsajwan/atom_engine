@@ -1,7 +1,7 @@
 module;
 #include "glad/glad.h"
 
-export module atom.engine:opengl.index_buffer;
+export module atom_engine:opengl.index_buffer;
 
 import atom_core;
 import :rendering;

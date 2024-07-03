@@ -1,4 +1,4 @@
-module atom.engine:ecs.camera_component.impl;
+module atom_engine:ecs.camera_component.impl;
 
 import :ecs.camera_component;
 import :ecs.entity_component;

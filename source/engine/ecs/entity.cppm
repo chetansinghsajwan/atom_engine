@@ -1,4 +1,4 @@
-export module atom.engine:ecs.entity;
+export module atom_engine:ecs.entity;
 
 import entt;
 import atom_core;

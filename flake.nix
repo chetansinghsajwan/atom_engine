@@ -1,17 +1,24 @@
 {
-  description = "atom-engine";
+  description = "atom_engine";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs_glfw.url = "github:nixos/nixpkgs/7a339d87931bba829f68e94621536cad9132971a";
 
+    atom_doc = {
+        url = "github:shifu-dev/atom-doc";
+        inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     atom_core = {
       url = "github:shifu-dev/atom_core";
+      inputs.atom_doc.follows = "atom_doc";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     atom_logging = {
       url = "github:shifu-dev/atom_logging";
+      inputs.atom_doc.follows = "atom_doc";
       inputs.atom_core.follows = "atom_core";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -39,6 +46,7 @@
       lib = pkgs.lib;
       stdenv = pkgs.llvmPackages_18.libcxxStdenv;
 
+      atom_doc_pkg = inputs.atom_doc.packages.${system}.default;
       atom_core_env = inputs.atom_core.env.${system}.default;
       atom_core_pkg = inputs.atom_core.packages.${system}.default;
       atom_logging_env = inputs.atom_logging.env.${system}.default;
@@ -108,7 +116,7 @@
     in rec
     {
       env.${system}.default = rec {
-        name = "atom-engine";
+        name = "atom_engine";
         src = ./.;
 
         propagatedBuildInputs = with pkgs; [
@@ -127,6 +135,9 @@
         ];
 
         nativeBuildInputs = with pkgs; [
+          atom_doc_pkg
+          doxygen
+          graphviz
           cmake
           cmake-format
           ninja
@@ -140,7 +151,7 @@
         '';
 
         buildPhase = ''
-          cmake --build build --target atom.engine;
+          cmake --build build --target atom_engine;
         '';
 
         installPhase = ''
@@ -172,7 +183,7 @@
             clang_scan_deps_include_paths
           );
 
-          imgui_DIR = "${imgui_pkg}/include/imgui";
+          ATOM_DOC_DOXYFILE_DIR = atom_doc_pkg;
           stb_include_dir = "${pkgs.stb}/include";
         };
       };

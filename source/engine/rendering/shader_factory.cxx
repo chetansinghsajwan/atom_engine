@@ -1,7 +1,7 @@
 module;
 #include "glad/glad.h"
 
-module atom.engine:rendering.shader_factory.impl;
+module atom_engine:rendering.shader_factory.impl;
 import :rendering.shader_factory;
 
 import atom_core;

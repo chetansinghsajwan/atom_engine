@@ -1,4 +1,4 @@
-export module atom.engine:rendering.renderer2d;
+export module atom_engine:rendering.renderer2d;
 
 import atom_core;
 import atom_logging;

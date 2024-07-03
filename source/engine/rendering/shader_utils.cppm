@@ -1,4 +1,4 @@
-export module atom.engine:shaders.shader_utils;
+export module atom_engine:shaders.shader_utils;
 
 import std;
 import atom_core;

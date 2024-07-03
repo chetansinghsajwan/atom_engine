@@ -3,7 +3,7 @@ module;
 #include "msdf-atlas-gen/FontGeometry.h"
 #include "msdf-atlas-gen/GlyphGeometry.h"
 
-export module atom.engine:rendering.font;
+export module atom_engine:rendering.font;
 
 import std;
 import atom_core;

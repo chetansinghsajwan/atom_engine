@@ -1,4 +1,4 @@
-export module atom.engine:world;
+export module atom_engine:world;
 
 import :ecs;
 import :time;

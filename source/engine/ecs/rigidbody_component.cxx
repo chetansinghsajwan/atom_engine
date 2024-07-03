@@ -1,4 +1,4 @@
-module atom.engine:ecs.rigidbody_component.impl;
+module atom_engine:ecs.rigidbody_component.impl;
 
 import atom_core;
 import box2d;

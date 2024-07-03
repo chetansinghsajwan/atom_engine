@@ -2,7 +2,7 @@ module;
 #include "imgui.h"
 #include "imgui_internal.h"
 
-export module atom.engine:gui;
+export module atom_engine:gui;
 
 import atom_core;
 import :math;

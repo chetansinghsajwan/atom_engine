@@ -1,7 +1,7 @@
 module;
 #include "GLFW/glfw3.h"
 
-module atom.engine:application.impl;
+module atom_engine:application.impl;
 
 import atom_core;
 import :application;

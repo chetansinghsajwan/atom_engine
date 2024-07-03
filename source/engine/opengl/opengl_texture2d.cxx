@@ -1,7 +1,7 @@
 module;
 #include "glad/glad.h"
 
-module atom.engine:opengl.texture2d.impl;
+module atom_engine:opengl.texture2d.impl;
 
 import atom_core;
 import :math;
