@@ -54,7 +54,7 @@ namespace atom::engine
 
     auto shader_factory::get_root_path() -> string_view
     {
-        return string_view::from_std(_root_path);
+        return _root_path;
     }
 
     auto _add_shader_extension(string_view path, shader_stage stage) -> string
@@ -451,7 +451,7 @@ namespace atom::engine
         if ((path | ranges::get_first()) == '/')
             return path;
 
-        string_view root_path = string_view::from_std(_root_path);
+        string_view root_path = _root_path;
         string result{ create_with_capacity, root_path.get_count() + path.get_count() };
         result.insert_range_last(root_path);
         result.insert_range_last(path);
