@@ -53,7 +53,7 @@ namespace atom::engine
             }
 
             system_type* system = new system_type{ forward<arg_types>(args)... };
-            _systems.emplace_back(id, system);
+            _systems.emplace_last(id, system);
 
             _logger->log_info("emplacing system done, name '{}'.", system->get_name());
 

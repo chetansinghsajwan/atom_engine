@@ -29,7 +29,7 @@ namespace atom::engine
             return entry_exists_error{ "system already exists." };
         }
 
-        _systems.emplace_back(id, system);
+        _systems.emplace_last(id, system);
         _logger->log_info("adding system done.");
 
         system->on_initialize();

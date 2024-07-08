@@ -62,8 +62,8 @@ namespace atom::engine
         string_view shader_file_extension = shader_utils::get_file_extension_for_stage(stage);
 
         string final_path = path;
-        final_path | ranges::get_back() = '.';
-        final_path.insert_range_back(shader_file_extension);
+        final_path | ranges::get_last() = '.';
+        final_path.insert_range_last(shader_file_extension);
 
         return final_path;
     }
@@ -301,7 +301,7 @@ namespace atom::engine
                 glGetShaderiv(gl_shader, GL_INFO_LOG_LENGTH, &max_length);
 
                 dynamic_array<GLchar> info_log{ create_with_capacity, (usize)max_length };
-                glGetShaderInfoLog(gl_shader, max_length, &max_length, info_log.get_mut_data());
+                glGetShaderInfoLog(gl_shader, max_length, &max_length, info_log.get_data());
 
                 // cleanup up the allocated resources
                 glDeleteShader(gl_shader);
@@ -448,13 +448,13 @@ namespace atom::engine
         contract_debug_expects(path | ranges::is_not_empty());
 
         // path is already an absolute path
-        if ((path | ranges::get_front()) == '/')
+        if ((path | ranges::get_first()) == '/')
             return path;
 
         string_view root_path = string_view::from_std(_root_path);
         string result{ create_with_capacity, root_path.get_count() + path.get_count() };
-        result.insert_range_back(root_path);
-        result.insert_range_back(path);
+        result.insert_range_last(root_path);
+        result.insert_range_last(path);
         return result;
     }
 

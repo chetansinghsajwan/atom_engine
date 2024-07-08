@@ -22,7 +22,7 @@ auto sandbox2d_layer::on_attach() -> void
 {
     _logger->log_info("sandbox2d_layer attached.");
 
-    _window = engine::window_manager::get_windows() | ranges::get_mut_front();
+    _window = engine::window_manager::get_windows() | ranges::get_first();
     _logger->log_info("using window '{}'.", _window->get_name());
 
     contract_debug_asserts(_window != nullptr);

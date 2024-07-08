@@ -31,7 +31,7 @@ namespace atom::engine
 
         auto _add_new_device(input_device* device) -> void
         {
-            _devices.emplace_back(device);
+            _devices.emplace_last(device);
         }
 
     protected:
