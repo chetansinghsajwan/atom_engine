@@ -78,7 +78,7 @@ namespace atom::engine
                     (const void*)(usize)elem.offset);
             }
 
-            _vertex_buffers.emplace_back(buffer);
+            _vertex_buffers.emplace_last(buffer);
         }
 
         virtual auto get_vertex_buffers() const -> array_view<vertex_buffer*> override

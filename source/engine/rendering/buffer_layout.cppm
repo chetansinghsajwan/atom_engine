@@ -97,7 +97,7 @@ namespace atom::engine
         {}
 
         buffer_layout(std::initializer_list<buffer_element> layout)
-            : _elements(ranges::from(layout))
+            : _elements{ layout }
         {
             _calculate_offset_and_stride();
         }

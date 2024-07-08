@@ -50,7 +50,7 @@ namespace atom::engine
         _logger->log_info("creating window '{}'.", props.window_name);
 
         window* window = new glfw_window(props);
-        _windows.emplace_back(window);
+        _windows.emplace_last(window);
 
         _logger->log_info("created window.");
         window_create_event event(window);

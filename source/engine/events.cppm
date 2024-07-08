@@ -43,7 +43,7 @@ namespace atom::engine
         {
             contract_debug_expects(listener != nullptr);
 
-            _listeners.emplace_back(listener);
+            _listeners.emplace_last(listener);
         }
 
         auto unsubscribe(listener_type* listener) -> void

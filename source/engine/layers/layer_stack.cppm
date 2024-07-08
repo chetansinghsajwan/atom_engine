@@ -44,7 +44,7 @@ namespace atom::engine
         {
             contract_debug_expects(layer != nullptr);
 
-            _layers.emplace_back(layer);
+            _layers.emplace_last(layer);
             layer->on_attach();
         }
 
