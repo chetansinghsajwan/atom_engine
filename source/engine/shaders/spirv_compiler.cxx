@@ -87,7 +87,7 @@ namespace atom::engine
         std::vector<uint32_t> spirv;
         glslang::GlslangToSpv(*program.getIntermediate(glslang_shader_stage), spirv);
 
-        return dynamic_buffer{ create_from_std_vector, spirv };
+        return dynamic_buffer{ create_from_range, spirv };
     }
 
     auto spirv_compiler::compile(shader_stage stage, string_view source) -> spirv_compilation_result
