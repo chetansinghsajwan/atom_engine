@@ -68,7 +68,7 @@ namespace atom::engine
                 }
             }
 
-            return string_view::from_empty();
+            return string_view{};
         }
 
         static auto get_shader(string_view name) -> shader*

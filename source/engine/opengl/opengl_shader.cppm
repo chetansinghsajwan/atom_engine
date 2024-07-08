@@ -62,7 +62,7 @@ namespace atom::engine
         auto upload_uniform_int(string_view name, GLint value) -> void
         {
             GLint location = get_uniform_location(name);
-            contract_debug_expects(location != -1, name.to_std());
+            contract_debug_expects(location != -1, name);
 
             glUniform1i(location, value);
         }
