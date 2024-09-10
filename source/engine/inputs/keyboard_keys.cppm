@@ -133,6 +133,7 @@ namespace atom::engine
 
     export enum class keyboard_key_state
     {
+        unknown,
         up,
         pressed,
         down,
