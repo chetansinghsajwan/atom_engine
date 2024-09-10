@@ -6,11 +6,22 @@ export module atom_engine:glfw.keyboard_conversions;
 import atom_core;
 import :inputs.keyboard_keys;
 
-/// ------------------------------------------------------------------------------------------------
-/// @todo maybe convert panics to debug panics, return unknown values in release.
-/// ------------------------------------------------------------------------------------------------
 namespace atom::engine
 {
+    /// --------------------------------------------------------------------------------------------
+    /// represents unknown glfw keyboard key code
+    /// --------------------------------------------------------------------------------------------
+    constexpr int glfw_key_code_unknown = 0;
+
+    /// --------------------------------------------------------------------------------------------
+    /// represents unknown glfw keyboard key state
+    /// --------------------------------------------------------------------------------------------
+    constexpr int glfw_key_state_unknown = 0;
+
+    /// --------------------------------------------------------------------------------------------
+    /// @returns glfw key code matching atom's `keyboard_key_code`, if no match found returns
+    ///     `glfw_key_code_unknown`.
+    /// --------------------------------------------------------------------------------------------
     constexpr auto convert_keyboard_key_code_atom_to_glfw(keyboard_key_code key) -> int
     {
         switch (key)
@@ -136,13 +147,14 @@ namespace atom::engine
             case keyboard_key_code::right_alt:     return GLFW_KEY_RIGHT_ALT;
             case keyboard_key_code::right_super:   return GLFW_KEY_RIGHT_SUPER;
             case keyboard_key_code::menu:          return GLFW_KEY_MENU;
-            default:
-            {
-                contract_panic("invalid key.");
-            }
+            default:                               return glfw_key_code_unknown;
         }
     }
 
+    /// --------------------------------------------------------------------------------------------
+    /// @returns `keyboard_key_code` matching glfw key code, if no match found returns
+    ///     `keyboard_key_code::unknown`.
+    /// --------------------------------------------------------------------------------------------
     constexpr auto convert_keyboard_key_code_glfw_to_atom(int key) -> keyboard_key_code
     {
         switch (key)
@@ -268,13 +280,14 @@ namespace atom::engine
             case GLFW_KEY_RIGHT_ALT:     return keyboard_key_code::right_alt;
             case GLFW_KEY_RIGHT_SUPER:   return keyboard_key_code::right_super;
             case GLFW_KEY_MENU:          return keyboard_key_code::menu;
-            default:
-            {
-                contract_panic("invalid key.");
-            }
+            default: return keyboard_key_code::unknown;
         }
     }
 
+    /// --------------------------------------------------------------------------------------------
+    /// @returns glfw key state matching atom's `keyboard_key_state`, if no match found returns
+    ///     `glfw_key_state_unknown`.
+    /// --------------------------------------------------------------------------------------------
     constexpr auto convert_keyboard_key_state_atom_to_glfw(keyboard_key_state state) -> int
     {
         switch (state)
@@ -283,13 +296,14 @@ namespace atom::engine
             case keyboard_key_state::pressed:  return GLFW_PRESS;
             case keyboard_key_state::down:     return GLFW_PRESS;
             case keyboard_key_state::released: return GLFW_RELEASE;
-            default:
-            {
-                contract_panic("invalid state.");
-            }
+            default: return glfw_key_state_unknown;
         }
     }
 
+    /// --------------------------------------------------------------------------------------------
+    /// @returns `keyboard_key_state` matching glfw key state, if no match found returns
+    ///     `keyboard_key_state::unknown`.
+    /// --------------------------------------------------------------------------------------------
     constexpr auto convert_keyboard_key_state_glfw_to_atom(int state) -> keyboard_key_state
     {
         switch (state)
@@ -297,10 +311,7 @@ namespace atom::engine
             case GLFW_PRESS:   return keyboard_key_state::pressed;
             case GLFW_RELEASE: return keyboard_key_state::released;
             case GLFW_REPEAT:  return keyboard_key_state::pressed;
-            default:
-            {
-                contract_panic("invalid state.");
-            }
+            default: return keyboard_key_state::unknown;
         }
     }
 }
