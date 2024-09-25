@@ -1,6 +1,6 @@
 module;
 #include "glad/glad.h"
-#include "stb/stb_image.h"
+#include "stb_image.h"
 
 module atom_engine:rendering.texture_factory.impl;
 
