@@ -25,6 +25,7 @@ find_package("imgui" REQUIRED)
 find_package("box2d" REQUIRED)
 find_package("msdf-atlas-gen" REQUIRED)
 find_package("glslang" REQUIRED)
+find_package("Stb" REQUIRED)
 
 add_subdirectory("vendor/glad")
 add_subdirectory("vendor/stb")
