@@ -31,13 +31,13 @@ namespace atom::engine
     export struct window_event: event_base
     {
         window_event(window_event_type event_type, class window* window)
-            : event_type(event_type)
-            , window(window)
+            : event_type{ event_type }
+            , window{ window }
         {}
 
         window_event(window_event_type event_type)
-            : window(nullptr)
-            , event_type(event_type)
+            : window{ nullptr }
+            , event_type{ event_type }
         {}
 
         const class window* window;
@@ -47,22 +47,22 @@ namespace atom::engine
     export struct window_create_event: window_event
     {
         window_create_event(class window* window)
-            : window_event(window_event_type::create, window)
+            : window_event{ window_event_type::create, window }
         {}
     };
 
     export struct window_destroy_event: window_event
     {
         window_destroy_event(class window* window)
-            : window_event(window_event_type::destroy, window)
+            : window_event{ window_event_type::destroy, window }
         {}
     };
 
     export struct window_focus_event: window_event
     {
         window_focus_event(class window* window, bool is_focused)
-            : window_event(window_event_type::focus, window)
-            , is_focused(is_focused)
+            : window_event{ window_event_type::focus, window }
+            , is_focused{ is_focused }
         {}
 
         bool is_focused;
@@ -71,9 +71,9 @@ namespace atom::engine
     export struct window_resize_event: window_event
     {
         window_resize_event(class window* window, i32vec2 size, i32vec2 delta)
-            : size(size)
-            , delta(delta)
-            , window_event(window_event_type::resize, window)
+            : size{ size }
+            , delta{ delta }
+            , window_event{ window_event_type::resize, window }
         {}
 
         i32vec2 size;
@@ -83,9 +83,9 @@ namespace atom::engine
     export struct window_reposition_event: window_event
     {
         window_reposition_event(class window* window, i32vec2 position, i32vec2 delta)
-            : position(position)
-            , delta(delta)
-            , window_event(window_event_type::reposition, window)
+            : position{ position }
+            , delta{ delta }
+            , window_event{ window_event_type::reposition, window }
         {}
 
         i32vec2 position;
