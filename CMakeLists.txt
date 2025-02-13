@@ -21,14 +21,13 @@ find_package("atom_logging" REQUIRED)
 find_package("glm" REQUIRED)
 find_package("EnTT" REQUIRED)
 find_package("glfw3" REQUIRED)
-find_package("imgui" REQUIRED)
 find_package("box2d" REQUIRED)
 find_package("msdf-atlas-gen" REQUIRED)
 find_package("glslang" REQUIRED)
-find_package("Stb" REQUIRED)
 
 add_subdirectory("vendor/glad")
 add_subdirectory("vendor/stb")
+add_subdirectory("vendor/imgui")
 
 if(NOT DEFINED ATOM_ENGINE_ASSETS_DIR)
     set(ATOM_ENGINE_ASSETS_DIR "${CMAKE_CURRENT_LIST_DIR}/assets")
@@ -104,7 +103,7 @@ endif()
 # --------------------------------------------------------------------------------------------------
 
 install(
-    TARGETS "atom_engine" "stb" "glad"
+    TARGETS "atom_engine" "imgui" "stb" "glad"
     EXPORT atom_engine-targets
     FILE_SET CXX_MODULES
     DESTINATION "lib"

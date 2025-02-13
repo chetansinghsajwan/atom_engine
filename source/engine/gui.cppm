@@ -21,6 +21,7 @@ export namespace atom::engine
     using ::ImGuiWindowFlags;
     using ::ImVec2;
     using ::ImVec4;
+    using ::ImTextureID;
 
     using ::GImGui;
 }
@@ -91,7 +92,7 @@ export namespace atom::engine::gui
         ImVec4 imgui_tint_col = { tint_col.x, tint_col.y, tint_col.z, tint_col.w };
         ImVec4 imgui_border_col = { border_col.x, border_col.y, border_col.z, border_col.w };
 
-        ImGui::Image(imgui_user_texture_id, imgui_image, imgui_uv0, imgui_uv1, imgui_tint_col,
+        ImGui::Image((ImTextureID)imgui_user_texture_id, imgui_image, imgui_uv0, imgui_uv1, imgui_tint_col,
             imgui_border_col);
     }
 
