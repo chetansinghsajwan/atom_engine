@@ -7,14 +7,17 @@ cmake_policy(SET CMP0155 NEW)
 # --------------------------------------------------------------------------------------------------
 # options
 # --------------------------------------------------------------------------------------------------
-option(atom_core_build_docs "Enable this to build docs." OFF)
+option(atom_engine_build_docs "Enable this to build docs." OFF)
+option(atom_engine_enable_install "Enable this to allow install." OFF)
 
 # --------------------------------------------------------------------------------------------------
 # atom_engine
 # --------------------------------------------------------------------------------------------------
 
 # glm has cmake_minimum_required(VERSION 3.2) which triggers a deprecation warning.
-set(CMAKE_WARN_DEPRECATED OFF CACHE BOOL "" FORCE)
+set(CMAKE_WARN_DEPRECATED
+    OFF
+    CACHE BOOL "" FORCE)
 
 find_package("atom_core" REQUIRED)
 find_package("atom_logging" REQUIRED)
@@ -45,26 +48,23 @@ target_sources(
 
 target_link_libraries(
     atom_engine
-    PUBLIC
-        "atom_core"
-        "atom_logging"
-    PRIVATE
-        "glfw"
-        "glad"
-        "stb"
-        "glm::glm"
-        "imgui::imgui"
-        "EnTT::EnTT"
-        "box2d::box2d"
-        "msdfgen::msdfgen"
-        "msdf-atlas-gen::msdf-atlas-gen"
-        "glslang::glslang"
-        "glslang::glslang-default-resource-limits"
-        "glslang::OSDependent"
-        "glslang::MachineIndependent"
-        "glslang::GenericCodeGen"
-        "glslang::SPVRemapper"
-        "glslang::SPIRV")
+    PUBLIC "atom_core" "atom_logging"
+    PRIVATE "glfw"
+            "glad"
+            "stb"
+            "glm::glm"
+            "imgui::imgui"
+            "EnTT::EnTT"
+            "box2d::box2d"
+            "msdfgen::msdfgen"
+            "msdf-atlas-gen::msdf-atlas-gen"
+            "glslang::glslang"
+            "glslang::glslang-default-resource-limits"
+            "glslang::OSDependent"
+            "glslang::MachineIndependent"
+            "glslang::GenericCodeGen"
+            "glslang::SPVRemapper"
+            "glslang::SPIRV")
 
 target_compile_definitions(atom_engine PUBLIC "GLFW_INCLUDE_NONE")
 target_compile_features(atom_engine PUBLIC "cxx_std_23")
@@ -92,38 +92,40 @@ target_link_libraries(atom_engine_sandbox PRIVATE "atom_engine")
 if(atom_engine_build_docs)
     find_package("Doxygen" REQUIRED)
 
-    doxygen_add_docs(atom_engine_docs
-        "${atom_engine_modules}" "${atom_engine_sources}"
-        CONFIG_FILE "${CMAKE_CURRENT_LIST_DIR}/Doxyfile"
-        USE_STAMP_FILE)
+    doxygen_add_docs(atom_engine_docs "${atom_engine_modules}" "${atom_engine_sources}" CONFIG_FILE
+                     "${CMAKE_CURRENT_LIST_DIR}/Doxyfile" USE_STAMP_FILE)
 endif()
 
 # --------------------------------------------------------------------------------------------------
 # install
 # --------------------------------------------------------------------------------------------------
 
-install(
-    TARGETS "atom_engine" "imgui" "stb" "glad"
-    EXPORT atom_engine-targets
-    FILE_SET CXX_MODULES
-    DESTINATION "lib"
-    INCLUDES DESTINATION "include/")
+if(atom_engine_enable_install)
+    install(
+        TARGETS "atom_engine" "imgui" "stb" "glad"
+        EXPORT atom_engine-targets
+        FILE_SET CXX_MODULES
+        DESTINATION "lib"
+        INCLUDES
+        DESTINATION "include/")
 
-install(
-    EXPORT atom_engine-targets
-    DESTINATION "cmake"
-    FILE "atom_engine-targets.cmake"
-    NAMESPACE "atom::")
+    install(
+        EXPORT atom_engine-targets
+        DESTINATION "cmake"
+        FILE "atom_engine-targets.cmake"
+        NAMESPACE "atom::")
 
-install(DIRECTORY "vendor/glad/include/" DESTINATION "include/")
-install(DIRECTORY "assets/" DESTINATION "assets/")
+    install(DIRECTORY "vendor/glad/include/" DESTINATION "include/")
+    install(DIRECTORY "assets/" DESTINATION "assets/")
 
-include(CMakePackageConfigHelpers)
+    include(CMakePackageConfigHelpers)
 
-write_basic_package_version_file(
-    "atom_engine-config-version.cmake"
-    VERSION ${PACKAGE_VERSION}
-    COMPATIBILITY AnyNewerVersion)
+    write_basic_package_version_file(
+        "atom_engine-config-version.cmake"
+        VERSION ${PACKAGE_VERSION}
+        COMPATIBILITY AnyNewerVersion)
 
-install(FILES "cmake/atom_engine-config.cmake"
-              "${CMAKE_CURRENT_BINARY_DIR}/atom_engine-config-version.cmake" DESTINATION "cmake/")
+    install(FILES "cmake/atom_engine-config.cmake"
+                  "${CMAKE_CURRENT_BINARY_DIR}/atom_engine-config-version.cmake"
+            DESTINATION "cmake/")
+endif()
