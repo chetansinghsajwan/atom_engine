@@ -19,7 +19,12 @@ namespace atom::engine
 
         static auto destroy_window(window* window) -> void
         {
-            contract_expects(window != nullptr, "cannot close null window.");
+            // WHHYYYYYYYY......
+            // FIX: clang compiler crashes if enable this line.
+            // contract_expects(window != nullptr, "cannot close null window.");
+
+            if (window == nullptr)
+                contract_panic("cannot close null window.");
 
             _logger->log_info("destroying window '{}'.", window->get_name());
             if (not _windows.remove_one_find(window))
