@@ -3,7 +3,7 @@ add_library(imgui::imgui ALIAS imgui)
 
 find_package("glfw3" REQUIRED)
 
-set(imgui_source $ENV{IMGUI_SOURCE})
+set(imgui_source "/usr/local/src/imgui")
 
 file(GLOB imgui_sources "${imgui_source}/*.cpp")
 list(APPEND imgui_sources "${imgui_source}/backends/imgui_impl_glfw.cpp"

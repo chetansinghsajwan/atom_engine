@@ -1,6 +1,6 @@
 add_library(stb STATIC)
 
-set(stb_source $ENV{STB_SOURCE})
+set(stb_source "/usr/local/src/stb")
 file(GLOB_RECURSE stb_sources "sources/*.cpp")
 
 target_sources(stb PRIVATE ${stb_sources})
