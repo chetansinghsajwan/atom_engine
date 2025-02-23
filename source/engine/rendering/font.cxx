@@ -112,8 +112,8 @@ namespace atom::engine
         if (is_msdf or is_mtsdf)
         {
             constexpr f32 default_angle_thresold = 3.0;
-            constexpr usize lcg_multiplier = 6364136223846793005ull;
-            constexpr usize lcg_increment = 1442695040888963407ull;
+            constexpr u64 lcg_multiplier = 6364136223846793005ull;
+            constexpr u64 lcg_increment = 1442695040888963407ull;
             constexpr u32 thread_count = 8;
             constexpr u64 coloring_seed = 0;
             constexpr bool expensive_coloring = false;
