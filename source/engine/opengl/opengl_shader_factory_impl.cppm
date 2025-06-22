@@ -7,7 +7,7 @@ import :opengl.shader;
 
 namespace atom::engine
 {
-    class opengl_shader_factory_impl: public shader_factory_impl
+    struct opengl_shader_factory_impl: public shader_factory_impl
     {
     public:
         opengl_shader_factory_impl();

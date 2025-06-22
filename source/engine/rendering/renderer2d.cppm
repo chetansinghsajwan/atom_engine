@@ -11,7 +11,7 @@ import :rendering.font;
 
 namespace atom::engine
 {
-    export class renderer2d
+    export struct renderer2d
     {
     public:
         struct statistics
@@ -42,37 +42,37 @@ namespace atom::engine
 
         static auto begin_scene(orthographic_camera* camera) -> void;
 
-        static auto begin_scene(class camera* camera, const f32mat4& transform) -> void;
+        static auto begin_scene(struct camera* camera, const f32mat4& transform) -> void;
 
         static auto end_scene() -> void;
 
         static auto flush() -> void;
 
-        static auto set_clear_color(const class color& color) -> void;
+        static auto set_clear_color(const struct color& color) -> void;
 
         static auto clear_color() -> void;
 
         static auto draw_text(string_view text, const f32mat4& transform) -> void;
 
-        static auto draw_text(string_view text, class font* font, const f32mat4& transform,
-            const class color& color) -> void;
+        static auto draw_text(string_view text, struct font* font, const f32mat4& transform,
+            const struct color& color) -> void;
 
-        static auto draw_quad(const f32mat4& transform, const class color& color) -> void;
+        static auto draw_quad(const f32mat4& transform, const struct color& color) -> void;
 
         static auto draw_quad(
-            const f32vec3& position, f32vec2 size, f32 rotation, const class color& color) -> void;
+            const f32vec3& position, f32vec2 size, f32 rotation, const struct color& color) -> void;
 
         static auto draw_texture(const f32mat4& transform, texture2d* texture, f32 tiling_factor,
-            const class color& tint) -> void;
+            const struct color& tint) -> void;
 
         static auto draw_texture(const f32vec3& position, f32vec2 size, f32 rotation,
-            texture2d* texture, f32 tiling_factor, const class color& tint) -> void;
+            texture2d* texture, f32 tiling_factor, const struct color& tint) -> void;
 
         static auto draw_sprite(const f32vec3& position, f32vec2 size, f32 rotation,
-            class sprite* sprite, f32 tiling_factor, const class color& tint) -> void;
+            struct sprite* sprite, f32 tiling_factor, const struct color& tint) -> void;
 
-        static auto draw_sprite(const f32mat4& transform, class sprite* sprite, f32 tiling_factor,
-            const class color& tint) -> void;
+        static auto draw_sprite(const f32mat4& transform, struct sprite* sprite, f32 tiling_factor,
+            const struct color& tint) -> void;
 
         static auto reset_stats() -> void;
 
@@ -82,13 +82,13 @@ namespace atom::engine
 
     private:
         static auto _draw_quad(const f32mat4& transform, texture2d* texture,
-            const f32vec2* texture_coords, f32 tiling_factor, const class color& tint) -> void;
+            const f32vec2* texture_coords, f32 tiling_factor, const struct color& tint) -> void;
 
         static auto _draw_quad(const f32vec3& position, f32vec2 size, f32 rotation,
             texture2d* texture, const f32vec2* texture_coords, f32 tiling_factor,
-            const class color& tint) -> void;
+            const struct color& tint) -> void;
 
-        static auto _draw_char(char ch, const f32mat4& transform, const class color& color, f32vec2 quad_min,
+        static auto _draw_char(char ch, const f32mat4& transform, const struct color& color, f32vec2 quad_min,
             f32vec2 quad_max, f32vec2 texture_coord_min, f32vec2 texture_coord_max,
             f32 texture_index) -> void;
 

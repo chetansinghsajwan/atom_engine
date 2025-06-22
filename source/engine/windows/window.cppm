@@ -6,7 +6,7 @@ import :windows.window_events;
 
 namespace atom::engine
 {
-    class window
+    struct window
     {
     public:
         window(string name)

@@ -5,12 +5,12 @@ import :time;
 
 namespace atom::engine
 {
-    export class world;
+    export struct world;
 
-    export class system
+    export struct system
     {
     public:
-        system(string name, class world* world);
+        system(string name, struct world* world);
         ~system();
 
     public:

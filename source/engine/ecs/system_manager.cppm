@@ -7,7 +7,7 @@ import :time;
 
 namespace atom::engine
 {
-    export class system_manager
+    export struct system_manager
     {
     public:
         template <typename system_type>

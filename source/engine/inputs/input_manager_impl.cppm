@@ -5,7 +5,7 @@ import :inputs.input_device;
 
 namespace atom::engine
 {
-    class input_manager_impl
+    struct input_manager_impl
     {
     public:
         input_manager_impl()

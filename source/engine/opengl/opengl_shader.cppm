@@ -9,7 +9,7 @@ import :rendering.shader;
 
 namespace atom::engine
 {
-    class opengl_shader: public shader
+    struct opengl_shader: public shader
     {
     public:
         opengl_shader(GLuint program)

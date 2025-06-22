@@ -8,7 +8,7 @@ import :rendering;
 
 namespace atom::engine
 {
-    class opengl_index_buffer: public index_buffer
+    struct opengl_index_buffer: public index_buffer
     {
     public:
         opengl_index_buffer(u32* indices, u32 count)

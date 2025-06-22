@@ -5,7 +5,7 @@ import std;
 
 namespace atom::engine
 {
-    enum class shader_data_type
+    enum struct shader_data_type
     {
         none,
         boolean,
@@ -45,7 +45,7 @@ namespace atom::engine
         }
     }
 
-    class buffer_element
+    struct buffer_element
     {
     public:
         buffer_element(shader_data_type type, string_view name, bool is_normalized = false)
@@ -88,7 +88,7 @@ namespace atom::engine
         bool is_normalized;
     };
 
-    class buffer_layout
+    struct buffer_layout
     {
     public:
         buffer_layout()

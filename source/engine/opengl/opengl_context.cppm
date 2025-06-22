@@ -9,7 +9,7 @@ import :rendering;
 
 namespace atom::engine
 {
-    class opengl_context: public graphics_context
+    struct opengl_context: public graphics_context
     {
     public:
         opengl_context(GLFWwindow* window)

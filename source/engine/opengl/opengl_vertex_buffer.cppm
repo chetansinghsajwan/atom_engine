@@ -8,7 +8,7 @@ import :rendering.buffer_layout;
 
 namespace atom::engine
 {
-    class opengl_vertex_buffer: public vertex_buffer
+    struct opengl_vertex_buffer: public vertex_buffer
     {
     public:
         opengl_vertex_buffer(u32 size)

@@ -6,7 +6,7 @@ import :inputs.keyboard_keys;
 
 namespace atom::engine
 {
-    export class keyboard;
+    export struct keyboard;
     export using unicode_code_point = u32;
 
     export enum struct keyboard_event_type

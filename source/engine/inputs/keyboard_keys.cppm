@@ -4,7 +4,7 @@ import atom_core;
 
 namespace atom::engine
 {
-    export enum class keyboard_key_code
+    export enum struct keyboard_key_code
     {
         unknown,
         space,
@@ -131,7 +131,7 @@ namespace atom::engine
         MAX = menu,
     };
 
-    export enum class keyboard_key_state
+    export enum struct keyboard_key_state
     {
         unknown,
         up,

@@ -9,9 +9,9 @@ import :ecs.rigidbody_component;
 
 namespace atom::engine
 {
-    export class box_collider2d_component: public entity_component
+    export struct box_collider2d_component: public entity_component
     {
-        friend class physics2d_system;
+        friend struct physics2d_system;
 
         using base_type = entity_component;
         using this_type = box_collider2d_component;

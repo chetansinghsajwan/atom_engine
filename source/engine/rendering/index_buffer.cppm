@@ -4,7 +4,7 @@ import atom_core;
 
 namespace atom::engine
 {
-    class index_buffer
+    struct index_buffer
     {
     public:
         static auto create(u32* indices, u32 count) -> index_buffer*;

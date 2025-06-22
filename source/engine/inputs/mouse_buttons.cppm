@@ -2,7 +2,7 @@ export module atom_engine:inputs.mouse_buttons;
 
 namespace atom::engine
 {
-    export enum class mouse_button_code
+    export enum struct mouse_button_code
     {
         unknown,
         n0,
@@ -20,7 +20,7 @@ namespace atom::engine
         MAX = n7,
     };
 
-    export enum class mouse_button_state
+    export enum struct mouse_button_state
     {
         up,
         pressed,

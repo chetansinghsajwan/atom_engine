@@ -6,7 +6,7 @@ import atom_engine;
 
 using namespace atom;
 
-export class sandbox2d_layer: public engine::layer
+export struct sandbox2d_layer: public engine::layer
 {
 public:
     sandbox2d_layer();

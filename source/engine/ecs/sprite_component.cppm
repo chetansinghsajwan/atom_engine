@@ -7,7 +7,7 @@ import :rendering.texture2d;
 
 namespace atom::engine
 {
-    export class sprite_component: public entity_component
+    export struct sprite_component: public entity_component
     {
     public:
         sprite_component();
@@ -17,7 +17,7 @@ namespace atom::engine
         auto set_texture(texture2d* texture) -> void;
         auto get_texture() const -> texture2d*;
 
-        auto set_color(const class color& color) -> void;
+        auto set_color(const struct color& color) -> void;
         auto get_color() const -> color;
 
     private:

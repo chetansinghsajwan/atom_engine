@@ -5,7 +5,7 @@ import :rendering.shader;
 
 namespace atom::engine
 {
-    class shader_factory_impl
+    struct shader_factory_impl
     {
     public:
         virtual ~shader_factory_impl() {}

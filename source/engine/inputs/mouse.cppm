@@ -8,7 +8,7 @@ import :inputs.mouse_events;
 
 namespace atom::engine
 {
-    export class mouse: public input_device
+    export struct mouse: public input_device
     {
     public:
         mouse(input_device_id id, string name)

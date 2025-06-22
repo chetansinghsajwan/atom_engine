@@ -2,7 +2,7 @@ export module atom_engine:rendering.graphics_context;
 
 namespace atom::engine
 {
-    class graphics_context
+    struct graphics_context
     {
     public:
         virtual auto initialize() -> void = 0;

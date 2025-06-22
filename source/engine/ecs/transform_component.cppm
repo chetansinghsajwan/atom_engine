@@ -5,7 +5,7 @@ import :ecs.entity_component;
 
 namespace atom::engine
 {
-    export class transform_component: public entity_component
+    export struct transform_component: public entity_component
     {
         using this_type = transform_component;
 

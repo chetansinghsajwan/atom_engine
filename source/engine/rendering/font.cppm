@@ -14,7 +14,7 @@ namespace atom::engine
     export using msdfgen::FontMetrics;
     export using msdf_atlas::GlyphGeometry;
 
-    export class font
+    export struct font
     {
     public:
         font();

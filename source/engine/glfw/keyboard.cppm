@@ -11,7 +11,7 @@ import :glfw.keyboard_conversions;
 
 namespace atom::engine
 {
-    class glfw_keyboard: public keyboard
+    struct glfw_keyboard: public keyboard
     {
     public:
         glfw_keyboard(glfw_window* window, input_device_id id, string name)

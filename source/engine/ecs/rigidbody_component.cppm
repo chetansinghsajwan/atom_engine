@@ -11,16 +11,16 @@ import :ecs.transform_component;
 
 namespace atom::engine
 {
-    export class rigidbody_component: public entity_component
+    export struct rigidbody_component: public entity_component
     {
-        friend class physics2d_system;
+        friend struct physics2d_system;
 
     private:
         using base_type = entity_component;
         using this_type = rigidbody_component;
 
     public:
-        enum class body_type : byte
+        enum struct body_type : byte
         {
             static_,
             dynamic,

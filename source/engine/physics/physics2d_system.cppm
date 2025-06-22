@@ -8,16 +8,16 @@ import :time;
 
 namespace atom::engine
 {
-    export class world;
+    export struct world;
 
-    export class physics2d_system
+    export struct physics2d_system
         : public system
         , public entity_event_listener
     {
         using base_type = system;
 
     public:
-        physics2d_system(class world* world);
+        physics2d_system(struct world* world);
 
         ~physics2d_system();
 

@@ -12,7 +12,7 @@ import :glfw.window;
 
 namespace atom::engine
 {
-    class glfw_input_manager_impl
+    struct glfw_input_manager_impl
         : public input_manager_impl
         , public window_event_listener
     {
@@ -20,7 +20,7 @@ namespace atom::engine
         glfw_input_manager_impl()
             : input_manager_impl()
         {
-            for (class window* window : window_manager::get_windows())
+            for (struct window* window : window_manager::get_windows())
             {
                 _create_devices_for_window(reinterpret_cast<glfw_window*>(window));
             }

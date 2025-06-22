@@ -7,7 +7,7 @@ import :math;
 
 namespace atom::engine
 {
-    export class texture_factory
+    export struct texture_factory
     {
     public:
         static auto create_from_file(

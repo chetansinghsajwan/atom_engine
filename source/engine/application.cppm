@@ -8,7 +8,7 @@ import :rendering;
 
 namespace atom::engine
 {
-    export class application
+    export struct application
         : public window_event_listener
         , public keyboard_event_listener
         , public mouse_event_listener
@@ -86,7 +86,7 @@ namespace atom::engine
             return _window;
         }
 
-        auto push_layer(class layer* layer) -> void
+        auto push_layer(struct layer* layer) -> void
         {
             _layers.push_layer(layer);
         }

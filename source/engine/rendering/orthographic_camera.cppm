@@ -5,7 +5,7 @@ import :math;
 
 namespace atom::engine
 {
-    class orthographic_camera
+    struct orthographic_camera
     {
     public:
         orthographic_camera(f32 left, f32 right, f32 bottom, f32 top)

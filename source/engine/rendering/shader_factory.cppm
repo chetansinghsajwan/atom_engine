@@ -8,7 +8,7 @@ import :shaders.spirv_compiler;
 
 namespace atom::engine
 {
-    export class shader_factory
+    export struct shader_factory
     {
     public:
         static auto initialize() -> void;
@@ -37,7 +37,7 @@ namespace atom::engine
         static auto create_from_source(
             string_view vertex_source, string_view fragment_source) -> shader*;
 
-        static auto destroy(class shader* shader) -> void;
+        static auto destroy(struct shader* shader) -> void;
 
     private:
         static auto _get_absolute_path(string_view path) -> string;

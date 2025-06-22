@@ -6,7 +6,7 @@ import :inputs.input_manager_impl;
 
 namespace atom::engine
 {
-    export class input_manager
+    export struct input_manager
     {
     public:
         static auto initialize() -> void;

@@ -7,7 +7,7 @@ import :layers.layer;
 
 namespace atom::engine
 {
-    export class layer_stack
+    export struct layer_stack
     {
     public:
         layer_stack()

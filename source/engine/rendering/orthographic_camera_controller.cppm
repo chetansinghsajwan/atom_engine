@@ -10,7 +10,7 @@ import :rendering.orthographic_camera;
 namespace atom::engine
 {
     // @todo remove this export.
-    export class orthographic_camera_controller
+    export struct orthographic_camera_controller
         : public window_event_listener
         , mouse_event_listener
     {
@@ -77,18 +77,18 @@ namespace atom::engine
             _camera.set_rotation(_rotation);
         }
 
-        auto set_window(class window* window) -> void
+        auto set_window(struct window* window) -> void
         {
             _window = window;
             _window->subscribe_event(this);
         }
 
-        auto set_keyboard(class keyboard* keyboard) -> void
+        auto set_keyboard(struct keyboard* keyboard) -> void
         {
             _keyboard = keyboard;
         }
 
-        auto set_mouse(class mouse* mouse) -> void
+        auto set_mouse(struct mouse* mouse) -> void
         {
             _mouse = mouse;
             _mouse->subscribe_event(this);

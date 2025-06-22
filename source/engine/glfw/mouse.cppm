@@ -11,7 +11,7 @@ import :glfw.window;
 
 namespace atom::engine
 {
-    class glfw_mouse: public mouse
+    struct glfw_mouse: public mouse
     {
     public:
         glfw_mouse(glfw_window* window, input_device_id id, string name)

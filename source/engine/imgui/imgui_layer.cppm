@@ -7,7 +7,7 @@ import :application;
 
 namespace atom::engine
 {
-    class imgui_layer: public layer
+    struct imgui_layer: public layer
     {
     public:
         imgui_layer();

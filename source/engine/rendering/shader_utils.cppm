@@ -5,7 +5,7 @@ import atom_core;
 
 namespace atom::engine
 {
-    export enum class shader_stage
+    export enum struct shader_stage
     {
         vertex,
         fragment,
@@ -25,7 +25,7 @@ namespace atom::engine
         COUNT,
     };
 
-    export class shader_utils
+    export struct shader_utils
     {
     public:
         static auto get_extension_strings() -> array_view<string_view>

@@ -6,7 +6,7 @@ import :rendering.texture2d;
 
 namespace atom::engine
 {
-    export class sprite
+    export struct sprite
     {
     public:
         sprite(texture2d* texture, f32vec2 min, f32vec2 max)

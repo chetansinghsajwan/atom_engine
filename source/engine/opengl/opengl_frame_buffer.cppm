@@ -9,7 +9,7 @@ import :rendering.frame_buffer;
 
 namespace atom::engine
 {
-    class opengl_frame_buffer: public frame_buffer
+    struct opengl_frame_buffer: public frame_buffer
     {
     public:
         opengl_frame_buffer(const frame_buffer_specs& specs)

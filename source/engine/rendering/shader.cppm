@@ -5,7 +5,7 @@ import :math;
 
 namespace atom::engine
 {
-    export class shader
+    export struct shader
     {
     public:
         virtual ~shader() {}

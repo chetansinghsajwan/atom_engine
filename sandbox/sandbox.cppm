@@ -4,7 +4,7 @@ import atom_core;
 import atom_engine;
 import :sandbox2d_layer;
 
-class sandbox_application: public engine::application
+struct sandbox_application: public engine::application
 {
 public:
     sandbox_application()

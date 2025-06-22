@@ -4,7 +4,7 @@ import atom_core;
 
 namespace atom::engine
 {
-    export class input_device_id
+    export struct input_device_id
     {
     public:
         input_device_id(usize num)
@@ -15,7 +15,7 @@ namespace atom::engine
         usize num;
     };
 
-    export enum class input_device_type
+    export enum struct input_device_type
     {
         keyboard,
         mouse,
@@ -25,7 +25,7 @@ namespace atom::engine
         lightpen
     };
 
-    export class input_device
+    export struct input_device
     {
     public:
         input_device(input_device_id id, input_device_type type, string name)

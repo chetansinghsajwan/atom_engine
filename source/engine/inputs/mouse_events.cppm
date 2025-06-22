@@ -6,7 +6,7 @@ import :inputs.mouse_buttons;
 
 namespace atom::engine
 {
-    export class mouse;
+    export struct mouse;
 
     export enum struct mouse_event_type
     {

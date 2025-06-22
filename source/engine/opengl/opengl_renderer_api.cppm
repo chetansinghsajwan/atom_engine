@@ -6,7 +6,7 @@ import :rendering;
 
 namespace atom::engine
 {
-    class opengl_renderer_api: public renderer_api
+    struct opengl_renderer_api: public renderer_api
     {
     public:
         opengl_renderer_api();
@@ -17,7 +17,7 @@ namespace atom::engine
 
         virtual auto finalize() -> void override;
 
-        virtual auto set_clear_color(const class color& color) -> void override;
+        virtual auto set_clear_color(const struct color& color) -> void override;
 
         virtual auto clear_color() -> void override;
 

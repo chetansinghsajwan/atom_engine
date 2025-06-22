@@ -4,7 +4,7 @@ import atom_core;
 
 namespace atom::engine
 {
-    export class time_step
+    export struct time_step
     {
     public:
         time_step(f32 seconds)

@@ -10,9 +10,9 @@ import :rendering.frame_buffer;
 
 namespace atom::engine
 {
-    class world;
+    struct world;
 
-    export class render_system
+    export struct render_system
         : public system
         , public entity_event_listener
     {

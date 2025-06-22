@@ -7,7 +7,7 @@ import :rendering.index_buffer;
 namespace atom::engine
 {
     // @todo: remove this export.
-    export class vertex_array
+    export struct vertex_array
     {
     public:
         vertex_array() {}

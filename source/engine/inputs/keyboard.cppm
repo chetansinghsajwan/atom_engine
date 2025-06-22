@@ -7,7 +7,7 @@ import :inputs.keyboard_events;
 
 namespace atom::engine
 {
-    export class keyboard: public input_device
+    export struct keyboard: public input_device
     {
     public:
         keyboard(input_device_id id, string name)

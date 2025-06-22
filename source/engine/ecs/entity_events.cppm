@@ -6,7 +6,7 @@ import :ecs.entity;
 
 namespace atom::engine
 {
-    enum class entity_event_type
+    enum struct entity_event_type
     {
         create,
         destroy,

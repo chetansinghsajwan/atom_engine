@@ -5,13 +5,13 @@ import :math;
 
 namespace atom::engine
 {
-    export enum class texture_format
+    export enum struct texture_format
     {
         rgb8,
         rgba8
     };
 
-    export class texture
+    export struct texture
     {
     public:
         texture(texture_format format, u32vec2 size);

@@ -13,7 +13,7 @@ import :glfw.window_user_data;
 
 namespace atom::engine
 {
-    class glfw_window: public window
+    struct glfw_window: public window
     {
     public:
         glfw_window(const window_props& props)

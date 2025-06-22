@@ -8,7 +8,7 @@ namespace atom::engine
     /// --------------------------------------------------------------------------------------------
     ///
     /// --------------------------------------------------------------------------------------------
-    export class shader_compilation_error: public error
+    export struct shader_compilation_error: public error
     {
     public:
         shader_compilation_error(string msg)
@@ -25,7 +25,7 @@ namespace atom::engine
     /// --------------------------------------------------------------------------------------------
     ///
     /// --------------------------------------------------------------------------------------------
-    export class shader_linking_error: public error
+    export struct shader_linking_error: public error
     {
     public:
         shader_linking_error()
@@ -53,7 +53,7 @@ namespace atom::engine
     /// --------------------------------------------------------------------------------------------
     ///
     /// --------------------------------------------------------------------------------------------
-    export class spirv_compiler
+    export struct spirv_compiler
     {
     public:
         /// ----------------------------------------------------------------------------------------
@@ -62,12 +62,12 @@ namespace atom::engine
         static auto initialize() -> void;
 
         /// ----------------------------------------------------------------------------------------
-        /// finalizes `spirv_compiler`. `initialize()` must be called again to reuse this class.
+        /// finalizes `spirv_compiler`. `initialize()` must be called again to reuse this struct.
         /// ----------------------------------------------------------------------------------------
         static auto finalize() -> void;
 
         /// ----------------------------------------------------------------------------------------
-        /// returns `true` if this class is initialized.
+        /// returns `true` if this struct is initialized.
         /// ----------------------------------------------------------------------------------------
         static auto is_initialized() -> bool;
 

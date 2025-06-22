@@ -4,9 +4,9 @@ import :time;
 
 namespace atom::engine
 {
-    export class entity;
+    export struct entity;
 
-    export class entity_component
+    export struct entity_component
     {
     public:
         entity_component();

@@ -5,7 +5,7 @@ import :time;
 
 namespace atom::engine
 {
-    export class world
+    export struct world
     {
     public:
         world();

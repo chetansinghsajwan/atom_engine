@@ -15,7 +15,7 @@ namespace atom::engine
     };
 
     // @todo: remove this export.
-    export class frame_buffer
+    export struct frame_buffer
     {
     public:
         virtual ~frame_buffer() {}

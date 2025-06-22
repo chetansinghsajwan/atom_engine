@@ -7,7 +7,7 @@ namespace atom::engine
 {
     logging::logger* global_logger = nullptr;
 
-    export class log_manager
+    export struct log_manager
     {
     public:
         static auto initialize() -> void

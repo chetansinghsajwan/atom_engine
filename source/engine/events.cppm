@@ -4,7 +4,7 @@ import atom_core;
 
 namespace atom::engine
 {
-    export class event_base
+    export struct event_base
     {
     public:
         event_base()
@@ -16,14 +16,14 @@ namespace atom::engine
     };
 
     export template <typename event_type>
-    class event_listener
+    struct event_listener
     {
     public:
         virtual auto on_event(event_type& event) -> void = 0;
     };
 
     export template <typename event_type>
-    class event_source
+    struct event_source
     {
         static_assert(type_info<event_type>::template is_derived_from<event_base>(),
             "event_type must be derived from `event_base`.");

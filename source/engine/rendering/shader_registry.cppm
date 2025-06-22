@@ -6,7 +6,7 @@ import :rendering.shader;
 
 namespace atom::engine
 {
-    export class shader_registry
+    export struct shader_registry
     {
     public:
         static auto initialize() -> void
@@ -25,11 +25,11 @@ namespace atom::engine
         }
 
         static auto register_(
-            string_view name, class shader* shader) -> result<void, value_exists_error>
+            string_view name, struct shader* shader) -> result<void, value_exists_error>
         {
             _logger->log_info("registring shader, name: '{}'...", name);
 
-            auto result = _register.insert(pair<string_view, class shader*>(name, shader));
+            auto result = _register.insert(pair<string_view, struct shader*>(name, shader));
             if (result.second)
             {
                 _logger->log_info("registring shader done.");
@@ -43,7 +43,7 @@ namespace atom::engine
             }
         }
 
-        static auto register_override(string_view name, class shader* shader) -> void
+        static auto register_override(string_view name, struct shader* shader) -> void
         {
             _logger->log_info("registring shader, name: '{}'...", name);
 
@@ -58,7 +58,7 @@ namespace atom::engine
             }
         }
 
-        static auto get_name(class shader* shader) -> string_view
+        static auto get_name(struct shader* shader) -> string_view
         {
             for (auto entry : _register)
             {
@@ -85,7 +85,7 @@ namespace atom::engine
             return _register.contains(name);
         }
 
-        static auto has_shader(class shader* shader) -> bool
+        static auto has_shader(struct shader* shader) -> bool
         {
             contract_debug_expects(shader != nullptr);
 

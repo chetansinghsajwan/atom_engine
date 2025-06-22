@@ -5,7 +5,7 @@ import :rendering.scene_camera;
 
 namespace atom::engine
 {
-    export class camera_component: public entity_component
+    export struct camera_component: public entity_component
     {
     public:
         camera_component();

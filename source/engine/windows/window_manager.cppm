@@ -8,7 +8,7 @@ import :windows.window_events;
 
 namespace atom::engine
 {
-    export class window_manager
+    export struct window_manager
     {
     public:
         static auto initialize() -> void;

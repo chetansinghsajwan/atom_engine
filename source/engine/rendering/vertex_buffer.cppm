@@ -5,7 +5,7 @@ import :rendering.buffer_layout;
 
 namespace atom::engine
 {
-    class vertex_buffer
+    struct vertex_buffer
     {
     public:
         static auto create_with_size(u32 size) -> vertex_buffer*;

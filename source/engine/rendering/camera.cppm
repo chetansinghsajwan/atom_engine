@@ -4,7 +4,7 @@ import :math;
 
 namespace atom::engine
 {
-    class camera
+    struct camera
     {
     public:
         camera() {}

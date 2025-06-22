@@ -7,7 +7,7 @@ import :time;
 
 namespace atom::engine
 {
-    class layer
+    struct layer
     {
     public:
         layer(string name)
